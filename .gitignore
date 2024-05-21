@@ -148,6 +148,8 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+*.DS_Store
+db.sqlite3
 
 # Cython debug symbols
 cython_debug/
