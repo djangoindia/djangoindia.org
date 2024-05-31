@@ -4,5 +4,6 @@ from . import views
 
 # URL conf
 urlpatterns = [
-    path("events/", views.get_events, name="get_events"),
+    path("", views.get_events, name="get_events"),
+    path("register/", views.register_event, name="register_event"),
 ]

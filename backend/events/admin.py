@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from .models import Event
+from .models import Event, EventRegistration
 
 
 # Register your models here.
@@ -17,3 +17,6 @@ class EventForm(forms.ModelForm):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
+
+
+admin.site.register(EventRegistration)
