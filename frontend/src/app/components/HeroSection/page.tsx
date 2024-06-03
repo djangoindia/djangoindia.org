@@ -25,7 +25,7 @@ const HeroSection = () => {
                     
                     
                     </div>
-                    <SignButton color="black" text="Subscribe Now" tcol="white"/>
+                    
               
             </div>
           </div>
