@@ -14,4 +14,4 @@ superuser:
 	python3 backend/manage.py createsuperuser
 
 collectstatic:
-	python manage.py collectstatic --no-input
+	python backend/manage.py collectstatic --no-input
