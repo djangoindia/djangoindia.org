@@ -1,9 +1,11 @@
+import uuid
+
 from django.db import models
 
 
 # Create your models here.
 class Event(models.Model):
-    # Keeping `id` as the primary key instead of name for easier querying via views/serializers
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True, blank=False)
     cover_image = models.ImageField(upload_to="event_images/", blank=True)
     description = models.TextField(blank=False)
