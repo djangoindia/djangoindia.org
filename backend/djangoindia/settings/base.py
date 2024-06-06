@@ -18,6 +18,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+SENDER_EMAIL = os.environ.get(
+    "SENDER_EMAIL", "example@example.com"
+)  # TODO: DjangoIndia's email address goes here
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

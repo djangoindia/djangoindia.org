@@ -4,6 +4,13 @@ from .base import *  # noqa: F403, F401
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
+# EMail settings
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True  # TODO: Set this to False if using SSL
+
 ALLOWED_HOSTS = []  # TODO: djangoindia domain goes here
 
 ADMIN_URL = os.environ.get("DJANGO_ADMIN_URL")
@@ -33,6 +40,5 @@ STORAGES = {
     },
     "staticfiles": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "LOCATION": STATIC_ROOT,
     },
 }
