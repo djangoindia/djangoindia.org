@@ -12,3 +12,6 @@ install-backend:
 
 superuser:
 	python3 backend/manage.py createsuperuser
+
+collectstatic:
+	python backend/manage.py collectstatic --no-input
