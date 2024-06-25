@@ -10,3 +10,7 @@ class EventForm(forms.ModelForm):
         widgets = {
             "description": forms.Textarea(attrs={"placeholder": "Enter markdown here"})
         }
+
+class EmailForm(forms.Form):
+    subject = forms.CharField(max_length=255, required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)

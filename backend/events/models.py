@@ -46,7 +46,8 @@ class EventRegistration(models.Model):
     gender = models.CharField(
         max_length=10,
         choices=GENDER_CHOICES,
-        blank=False,
+        blank=True,
+        null=True
     )
     linkedin = models.URLField(blank=False)
     github = models.URLField(blank=True)
