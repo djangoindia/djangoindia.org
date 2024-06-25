@@ -34,14 +34,12 @@ class EventRegistration(models.Model):
         Event,
         on_delete=models.CASCADE,
         related_name="registrations",
-        blank=False,
-        null=False,
     )
-    email = models.EmailField(blank=False, null=False)
-    first_name = models.CharField(max_length=255, blank=False)
-    last_name = models.CharField(max_length=255, blank=False)
+    email = models.EmailField()
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     occupation = models.CharField(
-        max_length=20, choices=OCCUPATION_CHOICES, blank=False
+        max_length=20, choices=OCCUPATION_CHOICES
     )
     gender = models.CharField(
         max_length=10,
@@ -49,12 +47,12 @@ class EventRegistration(models.Model):
         blank=True,
         null=True
     )
-    linkedin = models.URLField(blank=False)
+    linkedin = models.URLField()
     github = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
     other_links = models.URLField(blank=True)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
-    rsvp = models.BooleanField(default=False, blank=False)
+    rsvp = models.BooleanField(default=False)
 
     class Meta:
         constraints = [
