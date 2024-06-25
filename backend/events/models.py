@@ -6,13 +6,13 @@ from django.db import models
 # Create your models here.
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, unique=True, blank=False)
+    name = models.CharField(max_length=255, unique=True)
     cover_image = models.ImageField(upload_to="event_images/", blank=True)
-    description = models.TextField(blank=False)
-    venue = models.TextField(blank=False, default="TBA")
-    city = models.CharField(max_length=255, blank=False, default="TBA")
+    description = models.TextField()
+    venue = models.TextField( default="TBA")
+    city = models.CharField(max_length=255,  default="TBA")
     venue_map_link = models.URLField(blank=True)
-    date_time = models.DateTimeField(blank=False, null=False)
+    date_time = models.DateTimeField(null=False)
 
     def __str__(self) -> str:
         return f"{self.name} @ {self.city} ({self.date_time.date()})"
