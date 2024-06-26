@@ -6,13 +6,13 @@ from django.db import models
 # Create your models here.
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, unique=True, blank=False)
+    name = models.CharField(max_length=255, unique=True)
     cover_image = models.ImageField(upload_to="event_images/", blank=True)
-    description = models.TextField(blank=False)
-    venue = models.TextField(blank=False, default="TBA")
-    city = models.CharField(max_length=255, blank=False, default="TBA")
+    description = models.TextField()
+    venue = models.TextField( default="TBA")
+    city = models.CharField(max_length=255,  default="TBA")
     venue_map_link = models.URLField(blank=True)
-    date_time = models.DateTimeField(blank=False, null=False)
+    date_time = models.DateTimeField(null=False)
 
     def __str__(self) -> str:
         return f"{self.name} @ {self.city} ({self.date_time.date()})"
@@ -34,26 +34,25 @@ class EventRegistration(models.Model):
         Event,
         on_delete=models.CASCADE,
         related_name="registrations",
-        blank=False,
-        null=False,
     )
-    email = models.EmailField(blank=False, null=False)
-    first_name = models.CharField(max_length=255, blank=False)
-    last_name = models.CharField(max_length=255, blank=False)
+    email = models.EmailField()
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     occupation = models.CharField(
-        max_length=20, choices=OCCUPATION_CHOICES, blank=False
+        max_length=20, choices=OCCUPATION_CHOICES
     )
     gender = models.CharField(
         max_length=10,
         choices=GENDER_CHOICES,
-        blank=False,
+        blank=True,
+        null=True
     )
-    linkedin = models.URLField(blank=False)
+    linkedin = models.URLField()
     github = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
     other_links = models.URLField(blank=True)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
-    rsvp = models.BooleanField(default=False, blank=False)
+    rsvp = models.BooleanField(default=False)
 
     class Meta:
         constraints = [

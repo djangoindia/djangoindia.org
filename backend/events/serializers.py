@@ -7,6 +7,11 @@ class EventSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(max_length=100)
     description = serializers.CharField()
+    cover_image = serializers.ImageField()
+    venue= serializers.CharField()
+    city= serializers.CharField()
+    venue_map_link= serializers.URLField()
+    date_time= serializers.DateTimeField()
 
     def create(self, validated_data):
         return Event.objects.create(**validated_data)

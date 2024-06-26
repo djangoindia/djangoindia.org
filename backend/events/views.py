@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 
-from .models import Event
+from .models import Event, EventRegistration
 from .serializers import EventRegistrationSerializer, EventSerializer
 
 
@@ -29,9 +29,18 @@ class EventAPIView(generics.GenericAPIView, ListModelMixin, CreateModelMixin, Re
 
     def post(self, request, *args, **kwargs):
         try:
-            return self.create(request, *args, **kwargs)
-        except ValidationError as e:
-            return Response({"error": e.detail}, status=status.HTTP_400_BAD_REQUEST)
+            if EventRegistration.objects.filter(
+                email=request.data.get("email"), event=request.data.get("event")
+            ).exists():
+                return Response(
+                    {"error": "You have already registered for this event."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            self.create(request, *args, **kwargs)
+            return Response(
+                {"message": "Event registration successful."},
+                status=status.HTTP_201_CREATED,
+            )
         except Exception as e:
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
