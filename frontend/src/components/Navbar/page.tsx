@@ -1,6 +1,6 @@
 import SignButton from "../ui/SignButton";
 import Image from "next/image";
-import logo from "../../../../public/LogoDarkMode.svg";
+import logo from "../../../public/LogoDarkMode.svg";
 const Navbar = () => {
     return ( 
         <>
