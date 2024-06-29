@@ -1,5 +1,5 @@
 import SignButton from "../ui/SignButton";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import logo from "../../../public/LogoDarkMode.svg";
 const Navbar = () => {
     return ( 

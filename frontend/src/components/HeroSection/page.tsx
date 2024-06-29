@@ -1,5 +1,5 @@
 "use client"
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { Archivo_Black } from "next/font/google";
 import SignButton from '../ui/SignButton';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '../ui/button';
 import PhoneImage from '../../../public/Phone.svg';
 import CirclesImage from '../../../public/10Circles.svg';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 function Join() {
   return (
