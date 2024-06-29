@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 interface EventProps {
   title: string;
@@ -14,7 +14,15 @@ const Event: React.FC<EventProps> = ({ title, date, imageSrc, venue, time }) => 
     <div className="my-6">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-sm mx-auto">
         <div className="relative h-48">
-          <Image src={imageSrc} alt={title} objectFit="cover" className="rounded-t-lg" />
+          <Image
+            src={imageSrc}
+            alt={title}
+            className="rounded-t-lg"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              objectFit: "cover"
+            }} />
         </div>
         <div className="p-4 flex">
           <div className="w-1/5">
