@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            background-color: #144D3D;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .header img {
+            width: 80px;
+            margin-top: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #144D3D;
+            margin-top: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .content p {
+            line-height: 1.8;
+            color: #666;
+        }
+        .details {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .details p {
+            margin: 10px 0;
+            color: #333;
+        }
+        .details p strong {
+            display: inline-block;
+            width: 100px;
+        }
+        .footer {
+            background-color: #144D3D;
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            font-size: 14px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .footer p {
+            margin: 0;
+        }
+        .social-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .social-links li {
+            margin: 0 10px;
+        }
+        .social-links a {
+            color: #144D3D;
+            transition: color 0.2s ease;
+        }
+        .social-links a:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {% if event.cover_image %}
+                <img src="{{ event.cover_image.url }}" alt="Event Cover Image">
+            {% else %}
+                <img src="https://via.placeholder.com/80" alt="Logo">
+            {% endif %}
+            <h1>Registration Confirmation</h1>
+        </div>
+        <div class="content">
+            <h2>Hello, {{ first_name }}!</h2>
+            <p>Thank you for registering for our event. Here are the details:</p>
+            <div class="details">
+                <p><strong>Event:</strong> {{ event.name }}</p>
+                <p><strong>Date:</strong> {{ event.date_time.date }}</p>
+                <p><strong>Time:</strong> {{ event.date_time.time }}</p>
+                <p><strong>Venue:</strong> {{ event.venue }}</p>
+                <p><strong>Description:</strong> {{ event.description }}</p>
+                {% if event.venue_map_link %}
+                    <p><strong>Venue Map:</strong> <a href="{{ event.venue_map_link }}" target="_blank">View on Map</a></p>
+                {% endif %}
+            </div>
+            <p>We look forward to seeing you there!</p>
+            <p>Follow us on social media:</p>
+            <ul class="social-links">
+                <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
