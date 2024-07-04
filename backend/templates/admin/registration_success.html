@@ -99,7 +99,7 @@
     <div class="container">
         <div class="header">
             {% if event.cover_image %}
-                <img src="{{ event.cover_image.url }}" alt="Event Cover Image">
+                <img src="{{ event.cover_image }}" alt="Event Cover Image">
             {% else %}
                 <img src="https://via.placeholder.com/80" alt="Logo">
             {% endif %}
@@ -107,7 +107,7 @@
         </div>
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Thank you for registering for our event. Here are the details:</p>
+            <p>Thank you for registering for the event. Here are the details:</p>
             <div class="details">
                 <p><strong>Event:</strong> {{ event.name }}</p>
                 <p><strong>Date:</strong> {{ event.date_time.date }}</p>
@@ -115,19 +115,23 @@
                 <p><strong>Venue:</strong> {{ event.venue }}</p>
                 <p><strong>Description:</strong> {{ event.description }}</p>
                 {% if event.venue_map_link %}
-                    <p><strong>Venue Map:</strong> <a href="{{ event.venue_map_link }}" target="_blank">View on Map</a></p>
+                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 {% endif %}
             </div>
             <p>We look forward to seeing you there!</p>
             <p>Follow us on social media:</p>
             <ul class="social-links">
-                <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-                <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://www.twitter.com/djangoindiaa" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="https://www.instagram.com/djangoindia/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                <li><a href="https://discord.gg/YrmYTTBspe" target="_blank"><i class="fab fa-discord"></i></a></li>
+                <li><a href="https://github.com/djangoindia" target="_blank"><i class="fab fa-github"></i></a></li>
+                <li><a href="https://www.reddit.com/r/djangoindia/" target="_blank"><i class="fab fa-reddit"></i></a></li>
+                <li><a href="https://www.linkedin.com/company/django-india/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
             </ul>
         </div>
         <div class="footer">
-            <p>&copy; 2024 Your Company. All rights reserved.</p>
+            <p>&copy; 2024 Djangoindia community. All rights reserved.</p>
         </div>
     </div>
 </body>
