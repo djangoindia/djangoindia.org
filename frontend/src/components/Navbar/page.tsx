@@ -1,16 +1,18 @@
 import SignButton from "../ui/SignButton";
 import Image from "next/image";
-import logo from "../../../public/LogoDarkMode.svg";
+import logo from "/whatIsDjango/Logo.svg";
 const Navbar = () => {
     return <>
-    <section className="h-full w-full relative bg-black">
+    <section className="h-full w-full relative bg-[#C1CAD2]">
         <div className="h-20 w-full flex justify-around items-center">
                 {/* logo  */}
                 <div className="flex items-center justify-center">
                     <Image
-                        src={logo}
+                        src="/whatIsDjango/Logo.svg"
+                        width={121}
+                        height={42}
                         alt="logo"
-                        className="mt-6 object-center"
+                        className=" object-center"
                         style={{
                             maxWidth: "100%",
                             height: "auto"
@@ -18,7 +20,7 @@ const Navbar = () => {
                 </div>
 
                 {/* menu */}
-                <div className="flex gap-16 text-white justify-center items-center">
+                <div className="flex font-semibold gap-16 text-black justify-center items-center">
                     <div>
                         <a href="/">Home</a>
                     </div>
@@ -31,7 +33,7 @@ const Navbar = () => {
                 </div>
 
                 {/* button */}
-                <SignButton color="white" text="Support us" tcol="black"/>
+                <SignButton color="black" text="Support us" tcol="white"/>
                 </div>
 
     </section>

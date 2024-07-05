@@ -7,7 +7,7 @@ interface StateButtonProps {
 const SignButton: React.FC<StateButtonProps> = ({ color, text, tcol }) => {
     return (
         <div
-            className={`uppercase rounded-full px-4 py-2 text-${tcol} bg-${color} `}
+            className={`uppercase max-h-10 rounded-full px-4 py-2 text-${tcol} bg-${color} `}
         >
             {text}
         </div>
