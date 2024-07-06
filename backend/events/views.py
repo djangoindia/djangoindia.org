@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from .models import Event, EventRegistration
 from .serializers import EventRegistrationSerializer, EventSerializer
-from .utils import send_registration_confirmation_email
+from .tasks import send_registration_confirmation_email
 
 
 # Create your views here.
@@ -42,7 +42,7 @@ class EventAPIView(generics.GenericAPIView, ListModelMixin, CreateModelMixin, Re
             #send email after registration
             recipient_email = request.data.get("email")
             event_id = request.data.get("event")
-            send_registration_confirmation_email(recipient_email, event_id)
+            send_registration_confirmation_email.delay(recipient_email, event_id)
             return Response(
                 {"message": "Registration successful. Confirmation email sent."},
                 status=status.HTTP_201_CREATED,

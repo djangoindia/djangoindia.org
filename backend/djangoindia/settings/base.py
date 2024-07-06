@@ -141,3 +141,11 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DEFAULT_FROM_EMAIL = "admin@djangoindia.org"
+
+
+# CELERY STUFF
+CELERY_BROKER_URL = 'amqp://localhost'  # URL to RabbitMQ server
+CELERY_RESULT_BACKEND = 'rpc://'  # Backend to store task results
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json' # default RabbitMQ credentials
