@@ -1,49 +1,136 @@
 import React from 'react';
 import { Button } from '../ui/button';
-import PhoneImage from '../../../public/Phone.svg';
+import Link from 'next/link';
+// import PhoneImage from '../../../public/Phone.svg';
 import CirclesImage from '../../../public/10Circles.svg';
 import Image from "next/image";
+import { Sign } from 'crypto';
+import SignButton from '../ui/SignButton';
+import Update from '../Latestupdate/Update';
 
 function Join() {
   return (
-    <div className="flex mb-100">
-      <div className="w-1/2 p-4 flex flex-col justify-center items-center lg:px-48">
-        <h1 className="text-3xl font-bold mb-4 text-center">Join our community</h1>
-        <p className="text-lg text-center mb-4">
-          Click the icons to follow our accounts and never miss updates on upcoming events, contributions, and more!
-        </p>
-        <Button variant="outline" className='bg-blue-700 hover:bg-blue-800 text-white hover:text-white'>Follow Now</Button>
-      </div>
-
-      <div className="w-1/2 relative">
-        <div className="absolute inset-0">
-          <Image
+    <>
+    <div className="flex flex-row relative -mb-40 h-full w-full justify-center items-center">
+      <Image
             src={CirclesImage}
             alt="Circle Background"
-            width={400}
-            height={400}
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-              objectFit: "contain"
-            }} />
-        </div>
-        
-        <div className="absolute top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4">
-          <Image
-            src={PhoneImage}
+            width={893}
+            height={938}
+            className='absolute right-0 -top-24 object-contain'
+            />
+      <div className="w-1/2 h-full p-4 flex flex-col justify-center items-center">
+      
+        <h1 className="text-4xl font-bold mb-4 text-center">Join our community!</h1>
+        <p className="text-[20px] font-semibold text-center max-w-[480px] mb-4">
+          Click the icons to follow our accounts and never miss updates on upcoming events, contributions, and more!
+        </p>
+        <SignButton color="black" text="Join" tcol="white"/>
+      </div>
+
+      <div className="w-1/2 mt-10 relative"> 
+        <div className='relative '>
+        <Image
+            src="/Phone2.png"
             alt="Phone Image"
-            width={250}
-            height={250}
-            className='shadow-xl'
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-              objectFit: "contain"
-            }} />
+            width={563}
+            height={707}
+            className=' object-contain scale-105' />
+            <div className='absolute left-[72px] rounded-[78px] z-30 w-[505px] h-[707px] inset-1'>
+      <div className='flex flex-col justify-center items-center gap-10 pt-40'>
+        <div className='flex flex-row justify-center items-center gap-8'>
+          <Link href="https://www.instagram.com" passHref>
+            <Image
+              src="/icons/insta.svg"
+              alt='Instagram'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+
+          <Link href="https://www.twitter.com" passHref>
+            <Image
+              src="/icons/twitter.svg"
+              alt='Twitter'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+
+          <Link href="https://www.youtube.com" passHref>
+            <Image
+              src="/icons/youtube.svg"
+              alt='YouTube'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+
+          <Link href="https://www.discord.com" passHref>
+            <Image
+              src="/icons/discord.svg"
+              alt='Discord'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+        </div>
+        <div className='flex flex-row justify-center items-center gap-8'>
+          <Link href="https://www.github.com" passHref>
+            <Image
+              src="/icons/git.svg"
+              alt='GitHub'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+
+          <Link href="https://www.reddit.com" passHref>
+            <Image
+              src="/icons/reddit.svg"
+              alt='Reddit'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+
+          <Link href="https://www.linkedin.com" passHref>
+            <Image
+              src="/icons/linkedin.svg"
+              alt='LinkedIn'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
+
+          <Link href="https://www.whatsapp.com" passHref>
+            <Image
+              src="/icons/whatsapp.svg"
+              alt='WhatsApp'
+              width={79.63}
+              height={101}
+              className='transition transform hover:scale-110'
+            />
+          </Link>
         </div>
       </div>
     </div>
+        </div>
+        
+          
+      </div>
+      
+    </div>
+    
+    
+    </>
   );
 }
 

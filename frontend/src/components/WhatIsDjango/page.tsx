@@ -1,18 +1,21 @@
 "use client"
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import SignButton from "../ui/SignButton";
 const WhatIsDjango = () => {
+
   return (
     <section className="w-full h-auto relative bg-[#f9f4ee]">
       <section 
         className="w-full h-[600px] relative bg-[url('/whatIsDjango/Curve.svg')] bg-cover bg-no-repeat"> 
         {/* You can add more content here if needed */}
+
         <Image
         src="/whatIsDjango/elipse.svg"
         width={1440}
-        height={500}
+        height={600}
         alt="hero"
-        className="absolute z-10 object-contain"></Image>
+        className="absolute z-10 object-cover"></Image>
         
         <div className="flex flex-row w-full h-auto">
   {/* Left Text Section */}
@@ -41,8 +44,8 @@ const WhatIsDjango = () => {
             starting out, there's something here for everyone. 
             Let's code together and make amazing things happen!
         </p>
-        <div className="pl-8">
-        <SignButton color="black" text="Subscribe" tcol="white"/>
+        <div className="z-20 pl-8">
+        <SignButton color="black" text="Learn more" tcol="white"/>
         </div>
     </div>
   </div>
@@ -59,8 +62,8 @@ const WhatIsDjango = () => {
     />
     <Image
       src="/whatisDjango/Logo.svg"
-      width={300} // Adjust the width according to your need
-      height={104} // Adjust the height according to your need
+      width={300} 
+      height={104} 
       alt="Description of the image"
       className="absolute z-20 top-64 left-56 object-contain scale-90"
     />
