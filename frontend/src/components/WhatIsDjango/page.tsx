@@ -15,11 +15,11 @@ const WhatIsDjango = () => {
         width={1440}
         height={600}
         alt="hero"
-        className="absolute z-10 object-cover"></Image>
+        className="absolute z-10 object-cover w-full"></Image>
         
         <div className="flex flex-row w-full h-auto">
   {/* Left Text Section */}
-  <div className="flex flex-col w-1/2 p-4">
+  <div className="flex flex-col w-1/2 p-2">
     {/* Add your text content here */}
     <div className="flex flex-col h-full justify-center pl-10 gap-8 items-start">
         <div className=" h-16">

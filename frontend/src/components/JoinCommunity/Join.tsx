@@ -28,7 +28,7 @@ function Join() {
         <SignButton color="black" text="Join" tcol="white"/>
       </div>
 
-      <div className="w-1/2 mt-10 relative"> 
+      <div className="w-100 mt-10 relative"> 
         <div className='relative '>
         <Image
             src="/Phone2.png"
@@ -123,8 +123,6 @@ function Join() {
       </div>
     </div>
         </div>
-        
-          
       </div>
       
     </div>

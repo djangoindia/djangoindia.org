@@ -10,9 +10,6 @@ function Main() {
     <div className="p-4 mb-10 md:mb-20 lg:mb-50">
       <div className="flex flex-row mx-20 justify-between items-center mb-4">
         <h1 className="text-[40px] text-center text-[#06038D] font-bold">Upcoming Events</h1>
-        <Link href="/AllEvents" className="text-2xl mt-2 transition transform hover:scale-110">
-          See All
-        </Link>
       </div>
       <div className="flex flex-col md:flex-row md:justify-center md:space-x-8">
         <div className="w-full md:w-auto h-auto mb-4 md:mb-0">
