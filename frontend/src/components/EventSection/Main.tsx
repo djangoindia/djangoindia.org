@@ -8,11 +8,8 @@ import Link from "next/link";
 function Main() {
   return (
     <div className="p-4 mb-10 md:mb-20 lg:mb-50">
-      <div className="flex flex-col items-center mb-4">
-        <h1 className="text-3xl text-center font-bold">Upcoming Events</h1>
-        <Link href="/AllEvents" className="underline mt-2">
-          See All
-        </Link>
+      <div className="flex flex-row mx-20 justify-between items-center mb-4">
+        <h1 className="text-[40px] text-center text-[#06038D] font-bold">Upcoming Events</h1>
       </div>
       <div className="flex flex-col md:flex-row md:justify-center md:space-x-8">
         <div className="w-full md:w-auto h-auto mb-4 md:mb-0">

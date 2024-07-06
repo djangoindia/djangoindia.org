@@ -1,4 +1,5 @@
 import React from 'react';
+import SignButton from '../ui/SignButton';
 
 function Support() {
   return (
@@ -12,7 +13,7 @@ function Support() {
       
       {/* Right side button */}
       <div className='w-full lg:w-1/4 flex justify-center lg:justify-end'>
-        <button type="submit" className='bg-black text-white font-bold px-6 py-2 rounded-3xl'>Support Us</button>
+        <SignButton color='black' text='Support us' tcol='white'/>
       </div>
     </div>
   );
