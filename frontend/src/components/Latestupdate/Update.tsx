@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function Update() {
   return (
-    <div className="w-full bg-[url('/newsletter/bg.svg')] mx-auto bg-no-repeat sm:px-6 lg:px-8 relative z-20">
+    <div className="w-full bg-[url('/newsletter/bg.svg')] mx-auto bg-no-repeat overflow-x-hidden sm:px-6 lg:px-8 relative z-20">
       <div className="max-w-4xl pt-40 pb-10 mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Get the latest updates</h1>

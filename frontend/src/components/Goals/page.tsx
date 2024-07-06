@@ -3,7 +3,7 @@ import Image from "next/image"
 
 const Goals =()=>{
 return (
-    <div className="max-w-7xl mx-auto p-6 pb-20">
+    <div className="max-w-7xl overflow-x-hidden mx-auto p-6 pb-20">
     <h1 className="text-5xl font-black text-center archivo text-[#06038D] my-8">Our Goals</h1>
     <div className="space-y-8">
       <div className="flex items-center justify-center mt-20 ">

@@ -58,7 +58,7 @@ const WhatIsDjango = () => {
       width={500} // Adjust the width according to your need
       height={500} // Adjust the height according to your need
       alt="Description of the image"
-      className="object-contain mx-auto scale-90"
+      className="object-contain mx-auto scale-90 rotate"
     />
     <Image
       src="/whatisDjango/Logo.svg"

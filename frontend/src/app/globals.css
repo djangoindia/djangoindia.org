@@ -2,6 +2,7 @@
   @tailwind components;
   @tailwind utilities;
 
+
   @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
   @layer base {
     :root {
@@ -77,4 +78,17 @@
     body {
       @apply bg-background text-foreground;
     }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .rotate {
+    animation: rotate 20s linear infinite;
   }
