@@ -9,9 +9,9 @@ import SignButton from '../ui/SignButton';
 import Update from '../Latestupdate/Update';
 
 function Join() {
-  return (
+  return(
     <>
-    <div className="flex overflow-x-hidden flex-row relative -mb-40 h-full w-full justify-center items-center">
+    <div className="flex flex-row relative -mb-40 h-full w-full justify-center items-center">
       <Image
             src={CirclesImage}
             alt="Circle Background"
