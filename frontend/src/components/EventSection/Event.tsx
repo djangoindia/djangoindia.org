@@ -11,7 +11,7 @@ interface EventProps {
 
 const Event: React.FC<EventProps> = ({ title, date, imageSrc, venue, time }) => {
   return (
-    <div className="my-6">
+    <div className="my-6 transition transform hover:scale-105">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-sm mx-auto">
         <div className="relative h-48">
           <Image

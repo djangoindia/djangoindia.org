@@ -2,11 +2,12 @@ import React from "react";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import "./styles.css"
+import Image from "next/image";
 
 function Update() {
   return (
-    <div className="bg-gradient-to-r from-orange-300 to-orange-100 py-10 px-4 sm:px-6 lg:px-8 mt-28 z-10 relative">
-      <div className="max-w-4xl mx-auto">
+    <div className="w-full bg-[url('/newsletter/bg.svg')] bg-no-repeat bg-cover sm:px-6 lg:px-8 relative z-20">
+      <div className="max-w-4xl pt-40 pb-10 mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Get the latest updates</h1>
           <p className="text-lg text-gray-700">
@@ -43,7 +44,7 @@ function Update() {
                 className="outline-none flex-1"
               />
             </div>
-            <button type="submit" className="bg-black mt-4 px-6 py-1 text-white font-bold rounded-2xl">Submit</button>
+            <button type="submit" className="bg-black mt-4 px-6 py-1 text-white transition transform hover:scale-110 rounded-2xl">Submit</button>
           </div>
         </div>
       </div>

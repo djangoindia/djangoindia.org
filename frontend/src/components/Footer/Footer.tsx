@@ -18,22 +18,11 @@ const Footer: React.FC = () => {
                 <a href="/">Home</a>
               </li>
               <li>
-                <a href="#" className="inline-block py-2 px-3 text-white no-underline">
-                  About us
-                </a>
-              </li>
-              <li>
                 <a href="/Contactus" className="inline-block py-2 px-3 text-white no-underline">
                   Contact Us
                 </a>
               </li>
-              <li>
-                <a href="#" className="inline-block py-2 px-3 text-white no-underline">
-                  Newsletter
-                </a>
-              </li>
             </ul>
-
             <div className="flex flex-col w-full lg:w-1/3 mb-6 lg:mb-0 lg:mr-4">
               <div className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide text-center lg:text-left">
                 Connect

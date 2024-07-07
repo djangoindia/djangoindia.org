@@ -5,11 +5,15 @@ import Main from "@/components/EventSection/Main";
 import Update from "@/components/Latestupdate/Update";
 import Support from "@/components/Support/Support";
 import Footer from "@/components/Footer/Footer";
+import WhatIsDjango from "@/components/WhatIsDjango/page";
+import Goals from "@/components/Goals/page";
 export default function Home() {
   return (
     <>
-      {/* <Navbar/>
-      <HeroSection/> */}
+      <Navbar/>
+      <HeroSection/>
+      <WhatIsDjango/>
+      <Goals/>
       <Main />
       <Join />
       <Update />
