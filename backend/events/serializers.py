@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Event, EventRegistration
+from .models import Event, EventRegistration, NewsletterSubscription
 
 
 class EventSerializer(serializers.Serializer):
@@ -51,5 +51,18 @@ class EventRegistrationSerializer(serializers.Serializer):
         instance.twitter = validated_data.get("twitter", instance.twitter)
         instance.other_links = validated_data.get("other_links", instance.other_links)
         instance.rsvp = validated_data.get("rsvp", instance.rsvp)
+        instance.save()
+        return instance
+
+class NewsletterSubscriptionSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    email = serializers.EmailField()
+
+    def create(self, validated_data):
+        return NewsletterSubscription.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.email = validated_data.get("email", instance.email)
         instance.save()
         return instance

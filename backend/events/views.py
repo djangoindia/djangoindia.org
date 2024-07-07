@@ -4,7 +4,7 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveMode
 from rest_framework.response import Response
 
 from .models import Event, EventRegistration
-from .serializers import EventRegistrationSerializer, EventSerializer
+from .serializers import EventRegistrationSerializer, EventSerializer, NewsletterSubscriptionSerializer
 from .utils import send_registration_confirmation_email
 
 
@@ -51,3 +51,13 @@ class EventAPIView(generics.GenericAPIView, ListModelMixin, CreateModelMixin, Re
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+        
+class NewsletterSubscriptionCreateView(generics.CreateAPIView):
+    serializer_class = NewsletterSubscriptionSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

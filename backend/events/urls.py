@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path("", views.EventAPIView.as_view(), name="list_events"),
     path("<uuid:pk>/", views.EventAPIView.as_view(), name="get_event"),
+    path('newsletter/', views.NewsletterSubscriptionCreateView.as_view(), name='newsletter-subscription-create'),
 ]
