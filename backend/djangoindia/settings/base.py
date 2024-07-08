@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "celery",
     "rest_framework",
     "storages",
     "events",
@@ -144,8 +145,5 @@ DEFAULT_FROM_EMAIL = "admin@djangoindia.org"
 
 
 # CELERY STUFF
-CELERY_BROKER_URL = 'amqp://localhost'  # URL to RabbitMQ server
-CELERY_RESULT_BACKEND = 'rpc://'  # Backend to store task results
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json' # default RabbitMQ credentials
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
