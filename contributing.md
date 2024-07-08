@@ -18,7 +18,8 @@ All type of contributions are encouraged and valued. See the [Table of Contents]
 - [Improving The Documentation](#improving-the-documentation)
 - [Styleguides](#styleguides)
 - [Commit Messages](#commit-messages)
-- [Join The Project Team](#join-the-project-team)
+- [Join The Djangoindia Team](#join-the-djangoindia-team)
+
 
 
 ## Code of Conduct
