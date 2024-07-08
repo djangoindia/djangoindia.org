@@ -167,7 +167,8 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 ### Commit Messages
 
 
-## Join The Project Team
+## Join The Djangoindia Team (TBD)
+
 
 
 
