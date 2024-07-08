@@ -15,8 +15,6 @@ All type of contributions are encouraged and valued. See the [Table of Contents]
 - [Reporting Bugs](#reporting-bugs)
 - [Suggesting Enhancements](#suggesting-enhancements)
 - [Your First Code Contribution](#your-first-code-contribution)
-- [Improving The Documentation](#improving-the-documentation)
-- [Styleguides](#styleguides)
 - [Commit Messages](#commit-messages)
 - [Join The Djangoindia Team](#join-the-djangoindia-team)
 
