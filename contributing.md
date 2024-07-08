@@ -163,7 +163,7 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 ### Improving The Documentation
 
 
-## Styleguides
+
 ### Commit Messages
 
 
