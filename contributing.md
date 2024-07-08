@@ -50,50 +50,66 @@ We will then take care of the issue as soon as possible.
 ## I Want To Contribute
 
 ## Setting Up and Running the Project Locally
+1. **Fork the repository:**
+
+    - Read the [documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) to learn about forking a repository.
+
+2. **Clone the repository:**
+
+    ```
+    git clone https://github.com/<your_username>/djangoindia.org
+    ```
+
 
 #### Backend (Django)
+We are in root directory right now.
 
-1. **Clone the repository:**
- *     git clone https://github.com/djangoindia/djangoindia.org.git
-       
-2.   **Create and activate a virtual environment:**
- *  For PowerShell:    
-  *		 python -m venv env
-		 .\env\Scripts\Activate
-        
-   *  For Command Prompt: 
-   *  	 python -m venv env
-	     env\Scripts\activate
+1.  **Create and activate a virtual environment:**
 
-        
-      
-3.    **Install the required packages:**   
-*      pip install -r requirements.txt
-    
-4.  **Configure the Django settings:**
-    
-  *     Create a .env file in the project root and add necessary environment variables (e.g., SECRET\_KEY, DATABASE\_URL).
-        
-5.  **Run database migrations**:
-*	  python manage.py migrate
+- For PowerShell:
+    ```
+    python -m venv env
+    .\env\Scripts\Activate
+    ```
+- For Command Prompt:
+    ```
+    python -m venv env
+    env\Scripts\activate
+    ```
 
-6. **Start the Django development server**
-*	  python manage.py runserver
-    
+2.  **Install the required packages:**
+    ```
+    pip install -r backend/requirements.txt
+    ```
 
+3.  **Configure the Django settings:**
+
+    - Create a `.env` file in the project root and add necessary environment variables (e.g., SECRET\_KEY, DATABASE\_URL).
+
+4.  **Run database migrations**:
+    ```
+    python manage.py migrate
+    ```
+
+5. **Start the Django development server**
+    ```
+    python manage.py runserver
+    ```
 
 #### Frontend (Next.js)
 
 1.  **Navigate to the frontend directory:**
-*	  cd ../frontend    
+    ```
+    cd frontend
+    ```
 2. **Install the required packages:**
-*	  `npm install`  (or)  `yarn install`
-
-    
+    ```
+    npm install (or) yarn install
+    ```
 3.  **Start the Next.js development server:**
-*     `npm run dev` (or) `yarn dev`
-
-
+    ```
+    npm run dev (or) yarn dev
+    ```
 ### Reporting Bugs
 
 
