@@ -14,7 +14,7 @@ services:
     expose:
       - 5433
        
-  frontend:
+  djangoindia-frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend.dev
