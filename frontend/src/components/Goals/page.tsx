@@ -48,7 +48,7 @@ return (
         <div className="max-w-[570px]">
           <h2 className="font-extrabold pb-4 text-3xl">Awareness</h2>
           <p className="text-gray-700 text-[24px] font-medium">
-          Spreading Django's benefits through talks, blogs, and social media, along with successful case studies, will drive its adoption in diverse industries.
+          Spreading Django&apos;s benefits through talks, blogs, and social media, along with successful case studies, will drive its adoption in diverse industries.
           </p>
         </div>
         <Image src="/goals/aware.svg" alt="Learning" width={250} height={250} className="objext-contain" />

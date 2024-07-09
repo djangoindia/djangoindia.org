@@ -1,0 +1,1 @@
+from djangoindia.db.models.event import Event, EventRegistration

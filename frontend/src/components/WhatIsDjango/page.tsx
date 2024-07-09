@@ -40,9 +40,9 @@ const WhatIsDjango = () => {
         </div>
         <p className="max-w-[600px] text-2xl pl-8  text-black font-medium">Community of Django enthusiasts from India chapter. 
             Join us today to be part of the vibrant Django India 
-            community! Whether you're a seasoned developer or just 
-            starting out, there's something here for everyone. 
-            Let's code together and make amazing things happen!
+            community! Whether you&apos;re a seasoned developer or just 
+            starting out, there&apos;s something here for everyone. 
+            Let&apos;s code together and make amazing things happen!
         </p>
         <div className="z-20 pl-8">
         <SignButton color="black" text="Learn more" tcol="white"/>
