@@ -1,15 +1,18 @@
 services:
   postgres:
-    image: postgres:latest
-    restart: always
-    shm_size: 128mb
+    image: postgres:alpine3.18
     container_name: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", ${DATABASE_NAME} ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
-    ports:
-      - "5433:5432"
+    expose:
+      - 5433
        
   frontend:
     build:
