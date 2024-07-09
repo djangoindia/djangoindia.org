@@ -18,17 +18,24 @@ services:
     ports:
       - "3000:3000"
 
-  backend:
+  djangoindia-backend: &djangoindia-backend
     build:
       context: ./backend
       dockerfile: Dockerfile.backend.dev
+    container_name: djangoindia-backend
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app/backend
     env_file:
-      - ./.env
+      - .env
     environment:
       - DJANGO_SETTINGS_MODULE=djangoindia.settings.local
+  djangoindia-worker:
+    <<: *djangoindia-backend
+    container_name: djangoindia-worker
+    command: celery -A backend/djangoindia worker -l info 
+    ports: []
