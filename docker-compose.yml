@@ -18,6 +18,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend.dev
+      depends_on:
+         - djangoindia-backend
     ports:
       - "3000:3000"
 
