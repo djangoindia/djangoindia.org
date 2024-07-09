@@ -48,10 +48,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "celery",
-    "rest_framework",
-    "storages",
-    "events",
     "corsheaders",
+    "djangoindia.api",
+    "djangoindia.bg_tasks",
+    "djangoindia.db",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
