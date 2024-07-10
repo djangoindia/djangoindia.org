@@ -1,6 +1,6 @@
 from django import forms
 
-from djangoindia.db.models.event import Event
+from .models import Event
 
 
 class EventForm(forms.ModelForm):
