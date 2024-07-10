@@ -1,0 +1,69 @@
+services:
+  djangoindia-backend: &djangoindia-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: djangoindia-backend
+    volumes:
+      - logs:/app/logs
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    command: /start-local
+
+  djangoindia-worker:
+    <<: *djangoindia-backend
+    container_name: djangoindia-worker
+    command: celery -A djangoindia worker -l info 
+    ports: []
+    depends_on:
+      - djangoindia-backend
+      - postgres
+      - rabbitmq
+
+  postgres:
+    image: postgres:14.1-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    expose:
+      - 5432
+
+  djangoindia-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: djangoindia-frontend
+    restart: always
+    depends_on:
+        - djangoindia-backend
+        - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app/frontend
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # Management UI port
+
+volumes:
+  logs:
+  postgres:
+  frontend:
+    driver: local
