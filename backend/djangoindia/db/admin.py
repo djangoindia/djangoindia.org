@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from .forms import EventForm, EmailForm
-from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.event import Event, EventRegistration, NewsletterSubscription
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -74,3 +74,5 @@ class EventRegistrationAdmin(admin.ModelAdmin):
             'queryset': request.GET.get('ids').split(','),
         }
         return TemplateResponse(request, 'admin/send_email.html', context)
+
+admin.site.register(NewsletterSubscription)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.event import Event, EventRegistration, NewsletterSubscription
 
 
 class EventSerializer(serializers.Serializer):
@@ -29,3 +29,10 @@ class EventRegistrationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return EventRegistration.objects.create(**validated_data)
+    
+class NewsletterSubscriptionSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    email = serializers.EmailField()
+
+    def create(self, validated_data):
+        return NewsletterSubscription.objects.create(**validated_data)
