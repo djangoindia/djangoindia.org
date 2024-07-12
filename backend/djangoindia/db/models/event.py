@@ -65,9 +65,9 @@ class EventRegistration(BaseModel):
             f"{self.first_name} {self.last_name} ({self.email}) --- {self.event.name}"
         )
 
-class NewsletterSubscription(models.Model):
+class NewsletterSubscription(BaseModel):
     name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
 
     def __str__(self):
         return self.email
