@@ -5,5 +5,5 @@ from djangoindia.api.views.event import EventAPIView, NewsletterSubscriptionAPIV
 urlpatterns = [
     path("events/", EventAPIView.as_view(), name="list_events"),
     path("events/<uuid:pk>/", EventAPIView.as_view(), name="get_event"),
-    path('newsletter/', NewsletterSubscriptionAPIView.as_view(), name='newsletter-subscription'),
+    path('newsletter/', NewsletterSubscriptionAPIView.as_view(), name='newsletter-subscription'), #end point for the API to collect details
 ]
