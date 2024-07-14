@@ -1,2 +1,2 @@
 from .event import EventAPIView
-from .newsletter import NewsletterSubscriptionAPIView
+from .communication import NewsletterSubscriptionAPIView

@@ -2,8 +2,8 @@ from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 
-from djangoindia.db.models.newsletter import NewsletterSubscription
-from djangoindia.api.serializers.newsletter import NewsletterSubscriptionSerializer
+from djangoindia.db.models.communication import NewsletterSubscription
+from djangoindia.api.serializers.communication import NewsletterSubscriptionSerializer
 
 class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
     queryset = NewsletterSubscription.objects.all()

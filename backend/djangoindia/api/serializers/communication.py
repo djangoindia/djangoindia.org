@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from djangoindia.db.models.newsletter import NewsletterSubscription
+from djangoindia.db.models.communication import NewsletterSubscription
 
 class NewsletterSubscriptionSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
