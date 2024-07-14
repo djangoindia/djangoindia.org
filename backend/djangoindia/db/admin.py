@@ -2,7 +2,8 @@
 from django.contrib import admin
 
 from .forms import EventForm, EmailForm
-from djangoindia.db.models.event import Event, EventRegistration, NewsletterSubscription
+from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.newsletter import NewsletterSubscription
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
