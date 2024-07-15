@@ -29,3 +29,4 @@ class EventRegistrationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return EventRegistration.objects.create(**validated_data)
+    
