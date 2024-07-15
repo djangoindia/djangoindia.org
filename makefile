@@ -8,7 +8,7 @@ runserver:
 	python3 backend/manage.py runserver
 
 install-backend:
-	pip3 install -r backend/requirements.txt
+	pip3 install -r backend/requirements/local.txt
 
 superuser:
 	python3 backend/manage.py createsuperuser

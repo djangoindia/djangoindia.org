@@ -1,1 +1,2 @@
 from .event import EventSerializer, EventRegistrationSerializer
+from .communication import NewsletterSubscriptionSerializer

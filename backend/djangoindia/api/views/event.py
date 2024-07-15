@@ -1,11 +1,8 @@
-
 from rest_framework import generics, status
-from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
-
 from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.api.serializers import EventRegistrationSerializer, EventSerializer
+from djangoindia.api.serializers.event import EventRegistrationSerializer, EventSerializer
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
 
 
