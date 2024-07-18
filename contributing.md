@@ -26,14 +26,14 @@ This project and everyone participating in it is governed by the
 Contributing.md [Code of Conduct](https://github.com/djangoindia/djangoindia.org/blob/main/CODE_OF_CONDUCT.md).
 
 By participating, you are expected to uphold this code. Please report unacceptable behavior
-to <>.
+to <admin@djangoindia.org>.
 
 
 ## I Have a Question
 
 > If you want to ask a question, we assume that you have read the available [Documentation]().
 
-Before you ask a question, it is best to search for existing [Issues](https://github.com/djangoindia/djangoindia.org/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+Before you ask a question, it is best to search for existing [Issues](https://github.com/djangoindia/djangoindia.org/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in that issue itself. It is also advisable to search the internet for answers first.
 
 
 If you then still feel the need to ask a question and need clarification, we recommend the following:
@@ -94,7 +94,7 @@ We are in root directory right now.
 
 5. **Start the Django development server**
     ```
-    python manage.py runserver
+    make runserver
     ```
 
 #### Frontend (Next.js)
