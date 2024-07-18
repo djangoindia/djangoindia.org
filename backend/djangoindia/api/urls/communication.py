@@ -4,5 +4,5 @@ from djangoindia.api.views.communication import NewsletterSubscriptionAPIView, C
 
 urlpatterns = [
     path('newsletter/', NewsletterSubscriptionAPIView.as_view(), name='newsletter-subscription'),
-    path('contact-us/', ContactUsAPIView.as_view(), name='contactUs'),
+    path('contact-us/', ContactUsAPIView.as_view(), name='contact-us'),
 ]

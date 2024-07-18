@@ -26,7 +26,7 @@ class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
         
-class ContactUsAPIView(generics.GenericAPIView):
+class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
 
     def post(self, request):
         try:
@@ -37,7 +37,7 @@ class ContactUsAPIView(generics.GenericAPIView):
                     {"message": "Thank you for contacting us!"},
                     status = status.HTTP_201_CREATED
                 )
-            return Response(serializer.errors, status=400)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response(
                 {"error": str(e)},
