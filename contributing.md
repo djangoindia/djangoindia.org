@@ -79,7 +79,8 @@ We are in root directory right now.
 
 2.  **Install the required packages:**
     ```
-    pip install -r backend/requirements.txt
+    make install-backend
+
     ```
 
 3.  **Configure the Django settings:**
