@@ -77,7 +77,6 @@ We are in root directory right now.
 2.  **Install the required packages:**
     ```
     make install-backend
-
     ```
 
 3.  **Configure the Django settings:**
@@ -244,15 +243,10 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/django
 - **Description**: Provide a concise description of the change.
 - **Example Format**:
   ```
-  codeFixed #24 -- Created contributing.md file
+  Fixed #24 -- Created contributing.md file
   ```
 
 ### Join The Djangoindia Team (TBD)
-
-We are always looking for enthusiastic and talented individuals to join our team. By becoming a part of Djangoindia, you can contribute to impactful projects, collaborate with experienced developers, and grow your skills in a supportive community.
-
-
-#### Get in Touch
 
 If you have any questions or need more information, feel free to reach out to us via email at [admin@djangoindia.org](mailto:admin@djangoindia.org)
 
