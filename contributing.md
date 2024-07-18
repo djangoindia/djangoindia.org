@@ -57,55 +57,123 @@ We will then take care of the issue as soon as possible.
     git clone https://github.com/<your_username>/djangoindia.org
     ```
 
+### Without Docker
+  #### Backend (Django)
+  We are in root directory right now.
 
-#### Backend (Django)
-We are in root directory right now.
+  1.  **Create and activate a virtual environment:**
 
-1.  **Create and activate a virtual environment:**
+  - For PowerShell:
+      ```
+      python -m venv env
+      .\env\Scripts\Activate
+      ```
+  - For Command Prompt:
+      ```
+      python -m venv env
+      env\Scripts\activate
+      ```
 
-- For PowerShell:
+  2.  **Install the required packages:**
+      ```
+      make install-backend
+      ```
+
+  3.  **Configure the Django settings:**
+
+      - Create a `.env` file in the project root and add necessary environment variables (e.g., SECRET\_KEY, DATABASE\_URL).
+      - the ideal env for local setup without docker would look something like(refer to .env.example for latest envs):
+        ```
+        DJANGO_ADMIN_URL=admin/
+        DJANGO_SECRET_KEY=secret_key
+        DEBUG=true
+        DOCKERIZED=1
+
+        AWS_ACCESS_KEY_ID=id
+        AWS_SECRET_ACCESS_KEY=key
+        AWS_STORAGE_BUCKET_NAME=bucket
+        AWS_S3_REGION_NAME=region
+
+        SENDER_EMAIL=email
+        EMAIL_HOST=host
+        EMAIL_PORT=port
+        EMAIL_HOST_USER=user
+        EMAIL_HOST_PASSWORD=password
+
+        CELERY_BROKER_URL=amqp://localhost
+        CELERY_RESULT_BACKEND=rpc://celery.sqlite3
+
+        ```
+
+  4.  **Run database migrations**:
+      ```
+      python manage.py migrate
+      ```
+
+  5. **Start the Django development server**
+      ```
+      make runserver
+      ```
+
+  #### Frontend (Next.js)
+
+  1.  **Navigate to the frontend directory:**
+      ```
+      cd frontend
+      ```
+  2. **Install the required packages:**
+      ```
+      npm install (or) yarn install
+      ```
+  3.  **Start the Next.js development server:**
+      ```
+      npm run dev (or) yarn dev
+      ```
+
+### With Docker
+
+1. Install [Docker desktop](https://docs.docker.com/desktop/) as per your operating system.
+2. Create a `.env` file and add the environment variables in it.
+3. A `.env` for setting up project with docker would look something like this(refer to .env.example for latest envs):
     ```
-    python -m venv env
-    .\env\Scripts\Activate
-    ```
-- For Command Prompt:
-    ```
-    python -m venv env
-    env\Scripts\activate
+    DJANGO_ADMIN_URL=admin/
+    DJANGO_SECRET_KEY=secret_key
+    DEBUG=true
+    DOCKERIZED=1
+
+    AWS_ACCESS_KEY_ID=id
+    AWS_SECRET_ACCESS_KEY=key
+    AWS_STORAGE_BUCKET_NAME=bucket
+    AWS_S3_REGION_NAME=region
+
+    SENDER_EMAIL=email
+    EMAIL_HOST=host
+    EMAIL_PORT=port
+    EMAIL_HOST_USER=user
+    EMAIL_HOST_PASSWORD=password
+
+    CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+    CELERY_RESULT_BACKEND=db+postgresql://postgres:postgres@postgres:5432/djangoindia-db
+
+    POSTGRES_DB=djangoindia-db
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=postgres
+    POSTGRES_HOST=postgres
+    POSTGRES_PORT=5432
+
+    DJANGO_SUPERUSER_USERNAME=admin
+    DJANGO_SUPERUSER_EMAIL=admin@djangoindia.org
+    DJANGO_SUPERUSER_PASSWORD=admin
     ```
 
-2.  **Install the required packages:**
+4. Then in the root directory run the following command to build and run docker images:
     ```
-    make install-backend
+    docker-compose up --build
     ```
-
-3.  **Configure the Django settings:**
-
-    - Create a `.env` file in the project root and add necessary environment variables (e.g., SECRET\_KEY, DATABASE\_URL).
-
-4.  **Run database migrations**:
+5. After a while, backend will be accessible at `http://localhost:8000` and frontend will be accessible at `http://localhost:3000`.
+6. To stop docker containers, run:
     ```
-    python manage.py migrate
-    ```
-
-5. **Start the Django development server**
-    ```
-    make runserver
-    ```
-
-#### Frontend (Next.js)
-
-1.  **Navigate to the frontend directory:**
-    ```
-    cd frontend
-    ```
-2. **Install the required packages:**
-    ```
-    npm install (or) yarn install
-    ```
-3.  **Start the Next.js development server:**
-    ```
-    npm run dev (or) yarn dev
+    docker-compose down
     ```
 ### Reporting Bugs
 
