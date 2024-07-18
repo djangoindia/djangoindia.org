@@ -199,9 +199,8 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/django
 
 4. **Create a New Branch**
    - From the main branch, create a new branch named after the issue number. For example, if the issue number is 24, you can name your branch `issue_24`.
-   - Use the following commands:
+   - Use the following commands(assuming you are on main branch):
      ```sh
-     git checkout main
      git pull origin main
      git checkout -b issue_24
      ```
@@ -213,8 +212,8 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/django
      pre-commit install
      ```
 
-6. **Make Your Changes**
-   - Implement the required changes or fixes as described in the issue.
+6. **Make your changes and test them properly**
+   - Implement the required changes and make sure you test them properly.
 
 7. **Stage and Commit Your Changes**
    - Add your changes to the staging area:
@@ -263,84 +262,14 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/django
   codeFixed #24 -- Created contributing.md file
   ```
 
-### Improving The Documentation
-
-#### Types of Contributions
-
-- **Typo Corrections**
-  - Fix any spelling or grammatical errors you come across in the documentation.
-  
-- **Clarifications**
-  - If any part of the documentation is unclear or confusing, provide additional explanations or reword the content for better clarity.
-
-- **Additional Examples**
-  - Add more code examples or use cases to help users understand how to use the project more effectively.
-
-- **Updating Outdated Information**
-  - Check for any outdated information or deprecated methods and update them to reflect the current state of the project.
-
-- **Formatting Improvements**
-  - Enhance the readability of the documentation by improving formatting, such as adding headers, bullet points, tables, or images.
-
-#### Documentation Structure
-
-- **Introduction**
-  - Make sure the introduction section provides a clear overview of the project, including its purpose and main features.
-  
-- **Getting Started**
-  - Ensure the "Getting Started" section has comprehensive setup instructions, including installation steps, dependencies, and configuration details.
-
-- **Usage**
-  - Confirm that the usage section covers all key functionalities with examples and explanations.
-
-- **API Documentation**
-  - If the project includes an API, verify that the API documentation is detailed, including descriptions of endpoints, request/response formats, and sample requests.
-
-- **Contributing**
-  - The contributing guidelines should be thorough, covering how to report issues, create pull requests, and adhere to coding standards.
-
-- **FAQs**
-  - Consider adding a Frequently Asked Questions (FAQ) section to address common questions and troubleshooting tips.
-
-#### Contribution Workflow
-
-1. **Identify Areas for Improvement**
-   - Review the documentation and identify sections that could benefit from enhancements.
-   
-2. **Create an Issue**
-   - Open an issue on the repository describing the proposed improvements to get feedback from the maintainers.
-   
-3. **Fork and Clone**
-   - Fork the repository and clone it to your local machine.
-   
-4. **Make Changes**
-   - Make the necessary changes to the documentation.
-   
-5. **Submit a Pull Request**
-   - Submit a pull request with a detailed description of the changes you made.
-
-6. **Review Process**
-   - Respond to any feedback from the maintainers and make further revisions if needed.
-
----
-
-Feel free to reach out if you have any questions or need further assistance. We appreciate your contributions to improving our documentation!
-
 ### Join The Djangoindia Team (TBD)
 
 We are always looking for enthusiastic and talented individuals to join our team. By becoming a part of Djangoindia, you can contribute to impactful projects, collaborate with experienced developers, and grow your skills in a supportive community.
 
-#### Expectations
-
-- **Commitment**: We expect team members to be committed to contributing regularly and meeting deadlines.
-- **Communication**: Keep open lines of communication with the team, provide updates on your progress, and ask for help when needed.
-- **Code Quality**: Adhere to our coding standards and best practices to maintain the quality of our projects.
-- **Collaboration**: Be willing to collaborate with other team members, participate in code reviews, and provide constructive feedback.
 
 #### Get in Touch
 
-If you have any questions or need more information, feel free to reach out to us via email at [contact@djangoindia.org](mailto:contact@djangoindia.org) 
-
+If you have any questions or need more information, feel free to reach out to us via email at [admin@djangoindia.org](mailto:admin@djangoindia.org)
 
 ## Thank You!
 Your contributions are what make open-source projects great. We appreciate your time and effort in making djangoindia.org better for everyone.
