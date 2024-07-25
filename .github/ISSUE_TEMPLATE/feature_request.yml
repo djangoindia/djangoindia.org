@@ -1,0 +1,48 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for the project
+title: "[FEATURE] "
+labels: enhancement
+
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief summary of the feature
+      placeholder: Short summary
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the feature
+      placeholder: Detailed description
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      description: Example use cases of the proposed feature
+      placeholder: Describe use cases
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Any existing alternative solutions
+      placeholder: Describe alternatives
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - Frontend
+        - Backend
+        - Both
+    validations:
+      required: true

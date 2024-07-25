@@ -1,0 +1,27 @@
+name: UI Enhancement
+description: Suggest a UI improvement for the project
+title: "[UI] "
+labels: ui-enhancement
+
+body:
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: Detailed description
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      placeholder: Describe use case
+
+  - type: input
+    id: screenshot
+    attributes:
+      label: Screenshot
+      placeholder: Screenshot URL
+      description: Attach a screenshot demonstrating the flaw in the current UI
