@@ -30,39 +30,15 @@ superuser: install-backend
 collectstatic: install-backend
 	$(PYTHON) backend/manage.py collectstatic --no-input
 
-# PostgreSQL and RabbitMQ commands
-start-postgres:
-	docker run --name postgres -e POSTGRES_DB=$(POSTGRES_DB) -e POSTGRES_USER=$(POSTGRES_USER) -e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) -p $(POSTGRES_PORT):5432 -v postgres_data:/var/lib/postgresql/data -d postgres
-
-stop-postgres:
-	docker stop postgres || true
-	docker rm postgres || true
-
-start-rabbitmq:
-	docker run --name rabbitmq -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-
-stop-rabbitmq:
-	docker stop rabbitmq || true
-	docker rm rabbitmq || true
-
-
 # Frontend commands
 install-frontend:
 	cd frontend && npm install
 
-build-frontend:
-	cd frontend && npm run build
-
 run-frontend:
 	cd frontend && npm run dev
 
-# Combined commands
-start-services: stop-postgres stop-rabbitmq start-postgres start-rabbitmq
-
-stop-services: stop-postgres stop-rabbitmq
-
 backend: install-backend migrations migrate runserver
 
-frontend: install-frontend builamid-frontend run-frontend
+frontend: install-frontend run-frontend
 
-.PHONY: create-venv install-backend migrations migrate runserver superuser collectstatic install-frontend build-frontend run-frontend backend frontend start-services stop-services
+.PHONY: create-venv install-backend migrations migrate runserver superuser collectstatic install-frontend run-frontend backend frontend 
