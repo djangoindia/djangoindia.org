@@ -57,6 +57,42 @@ We will then take care of the issue as soon as possible.
     git clone https://github.com/<your_username>/djangoindia.org
     ```
 
+### Configuring Environment Variables
+
+  Create a .env file in the project root with necessary environment variables. Refer to .env.example for the latest variables.
+
+### Running with Makefile
+
+  1. Backend(Django)
+
+      ```sh
+      make backend
+      ```
+  2. Frontend(Next.js)
+
+      ```sh
+      make frontend
+      ```
+      
+### Working with RabbitMQ
+Install and start RabbitMQ:
+
+- Ubuntu:
+  ```sh
+  sudo apt-get update
+  sudo apt-get install rabbitmq-server
+  sudo systemctl enable rabbitmq-server
+  sudo systemctl start rabbitmq-server
+  ```
+- macOS:
+  ```sh
+  brew install rabbitmq
+  brew services start rabbitmq
+  ```
+- Windows:
+  
+  Follow the [official installation guide](https://www.rabbitmq.com/docs/install-windows) to install RabbitMQ and then start the service using the RabbitMQ Service Manager.
+
 ### Without Docker
   #### Backend (Django)
   We are in root directory right now.
