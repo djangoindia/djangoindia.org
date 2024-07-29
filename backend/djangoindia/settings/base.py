@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "djangoindia.bg_tasks",
     "djangoindia.db",
     "rest_framework",
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -161,3 +162,14 @@ DEFAULT_FROM_EMAIL = "admin@djangoindia.org"
 # CELERY STUFF
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'djangoindia',
+    'DESCRIPTION': 'A community site for django gigs',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}

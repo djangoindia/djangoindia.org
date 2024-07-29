@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: djangoindia
+  version: 1.0.0
+  description: A community site for django gigs
+paths: {}
+components: {}
