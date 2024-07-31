@@ -27,11 +27,10 @@ class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
             )
         
 class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
-    serializer_class = ContactUsSerializer
 
     def post(self, request):
         try:
-            serializer = self.get_serializer(data=request.data)
+            serializer = ContactUsSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(

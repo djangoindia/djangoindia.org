@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'djangoindia',
-    'DESCRIPTION': 'A community site for django gigs',
+    'DESCRIPTION': 'Official website of djangoindia community.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
