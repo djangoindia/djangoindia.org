@@ -1,0 +1,1 @@
+export { RegisterEvent } from './RegisterEvent'
