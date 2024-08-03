@@ -2,7 +2,6 @@ import React from 'react'
 import event1 from '../../../../public/01.svg'
 import event2 from '../../../../public/02.svg'
 import event3 from '../../../../public/03.svg'
-import Link from 'next/link'
 import { EventCard } from '@sections'
 
 function Page() {
@@ -100,9 +99,6 @@ function Page() {
       <div className='p-4 mb-10 md:mb-20 lg:mb-50'>
         <div className='flex flex-col items-center mb-4'>
           <h1 className='text-3xl text-center font-bold'>All Events</h1>
-          <Link href='/'>
-            <p className='underline mt-2'>Back to Home</p>
-          </Link>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           {events.map((event, index) => (

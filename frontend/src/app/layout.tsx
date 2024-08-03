@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
-import { Navbar, Footer } from '@sections'
 
 const inter = Montserrat({ subsets: ['latin'] })
 
@@ -17,11 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`bg-orange-50 ${inter.className}`}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <body className={`bg-orange-50 ${inter.className}`}>{children}</body>
     </html>
   )
 }

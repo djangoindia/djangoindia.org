@@ -23,7 +23,7 @@ function Update() {
               admin@djangoindia.org
             </p>
           </div>
-          <div className='p-4'>
+          <div className='flex flex-col gap-4 p-4'>
             <div className='flex items-center border border-gray-300 rounded-xl p-2 bg-white'>
               <FaRegUser className='text-gray-500 mr-2' />
               <input
@@ -34,7 +34,7 @@ function Update() {
                 className='outline-none flex-1'
               />
             </div>
-            <div className='mt-4 flex items-center border border-gray-300 rounded-xl p-2 bg-white'>
+            <div className='flex items-center border border-gray-300 rounded-xl p-2 bg-white'>
               <MdOutlineEmail className='text-gray-500 mr-2' />
               <input
                 type='email'
@@ -44,7 +44,9 @@ function Update() {
                 className='outline-none flex-1'
               />
             </div>
-            <Button type='submit'>Submit</Button>
+            <Button className='mr-auto' type='submit'>
+              Submit
+            </Button>
           </div>
         </div>
       </div>
