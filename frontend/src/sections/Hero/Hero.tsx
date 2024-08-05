@@ -30,7 +30,7 @@ const HeroSection = () => {
               width={816}
               height={164}
               alt='logo'
-              className='scale-75 md:scale-100'
+              className='scale-75 pt-28 md:pt-0 md:scale-100'
             />
           </div>
           <div className='flex h-96 w-full flex-row items-center justify-center gap-8'>
@@ -40,7 +40,7 @@ const HeroSection = () => {
                 width={532}
                 height={159}
                 alt='logo'
-                className='mx-auto'
+                className='mx-auto hidden md:block'
               />
             </div>
             <div className='min-w-1/2 flex h-full justify-end'>

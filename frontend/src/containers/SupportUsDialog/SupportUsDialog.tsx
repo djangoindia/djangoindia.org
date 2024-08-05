@@ -16,7 +16,7 @@ const SupportUsDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Support Us</Button>
+        <Button className='text-xs md:text-base'>Support Us</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[730px]'>
         <DialogHeader>
