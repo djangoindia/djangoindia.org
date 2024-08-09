@@ -56,13 +56,15 @@ services:
       - WATCHPACK_POLLING=true
   
   nginx:
-    build: ./backend
+    build:
+      context: ./nginx
+      dockerfile: dockerfile.nginx
     container_name: nginx
     volumes:
       - static:/static
       - nginx_logs:/var/log/nginx
     ports:
-      - "8000:80"
+      - "80:80"
     depends_on:
       - djangoindia-backend
     restart: always
