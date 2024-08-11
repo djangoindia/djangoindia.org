@@ -8,24 +8,24 @@ services:
       - logs:/app/logs
     depends_on:
       - postgres
-      - rabbitmq
+      # - rabbitmq
     ports:
       - "8000:8000"
     env_file:
       - .env
     environment:
       - DJANGO_SETTINGS_MODULE=djangoindia.settings.production
-    command: /start-local
+    command: /start-prod
 
-  worker:
-    <<: *backend
-    container_name: worker
-    command: celery -A djangoindia worker -l info 
-    ports: []
-    depends_on:
-      - backend
-      - postgres
-      - rabbitmq
+  # worker:
+  #   <<: *backend
+  #   container_name: worker
+  #   command: celery -A djangoindia worker -l info 
+  #   ports: []
+  #   depends_on:
+  #     - backend
+  #     - postgres
+  #     - rabbitmq
 
   postgres:
     image: postgres:14.1-alpine
@@ -51,18 +51,30 @@ services:
         - postgres
     ports:
       - "3000:3000"
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
+  
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile.nginx
+    container_name: nginx
+    volumes:
+      - nginx_logs:/var/log/nginx
     ports:
-      - "5672:5672"  # RabbitMQ default port
-      - "15672:15672"  # Management UI port
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
 
-  #TODO: add nginx
+  # rabbitmq:
+  #   image: rabbitmq:3-management
+  #   container_name: rabbitmq
+  #   ports:
+  #     - "5672:5672"  # RabbitMQ default port
+  #     - "15672:15672"  # Management UI port
   
 volumes:
   logs:
+  nginx_logs:
   postgres:
   frontend:
     driver: local
