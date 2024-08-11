@@ -8,22 +8,22 @@ services:
       - logs:/app/logs
     depends_on:
       - postgres
-      - rabbitmq
+      # - rabbitmq
     ports:
       - "8000:8000"
     env_file:
       - .env
     command: /start-local
 
-  djangoindia-worker:
-    <<: *djangoindia-backend
-    container_name: djangoindia-worker
-    command: celery -A djangoindia worker -l info 
-    ports: []
-    depends_on:
-      - djangoindia-backend
-      - postgres
-      - rabbitmq
+  # djangoindia-worker:
+  #   <<: *djangoindia-backend
+  #   container_name: djangoindia-worker
+  #   command: celery -A djangoindia worker -l info 
+  #   ports: []
+  #   depends_on:
+  #     - djangoindia-backend
+  #     - postgres
+  #     - rabbitmq
 
   postgres:
     image: postgres:14.1-alpine
@@ -34,8 +34,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres:/var/lib/postgresql/data
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
 
   djangoindia-frontend:
     build:
@@ -55,12 +55,12 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"  # RabbitMQ default port
-      - "15672:15672"  # Management UI port
+  # rabbitmq:
+  #   image: rabbitmq:3-management
+  #   container_name: rabbitmq
+  #   ports:
+  #     - "5672:5672"  # RabbitMQ default port
+  #     - "15672:15672"  # Management UI port
 
 volumes:
   logs:

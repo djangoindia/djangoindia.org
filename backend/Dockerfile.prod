@@ -61,7 +61,7 @@ RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
 
-COPY --chown=django:django ./scripts/start /start-prod
+COPY --chown=django:django ./scripts/start-prod /start-prod
 RUN sed -i 's/\r$//g' /start-prod
 RUN chmod +x /start-prod
 

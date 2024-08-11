@@ -6,5 +6,5 @@ set -o nounset
 
 
 python manage.py collectstatic --noinput
-
-exec /usr/local/bin/gunicorn config.wsgi --bind 0.0.0.0:8000 --chdir=/app
+python manage.py migrate
+exec /usr/local/bin/gunicorn djangoindia.wsgi --bind 0.0.0.0:8000 --chdir=/app
