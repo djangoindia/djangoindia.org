@@ -7,7 +7,7 @@ import event3 from '../../../public/03.svg'
 const Main: React.FC = () => {
   return (
     <div className='p-4 mb-10 md:mb-20 lg:mb-50'>
-      <div className='flex flex-row mx-20 justify-between items-center mb-4'>
+      <div className='flex flex-row mx-20 justify-center items-center mb-4'>
         <h1 className='text-[40px] text-center text-[#06038D] font-bold'>
           Upcoming Events
         </h1>

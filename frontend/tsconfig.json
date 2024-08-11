@@ -22,7 +22,9 @@
       "@components": ["./src/components"],
       "@sections": ["./src/sections"],
       "@constants": ["./src/constants"],
-      "@containers": ["./src/containers"]
+      "@containers": ["./src/containers"],
+      "@hooks": ["./src/hooks"],
+      "@utils": ["./src/utils"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
