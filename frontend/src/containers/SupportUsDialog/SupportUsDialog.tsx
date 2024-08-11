@@ -8,15 +8,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components'
+import { DialogTriggerProps } from '@radix-ui/react-dialog'
 import Link from 'next/link'
 import React from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 
-const SupportUsDialog = () => {
+const SupportUsDialog = ({
+  onClose,
+}: {
+  onClose?: DialogTriggerProps['onClick']
+}) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>Support Us</Button>
+      <DialogTrigger asChild onClick={onClose}>
+        <Button className='text-xs md:text-base'>Support Us</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[730px]'>
         <DialogHeader>

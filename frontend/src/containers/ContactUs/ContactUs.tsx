@@ -22,8 +22,8 @@ const ContactUs = () => {
         admin@djangoindia.org. We look forward to connecting with you!
       </p>
       <form className='flex flex-col max-w-2xl mx-auto my-16 gap-6'>
-        <div className='flex w-full justify-between'>
-          <div className='grid w-full max-w-80 items-center gap-1.5'>
+        <div className='flex flex-col sm:flex-row gap-5 w-full justify-between'>
+          <div className='grid w-full items-center gap-1.5'>
             <Label htmlFor='firstName'>First Name</Label>
             <Input
               type='text'
@@ -31,7 +31,7 @@ const ContactUs = () => {
               placeholder='Enter your first Name'
             />
           </div>
-          <div className='grid w-full max-w-80 items-center gap-1.5'>
+          <div className='grid w-full items-center gap-1.5'>
             <Label htmlFor='lastName'>Last Name</Label>
             <Input
               type='text'
@@ -66,12 +66,12 @@ const ContactUs = () => {
             type='email'
             id='email'
             placeholder='Search'
-            className='w-1/4 mx-auto'
+            className='w-full md:w-1/4 mx-auto'
           />
         </div>
         <div className='bg-white py-14'>
           <div className='grid grid-rows-2 grid-cols-3 gap-10 mx-auto w-3/4'>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className='flex flex-col gap-2 items-start col-span-3 md:col-span-1'>
               <div className='bg-orange-200 p-2 rounded-full'>
                 <CiMail className='text-orange-500 text-2xl' />
               </div>
@@ -83,7 +83,7 @@ const ContactUs = () => {
                 Edit Profile. Then go to the general tab to change your email.
               </p>
             </div>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className='flex flex-col gap-2 items-start col-span-3 md:col-span-1'>
               <div className='bg-orange-200 p-2 rounded-full'>
                 <CiCreditCard1 className='text-orange-500 text-2xl' />
               </div>
@@ -97,7 +97,7 @@ const ContactUs = () => {
                 7-10 days.
               </p>
             </div>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className='flex flex-col gap-2 items-start col-span-3 md:col-span-1'>
               <div className='bg-orange-200 p-2 rounded-full'>
                 <CiReceipt className='text-orange-500 text-2xl' />
               </div>
@@ -110,7 +110,7 @@ const ContactUs = () => {
                 using which the payment was made
               </p>
             </div>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className='flex flex-col gap-2 items-start col-span-3 md:col-span-1'>
               <div className='bg-orange-200 p-2 rounded-full'>
                 <CiDeliveryTruck className='text-orange-500 text-2xl' />
               </div>
@@ -122,7 +122,7 @@ const ContactUs = () => {
                 App/Website/M-site to check your order status.
               </p>
             </div>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className='flex flex-col gap-2 items-start col-span-3 md:col-span-1'>
               <div className='bg-orange-200 p-2 rounded-full'>
                 <CiBag1 className='text-orange-500 text-2xl' />
               </div>
@@ -136,7 +136,7 @@ const ContactUs = () => {
                 a few select pin codes and for all self ship returns.
               </p>
             </div>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className='flex flex-col gap-2 items-start col-span-3 md:col-span-1'>
               <div className='bg-orange-200 p-2 rounded-full'>
                 <CiShoppingTag className='text-orange-500 text-2xl' />
               </div>
@@ -150,7 +150,7 @@ const ContactUs = () => {
               </p>
             </div>
           </div>
-          <div className='p-5 rounded-2xl bg-yellow-50 w-2/4 mx-auto mt-10 flex justify-between	items-center'>
+          <div className='p-5 rounded-2xl bg-yellow-50 w-4/5 md:w-2/4 mx-auto mt-10 flex flex-col md:flex-row justify-between	items-center gap-4 md:gap-0'>
             <div>
               <span className='text-sm font-semibold'>
                 Still have questions?
