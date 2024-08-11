@@ -22,8 +22,8 @@ const ContactUs = () => {
         admin@djangoindia.org. We look forward to connecting with you!
       </p>
       <form className='flex flex-col max-w-2xl mx-auto my-16 gap-6'>
-        <div className='flex flex-col md:flex-row gap-5 md:gap-0 w-full justify-between'>
-          <div className='grid w-full max-w-80 items-center gap-1.5'>
+        <div className='flex flex-col sm:flex-row gap-5 w-full justify-between'>
+          <div className='grid w-full items-center gap-1.5'>
             <Label htmlFor='firstName'>First Name</Label>
             <Input
               type='text'
@@ -31,7 +31,7 @@ const ContactUs = () => {
               placeholder='Enter your first Name'
             />
           </div>
-          <div className='grid w-full max-w-80 items-center gap-1.5'>
+          <div className='grid w-full items-center gap-1.5'>
             <Label htmlFor='lastName'>Last Name</Label>
             <Input
               type='text'

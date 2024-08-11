@@ -17,47 +17,48 @@ const Drawer = ({
 }) => {
   return (
     <div
-      className={`bg-[#8796a4] fixed inset-0 z-50 flex flex-col p-4 justify-between items-top text-black transition-transform w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`bg-[#8796a4] fixed inset-0 z-50 flex flex-col p-4 justify-between items-top text-black transition-transform w-full sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
-      <div className='flex flex-col'>
-        <button onClick={onClose} className='mt-4'>
+      <div className='flex flex-col items-center'>
+        <button onClick={onClose}>
           <CrossIcon />
         </button>
         <Link
           href='/home'
           className={`py-3 ${pathname === '/home' && 'font-semibold'}`}
+          onClick={onClose}
         >
           Home
         </Link>
         <Link
           href='/allEvents'
           className={`py-3 ${pathname === '/allEvents' && 'font-semibold'}`}
+          onClick={onClose}
         >
           Events
         </Link>
         <Link
           href='/contactUs'
           className={`py-3 ${pathname === '/contactUs' && 'font-semibold'}`}
+          onClick={onClose}
         >
           Contact Us
         </Link>
         <div className='py-3'>
-          <SupportUsDialog />
+          <SupportUsDialog onClose={onClose} />
         </div>
       </div>
-      <div>
-        <Image
-          src='/whatIsDjango/Logo.svg'
-          width={121}
-          height={42}
-          alt='logo'
-          className=' object-center py-3 mt-auto'
-          style={{
-            maxWidth: '100%',
-            height: 'auto',
-          }}
-        />
-      </div>
+      <Image
+        src='/whatIsDjango/Logo.svg'
+        width={200}
+        height={42}
+        alt='logo'
+        className=' object-center py-3 mt-auto mx-auto'
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
+        }}
+      />
     </div>
   )
 }
@@ -100,6 +101,7 @@ const CrossIcon = () => (
     />
   </svg>
 )
+
 const Navbar = () => {
   const pathname = usePathname() //current pathname
   const width = useWidth()
@@ -107,11 +109,17 @@ const Navbar = () => {
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen)
+
+    // Disables Background Scrolling whilst the SideDrawer/Modal is open
+    if (typeof window != 'undefined' && window.document) {
+      document.body.style.overflow = isDrawerOpen ? 'unset' : 'hidden'
+    }
   }
+
   return (
     <>
       <section className='h-full w-full relative bg-[#C1CAD2]'>
-        <div className='h-20 w-full flex justify-around items-center'>
+        <div className='h-12 md:h-20 w-full flex justify-around items-center'>
           {/* logo  */}
           <div className='hidden md:flex items-center justify-center '>
             <Image

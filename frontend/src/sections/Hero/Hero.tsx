@@ -24,16 +24,16 @@ const HeroSection = () => {
         />
 
         <div className='z-10 flex h-auto w-full max-w-[1200px] flex-col justify-center gap-8 px-10 pb-10 pt-10 xl:pt-16'>
-          <div className='h-40 w-full justify-start'>
+          <div className='md:h-40 w-full justify-start'>
             <Image
               src='/DJANGO.svg'
               width={816}
               height={164}
               alt='logo'
-              className='scale-75 pt-28 md:pt-0 md:scale-100'
+              className='pt-14 md:pt-0 md:scale-100'
             />
           </div>
-          <div className='flex h-96 w-full flex-row items-center justify-center gap-8'>
+          <div className='flex w-full flex-row items-center justify-center md:gap-8'>
             <div className='mx-auto h-full'>
               <Image
                 src='/03Heroimage.svg'
@@ -55,7 +55,7 @@ const HeroSection = () => {
                       by the Community
                     </div>
                   </div>
-                  <div className='flex flex-col items-end'>
+                  <div className='flex flex-col md:items-end'>
                     <div className='text-black'>
                       Connecting passionate Django developers
                     </div>

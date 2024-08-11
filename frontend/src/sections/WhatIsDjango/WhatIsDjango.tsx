@@ -15,12 +15,12 @@ const WhatIsDjango = () => {
           alt='hero'
           className='absolute z-10 object-cover w-full'
         ></Image>
-        <div className='flex flex-row w-full h-auto'>
+        <div className='flex flex-row w-full h-auto relative'>
           {/* Left Text Section */}
           <div className='flex flex-col w-full md:w-1/2 p-2'>
             {/* Add your text content here */}
-            <div className='flex flex-col h-full justify-center pl-10 gap-8 items-start'>
-              <div className=' h-16'>
+            <div className='flex flex-col h-full justify-center md:pl-10 gap-8 items-start'>
+              <div className='h-16'>
                 <div>
                   <Image
                     src='/whatisDjango/lines.svg'
@@ -48,7 +48,7 @@ const WhatIsDjango = () => {
           </div>
 
           {/* Right Image Section */}
-          <div className='w-1/2 p-4 relative'>
+          <div className='opacity-15 p-4 left-0 right-0 absolute md:relative md:w-1/2 md:opacity-100'>
             {/* Add your Image component or img tag here */}
             <Image
               src='/whatisDjango/mandala.svg'
