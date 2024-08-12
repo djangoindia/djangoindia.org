@@ -1,4 +1,4 @@
-FROM node:18-alpine as BUILD_IMAGE
+FROM node:20-alpine as BUILD_IMAGE
 WORKDIR /app/frontend
 COPY package.json ./
 RUN npm install --frozen-lockfile

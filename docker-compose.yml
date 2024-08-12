@@ -48,8 +48,6 @@ services:
         - postgres
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app/frontend
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
@@ -65,5 +63,3 @@ services:
 volumes:
   logs:
   postgres:
-  frontend:
-    driver: local

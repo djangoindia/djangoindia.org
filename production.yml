@@ -77,4 +77,3 @@ volumes:
   nginx_logs:
   postgres:
   frontend:
-    driver: local
