@@ -43,11 +43,11 @@ const HeroSection = () => {
                 className='mx-auto hidden md:block'
               />
             </div>
-            <div className='min-w-1/2 flex h-full justify-end'>
+            <div className='min-w-1/2 flex h-full justify-start'>
               <div className='flex flex-col justify-start gap-20'>
                 <Image src='/INDIA.svg' width={532} height={159} alt='logo' />
                 <div className='flex flex-col gap-10'>
-                  <div className='flex flex-col items-end'>
+                  <div className='flex flex-col items-end text-right'>
                     <div className='font-Archivo_Black archivo flex-nowrap text-4xl font-black uppercase text-[#046A38]'>
                       For the Community
                     </div>
@@ -55,7 +55,7 @@ const HeroSection = () => {
                       by the Community
                     </div>
                   </div>
-                  <div className='flex flex-col md:items-end'>
+                  <div className='flex flex-col text-right md:items-end'>
                     <div className='text-black'>
                       Connecting passionate Django developers
                     </div>
@@ -63,7 +63,7 @@ const HeroSection = () => {
                       especially from India to share, learn, and
                     </div>
                     <div className='pb-2 text-black'>grow together. </div>
-                    <Button>Subscribe</Button>
+                    {/* <Button>Subscribe</Button> */}
                   </div>
                 </div>
               </div>

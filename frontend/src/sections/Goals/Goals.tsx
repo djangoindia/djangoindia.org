@@ -7,7 +7,7 @@ const Goals = () => {
       <h1 className='text-5xl font-black text-center archivo text-[#06038D] my-8'>
         Our Goals
       </h1>
-      <div className='space-y-8'>
+      <div className='space-y-40'>
         <div className='flex flex-col md:flex-row  items-center justify-center mt-20 '>
           <Image
             src='/goals/learning.svg'

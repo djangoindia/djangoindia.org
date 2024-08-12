@@ -30,7 +30,6 @@ function Update() {
       body: JSON.stringify(data),
     })
     reset()
-    console.log(res)
 
     setIsOpen(true)
   }

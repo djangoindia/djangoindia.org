@@ -26,7 +26,6 @@ function Join() {
             Click the icons to follow our accounts and never miss updates on
             upcoming events, contributions, and more!
           </p>
-          <Button>Join</Button>
         </div>
 
         <div className='w-96 md:w-auto mt-10 relative'>
@@ -36,91 +35,91 @@ function Join() {
               alt='Phone Image'
               width={563}
               height={707}
-              className='object-contain scale-105'
+              className='object-contain scale-110'
             />
             <div className='absolute left-[72px] rounded-[78px] z-30 w-fit h-fit md:w-[505px] md:h-[707px] inset-1'>
-              <div className='flex flex-col justify-start md:justify-center items-start md:items-center gap-10 pt-20 md:pt-40  ml-5 md:ml-0'>
-                <div className='flex flex-row justify-center items-center gap-8'>
+              <div className='flex flex-col justify-start md:justify-center items-start md:items-center gap-6 md:gap-10 pt-20 md:pt-35 md:mt-8 ml-2 md:ml-0'>
+                <div className='flex flex-row justify-center items-center gap-7 md:gap-10'>
                   <Link
-                    href='https://www.instagram.com'
+                    href='https://www.instagram.com/djangoindia'
                     target='_blank'
                     passHref
                   >
                     <Image
                       src='/icons/insta.svg'
                       alt='Instagram'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72: 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
 
-                  <Link href='https://www.twitter.com' target='_blank' passHref>
+                  <Link href='https://www.twitter.com/djangoindiaa' target='_blank' passHref>
                     <Image
                       src='/icons/twitter.svg'
                       alt='Twitter'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
 
-                  <Link href='https://www.youtube.com' target='_blank' passHref>
+                  <Link href='https://www.youtube.com/@djangoindiaa' target='_blank' passHref>
                     <Image
                       src='/icons/youtube.svg'
                       alt='YouTube'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
 
-                  <Link href='https://www.discord.com' target='_blank' passHref>
+                  <Link href='https://www.discord.gg/3pcGsmZ6' target='_blank' passHref>
                     <Image
                       src='/icons/discord.svg'
                       alt='Discord'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
                 </div>
-                <div className='flex flex-row justify-center items-center gap-8'>
-                  <Link href='https://www.github.com' target='_blank' passHref>
+                <div className='flex flex-row justify-center items-center md:mr-28 gap-7 md:gap-10'>
+                  <Link href='https://www.github.com/djangoindia' target='_blank' passHref>
                     <Image
                       src='/icons/git.svg'
                       alt='GitHub'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
 
-                  <Link href='https://www.reddit.com' target='_blank' passHref>
+                  <Link href='https://www.reddit.com/r/djangoindia' target='_blank' passHref>
                     <Image
                       src='/icons/reddit.svg'
                       alt='Reddit'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
 
                   <Link
-                    href='https://www.linkedin.com'
+                    href='https://www.linkedin.com/company/django-india'
                     target='_blank'
                     passHref
                   >
                     <Image
                       src='/icons/linkedin.svg'
                       alt='LinkedIn'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link>
 
-                  <Link
+                  {/* <Link
                     href='https://www.whatsapp.com'
                     target='_blank'
                     passHref
@@ -128,11 +127,11 @@ function Join() {
                     <Image
                       src='/icons/whatsapp.svg'
                       alt='WhatsApp'
-                      width={width > 768 ? 79.63 : 40}
+                      width={width > 768 ? 72 : 50}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
