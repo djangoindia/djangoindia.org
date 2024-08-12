@@ -42,6 +42,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     container_name: djangoindia-frontend
+    env_file:
+      - .env
     restart: always
     depends_on:
         - djangoindia-backend
