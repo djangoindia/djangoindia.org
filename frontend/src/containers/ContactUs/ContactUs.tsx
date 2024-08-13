@@ -129,7 +129,7 @@ const ContactUs = () => {
           </div>
           <Button type='submit'>Submit</Button>
         </form>
-        <div className='my-16 bg-yellow-50 rounded-2xl shadow-lg'>
+        {/* <div className='my-16 bg-yellow-50 rounded-2xl shadow-lg'>
           <div className='flex flex-col gap-5 p-10'>
             <h4 className='text-2xl text-center font-bold text-blue-900'>
               Ask us Anything
@@ -241,7 +241,7 @@ const ContactUs = () => {
             </div>
           </div>
           <div className='h-40'></div>
-        </div>
+        </div> */}
       </div>
     </>
   )

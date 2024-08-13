@@ -61,7 +61,7 @@ const Goals = () => {
             <p className='text-gray-700 md:text-[24px] font-medium'>
               To promote collaborative projects, open-source initiatives and
               local development for the community. Recognizing and rewarding
-              contributions to promote
+              contributions to promote OSS.
             </p>
           </div>
           <div className='w-[250px] h-[250px] hidden md:block'></div>

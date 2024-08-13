@@ -17,13 +17,13 @@ const WhatIsDjango = () => {
         ></Image>
         <div className='flex flex-row w-full h-auto relative'>
           {/* Left Text Section */}
-          <div className='flex flex-col w-full md:w-1/2 p-2'>
+          <div className='flex flex-col mt-20 md:mt-0 w-full md:w-1/2 p-2'>
             {/* Add your text content here */}
             <div className='flex flex-col h-full justify-center md:pl-10 gap-8 items-start'>
               <div className='h-16'>
                 <div>
                   <Image
-                    src='/whatisDjango/lines.svg'
+                    src='/whatIsDjango/lines.svg'
                     width={30} // Adjust the width according to your need
                     height={42} // Adjust the height according to your need
                     alt='Description of the image'
@@ -35,11 +35,10 @@ const WhatIsDjango = () => {
                 </div>
               </div>
               <p className='w-full md:max-w-[600px] text-sm  md:text-2xl pl-8  text-black font-medium'>
-                Community of Django enthusiasts from India chapter. Join us
-                today to be part of the vibrant Django India community! Whether
-                you&apos;re a seasoned developer or just starting out,
-                there&apos;s something here for everyone. Let&apos;s code
-                together and make amazing things happen!
+                Django India is a community of django developers, especially from India. It brings
+                together a passionate community eager to learn, share knowledge, and collaborate
+                on exciting projects. Through meetups, workshops, and online events, members actively
+                contribute with an aim to grow the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
                 <Button>Learn More</Button>
@@ -48,17 +47,17 @@ const WhatIsDjango = () => {
           </div>
 
           {/* Right Image Section */}
-          <div className='opacity-15 p-4 left-0 right-0 absolute md:relative md:w-1/2 md:opacity-100'>
+          <div className='opacity-15 mt-20 md:mt-0 p-4 left-0 right-0 absolute md:relative md:w-1/2 md:opacity-100'>
             {/* Add your Image component or img tag here */}
             <Image
-              src='/whatisDjango/mandala.svg'
+              src='/whatIsDjango/mandala.svg'
               width={500} // Adjust the width according to your need
               height={500} // Adjust the height according to your need
               alt='Description of the image'
               className='object-contain mx-auto scale-90 rotate'
             />
             <Image
-              src='/whatisDjango/Logo.svg'
+              src='/whatIsDjango/Logo.svg'
               width={300}
               height={104}
               alt='Description of the image'
