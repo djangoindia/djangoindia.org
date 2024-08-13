@@ -235,7 +235,9 @@ const ContactUs = () => {
                   Can’t find the answer you’re looking for? Talk to our team.
                 </p>
               </div>
-              <Button>Get In Touch</Button>
+              <a href="mailto:admin@djangoindia.org" target='_blank'>
+                <Button>Get In Touch</Button>
+              </a>
             </div>
           </div>
           <div className='h-40'></div>
