@@ -10,7 +10,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True  # TODO: Set this to False if using SSL
 
-ALLOWED_HOSTS = []  # TODO: djangoindia domain goes here
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS")
 
 ADMIN_URL = os.environ.get("DJANGO_ADMIN_URL")
 
