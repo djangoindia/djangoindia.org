@@ -29,6 +29,7 @@ function Update() {
       method: 'POST',
       body: JSON.stringify(data),
     })
+    res.data
     reset()
 
     setIsOpen(true)

@@ -3,7 +3,6 @@ import React from 'react'
 import Link from 'next/link'
 import CirclesImage from '../../../public/10Circles.svg'
 import Image from 'next/image'
-import { Button } from '@components'
 import useWidth from '@/hooks/useWidth'
 
 function Join() {

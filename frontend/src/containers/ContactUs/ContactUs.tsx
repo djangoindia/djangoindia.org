@@ -3,14 +3,6 @@
 import { Label, Input, Textarea, Button } from '@components'
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import {
-  CiBag1,
-  CiCreditCard1,
-  CiDeliveryTruck,
-  CiMail,
-  CiReceipt,
-  CiShoppingTag,
-} from 'react-icons/ci'
 import { ContactUsForm } from './ContactUs.types'
 import { fetchData } from '@utils'
 import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'

@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { Button } from '@components'
 
 const HeroSection = () => {
   return (
