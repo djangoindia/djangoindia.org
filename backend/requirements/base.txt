@@ -7,3 +7,4 @@ Django==4.2.5
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-cors-headers==4.3.1 # https://github.com/adamchainz/django-cors-headers
 python-dotenv==1.0.1
+drf-spectacular

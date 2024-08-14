@@ -12,7 +12,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - .env.production
     environment:
       - DJANGO_SETTINGS_MODULE=djangoindia.settings.production
     command: /start-prod
@@ -49,6 +49,8 @@ services:
     depends_on:
         - backend
         - postgres
+    env_file:
+      - frontend/.env
     ports:
       - "3000:3000"
   

@@ -16,10 +16,7 @@ const nextConfig = {
       destination: '/home',
       permanent: true,
     },
-  ],
-  env: {
-    BASE_URL: process.env['PUBLIC_API_URL'],
-  },
+  ]
 }
 
 export default nextConfig
