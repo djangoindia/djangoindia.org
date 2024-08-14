@@ -5,7 +5,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Navbar />
-      {children}
+      <div className='min-h-[calc(100vh-299px)]'>{children}</div>
       <Footer />
     </>
   )

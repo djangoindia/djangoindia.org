@@ -1,6 +1,12 @@
 import React from 'react'
-import { FaInstagram, FaReddit, FaLinkedinIn, FaYoutube, FaTwitter, FaGithub } from 'react-icons/fa'
-import { FaDiscord } from 'react-icons/fa6'
+import {
+  FaInstagram,
+  FaReddit,
+  FaLinkedinIn,
+  FaYoutube,
+  FaTwitter,
+  FaGithub,
+} from 'react-icons/fa'
 
 const Footer: React.FC = () => {
   return (

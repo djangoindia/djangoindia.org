@@ -1,98 +1,14 @@
 import React from 'react'
-import event1 from '../../../../public/01.svg'
-import event2 from '../../../../public/02.svg'
-import event3 from '../../../../public/03.svg'
-import { EventCard } from '@sections'
 
-function Page() {
-  // Example data for eventsCard
-  const events = [
-    {
-      title: 'Event 1 is going to start within a week',
-      date: 'Nov 22',
-      imageSrc: event1,
-      venue: 'Venue 1',
-      time: '10:00 AM - 2:00 PM',
-    },
-    {
-      title: 'Event 2 is going to start, stay tuned',
-      date: 'Dec 5',
-      imageSrc: event2,
-      venue: 'Venue 2',
-      time: '11:00 AM - 3:00 PM',
-    },
-    {
-      title: 'Event 3 is going to start, stay tuned',
-      date: 'Jan 15',
-      imageSrc: event3,
-      venue: 'Venue 3',
-      time: '9:00 AM - 1:00 PM',
-    },
-    {
-      title: 'Event 1 is going to start within a week',
-      date: 'Nov 22',
-      imageSrc: event1,
-      venue: 'Venue 1',
-      time: '10:00 AM - 2:00 PM',
-    },
-    {
-      title: 'Event 2 is going to start, stay tuned',
-      date: 'Dec 5',
-      imageSrc: event2,
-      venue: 'Venue 2',
-      time: '11:00 AM - 3:00 PM',
-    },
-    {
-      title: 'Event 3 is going to start, stay tuned',
-      date: 'Jan 15',
-      imageSrc: event3,
-      venue: 'Venue 3',
-      time: '9:00 AM - 1:00 PM',
-    },
-    {
-      title: 'Event 1 is going to start within a week',
-      date: 'Nov 22',
-      imageSrc: event1,
-      venue: 'Venue 1',
-      time: '10:00 AM - 2:00 PM',
-    },
-    {
-      title: 'Event 2 is going to start, stay tuned',
-      date: 'Dec 5',
-      imageSrc: event2,
-      venue: 'Venue 2',
-      time: '11:00 AM - 3:00 PM',
-    },
-    {
-      title: 'Event 3 is going to start, stay tuned',
-      date: 'Jan 15',
-      imageSrc: event3,
-      venue: 'Venue 3',
-      time: '9:00 AM - 1:00 PM',
-    },
-    {
-      title: 'Event 1 is going to start within a week',
-      date: 'Nov 22',
-      imageSrc: event1,
-      venue: 'Venue 1',
-      time: '10:00 AM - 2:00 PM',
-    },
-    {
-      title: 'Event 2 is going to start, stay tuned',
-      date: 'Dec 5',
-      imageSrc: event2,
-      venue: 'Venue 2',
-      time: '11:00 AM - 3:00 PM',
-    },
-    {
-      title: 'Event 3 is going to start, stay tuned',
-      date: 'Jan 15',
-      imageSrc: event3,
-      venue: 'Venue 3',
-      time: '9:00 AM - 1:00 PM',
-    },
-    // Add more events as needed
-  ]
+import { EventCard } from '@sections'
+import { fetchData } from '@/utils'
+import { EventsResponse } from '@/types'
+import { API_ENDPOINTS } from '@/constants'
+
+const Page = async () => {
+  const { data: events } = await fetchData<EventsResponse>(
+    API_ENDPOINTS.allEvents,
+  )
 
   return (
     <div>
@@ -100,19 +16,23 @@ function Page() {
         <div className='flex flex-col items-center mb-4'>
           <h1 className='text-3xl text-center font-bold'>All Events</h1>
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {events.map((event, index) => (
-            <div key={index} className='w-full h-auto mb-4'>
-              <EventCard
-                title={event.title}
-                date={event.date}
-                imageSrc={event.imageSrc}
-                venue={event.venue}
-                time={event.time}
-              />
-            </div>
-          ))}
-        </div>
+        {events?.length ? (
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+            {events?.map(({ cover_image, date_time, name, venue }, index) => (
+              <div key={index} className='w-full h-auto mb-4'>
+                <EventCard
+                  title={name}
+                  date={date_time}
+                  imageSrc={cover_image}
+                  venue={venue}
+                  time={date_time}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <h3 className='text-center'>No Events</h3>
+        )}
       </div>
     </div>
   )
