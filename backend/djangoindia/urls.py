@@ -25,7 +25,7 @@ from drf_spectacular.views import (
 )
 
 urlpatterns = [
-    path(settings.ADMIN_URL, admin.site.urls),
+    path(f"api/{settings.ADMIN_URL}", admin.site.urls),
     path("api/v1/", include("djangoindia.api.urls")),
     path("api/v1/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
