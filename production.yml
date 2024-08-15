@@ -6,14 +6,13 @@ services:
     container_name: djangoindia-backend
     volumes:
       - logs:/app/logs
+    depends_on:
+      - postgres
       # - rabbitmq
     ports:
       - "8000:8000"
     env_file:
       - .env.production
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
       - DJANGO_SETTINGS_MODULE=djangoindia.settings.production
     command: /start-prod
@@ -33,13 +32,6 @@ services:
     container_name: postgres
     env_file:
       - .env.production
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -p ${POSTGRES_PORT}"
-      interval: 5s
-      timeout: 5s
-      retries: 5
     volumes:
       - postgres:/var/lib/postgresql/data
     expose:

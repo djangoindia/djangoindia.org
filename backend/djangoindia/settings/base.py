@@ -172,3 +172,5 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 CORS_ORIGIN_ALLOW_ALL=True
+AWS_MEDIA_STORAGE_LOCATION = "media"  # Prefix added to all the files uploaded
+AWS_STATIC_STORAGE_LOCATION = "static"  # Prefix added to all the files uploaded
