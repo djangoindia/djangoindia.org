@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
               </a>
               <a
                 className='flex items-center no-underline text-2xl'
-                href='https://giothub.com/djangoindia'
+                href='https://github.com/djangoindia'
               >
                 <FaGithub />
               </a>
