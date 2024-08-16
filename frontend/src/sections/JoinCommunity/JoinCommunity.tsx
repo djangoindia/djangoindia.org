@@ -73,7 +73,7 @@ function Join() {
                     />
                   </Link>
 
-                  <Link href='https://www.discord.gg/3pcGsmZ6' target='_blank' passHref>
+                  <Link href='https://discord.gg/YrmYTTBspe' target='_blank' passHref>
                     <Image
                       src='/icons/discord.svg'
                       alt='Discord'
