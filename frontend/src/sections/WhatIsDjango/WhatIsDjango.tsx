@@ -2,8 +2,10 @@
 
 import Image from 'next/image'
 import { Button } from '@components'
+import useWidth from '@/hooks/useWidth'
 
 const WhatIsDjango = () => {
+  const width = useWidth()
   return (
     <section className='w-full h-auto relative bg-[#f9f4ee] pt-20'>
       <section className="w-full h-[600px] relative bg-[url('/whatIsDjango/Curve.svg')] bg-cover bg-no-repeat">
@@ -35,9 +37,10 @@ const WhatIsDjango = () => {
                 </div>
               </div>
               <p className='w-full md:max-w-[600px] text-sm  md:text-2xl pl-8  text-black font-medium'>
-                Django India is a community of django developers, especially from India. It brings
-                together a passionate community eager to learn, share knowledge, and collaborate
-                on exciting projects. Through meetups, workshops, and online events, members actively
+                Django India is a community of django developers, especially
+                from India. It brings together a passionate community eager to
+                learn, share knowledge, and collaborate on exciting projects.
+                Through meetups, workshops, and online events, members actively
                 contribute with an aim to grow the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
@@ -51,17 +54,17 @@ const WhatIsDjango = () => {
             {/* Add your Image component or img tag here */}
             <Image
               src='/whatIsDjango/mandala.svg'
-              width={500} // Adjust the width according to your need
-              height={500} // Adjust the height according to your need
+              width={width >= 500 ? 300 : width >= 400 ? 250 : 200}
+              height={500}
               alt='Description of the image'
-              className='object-contain mx-auto scale-90 rotate'
+              className='object-contain mx-auto scale-90 rotate mt-20'
             />
             <Image
               src='/whatIsDjango/Logo.svg'
-              width={300}
+              width={250}
               height={104}
               alt='Description of the image'
-              className='absolute z-20 top-64 left-56 object-contain scale-90 hidden md:block'
+              className='absolute z-20 top-[38%] lg:top-[50%] left-[30%] right-[30%] object-contain scale-90 hidden md:block'
             />
           </div>
         </div>
