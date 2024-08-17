@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
             </li>
             <li>
               <a
-                href='/allEvents'
+                href='/events'
                 className='inline-block py-2 px-3 text-white no-underline'
               >
                 Events
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
             </li>
             <li>
               <a
-                href='/contactUs'
+                href='/contact-us'
                 className='inline-block py-2 px-3 text-white no-underline'
               >
                 Contact Us

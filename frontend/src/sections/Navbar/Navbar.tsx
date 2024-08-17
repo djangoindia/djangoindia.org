@@ -31,15 +31,15 @@ const Drawer = ({
           Home
         </Link>
         <Link
-          href='/allEvents'
-          className={`py-3 ${pathname === '/allEvents' && 'font-semibold'}`}
+          href='/events'
+          className={`py-3 ${pathname === '/events' && 'font-semibold'}`}
           onClick={onClose}
         >
           Events
         </Link>
         <Link
-          href='/contactUs'
-          className={`py-3 ${pathname === '/contactUs' && 'font-semibold'}`}
+          href='/contact-us'
+          className={`py-3 ${pathname === '/contact-us' && 'font-semibold'}`}
           onClick={onClose}
         >
           Contact Us
@@ -150,9 +150,9 @@ const Navbar = () => {
                   Home
                 </Link>
                 <Link
-                  href='/allEvents'
+                  href='/events'
                   className={`py-5 ${
-                    pathname === '/allEvents'
+                    pathname === '/evnets'
                       ? 'border-b-2 border-black'
                       : 'hover:border-b-2 hover:border-black'
                   }`}
@@ -160,9 +160,9 @@ const Navbar = () => {
                   Events
                 </Link>
                 <Link
-                  href='/contactUs'
+                  href='/contact-us'
                   className={`py-5 ${
-                    pathname === '/contactUs'
+                    pathname === '/contact-us'
                       ? 'border-b-2 border-black'
                       : 'hover:border-b-2 hover:border-black'
                   }`}
