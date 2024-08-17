@@ -27,98 +27,118 @@ function Join() {
           </p>
         </div>
 
-        <div className='w-96 md:w-auto mt-10 relative'>
-          <div className='relative '>
-            <Image
-              src='/Phone2.png'
-              alt='Phone Image'
-              width={563}
-              height={707}
-              className='object-contain scale-110'
-            />
-            <div className='absolute left-[72px] rounded-[78px] z-30 w-fit h-fit md:w-[505px] md:h-[707px] inset-1'>
-              <div className='flex flex-col justify-start md:justify-center items-start md:items-center gap-6 md:gap-10 pt-20 md:pt-35 md:mt-8 ml-2 md:ml-0'>
-                <div className='flex flex-row justify-center items-center gap-7 md:gap-10'>
-                  <Link
-                    href='https://www.instagram.com/djangoindia'
-                    target='_blank'
-                    passHref
-                  >
-                    <Image
-                      src='/icons/insta.svg'
-                      alt='Instagram'
-                      width={width > 768 ? 72: 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
+        {/* <div className='md:w-auto mt-10 relative'> */}
+        <div className='relative '>
+          <Image
+            src='/Phone2.png'
+            alt='Phone Image'
+            width={563}
+            height={707}
+            className='object-contain '
+          />
+          <div className='absolute pl-[22%] pr-[9%] md:pl-[10%] top-0 sm:top-[30px] md:top-0 md:left-[72px]  z-30  h-fit  md:h-[707px] inset-1  right-0'>
+            <div className=' flex flex-col  md:justify-center items-start md:items-center gap-6 md:gap-10 pt-20 md:pt-35 md:mt-8 ml-2 md:ml-0'>
+              <div className=' w-full flex flex-row flex-wrap justify-start items-center gap-7 md:gap-10'>
+                <Link
+                  href='https://www.instagram.com/djangoindia'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/insta.svg'
+                    alt='Instagram'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
 
-                  <Link href='https://www.twitter.com/djangoindiaa' target='_blank' passHref>
-                    <Image
-                      src='/icons/twitter.svg'
-                      alt='Twitter'
-                      width={width > 768 ? 72 : 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
+                <Link
+                  href='https://www.twitter.com/djangoindiaa'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/twitter.svg'
+                    alt='Twitter'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
 
-                  <Link href='https://www.youtube.com/@djangoindiaa' target='_blank' passHref>
-                    <Image
-                      src='/icons/youtube.svg'
-                      alt='YouTube'
-                      width={width > 768 ? 72 : 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
+                <Link
+                  href='https://www.youtube.com/@djangoindiaa'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/youtube.svg'
+                    alt='YouTube'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
 
-                  <Link href='https://discord.gg/YrmYTTBspe' target='_blank' passHref>
-                    <Image
-                      src='/icons/discord.svg'
-                      alt='Discord'
-                      width={width > 768 ? 72 : 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
-                </div>
-                <div className='flex flex-row justify-center items-center md:mr-28 gap-7 md:gap-10'>
-                  <Link href='https://www.github.com/djangoindia' target='_blank' passHref>
-                    <Image
-                      src='/icons/git.svg'
-                      alt='GitHub'
-                      width={width > 768 ? 72 : 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
+                <Link
+                  href='https://discord.gg/YrmYTTBspe'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/discord.svg'
+                    alt='Discord'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
+              </div>
+              <div className=' w-full flex flex-row flex-wrap justify-start items-center gap-7 md:gap-10'>
+                <Link
+                  href='https://www.github.com/djangoindia'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/git.svg'
+                    alt='GitHub'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
 
-                  <Link href='https://www.reddit.com/r/djangoindia' target='_blank' passHref>
-                    <Image
-                      src='/icons/reddit.svg'
-                      alt='Reddit'
-                      width={width > 768 ? 72 : 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
+                <Link
+                  href='https://www.reddit.com/r/djangoindia'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/reddit.svg'
+                    alt='Reddit'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
 
-                  <Link
-                    href='https://www.linkedin.com/company/django-india'
-                    target='_blank'
-                    passHref
-                  >
-                    <Image
-                      src='/icons/linkedin.svg'
-                      alt='LinkedIn'
-                      width={width > 768 ? 72 : 50}
-                      height={width > 768 ? 101 : 50.5}
-                      className='transition transform hover:scale-110'
-                    />
-                  </Link>
+                <Link
+                  href='https://www.linkedin.com/company/django-india'
+                  target='_blank'
+                  passHref
+                >
+                  <Image
+                    src='/icons/linkedin.svg'
+                    alt='LinkedIn'
+                    width={width > 768 ? 65 : 45}
+                    height={width > 768 ? 101 : 50.5}
+                    className='transition transform hover:scale-110'
+                  />
+                </Link>
 
-                  {/* <Link
+                {/* <Link
                     href='https://www.whatsapp.com'
                     target='_blank'
                     passHref
@@ -126,16 +146,16 @@ function Join() {
                     <Image
                       src='/icons/whatsapp.svg'
                       alt='WhatsApp'
-                      width={width > 768 ? 72 : 50}
+                      width={width > 768 ? 65 : 45}
                       height={width > 768 ? 101 : 50.5}
                       className='transition transform hover:scale-110'
                     />
                   </Link> */}
-                </div>
               </div>
             </div>
           </div>
         </div>
+        {/* </div> */}
       </div>
     </>
   )
