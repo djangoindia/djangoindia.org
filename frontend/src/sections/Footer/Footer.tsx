@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
             </li>
             <li>
               <a
-                href='/ContactUs'
+                href='/contactUs'
                 className='inline-block py-2 px-3 text-white no-underline'
               >
                 Contact Us
