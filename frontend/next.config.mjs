@@ -4,8 +4,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'localhost',
-        port: '8000',
+        hostname: '*',
+        pathname: '/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*',
         pathname: '/media/**',
       },
     ],
@@ -16,7 +20,7 @@ const nextConfig = {
       destination: '/home',
       permanent: true,
     },
-  ]
+  ],
 }
 
 export default nextConfig
