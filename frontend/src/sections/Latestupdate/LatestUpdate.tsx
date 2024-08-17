@@ -25,7 +25,7 @@ function Update() {
   const [isOpen, setIsOpen] = useState(false)
 
   const onSubmit: SubmitHandler<NewsletterForm> = async (data) => {
-    const res = await fetchData(API_ENDPOINTS['newsletter'], {
+    const res = await fetchData(API_ENDPOINTS.newsletter, {
       method: 'POST',
       body: JSON.stringify(data),
     })

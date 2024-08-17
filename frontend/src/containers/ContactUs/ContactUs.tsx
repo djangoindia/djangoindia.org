@@ -21,7 +21,7 @@ const ContactUs = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
-    await fetchData(API_ENDPOINTS['contact-us'], {
+    await fetchData(API_ENDPOINTS.contactUs, {
       method: 'POST',
       body: JSON.stringify(data),
     })

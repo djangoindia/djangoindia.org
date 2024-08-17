@@ -14,7 +14,7 @@ import { EventsResponse } from '@/types'
 
 const Main: React.FC = async () => {
   const { data: events } = await fetchData<EventsResponse>(
-    API_ENDPOINTS['events'],
+    API_ENDPOINTS.events,
   )
 
   return (
