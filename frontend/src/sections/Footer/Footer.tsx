@@ -1,3 +1,4 @@
+import { APP_ROUTES } from '@/constants'
 import React from 'react'
 import {
   FaInstagram,
@@ -21,11 +22,11 @@ const Footer: React.FC = () => {
         <div className='w-full flex flex-col items-center justify-center lg:flex-row text-sm mt-6 lg:mt-0'>
           <ul className='list-none p-0 flex flex-col text-center lg:text-left w-full lg:w-1/3 mb-6 lg:mb-0 lg:mr-4'>
             <li className='inline-block py-2 px-3 text-white font-medium tracking-wide'>
-              <a href='/'>Home</a>
+              <a href={APP_ROUTES.home}>Home</a>
             </li>
             <li>
               <a
-                href='/allEvents'
+                href={APP_ROUTES.events}
                 className='inline-block py-2 px-3 text-white no-underline'
               >
                 Events
@@ -33,7 +34,7 @@ const Footer: React.FC = () => {
             </li>
             <li>
               <a
-                href='/contactUs'
+                href={APP_ROUTES.contactUs}
                 className='inline-block py-2 px-3 text-white no-underline'
               >
                 Contact Us

@@ -7,7 +7,7 @@ import { API_ENDPOINTS } from '@/constants'
 
 const Page = async () => {
   const { data: events } = await fetchData<EventsResponse>(
-    API_ENDPOINTS.allEvents,
+    API_ENDPOINTS.events,
   )
 
   return (

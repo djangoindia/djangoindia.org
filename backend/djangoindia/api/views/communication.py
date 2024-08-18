@@ -1,9 +1,12 @@
+from djangoindia.api.serializers.communication import (
+    ContactUsSerializer,
+    NewsletterSubscriptionSerializer,
+)
+from djangoindia.db.models.communication import NewsletterSubscription
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 
-from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
-from djangoindia.api.serializers.communication import NewsletterSubscriptionSerializer, ContactUsSerializer
 
 class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
     queryset = NewsletterSubscription.objects.all()
@@ -11,10 +14,12 @@ class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
 
     def post(self, request, *args, **kwargs):
         try:
-            if NewsletterSubscription.objects.filter(email=request.data.get("email")).exists():
+            if NewsletterSubscription.objects.filter(
+                email=request.data.get("email")
+            ).exists():
                 return Response(
-                    {"error": "You have already subscribed to the newsletter."},
-                    status=status.HTTP_400_BAD_REQUEST,
+                    {"message": "You have already subscribed to the newsletter."},
+                    status=status.HTTP_409_CONFLICT,
                 )
             self.create(request, *args, **kwargs)
             return Response(
@@ -23,9 +28,10 @@ class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
             )
         except Exception as e:
             return Response(
-                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
+
+
 class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
 
     def post(self, request):
@@ -35,11 +41,10 @@ class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
                 serializer.save()
                 return Response(
                     {"message": "Thank you for contacting us!"},
-                    status = status.HTTP_201_CREATED
+                    status=status.HTTP_201_CREATED,
                 )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response(
-                {"error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
