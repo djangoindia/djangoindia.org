@@ -152,7 +152,7 @@ const Navbar = () => {
                 <Link
                   href='/events'
                   className={`py-5 ${
-                    pathname === '/evnets'
+                    pathname === '/events'
                       ? 'border-b-2 border-black'
                       : 'hover:border-b-2 hover:border-black'
                   }`}
