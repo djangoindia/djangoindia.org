@@ -179,16 +179,16 @@ section {
     padding-top: 50px;
     padding-bottom: 50px;
   }
-  
+
   .row {
     flex-direction: column;
   }
-  
+
   .contact-info {
     margin-bottom: 40px;
     width: 100%;
   }
-  
+
   .contact-form {
     width: 100%;
   }
