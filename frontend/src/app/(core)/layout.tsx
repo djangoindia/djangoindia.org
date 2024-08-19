@@ -26,7 +26,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         vertical: 'top',
         horizontal: 'right',
       }}
-      autoHideDuration={3000}
+      autoHideDuration={10000}
       action={(snackbarKey) => (
         <SnackbarCloseButton snackbarKey={snackbarKey} />
       )}

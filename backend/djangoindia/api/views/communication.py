@@ -18,12 +18,12 @@ class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
                 email=request.data.get("email")
             ).exists():
                 return Response(
-                    {"message": "You have already subscribed to the newsletter."},
+                    {"message": "Nice try! But you're already in our exclusive club.🕵️‍♂️"},
                     status=status.HTTP_409_CONFLICT,
                 )
             self.create(request, *args, **kwargs)
             return Response(
-                {"message": "Subscription successful."},
+                {"message": "Thanks for subscribing! We knew you couldn't resist.😉"},
                 status=status.HTTP_201_CREATED,
             )
         except Exception as e:
@@ -40,7 +40,7 @@ class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
             if serializer.is_valid():
                 serializer.save()
                 return Response(
-                    {"message": "Thank you for contacting us!"},
+                    {"message": "Message received! We'll be in touch before you can say 'supercalifragilisticexpialidocious.' 😜"},
                     status=status.HTTP_201_CREATED,
                 )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
