@@ -1,10 +1,10 @@
 'use client'
 
 import { Label, Input, Textarea, Button } from '@components'
-import React, { useState } from 'react'
+import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { ContactUsForm } from './ContactUs.types'
-import { fetchData, FetchResponse } from '@utils'
+import { fetchData } from '@utils'
 import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
