@@ -10,7 +10,7 @@ import { NewsletterForm } from './LatestUpdate.types'
 import { fetchData, FetchResponse } from '@utils'
 import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import ResponseHandler from '../../components/Handler/ResponseHandler'
+import { enqueueSnackbar } from 'notistack'
 
 function Update() {
   const {
@@ -22,22 +22,23 @@ function Update() {
     resolver: yupResolver(NEWSLETTER_FORM_SCHEMA),
   })
 
-  const [isOpen, setIsOpen] = useState(false)
-  const [resData, setResData] = useState<FetchResponse<unknown> | null>(null)
-
   const onSubmit: SubmitHandler<NewsletterForm> = async (data) => {
     const res = await fetchData(API_ENDPOINTS.newsletter, {
       method: 'POST',
       body: JSON.stringify(data),
-    })
-    setResData(res)
+    })    
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      enqueueSnackbar(res?.data?.message, { variant: 'success' })
+    } else {
+      enqueueSnackbar(res?.error?.message, {
+        variant: 'error',
+      })
+    }
     reset()
-    setIsOpen(true)
   }
 
   return (
     <>
-      <ResponseHandler open={isOpen} onClose={() => setIsOpen(false)} data={resData} />
       <div className="w-full bg-[url('/newsletter/bg.svg')] bg-no-repeat bg-cover sm:px-6 lg:px-8 relative z-20">
         <div className='max-w-4xl pt-40 pb-10 mx-auto'>
           <div className='text-center mb-8'>

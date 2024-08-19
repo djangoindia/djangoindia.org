@@ -7,7 +7,7 @@ import { ContactUsForm } from './ContactUs.types'
 import { fetchData, FetchResponse } from '@utils'
 import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import ResponseHandler from '@/components/Handler/ResponseHandler'
+import { enqueueSnackbar } from 'notistack'
 
 const ContactUs = () => {
   const {
@@ -18,22 +18,24 @@ const ContactUs = () => {
   } = useForm<ContactUsForm>({
     resolver: yupResolver(CONTACT_US_FORM_SCHEMA),
   })
-  const [isOpen, setIsOpen] = useState(false)
-  const [resData, setResData] = useState<FetchResponse<unknown> | null>(null)
 
   const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
     const res = await fetchData(API_ENDPOINTS.contactUs, {
       method: 'POST',
       body: JSON.stringify(data),
     })
-    setResData(res)
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      enqueueSnackbar(res?.data?.message, { variant: 'success' })
+    } else {
+      enqueueSnackbar(res?.error?.message, {
+        variant: 'error',
+      })
+    }
     reset()
-    setIsOpen(true)
   }
 
   return (
     <>
-      <ResponseHandler open={isOpen} onClose={() => setIsOpen(false)} data={resData} />
       <div className='container'>
         <h2 className='text-6xl mt-12 mb-6 font-bold text-blue-900'>
           Contact Us

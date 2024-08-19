@@ -1,16 +1,18 @@
 type ErrorResponse = {
   message?: string
-  statusCode?: number
+  // statusCode?: number
 }
 
 export type FetchResponse<TData> =
   | {
       data: TData
       error?: null
+      statusCode: number
     }
   | {
       data?: null
       error: ErrorResponse
+      statusCode: number
     }
 
 export const fetchData = async <TFetchedData>(
@@ -31,18 +33,23 @@ export const fetchData = async <TFetchedData>(
     const parsedResponse = await response.json()
 
     if (!response.ok) {
-      throw new Error(parsedResponse.error)
+      const newError = {
+        message:
+          parsedResponse?.message !== ''
+            ? parsedResponse?.message
+            : response?.status + ' : ' + response.statusText,
+        statusCode: response?.status,
+      }
+      throw newError
     }
 
     const responseBody = parsedResponse as TFetchedData
-    return { data: responseBody, error: null }
+    return { data: responseBody, error: null, statusCode: response.status }
   } catch (error) {
-   if (error instanceof Error) {
-      // Handle network errors or other errors
-      return { data: null, error: { message: error.message } }
-    } else {
-      // Handle unknown errors
-      return { data: null, error: { message: 'Something went wrong' } }
+    return {
+      data: null,
+      error: { message: error.message },
+      statusCode: error.statusCode,
     }
   }
 }
