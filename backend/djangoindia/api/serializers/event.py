@@ -11,7 +11,10 @@ class EventSerializer(serializers.Serializer):
     venue= serializers.CharField()
     city= serializers.CharField()
     venue_map_link= serializers.URLField()
-    date_time= serializers.DateTimeField()
+    event_start_date= serializers.DateTimeField()
+    event_end_date= serializers.DateTimeField()
+    registration_end_date= serializers.DateTimeField()
+    event_mode = serializers.CharField()
 
 
 class EventRegistrationSerializer(serializers.Serializer):

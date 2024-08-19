@@ -1,16 +1,32 @@
 from django.db import models
 
 from .base import BaseModel
+from django.utils import timezone
+from datetime import timedelta
+
+def default_start_date():
+    return timezone.now() + timedelta(days=2)
 
 
 class Event(BaseModel):
+    IN_PERSON = "In-person"
+    ONLINE = "Online"
+    
+    EVENT_MODE_CHOICES = [
+        (IN_PERSON, IN_PERSON),
+        (ONLINE, ONLINE)
+    ]
+
     name = models.CharField(max_length=255, unique=True)
     cover_image = models.ImageField(upload_to="event_images/", blank=True)
     description = models.TextField()
-    venue = models.TextField( default="TBA")
-    city = models.CharField(max_length=255,  default="TBA")
-    venue_map_link = models.URLField(blank=True)
-    date_time = models.DateTimeField(null=False)
+    venue = models.TextField(default="TBA")
+    city = models.CharField(max_length=255, default="TBA")
+    venue_map_link = models.URLField(blank=True, max_length=500)
+    event_start_date = models.DateTimeField(null=False,default=default_start_date)
+    event_end_date = models.DateTimeField(null=True)
+    registration_end_date = models.DateTimeField()
+    event_mode = models.CharField(max_length=20,choices=EVENT_MODE_CHOICES,default=IN_PERSON)
 
     def __str__(self) -> str:
         return f"{self.name} @ {self.city} ({self.date_time.date()})"

@@ -8,7 +8,7 @@ from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 
-from backend.djangoindia.constants import POST, PRIMARY_KEY_SHORT
+from djangoindia.constants import POST, PRIMARY_KEY_SHORT
 
 
 # Create your views here.
