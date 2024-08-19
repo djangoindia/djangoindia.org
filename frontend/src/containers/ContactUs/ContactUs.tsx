@@ -1,13 +1,13 @@
 'use client'
 
 import { Label, Input, Textarea, Button } from '@components'
-import React, { useState } from 'react'
+import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { ContactUsForm } from './ContactUs.types'
 import { fetchData } from '@utils'
 import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
-import Thanks from './SubComponents/Thanks'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { enqueueSnackbar } from 'notistack'
 
 const ContactUs = () => {
   const {
@@ -18,20 +18,24 @@ const ContactUs = () => {
   } = useForm<ContactUsForm>({
     resolver: yupResolver(CONTACT_US_FORM_SCHEMA),
   })
-  const [isOpen, setIsOpen] = useState(false)
 
   const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
-    await fetchData(API_ENDPOINTS.contactUs, {
+    const res = await fetchData(API_ENDPOINTS.contactUs, {
       method: 'POST',
       body: JSON.stringify(data),
     })
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      enqueueSnackbar(res?.data?.message, { variant: 'success' })
+    } else {
+      enqueueSnackbar(res?.error?.message, {
+        variant: 'error',
+      })
+    }
     reset()
-    setIsOpen(true)
   }
 
   return (
     <>
-      <Thanks open={isOpen} onClose={() => setIsOpen(false)} />
       <div className='container'>
         <h2 className='text-6xl mt-12 mb-6 font-bold text-blue-900'>
           Contact Us
