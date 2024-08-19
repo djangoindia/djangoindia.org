@@ -18,17 +18,20 @@ const Page = async () => {
         </div>
         {events?.length ? (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-            {events?.map(({ cover_image, date_time, name, venue }, index) => (
-              <div key={index} className='w-full h-auto mb-4'>
-                <EventCard
-                  title={name}
-                  date={date_time}
-                  imageSrc={cover_image}
-                  venue={venue}
-                  time={date_time}
-                />
-              </div>
-            ))}
+            {events?.map(
+              ({ cover_image, date_time, name, venue, id }, index) => (
+                <div key={index} className='w-full h-auto mb-4'>
+                  <EventCard
+                    eventId={id}
+                    title={name}
+                    date={date_time}
+                    imageSrc={cover_image}
+                    venue={venue}
+                    time={date_time}
+                  />
+                </div>
+              ),
+            )}
           </div>
         ) : (
           <h3 className='text-center'>No Events</h3>

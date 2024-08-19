@@ -1,5 +1,6 @@
 export const API_ENDPOINTS = {
   contactUs: '/contact-us',
   newsletter: '/newsletter',
-  events: '/events',
+  allEvents: '/events',
+  event: '/events/:id',
 }

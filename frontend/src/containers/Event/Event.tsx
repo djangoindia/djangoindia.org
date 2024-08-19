@@ -4,51 +4,81 @@ import event1 from '../../../public/01.svg'
 import wave1 from '../../../public/wave01.png'
 import wave2 from '../../../public/wave02.png'
 
+import dayjs from 'dayjs'
+
 import { Button } from '@/components'
 import { CiClock1, CiLocationOn } from 'react-icons/ci'
 import { SlCalender } from 'react-icons/sl'
 import { MdWavingHand } from 'react-icons/md'
 import { RegisterEvent } from '../RegisterEvent'
+import { google } from 'calendar-link'
+import type { Event } from '@/types'
+import Link from 'next/link'
 
-const imageSrc = event1
-const title = 'Django India Opening Event'
+const Event = async ({
+  event: {
+    name,
+    cover_image,
+    venue,
+    venue_map_link,
+    description,
+    city,
+    date_time,
+  },
+}: {
+  event: Event
+}) => {
+  // TODO: Replace duration from what is coming from API
+  const eventLink = google({
+    title: name,
+    description,
+    start: date_time,
+    duration: [1, 'hour'],
+  })
 
-const Event = () => {
   return (
     <div>
       <div className='container'>
         <div className='relative w-full h-96 my-12 rounded-2xl mx-auto overflow-hidden shadow-xl'>
-          <Image src={imageSrc} alt={title} objectFit='cover' fill />
+          <Image
+            src={cover_image ?? event1}
+            alt={name}
+            objectFit='cover'
+            fill
+          />
         </div>
         <div className='flex flex-col gap-2'>
-          <h2 className='text-6xl font-bold'>{title}</h2>
-          <span>21 July 2024, 04:30 PM - 07:00PM</span>
-          <span>New Delhi</span>
+          <h2 className='text-6xl font-bold'>{name}</h2>
+          <span>{dayjs(date_time).format('DD MMMM, YYYY')}</span>
+          <span>{city}</span>
           <RegisterEvent />
           <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold'>When</h4>
             <span className='flex items-center gap-2'>
               <SlCalender />
-              21 July 2024, Sunday
+              {dayjs(date_time).format('DD MMMM, YYYY')}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
-              04:30 PM - 07:00 PM
+              {dayjs(date_time).format('hh:mm A')}
             </span>
             {/* TODO: Use text variant of button */}
-            <Button className='w-fit'>Add to Calender</Button>
+            <Button className='w-fit' asChild>
+              <Link href={eventLink} target='_blank'>
+                Add to Calender
+              </Link>
+            </Button>
           </div>
           <div className='my-10 flex flex-col gap-2'>
-            <h4 className='text-2xl font-bold'>Where</h4>
-            <span className='flex items-center gap-2 max-w-lg'>
+            <h4 className='text-2xl font-bold flex items-center gap-2'>
               <CiLocationOn />
-              8A/33, Channa Market, Block 8A, WEA, Karol Bagh, New Delhi, Delhi,
-              110005
-            </span>
+              Where
+            </h4>
+            <p>{venue}</p>
           </div>
           <div>
             <iframe
-              src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3752.7423818239545!2d77.23172103583059!3d28.614492913451212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2daa9eb4d0b%3A0x717971125923e5d!2sIndia%20Gate!5e0!3m2!1sen!2sin!4v1721543924487!5m2!1sen!2sin'
+              src={venue_map_link}
               width='100%'
               className='rounded-2xl w-full mx-auto shadow-xl'
               height='450'
@@ -61,13 +91,7 @@ const Event = () => {
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
             </span>
-            <p>
-              DjangoCon 2024 is the premier gathering for Django enthusiasts,
-              developers, and industry professionals. Join us for three days of
-              insightful talks, hands-on workshops, and valuable networking
-              opportunities. This year&#39;s conference is packed with sessions
-              led by some of the brightest minds in the Django community.
-            </p>
+            <p>{description}</p>
           </div>
         </div>
       </div>
