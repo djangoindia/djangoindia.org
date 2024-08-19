@@ -28,7 +28,7 @@ const EventCard: React.FC<EventProps> = ({
   return (
     <div
       className='bg-white shadow-lg rounded-lg overflow-hidden max-w-sm mx-auto my-6 transition transform hover:scale-105 cursor-pointer h-[380px]'
-      onClick={() => router.push(`/allEvents/${eventId}`)}
+      onClick={() => router.push(`/events/${eventId}`)}
     >
       <div className='h-48 overflow-hidden'>
         <Image
@@ -40,7 +40,6 @@ const EventCard: React.FC<EventProps> = ({
           style={{
             maxWidth: '100%',
             height: 'auto',
-            objectFit: 'cover',
           }}
         />
       </div>

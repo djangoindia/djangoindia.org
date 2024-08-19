@@ -14,6 +14,7 @@ import { RegisterEvent } from '../RegisterEvent'
 import { google } from 'calendar-link'
 import type { Event } from '@/types'
 import Link from 'next/link'
+import { calculateDuration } from '@/utils'
 
 const Event = async ({
   event: {
@@ -24,16 +25,21 @@ const Event = async ({
     description,
     city,
     date_time,
+    event_end_date,
+    event_mode,
+    event_start_date,
+    registration_end_date,
   },
 }: {
   event: Event
 }) => {
-  // TODO: Replace duration from what is coming from API
+  const duration = calculateDuration(event_end_date, event_start_date)
+
   const eventLink = google({
     title: name,
     description,
     start: date_time,
-    duration: [1, 'hour'],
+    duration: [duration.hours, 'hours'],
   })
 
   return (
@@ -43,7 +49,9 @@ const Event = async ({
           <Image
             src={cover_image ?? event1}
             alt={name}
-            objectFit='cover'
+            style={{
+              objectFit: 'cover',
+            }}
             fill
           />
         </div>
@@ -56,11 +64,13 @@ const Event = async ({
             <h4 className='text-2xl font-bold'>When</h4>
             <span className='flex items-center gap-2'>
               <SlCalender />
-              {dayjs(date_time).format('DD MMMM, YYYY')}
+              {dayjs(event_start_date).format('DD MMMM, YYYY')} -
+              {dayjs(event_end_date).format('DD MMMM, YYYY')}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
-              {dayjs(date_time).format('hh:mm A')}
+              {dayjs(event_start_date).format('hh:mm A')} -
+              {dayjs(event_end_date).format('hh:mm A')}
             </span>
             {/* TODO: Use text variant of button */}
             <Button className='w-fit' asChild>
@@ -101,10 +111,10 @@ const Event = async ({
         <h5 className='text-4xl	font-bold text-blue-900 text-center'>
           RSVP for this event now!
         </h5>
-        <span>Registration ends Jul 24, 2024</span>
+        <span>{dayjs(registration_end_date).format('DD MMMM, YYYY')}</span>
         <span className='flex items-center gap-2'>
           <CiLocationOn />
-          In Person
+          {event_mode}
         </span>
         <RegisterEvent />
       </div>

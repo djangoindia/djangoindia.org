@@ -7,6 +7,10 @@ export type Event = {
   city: string
   venue_map_link: string
   date_time: string
+  event_start_date: string
+  event_end_date: string
+  registration_end_date: string
+  event_mode: string
 }
 
 export type EventsResponse = Event[]
