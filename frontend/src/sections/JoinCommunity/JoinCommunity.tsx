@@ -27,13 +27,13 @@ function Join() {
           </p>
         </div>
 
-        <div className='relative '>
+        <div className='relative top-[40px] md:top-0'>
           <Image
             src='/Phone2.png'
             alt='Phone Image'
             width={563}
             height={707}
-            className='object-contain '
+            className='object-contain   '
           />
           <div className='absolute pl-[22%] pr-[9%]  z-30  h-fit  top-0 inset-1  right-0  md:pl-[10%] sm:top-[30px] md:top-0 md:left-[72px]   md:h-[707px] '>
             <div className=' grid grid-cols-4 gap-6 pt-20 ml-2 md:gap-10  md:pt-35 md:mt-8  md:ml-0'>
