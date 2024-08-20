@@ -39,11 +39,7 @@ class Event(BaseModel):
                 raise ValidationError("Event end date must be after event start date.")
 
         super().clean()
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 660974a (formatted event description.)
+        
     def __str__(self) -> str:
         return f"{self.name} @ {self.city} ({self.event_start_date.date()})"
 
