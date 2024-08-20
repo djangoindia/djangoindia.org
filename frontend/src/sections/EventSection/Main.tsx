@@ -13,9 +13,7 @@ import { API_ENDPOINTS } from '@/constants'
 import { EventsResponse } from '@/types'
 
 const Main: React.FC = async () => {
-  const { data: events } = await fetchData<EventsResponse>(
-    API_ENDPOINTS.events,
-  )
+  const { data: events } = await fetchData<EventsResponse>(API_ENDPOINTS.events)
 
   return (
     <div className='p-4 mb-10 md:mb-20 lg:mb-50'>

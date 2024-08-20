@@ -3,8 +3,8 @@
 import { Label, Input, Textarea, Button } from '@components'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { ContactUsForm } from './ContactUs.types'
-import { fetchData } from '@utils'
+import { ContactUsForm, ContactUsResponse } from './ContactUs.types'
+import { postData } from '@utils'
 import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
@@ -19,11 +19,10 @@ const ContactUs = () => {
     resolver: yupResolver(CONTACT_US_FORM_SCHEMA),
   })
 
-  const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
-    const res = await fetchData(API_ENDPOINTS.contactUs, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
+  const onSubmit: SubmitHandler<ContactUsForm> = async (
+    data: ContactUsForm,
+  ) => {
+    const res = await postData<ContactUsResponse>(API_ENDPOINTS.contactUs, data)
     if (res.statusCode === 200 || res.statusCode === 201) {
       enqueueSnackbar(res?.data?.message, { variant: 'success' })
     } else {

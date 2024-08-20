@@ -4,3 +4,7 @@ export type ContactUsForm = {
   email: string
   message: string
 }
+
+export type ContactUsResponse = {
+  message: string
+}
