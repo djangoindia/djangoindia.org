@@ -9,7 +9,6 @@ const Page = async () => {
   const { data: events } = await fetchData<EventsResponse>(
     API_ENDPOINTS.allEvents,
   )
-
   return (
     <div>
       <div className='p-4 mb-10 md:mb-20 lg:mb-50'>
@@ -19,15 +18,16 @@ const Page = async () => {
         {events?.length ? (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {events?.map(
-              ({ cover_image, date_time, name, venue, id }, index) => (
+              ({ cover_image, event_start_date, name, venue, id, event_mode }, index) => (
                 <div key={index} className='w-full h-auto mb-4'>
                   <EventCard
                     eventId={id}
                     title={name}
-                    date={date_time}
+                    date={event_start_date}
                     imageSrc={cover_image}
                     venue={venue}
-                    time={date_time}
+                    time={event_start_date}
+                    event_mode={event_mode}
                   />
                 </div>
               ),

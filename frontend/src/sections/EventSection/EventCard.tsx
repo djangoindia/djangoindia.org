@@ -13,6 +13,7 @@ interface EventProps {
   imageSrc: string
   venue: string
   time: string
+  event_mode: string
 }
 
 const EventCard: React.FC<EventProps> = ({
@@ -22,6 +23,7 @@ const EventCard: React.FC<EventProps> = ({
   imageSrc,
   venue,
   time,
+  event_mode
 }) => {
   const router = useRouter()
 
@@ -60,10 +62,14 @@ const EventCard: React.FC<EventProps> = ({
             {title}
           </h2>
           <p className='text-gray-700 mb-2 line-clamp-4'>
+            <span className='font-bold'>Mode: </span>
+            {event_mode}
+          </p>
+          {venue && <p className='text-gray-700 mb-2 line-clamp-4'>
             <span className='font-bold'>Venue: </span>
             <br />
             {venue}
-          </p>
+          </p>}
           <p className='text-gray-600'>{dayjs(time).format('hh:mm A')}</p>
         </div>
       </div>

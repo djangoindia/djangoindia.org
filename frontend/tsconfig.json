@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -9,7 +13,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -18,15 +22,36 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@components": ["./src/components"],
-      "@sections": ["./src/sections"],
-      "@constants": ["./src/constants"],
-      "@containers": ["./src/containers"],
-      "@hooks": ["./src/hooks"],
-      "@utils": ["./src/utils"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@components": [
+        "./src/components"
+      ],
+      "@sections": [
+        "./src/sections"
+      ],
+      "@constants": [
+        "./src/constants"
+      ],
+      "@containers": [
+        "./src/containers"
+      ],
+      "@hooks": [
+        "./src/hooks"
+      ],
+      "@utils": [
+        "./src/utils"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

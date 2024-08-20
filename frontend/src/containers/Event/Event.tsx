@@ -24,7 +24,6 @@ const Event = async ({
     venue_map_link,
     description,
     city,
-    date_time,
     event_end_date,
     event_mode,
     event_start_date,
@@ -38,7 +37,8 @@ const Event = async ({
   const eventLink = google({
     title: name,
     description,
-    start: date_time,
+    start: event_start_date,
+    end: event_end_date,
     duration: [duration.hours, 'hours'],
   })
 
@@ -57,15 +57,22 @@ const Event = async ({
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-6xl font-bold'>{name}</h2>
-          <span>{dayjs(date_time).format('DD MMMM, YYYY')}</span>
-          <span>{city}</span>
+          <span>Starts {dayjs(event_start_date).format('DD MMMM, YYYY')} at {dayjs(event_start_date).format('hh:mm A')}</span>
+          {city && <span>City: {city}</span>}
           <RegisterEvent />
+          
+          <div className='my-12 text-2xl flex flex-col gap-3'>
+            <span className='flex items-center gap-2'>
+              Hey Everyone <MdWavingHand className='text-amber-500' />
+            </span>
+            <p>{description}</p>
+          </div>
           <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold'>When</h4>
             <span className='flex items-center gap-2'>
               <SlCalender />
-              {dayjs(event_start_date).format('DD MMMM, YYYY')} -
-              {dayjs(event_end_date).format('DD MMMM, YYYY')}
+              {dayjs(event_start_date).format('DD MMMM, YYYY')}
+              {event_end_date && ` - ${dayjs(event_end_date).format('DD MMMM, YYYY')}`}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
@@ -79,15 +86,15 @@ const Event = async ({
               </Link>
             </Button>
           </div>
-          <div className='my-10 flex flex-col gap-2'>
+          {venue && <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold flex items-center gap-2'>
               <CiLocationOn />
               Where
             </h4>
             <p>{venue}</p>
-          </div>
+          </div>}
           <div>
-            <iframe
+            {venue_map_link && <iframe
               src={venue_map_link}
               width='100%'
               className='rounded-2xl w-full mx-auto shadow-xl'
@@ -95,14 +102,9 @@ const Event = async ({
               loading='lazy'
               allowFullScreen
               referrerPolicy='no-referrer-when-downgrade'
-            ></iframe>
+            ></iframe>}
           </div>
-          <div className='my-12 text-2xl flex flex-col gap-3'>
-            <span className='flex items-center gap-2'>
-              Hey Everyone <MdWavingHand className='text-amber-500' />
-            </span>
-            <p>{description}</p>
-          </div>
+          
         </div>
       </div>
       <div className='bg-orange-100	relative w-full p-12 mt-24 flex flex-col items-center gap-3 overflow-hidden'>
@@ -111,7 +113,7 @@ const Event = async ({
         <h5 className='text-4xl	font-bold text-blue-900 text-center'>
           RSVP for this event now!
         </h5>
-        <span>{dayjs(registration_end_date).format('DD MMMM, YYYY')}</span>
+        <span>Registration ends {dayjs(registration_end_date).format('DD MMMM, YYYY')} at {dayjs(registration_end_date).format('hh:mm A')}</span>
         <span className='flex items-center gap-2'>
           <CiLocationOn />
           {event_mode}
