@@ -15,6 +15,8 @@ import { google } from 'calendar-link'
 import type { Event } from '@/types'
 import Link from 'next/link'
 import { calculateDuration } from '@/utils'
+import sanitizeHtml from 'sanitize-html';
+
 
 const Event = async ({
   event: {
@@ -32,6 +34,13 @@ const Event = async ({
 }: {
   event: Event
 }) => {
+  const sanitizedDescription = sanitizeHtml(description, {
+    allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+    allowedAttributes: {
+      a: ['href','target'],
+    },
+  });
+
   const duration = calculateDuration(event_end_date, event_start_date)
 
   const eventLink = google({
@@ -60,12 +69,14 @@ const Event = async ({
           <span>Starts {dayjs(event_start_date).format('DD MMMM, YYYY')} at {dayjs(event_start_date).format('hh:mm A')}</span>
           {city && <span>City: {city}</span>}
           <RegisterEvent />
-          
-          <div className='my-12 text-2xl flex flex-col gap-3'>
+          <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
             </span>
-            <p>{description}</p>
+            <div
+            className="prose"
+            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+          />
           </div>
           <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold'>When</h4>
@@ -104,7 +115,6 @@ const Event = async ({
               referrerPolicy='no-referrer-when-downgrade'
             ></iframe>}
           </div>
-          
         </div>
       </div>
       <div className='bg-orange-100	relative w-full p-12 mt-24 flex flex-col items-center gap-3 overflow-hidden'>
