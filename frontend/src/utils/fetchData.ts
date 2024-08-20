@@ -1,5 +1,5 @@
 import { ContactUsForm } from '@/containers/ContactUs/ContactUs.types'
-import { NewsletterForm } from '@/sections/Latestupdate/LatestUpdate'
+import { NewsletterForm } from '@/sections/Latestupdate/LatestUpdate.types'
 import axios from 'axios'
 
 type ErrorResponse = {
