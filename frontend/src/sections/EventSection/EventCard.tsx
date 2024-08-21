@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import event2 from '../../../public/02.svg'
 import { useRouter } from 'next/navigation'
 
+
 interface EventProps {
   eventId: string
   title: string
