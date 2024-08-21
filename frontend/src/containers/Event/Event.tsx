@@ -18,7 +18,7 @@ import { calculateDuration } from '@/utils'
 import sanitizeHtml from 'sanitize-html';
 
 
-const Event = async ({
+const EventContainer = async ({
   event: {
     name,
     cover_image,
@@ -134,4 +134,4 @@ const Event = async ({
   )
 }
 
-export default Event
+export default EventContainer
