@@ -19,7 +19,9 @@ export const RegisterEvent = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className='w-fit bg-blue-900'>Register</Button>
+        <Button className='w-fit bg-blue-900' disabled>
+          Register
+        </Button>
       </DrawerTrigger>
       <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full">
         <DrawerHeader>

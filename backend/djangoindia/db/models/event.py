@@ -11,7 +11,6 @@ def default_start_date():
 def default_registration_end_date():
     return timezone.now() + timedelta(days=1)
 
-
 class Event(BaseModel):
     IN_PERSON = "In-person"
     ONLINE = "Online"
@@ -38,7 +37,7 @@ class Event(BaseModel):
                 raise ValidationError("Event end date must be after event start date.")
 
         super().clean()
-    
+
     def __str__(self) -> str:
         return f"{self.name} @ {self.city} ({self.event_start_date.date()})"
 
