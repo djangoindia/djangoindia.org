@@ -37,9 +37,9 @@ class Event(BaseModel):
                 raise ValidationError("Event end date must be after event start date.")
 
         super().clean()
-        
+
     def __str__(self) -> str:
-        return f"{self.name} @ {self.city} ({self.date_time.date()})"
+        return f"{self.name} @ {self.city} ({self.event_start_date.date()})"
 
 class EventRegistration(BaseModel):
     OCCUPATION_CHOICES = [
