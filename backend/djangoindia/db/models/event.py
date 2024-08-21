@@ -1,6 +1,5 @@
 from django.db import models
 
-from django.core.exceptions import ValidationError
 from .base import BaseModel
 from django.utils import timezone
 from django.core.exceptions import ValidationError
@@ -8,10 +7,6 @@ from datetime import timedelta
 
 def default_start_date():
     return timezone.now() + timedelta(days=2)
-
-def default_registration_end_date():
-    return timezone.now() + timedelta(days=1)
-
 
 class Event(BaseModel):
     IN_PERSON = "In-person"
@@ -41,7 +36,7 @@ class Event(BaseModel):
         super().clean()
         
     def __str__(self) -> str:
-        return f"{self.name} @ {self.city} ({self.event_start_date.date()})"
+        return f"{self.name} @ {self.city} ({self.date_time.date()})"
 
 class EventRegistration(BaseModel):
     OCCUPATION_CHOICES = [
