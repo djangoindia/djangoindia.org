@@ -2,10 +2,10 @@
 
 import { Navbar, Footer } from '@sections'
 import React, { PropsWithChildren } from 'react'
-import { SnackbarProvider, useSnackbar } from 'notistack'
+import { SnackbarKey, SnackbarProvider, useSnackbar } from 'notistack'
 import { MdOutlineCancel } from 'react-icons/md'
 
-const SnackbarCloseButton = ({ snackbarKey }) => {
+const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
   const { closeSnackbar } = useSnackbar()
 
   return (

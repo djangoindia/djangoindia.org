@@ -20,7 +20,7 @@ const ContactUs = () => {
   })
 
   const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
-    const res = await fetchData(API_ENDPOINTS.contactUs, {
+    const res = await fetchData<{message: string}>(API_ENDPOINTS.contactUs, {
       method: 'POST',
       body: JSON.stringify(data),
     })

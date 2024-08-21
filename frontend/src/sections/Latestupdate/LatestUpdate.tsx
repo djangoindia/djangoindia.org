@@ -7,7 +7,7 @@ import './styles.css'
 import { Button } from '@/components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { NewsletterForm } from './LatestUpdate.types'
-import { fetchData} from '@utils'
+import { fetchData } from '@utils'
 import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
@@ -23,10 +23,10 @@ function Update() {
   })
 
   const onSubmit: SubmitHandler<NewsletterForm> = async (data) => {
-    const res = await fetchData(API_ENDPOINTS.newsletter, {
+    const res = await fetchData<{ message: string }>(API_ENDPOINTS.newsletter, {
       method: 'POST',
       body: JSON.stringify(data),
-    })    
+    })
     if (res.statusCode === 200 || res.statusCode === 201) {
       enqueueSnackbar(res?.data?.message, { variant: 'success' })
     } else {

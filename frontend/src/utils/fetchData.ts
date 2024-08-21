@@ -1,6 +1,6 @@
 type ErrorResponse = {
   message?: string
-  // statusCode?: number
+  statusCode?: number
 }
 
 export type FetchResponse<TData> =
@@ -45,11 +45,11 @@ export const fetchData = async <TFetchedData>(
 
     const responseBody = parsedResponse as TFetchedData
     return { data: responseBody, error: null, statusCode: response.status }
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       data: null,
-      error: { message: error.message },
-      statusCode: error.statusCode,
+      error: { message: (error as ErrorResponse).message },
+      statusCode: (error as ErrorResponse).statusCode as number,
     }
   }
 }
