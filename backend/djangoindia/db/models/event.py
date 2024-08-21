@@ -8,6 +8,9 @@ from datetime import timedelta
 def default_start_date():
     return timezone.now() + timedelta(days=2)
 
+def default_registration_end_date():
+    return timezone.now() + timedelta(days=1)
+
 class Event(BaseModel):
     IN_PERSON = "In-person"
     ONLINE = "Online"
