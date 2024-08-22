@@ -133,6 +133,20 @@ function Join() {
                   className='transition transform hover:scale-110'
                 />
               </Link>
+              
+              <Link
+                href='https://t.me/djangoindiaa'
+                target='_blank'
+                passHref
+              >
+                <Image
+                  src='/icons/telegram.svg'
+                  alt='LinkedIn'
+                  width={width > 768 ? 65 : 45}
+                  height={width > 768 ? 101 : 50.5}
+                  className='transition transform hover:scale-110'
+                />
+              </Link>
 
               {/* <Link
                     href='https://www.whatsapp.com'
