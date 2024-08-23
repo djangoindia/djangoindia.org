@@ -1,9 +1,16 @@
 # from django.conf import settings
 from django.contrib import admin
 
+<<<<<<< HEAD
 from .forms import EventForm, EmailForm
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import Subscriber, ContactUs
+=======
+from .forms import EventForm, EmailForm, UpdateForm
+from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
+from djangoindia.db.models.update import Update
+>>>>>>> 8d762b0 (Added Updates email sending functionality)
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -11,6 +18,7 @@ from django.shortcuts import redirect
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
+from djangoindia.bg_tasks.send_update import send_update_email
 
 
 # Register your models here.
@@ -113,3 +121,33 @@ class SponsorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'email']
     search_fields = ['name',]
     readonly_fields = ('created_at', 'updated_at')
+@admin.register(Update)
+class UpdateAdmin(admin.ModelAdmin):
+    form = UpdateForm
+    list_display = ('title', 'update_type', 'created_by', 'created_at')
+    actions = ['send_update']
+
+    def save_model(self, request, obj, form, change):
+
+        if not obj.pk:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+
+    def send_update(self, request, queryset):
+        total_sent = 0
+        for update in queryset:
+            recipients = update.recipient.all()
+            emails_sent = 0
+            for recipient in recipients:
+                try:
+                    send_update_email.delay(update.id, recipient.id)
+                    emails_sent += 1
+                except Exception as e:
+                    self.message_user(request, f"Failed to send email to {recipient.email}: {str(e)}", level=messages.ERROR)
+            update.sent_to.set(recipients)
+            update.save()
+
+            if emails_sent > 0:
+                total_sent += emails_sent
+        self.message_user(request, f"{total_sent} emails sent successfully.")
+    send_update.short_description = "Send selected updates to subscribers"
