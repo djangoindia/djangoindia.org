@@ -19,7 +19,7 @@ const HeroSection = () => {
           width={200}
           height={200}
           alt='hero'
-          className='xs:w-1/2 xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
+          className=' xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
         />
 
         <div className='z-10 flex h-auto w-full max-w-[1200px] flex-col justify-center gap-8 px-10 pb-10 pt-10 xl:pt-16'>
