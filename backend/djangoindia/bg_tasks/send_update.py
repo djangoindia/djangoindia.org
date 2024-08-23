@@ -17,6 +17,7 @@ def send_update_email(update_id):
             )
             update.sent_successfully.add(subscription)
         except Exception as e:
+            #stored failted email
             update.failed_to_send.add(subscription)
             print(f"Failed to send email to {subscription.email}: {str(e)}")
     
