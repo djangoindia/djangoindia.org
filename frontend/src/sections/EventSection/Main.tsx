@@ -14,7 +14,7 @@ import { EventsResponse } from '@/types'
 
 const Main: React.FC = async () => {
   const { data: events } = await fetchData<EventsResponse>(
-    API_ENDPOINTS.allEvents,
+    API_ENDPOINTS.events,
   )
 
   return (
@@ -24,19 +24,24 @@ const Main: React.FC = async () => {
           Upcoming Events
         </h1>
       </div>
-      <div className='max-w-4xl mx-auto'>
+      <div className='max-w-7xl mx-auto'>
         {events?.length ? (
           <Carousel>
             <CarouselContent>
-              {events?.map(({ cover_image, date_time, id, name, venue }) => (
-                <CarouselItem className='basis-1/3' key={id}>
+              {events?.map(({ cover_image, event_start_date, id, name, venue,event_mode }) => (
+                <CarouselItem
+                  className='basis-1/1 sm:basis-1/2 md:basis-1/3'
+                  key={id}
+                >
                   <div className='w-full md:w-auto h-auto mb-4 md:mb-0'>
                     <EventCard
+                      eventId={id}
                       title={name}
-                      date={date_time}
+                      date={event_start_date}
                       imageSrc={cover_image}
                       venue={venue}
-                      time={date_time}
+                      time={event_start_date}
+                      event_mode={event_mode}
                     />
                   </div>
                 </CarouselItem>
@@ -46,7 +51,7 @@ const Main: React.FC = async () => {
             <CarouselNext />
           </Carousel>
         ) : (
-          <h3>No Upcoming Events</h3>
+          <h3 className='text-center'>No Upcoming Events</h3>
         )}
       </div>
     </div>

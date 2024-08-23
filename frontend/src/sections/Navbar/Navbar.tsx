@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { SupportUsDialog } from '@/containers'
 import useWidth from '@/hooks/useWidth'
+import { APP_ROUTES } from '@/constants'
 
 const Drawer = ({
   isOpen,
@@ -24,22 +25,22 @@ const Drawer = ({
           <CrossIcon />
         </button>
         <Link
-          href='/home'
-          className={`py-3 ${pathname === '/home' && 'font-semibold'}`}
+          href={APP_ROUTES.home}
+          className={`py-3 ${pathname === APP_ROUTES.home && 'font-semibold'}`}
           onClick={onClose}
         >
           Home
         </Link>
         <Link
-          href='/allEvents'
-          className={`py-3 ${pathname === '/allEvents' && 'font-semibold'}`}
+          href={APP_ROUTES.events}
+          className={`py-3 ${pathname === APP_ROUTES.events && 'font-semibold'}`}
           onClick={onClose}
         >
           Events
         </Link>
         <Link
-          href='/contactUs'
-          className={`py-3 ${pathname === '/contactUs' && 'font-semibold'}`}
+          href={APP_ROUTES.contactUs}
+          className={`py-3 ${pathname === APP_ROUTES.contactUs && 'font-semibold'}`}
           onClick={onClose}
         >
           Contact Us
@@ -140,9 +141,9 @@ const Navbar = () => {
             <>
               <div className='flex font-semibold gap-5 md:gap-16 text-xs md:text-base text-black justify-center items-center'>
                 <Link
-                  href='/home'
+                  href={APP_ROUTES.home}
                   className={`py-5 ${
-                    pathname === '/home'
+                    pathname === APP_ROUTES.home
                       ? 'border-b-2 border-black'
                       : 'hover:border-b-2 hover:border-black'
                   }`}
@@ -150,9 +151,9 @@ const Navbar = () => {
                   Home
                 </Link>
                 <Link
-                  href='/allEvents'
+                  href={APP_ROUTES.events}
                   className={`py-5 ${
-                    pathname === '/allEvents'
+                    pathname === APP_ROUTES.events
                       ? 'border-b-2 border-black'
                       : 'hover:border-b-2 hover:border-black'
                   }`}
@@ -160,9 +161,9 @@ const Navbar = () => {
                   Events
                 </Link>
                 <Link
-                  href='/contactUs'
+                  href={APP_ROUTES.contactUs}
                   className={`py-5 ${
-                    pathname === '/contactUs'
+                    pathname === APP_ROUTES.contactUs
                       ? 'border-b-2 border-black'
                       : 'hover:border-b-2 hover:border-black'
                   }`}

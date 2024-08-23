@@ -27,6 +27,7 @@ class EventRegistrationInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at')
     search_fields=['name','city']
     form = EventForm
     inlines = [EventRegistrationInline]
@@ -34,6 +35,7 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at')
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
 
@@ -76,5 +78,11 @@ class EventRegistrationAdmin(admin.ModelAdmin):
         }
         return TemplateResponse(request, 'admin/send_email.html', context)
 
-admin.site.register(NewsletterSubscription)
-admin.site.register(ContactUs)
+
+@admin.register(NewsletterSubscription)
+class EventRegistrationAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(ContactUs)
+class EventRegistrationAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at')

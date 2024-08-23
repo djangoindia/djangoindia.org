@@ -18,7 +18,7 @@ services:
   # djangoindia-worker:
   #   <<: *djangoindia-backend
   #   container_name: djangoindia-worker
-  #   command: celery -A djangoindia worker -l info 
+  #   command: celery -A djangoindia worker -l info
   #   ports: []
   #   depends_on:
   #     - djangoindia-backend
@@ -28,10 +28,8 @@ services:
   postgres:
     image: postgres:14.1-alpine
     container_name: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+    env_file:
+      - .env
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:

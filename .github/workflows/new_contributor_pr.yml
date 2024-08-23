@@ -1,0 +1,31 @@
+name: New contributor message
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  build:
+    name: Hello new contributor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-message: |
+            Welcome to Django India! 🎉🇮🇳
+
+            We're so happy to see you contribute. Your efforts mean a lot to us and we're excited to have you on this journey.
+
+            Before we proceed, please take a moment to review our [contribution guide](https://github.com/djangoindia/djangoindia.org/blob/main/contributing.md). It's packed with all the information you need to make your contribution seamless.
+
+            If you're fixing an issue from the [Django India issue tracker](https://github.com/djangoindia/djangoindia.org/issues), remember to get it assigned to you before you acutally start working on it.
+
+            If you ever need help or just want to chat, the [Django India discord server](https://discord.gg/YrmYTTBspe) is always open. We're here for you!
+
+            And while you're here, don't forget to ⭐ star our repo to show your support! It helps the community grow.
+
+            Thank you for being a part of Django India. Together, let's make an amazing community! 🚀
