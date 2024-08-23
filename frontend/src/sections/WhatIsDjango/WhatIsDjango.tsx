@@ -7,7 +7,7 @@ import useWidth from '@/hooks/useWidth'
 const WhatIsDjango = () => {
   const width = useWidth()
   return (
-    <section className='w-full h-auto relative bg-[#f9f4ee] pt-20'>
+    <section className='w-full h-auto relative bg-[#f9f4ee]'>
       <section className="w-full h-[600px] relative bg-[url('/whatIsDjango/Curve.svg')] bg-cover bg-no-repeat">
         {/* You can add more content here if needed */}
         <Image
@@ -52,19 +52,21 @@ const WhatIsDjango = () => {
           {/* Right Image Section */}
           <div className='opacity-15 mt-20 md:mt-0 p-4 left-0 right-0 absolute md:relative md:w-1/2 md:opacity-100'>
             {/* Add your Image component or img tag here */}
-            <Image
-              src='/whatIsDjango/mandala.svg'
-              width={width >= 500 ? 300 : width >= 400 ? 250 : 200}
-              height={500}
-              alt='Description of the image'
-              className='object-contain mx-auto scale-90 rotate mt-20'
-            />
+            <div className='overflow-hidden'>
+              <Image
+                src='/whatIsDjango/mandala.svg'
+                width={width >= 500 ? 490 : width >= 400 ? 350 :300}
+                height={500}
+                alt='Description of the image'
+                className='object-contain mx-auto md:ml-20 scale-90 rotate'
+              />
+            </div>
             <Image
               src='/whatIsDjango/Logo.svg'
               width={250}
               height={104}
               alt='Description of the image'
-              className='absolute z-20 top-[38%] lg:top-[50%] left-[30%] right-[30%] object-contain scale-90 hidden md:block'
+              className='absolute z-20 top-64 left-56 object-contain scale-90 hidden md:block'
             />
           </div>
         </div>
