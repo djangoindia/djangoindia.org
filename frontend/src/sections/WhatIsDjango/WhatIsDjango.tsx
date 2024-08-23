@@ -58,7 +58,7 @@ const WhatIsDjango = () => {
                 width={width >= 500 ? 490 : width >= 400 ? 350 :300}
                 height={500}
                 alt='Description of the image'
-                className='object-contain mx-auto md:ml-20 scale-90 rotate overflow-hidden'
+                className='object-contain mx-auto md:ml-20 scale-90 rotate'
               />
             </div>
             <Image
