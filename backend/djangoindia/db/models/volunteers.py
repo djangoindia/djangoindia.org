@@ -9,7 +9,7 @@ class EventVolunteers(BaseModel):
     profile_pic = models.ImageField(upload_to='') # Don't know the location so kept blank
     linkedin_url = models.URLField()
     twitter_url = models.URLField()
-    bio = models.CharField()
+    bio = models.CharField(max_length=5000)
 
     def __str__(self):
         return f"{self.full_name} {self.events.name}"
