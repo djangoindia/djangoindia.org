@@ -89,3 +89,19 @@ class EventRegistration(BaseModel):
         return (
             f"{self.first_name} {self.last_name} ({self.email}) --- {self.event.name}"
         )
+
+
+class Sponsor(models.Model):
+    SPONSORSHIP_LEVELS = [
+        ('platinum', 'Platinum'),
+        ('gold', 'Gold'),
+        ('silver', 'Silver'),
+    ]
+
+    name = models.CharField(max_length=255)
+    contact_email = models.EmailField()
+    sponsorship_level = models.CharField(max_length=50, choices=SPONSORSHIP_LEVELS)
+    event = models.ForeignKey(Event, related_name='sponsors', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} ({self.get_sponsorship_level_display()})"

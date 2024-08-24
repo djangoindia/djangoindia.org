@@ -1,8 +1,13 @@
 from rest_framework import serializers
 
-from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.event import Event, EventRegistration,Sponsor
 
 
+class SponsorSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    contact_email = serializers.EmailField()
+    sponsorship_level = serializers.CharField(max_length=10)
+    
 class EventSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(max_length=100)
@@ -15,7 +20,14 @@ class EventSerializer(serializers.Serializer):
     event_end_date= serializers.DateTimeField()
     registration_end_date= serializers.DateTimeField()
     event_mode = serializers.CharField()
+    sponsors = SponsorSerializer(many=True, read_only=True)
 
+    def to_representation(self, instance):
+        """Override to_representation to include the related sponsors"""
+        representation = super().to_representation(instance)
+        sponsors = instance.sponsors.all()
+        representation['sponsors'] = SponsorSerializer(sponsors, many=True).data
+        return representation
 
 class EventRegistrationSerializer(serializers.Serializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
@@ -33,3 +45,5 @@ class EventRegistrationSerializer(serializers.Serializer):
     def create(self, validated_data):
         return EventRegistration.objects.create(**validated_data)
     
+
+
