@@ -12,6 +12,8 @@ from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
 
+from .models import event,communication,volunteers
+
 
 # Register your models here.
 
@@ -86,3 +88,6 @@ class EventRegistrationAdmin(admin.ModelAdmin):
 @admin.register(ContactUs)
 class EventRegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
+    
+
+admin.site.register(volunteers.EventVolunteers)
