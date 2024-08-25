@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from .forms import EventForm, EmailForm
-from djangoindia.db.models.event import Event, EventRegistration,Sponsor,SponsorData
+from djangoindia.db.models.event import Event, EventRegistration,Sponsor,SponsorShip
 from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
 
 from django.core.mail import send_mass_mail
@@ -21,12 +21,10 @@ def send_email_to_selected_users(modeladmin, request, queryset):
     return redirect(f'send_email/?ids={",".join(map(str, ids))}')
 
 class SponsorInline(admin.TabularInline):
-    model = Sponsor
+    model = SponsorShip
     extra = 1 
 
-class SponsorInline(admin.TabularInline):
-    model = Sponsor
-    extra = 1 
+
 
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
@@ -38,7 +36,6 @@ class EventAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['name','city']
     form = EventForm
-    inlines = [EventRegistrationInline,SponsorInline]
     inlines = [EventRegistrationInline,SponsorInline]
 
 
@@ -97,12 +94,12 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     
 
-class SponsorAdmin(admin.ModelAdmin):
+class SponsorShipAdmin(admin.ModelAdmin):
     list_display = ('sponsorship_tier', 'sponsorship_type', 'event')
     list_filter = ('sponsorship_type', 'event','sponsorship_tier')
 
-admin.site.register(Sponsor, SponsorAdmin)
+admin.site.register(SponsorShip, SponsorShipAdmin)
 
-@admin.register(SponsorData)
-class SponsorDataAdmin(admin.ModelAdmin):
-    list_display = ['name', 'sponsor_type', 'contact']
+@admin.register(Sponsor)
+class SponsorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'type', 'contact_email']
