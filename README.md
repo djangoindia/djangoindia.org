@@ -1,4 +1,4 @@
-<div style="align: center;">
+<div align="center">
   <img src="assets/djangoindia-logo.png" alt="Django India Logo" />
 </div>
 
