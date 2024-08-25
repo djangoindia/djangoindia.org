@@ -24,6 +24,10 @@ class SponsorInline(admin.TabularInline):
     model = Sponsor
     extra = 1 
 
+class SponsorInline(admin.TabularInline):
+    model = Sponsor
+    extra = 1 
+
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
     extra = 0
@@ -34,6 +38,7 @@ class EventAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['name','city']
     form = EventForm
+    inlines = [EventRegistrationInline,SponsorInline]
     inlines = [EventRegistrationInline,SponsorInline]
 
 
