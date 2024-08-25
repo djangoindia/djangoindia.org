@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from .forms import EventForm, EmailForm
-from djangoindia.db.models.event import Event, EventRegistration,Sponsor,SponsorShip
+from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
 
 from django.core.mail import send_mass_mail
@@ -21,7 +21,7 @@ def send_email_to_selected_users(modeladmin, request, queryset):
     return redirect(f'send_email/?ids={",".join(map(str, ids))}')
 
 class SponsorInline(admin.TabularInline):
-    model = SponsorShip
+    model = Sponsorship
     extra = 1 
 
 
@@ -98,7 +98,7 @@ class SponsorShipAdmin(admin.ModelAdmin):
     list_display = ('sponsorship_tier', 'sponsorship_type', 'event')
     list_filter = ('sponsorship_type', 'event','sponsorship_tier')
 
-admin.site.register(SponsorShip, SponsorShipAdmin)
+admin.site.register(Sponsorship, SponsorShipAdmin)
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):

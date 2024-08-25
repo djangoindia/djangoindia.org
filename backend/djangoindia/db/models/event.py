@@ -93,9 +93,13 @@ class EventRegistration(BaseModel):
     
 
 class Sponsor(BaseModel):
+    
+    INDIVIDUAL = "Individual"
+    ORGANIZATION = "Organization"
+    
     SPONSOR_TYPE_CHOICES = [
-        ('individual', 'Individual'),
-        ('organization', 'Organization'),
+        (INDIVIDUAL, 'Individual'),
+        (ORGANIZATION, 'Organization'),
     ]
 
     name = models.CharField(max_length=255)
@@ -108,17 +112,25 @@ class Sponsor(BaseModel):
         return self.name
 
     
-class SponsorShip(BaseModel):
+class Sponsorship(BaseModel):
+    
+    PLATINUM = "platinum"
+    GOLD = "gold"
+    SILVER = "silver"
+    INDIVIDUAL = "individual"
+    COMMUNITYSPONSORSHIP = "community-sponsorship"
+    EVENTSPONSORSHIP = "event-sponsorship"
+    
     SPONSORSHIP_TIER_CHOICES = [
-        ('platinum', 'Platinum'),
-        ('gold', 'Gold'),
-        ('silver', 'Silver'),
-        ('individual', 'Individual'),
+        (PLATINUM, 'Platinum'),
+        (GOLD, 'Gold'),
+        (SILVER, 'Silver'),
+        (INDIVIDUAL, 'Individual'),
     ]
 
     SPONSORSHIP_TYPE_CHOICES = [
-        ('community_sponsorship', 'Community Sponsorship'),
-        ('event_sponsorship', 'Event Sponsorship'),
+        (COMMUNITYSPONSORSHIP, 'Community Sponsorship'),
+        (EVENTSPONSORSHIP, 'Event Sponsorship'),
     ]
 
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sponsorships')
