@@ -58,7 +58,7 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
 Special thanks to people maintaining this project.
 
 <table>
-  <tbody style="display: flex;">
+  <tbody style="display: flex; flex-direction: row;">
     <tr>
       <td style="text-align: center; vertical-align: top; width: 150px">
         <a href="https://github.com/ankanchanda">
