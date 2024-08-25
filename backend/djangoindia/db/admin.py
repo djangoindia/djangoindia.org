@@ -121,6 +121,8 @@ class SponsorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'email']
     search_fields = ['name',]
     readonly_fields = ('created_at', 'updated_at')
+    
+#email sending functionality and update registration
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
