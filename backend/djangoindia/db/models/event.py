@@ -89,3 +89,42 @@ class EventRegistration(BaseModel):
         return (
             f"{self.first_name} {self.last_name} ({self.email}) --- {self.event.name}"
         )
+
+    
+
+class SponsorData(BaseModel):
+    SPONSOR_TYPE_CHOICES = [
+        ('individual', 'Individual'),
+        ('organization', 'Organization'),
+    ]
+
+    name = models.CharField(max_length=255)
+    contact = models.CharField(max_length=100)
+    sponsor_type = models.CharField(max_length=20, choices=SPONSOR_TYPE_CHOICES)
+    logo = models.ImageField(upload_to='sponsors/logos/')
+    url = models.URLField(max_length=200, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    
+class Sponsor(BaseModel):
+    SPONSORSHIP_TIER_CHOICES = [
+        ('platinum', 'Platinum'),
+        ('gold', 'Gold'),
+        ('silver', 'Silver'),
+        ('individual', 'Individual'),
+    ]
+
+    SPONSORSHIP_TYPE_CHOICES = [
+        ('community_sponsorship', 'Community Sponsorship'),
+        ('event_sponsorship', 'Event Sponsorship'),
+    ]
+
+    sponsor_data = models.ForeignKey(SponsorData, on_delete=models.CASCADE, related_name='sponsorships')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='sponsors', null=True, blank=True)
+    sponsorship_tier = models.CharField(max_length=20, choices=SPONSORSHIP_TIER_CHOICES)
+    sponsorship_type = models.CharField(max_length=30, choices=SPONSORSHIP_TYPE_CHOICES)
+
+    def __str__(self):
+        return f"{self.sponsor_data.name} - {self.sponsorship_tier} - {self.sponsorship_type}"
