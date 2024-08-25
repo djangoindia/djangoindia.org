@@ -58,9 +58,9 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
 Special thanks to people maintaining this project.
 
 <table>
-  <tbody style="display: flex; flex-direction: row;">
+  <tbody>
     <tr>
-      <td style="text-align: center; vertical-align: top; width: 150px">
+      <td align="center" width="150px">
         <a href="https://github.com/ankanchanda">
           <img src="https://avatars.githubusercontent.com/u/108596468?v=4" width="75" height="75"   
  alt="Saurabh Sharma" />
@@ -68,7 +68,7 @@ Special thanks to people maintaining this project.
           Ankan Chanda
         </a>
         <br />
-        <p style="text-align: center;">
+        <p align="center">
           <a target="_blank" href="https://www.linkedin.com/in/ankanchanda/">
             <img width="32" height="32" src="https://img.icons8.com/color/32/linkedin.png" alt="LinkedIn" />
           </a>
@@ -77,9 +77,7 @@ Special thanks to people maintaining this project.
           </a>
         </p>
       </td>
-    </tr>
-    <tr>
-      <td style="text-align: center; vertical-align: top; width: 150px">
+      <td align="center" width="150px">
         <a href="https://github.com/nikhil25803">
           <img src="https://avatars.githubusercontent.com/u/93156825?v=4" width="75" height="75"   
  alt="Nikhil Raj" />
@@ -87,7 +85,7 @@ Special thanks to people maintaining this project.
           Nikhil Raj
         </a>
         <br />
-        <p style="text-align: center;">
+        <p align="center">
           <a target="_blank" href="https://www.linkedin.com/in/nikhil25803/">
             <img width="32" height="32" src="https://img.icons8.com/color/32/linkedin.png" alt="LinkedIn" />
           </a>
@@ -96,9 +94,7 @@ Special thanks to people maintaining this project.
           </a>
         </p>
       </td>
-    </tr>
-    <tr>
-      <td style="text-align: center; vertical-align: top; width: 150px">
+      <td align="center" width="150px">
         <a href="https://github.com/Knighthawk-Leo">
           <img src="https://avatars.githubusercontent.com/u/72437494?v=4" width="75" height="75"   
  alt="Sanskar Dwivedi" />
@@ -106,7 +102,7 @@ Special thanks to people maintaining this project.
           Sanskar Dwivedi
         </a>
         <br />
-        <p style="text-align: center;">
+        <p align="center">
           <a target="_blank" href="https://www.linkedin.com/in/sanskar-dwivedi-a20201200/">
             <img width="32" height="32" src="https://img.icons8.com/color/32/linkedin.png" alt="LinkedIn" />
           </a>
@@ -115,9 +111,7 @@ Special thanks to people maintaining this project.
           </a> -->
         </p>
       </td>
-    </tr>
-    <tr>
-      <td style="text-align: center; vertical-align: top; width: 150px">
+      <td align="center" width="150px">
         <a href="https://github.com/Saurabhsharma884">
           <img src="https://avatars.githubusercontent.com/u/65456653?v=4" width="75" height="75"   
  alt="Saurabh Sharma" />
@@ -125,7 +119,7 @@ Special thanks to people maintaining this project.
           Saurabh Sharma
         </a>
         <br />
-        <p style="text-align: center;">
+        <p align="center">
           <a target="_blank" href="https://www.linkedin.com/in/saurabh-sharma-555a501b7/">
             <img width="32" height="32" src="https://img.icons8.com/color/32/linkedin.png" alt="LinkedIn" />
           </a>
