@@ -1,5 +1,5 @@
 <div style="align: center;">
-  <img src="assets/webiste-front.png" alt="Django India Logo" />
+  <img src="assets/djangoindia-logo.png" alt="Django India Logo" />
 </div>
 
 
@@ -14,10 +14,9 @@
 ## Table of Contents
 - [Code of Conduct](#code-of-conduct)
 - [Get Involved and Make a Difference](#get-involved-and-make-a-difference)
-- [License](#license)
 - [Contributing to djangoindia website](#contributing-to-djangoindia-website)
 - [Maintainers](#maintainers)
-
+- [License](#license)
 
 
 ## Code of Conduct
@@ -41,13 +40,6 @@ Join our community. Here's how you can get involved:
 Together, let's build something incredible! ✨🚀
 
 
-
-## License
-
-This project is licensed under the MIT License, one of the most permissive and widely used open-source licenses.This means that you can integrate this project into your applications, modify it to fit your needs, and even distribute it as part of a commercial product without any concern for legal restrictions.
-For more details, please see our [License.](https://github.com/djangoindia/djangoindia.org/blob/main/LICENSE)
-
-
 ## Contributing to djangoindia website
 
 We welcome contributions from everyone, whether you're fixing bugs, adding new features, or improving documentation. To contribute, please fork the repository, create a new branch for your changes, and submit a pull request. Make sure to follow our coding standards and include tests where applicable. We also encourage you to discuss significant changes by opening an issue before starting development. Your contributions help us build a stronger community—thank you for being a part of Django India!
@@ -55,7 +47,6 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
 
 ## Maintainers
 
-Special thanks to people maintaining this project.
 
 <table>
   <tbody>
@@ -131,3 +122,8 @@ Special thanks to people maintaining this project.
     </tr>
   </tbody>
 </table>
+
+## License
+
+This project is licensed under the MIT License, one of the most permissive and widely used open-source licenses.This means that you can integrate this project into your applications, modify it to fit your needs, and even distribute it as part of a commercial product without any concern for legal restrictions.
+For more details, please see our [License.](https://github.com/djangoindia/djangoindia.org/blob/main/LICENSE)
