@@ -1,27 +1,28 @@
 'use client'
 
 import Image from 'next/image'
-import { Button } from '@components'
+
 import useWidth from '@/hooks/useWidth'
+import { Button } from '@components'
 
 const WhatIsDjango = () => {
   const width = useWidth()
   return (
-    <section className='w-full h-auto relative bg-[#f9f4ee]'>
-      <section className="w-full h-[600px] relative bg-[url('/whatIsDjango/Curve.svg')] bg-cover bg-no-repeat">
+    <section className='relative h-auto w-full bg-[#f9f4ee]'>
+      <section className="relative h-[600px] w-full bg-[url('/whatIsDjango/Curve.svg')] bg-cover bg-no-repeat">
         {/* You can add more content here if needed */}
         <Image
           src='/whatIsDjango/elipse.svg'
           width={1440}
           height={600}
           alt='hero'
-          className='absolute z-10 object-cover w-full'
+          className='absolute z-10 w-full object-cover'
         ></Image>
-        <div className='flex flex-row w-full h-auto relative'>
+        <div className='relative flex h-auto w-full flex-row'>
           {/* Left Text Section */}
-          <div className='flex flex-col mt-20 md:mt-0 w-full md:w-1/2 p-2'>
+          <div className='mt-20 flex w-full flex-col p-2 md:mt-0 md:w-1/2'>
             {/* Add your text content here */}
-            <div className='flex flex-col h-full justify-center md:pl-10 gap-8 items-start'>
+            <div className='flex h-full flex-col items-start justify-center gap-8 md:pl-10'>
               <div className='h-16'>
                 <div>
                   <Image
@@ -31,16 +32,21 @@ const WhatIsDjango = () => {
                     alt='Description of the image'
                     className='absolute mx-auto scale-90'
                   />
-                  <div className='text-2xl md:text-4xl pl-8 pt-6 font-black text-[#06038D] archivo'>
+                  <div className='archivo pl-8 pt-6 text-2xl font-black text-[#06038D] md:text-4xl'>
                     What is Django India?
                   </div>
                 </div>
               </div>
-              <p className='w-full md:max-w-[600px] text-sm  md:text-2xl pl-8  text-black font-medium'>
+              <p className='w-full pl-8 text-sm  font-medium text-black  md:max-w-[600px] md:text-2xl'>
               A vibrant community of Django developers, primarily from India. 
               It unites passionate individuals who are eager to learn, share knowledge, and collaborate 
               on innovative projects. Through our meetups, workshops, and online events, members actively 
               contribute to the growth of the Django ecosystem in India.
+                Django India is a community of django developers, especially
+                from India. It brings together a passionate community eager to
+                learn, share knowledge, and collaborate on exciting projects.
+                Through meetups, workshops, and online events, members actively
+                contribute with an aim to grow the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
                 <Button>Learn More</Button>
@@ -49,15 +55,15 @@ const WhatIsDjango = () => {
           </div>
 
           {/* Right Image Section */}
-          <div className='opacity-15 mt-20 md:mt-0 p-4 left-0 right-0 absolute md:relative md:w-1/2 md:opacity-100'>
+          <div className='absolute inset-x-0 mt-20 p-4 opacity-15 md:relative md:mt-0 md:w-1/2 md:opacity-100'>
             {/* Add your Image component or img tag here */}
             <div className='overflow-hidden'>
               <Image
                 src='/whatIsDjango/mandala.svg'
-                width={width >= 500 ? 490 : width >= 400 ? 350 :300}
+                width={width >= 500 ? 490 : width >= 400 ? 350 : 300}
                 height={500}
                 alt='Description of the image'
-                className='object-contain mx-auto md:ml-20 scale-90 rotate'
+                className='rotate mx-auto scale-90 object-contain md:ml-20'
               />
             </div>
             <Image
@@ -65,7 +71,7 @@ const WhatIsDjango = () => {
               width={250}
               height={104}
               alt='Description of the image'
-              className='absolute z-20 top-64 left-56 object-contain scale-90 hidden md:block'
+              className='absolute left-56 top-64 z-20 hidden scale-90 object-contain md:block'
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { getApiUrl } from '../utils/apiUrl';
-type ErrorResponse = {
+interface ErrorResponse {
   message?: string
   statusCode?: number
 }

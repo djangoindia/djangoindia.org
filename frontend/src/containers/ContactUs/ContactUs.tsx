@@ -1,13 +1,16 @@
 'use client'
 
-import { Label, Input, Textarea, Button } from '@components'
 import React from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { ContactUsForm } from './ContactUs.types'
-import { fetchData } from '@utils'
-import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { Button, Input, Label, Textarea } from '@components'
+import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
+import { fetchData } from '@utils'
+
+import { ContactUsForm } from './ContactUs.types'
 
 const ContactUs = () => {
   const {
@@ -20,7 +23,7 @@ const ContactUs = () => {
   })
 
   const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
-    const res = await fetchData<{message: string}>(API_ENDPOINTS.contactUs, {
+    const res = await fetchData<{ message: string }>(API_ENDPOINTS.contactUs, {
       method: 'POST',
       body: JSON.stringify(data),
     })
@@ -37,7 +40,7 @@ const ContactUs = () => {
   return (
     <>
       <div className='container'>
-        <h2 className='text-6xl mt-12 mb-6 font-bold text-blue-900'>
+        <h2 className='mb-6 mt-12 text-6xl font-bold text-blue-900'>
           Contact Us
         </h2>
         <hr />
@@ -47,10 +50,10 @@ const ContactUs = () => {
           admin@djangoindia.org. We look forward to connecting with you!
         </p>
         <form
-          className='flex flex-col max-w-2xl mx-auto my-16 gap-2'
+          className='mx-auto my-16 flex max-w-2xl flex-col gap-2'
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className='flex flex-col sm:flex-row gap-5 w-full justify-between'>
+          <div className='flex w-full flex-col justify-between gap-5 sm:flex-row'>
             <div className='grid w-full items-center gap-1.5'>
               <Label
                 htmlFor='firstName'
@@ -62,9 +65,9 @@ const ContactUs = () => {
                 {...register('first_name', { required: true })}
                 type='text'
                 placeholder='Enter your first Name'
-                className={`${errors.first_name ? '!outline-red-500 text-color-500' : ''}`}
+                className={`${errors.first_name ? 'text-color-500 !outline-red-500' : ''}`}
               />
-              <p className='text-red-500 text-sm h-[20px]'>
+              <p className='h-[20px] text-sm text-red-500'>
                 {errors.first_name?.message ?? ' '}
               </p>
             </div>
@@ -80,9 +83,9 @@ const ContactUs = () => {
                 type='text'
                 id='lastName'
                 placeholder='Enter your last Name'
-                className={`${errors.last_name ? '!outline-red-500 text-color-500' : ''}`}
+                className={`${errors.last_name ? 'text-color-500 !outline-red-500' : ''}`}
               />
-              <p className='text-red-500 text-sm h-[20px]'>
+              <p className='h-[20px] text-sm text-red-500'>
                 {errors.last_name?.message ?? ' '}
               </p>
             </div>
@@ -99,9 +102,9 @@ const ContactUs = () => {
               type='email'
               id='email'
               placeholder='Enter your email'
-              className={`${errors.email ? '!outline-red-500 text-color-500' : ''}`}
+              className={`${errors.email ? 'text-color-500 !outline-red-500' : ''}`}
             />
-            <p className='text-red-500 text-sm h-[20px]'>
+            <p className='h-[20px] text-sm text-red-500'>
               {errors.email?.message ?? ' '}
             </p>
           </div>
@@ -117,9 +120,9 @@ const ContactUs = () => {
               {...register('message', { required: true })}
               placeholder='Type your message here.'
               id='message'
-              className={`${errors.message ? '!outline-red-500 text-color-500' : ''}`}
+              className={`${errors.message ? 'text-color-500 !outline-red-500' : ''}`}
             />
-            <p className='text-red-500 text-sm h-[20px]'>
+            <p className='h-[20px] text-sm text-red-500'>
               {errors.message?.message ?? ' '}
             </p>
           </div>

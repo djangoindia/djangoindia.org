@@ -1,16 +1,21 @@
 'use client'
 
 import React from 'react'
-import { MdOutlineEmail } from 'react-icons/md'
-import { FaRegUser } from 'react-icons/fa'
-import './styles.css'
-import { Button } from '@/components'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import { SubscriberForm } from './LatestUpdate.types'
-import { fetchData } from '@utils'
-import { API_ENDPOINTS, SUBSCRIBER_FORM_SCHEMA } from '@constants'
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
+import { FaRegUser } from 'react-icons/fa'
+import { MdOutlineEmail } from 'react-icons/md'
+
+import './styles.css'
+import { Button } from '@/components'
+
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
+import { fetchData } from '@utils'
+
 
 function Update() {
   const {
@@ -39,10 +44,10 @@ function Update() {
 
   return (
     <>
-      <div className="w-full bg-[url('/subscriber/bg.svg')] bg-no-repeat bg-cover sm:px-6 lg:px-8 relative z-20">
-        <div className='max-w-4xl pt-40 pb-10 mx-auto'>
-          <div className='text-center mb-8'>
-            <h1 className='text-3xl font-bold mb-2'>Get the latest updates</h1>
+      <div className="relative z-20 w-full bg-[url('/subscriber/bg.svg')] bg-cover bg-no-repeat sm:px-6 lg:px-8">
+        <div className='mx-auto max-w-4xl pb-10 pt-40'>
+          <div className='mb-8 text-center'>
+            <h1 className='mb-2 text-3xl font-bold'>Get the latest updates</h1>
             <p className='text-lg text-gray-700'>
               Enter your email to receive early notifications about upcoming
               events, projects, newsletters and more!
@@ -50,7 +55,7 @@ function Update() {
           </div>
           <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
             <div className='p-4'>
-              <h2 className='text-lg font-bold mb-2'>Support</h2>
+              <h2 className='mb-2 text-lg font-bold'>Support</h2>
               <p className='flex items-center text-gray-600'>
                 <MdOutlineEmail className='mr-2' />
                 admin@djangoindia.org
@@ -62,35 +67,35 @@ function Update() {
             >
               <div>
                 <div
-                  className={`flex items-center border border-gray-300 rounded-xl p-2 bg-white ${errors.name ? 'border-red-500' : ''}`}
+                  className={`flex items-center rounded-xl border border-gray-300 bg-white p-2 ${errors.name ? 'border-red-500' : ''}`}
                 >
-                  <FaRegUser className='text-gray-500 mr-2' />
+                  <FaRegUser className='mr-2 text-gray-500' />
                   <input
                     type='text'
                     id='name'
                     placeholder='Full Name'
-                    className='outline-none flex-1'
+                    className='flex-1 outline-none'
                     {...register('name', { required: true })}
                   />
                 </div>
-                <p className='text-red-500 text-sm h-[20px]'>
+                <p className='h-[20px] text-sm text-red-500'>
                   {errors.name?.message ?? ' '}
                 </p>
               </div>
               <div>
                 <div
-                  className={`flex items-center border border-gray-300 rounded-xl p-2 bg-white  ${errors.email ? 'border-red-500' : ''}`}
+                  className={`flex items-center rounded-xl border border-gray-300 bg-white p-2  ${errors.email ? 'border-red-500' : ''}`}
                 >
-                  <MdOutlineEmail className='text-gray-500 mr-2' />
+                  <MdOutlineEmail className='mr-2 text-gray-500' />
                   <input
                     type='email'
                     id='email'
                     placeholder='Email'
-                    className='outline-none flex-1'
+                    className='flex-1 outline-none'
                     {...register('email', { required: true })}
                   />
                 </div>
-                <p className='text-red-500 text-sm h-[20px]'>
+                <p className='h-[20px] text-sm text-red-500'>
                   {errors.email?.message ?? ' '}
                 </p>
               </div>

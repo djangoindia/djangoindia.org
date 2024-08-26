@@ -1,25 +1,26 @@
 import React from 'react'
 
-import { EventCard } from '@sections'
-import { fetchData } from '@/utils'
-import { EventsResponse } from '@/types'
 import { API_ENDPOINTS } from '@/constants'
+import { EventsResponse } from '@/types'
+import { fetchData } from '@/utils'
+import { EventCard } from '@sections'
 
 const Page = async () => {
-  const { data: events } = await fetchData<EventsResponse>(
-    API_ENDPOINTS.events,
-  )
+  const { data: events } = await fetchData<EventsResponse>(API_ENDPOINTS.events)
   return (
     <div>
-      <div className='p-4 mb-10 md:mb-20 lg:mb-50'>
-        <div className='flex flex-col items-center mb-4'>
-          <h1 className='text-3xl text-center font-bold'>All Events</h1>
+      <div className='lg:mb-50 mb-10 p-4 md:mb-20'>
+        <div className='mb-4 flex flex-col items-center'>
+          <h1 className='text-center text-3xl font-bold'>All Events</h1>
         </div>
         {events?.length ? (
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
             {events?.map(
-              ({ cover_image, event_start_date, name, venue, id, event_mode }, index) => (
-                <div key={index} className='w-full h-auto mb-4'>
+              (
+                { cover_image, event_start_date, name, venue, id, event_mode },
+                index,
+              ) => (
+                <div key={index} className='mb-4 h-auto w-full'>
                   <EventCard
                     eventId={id}
                     title={name}

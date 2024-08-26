@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const useWidth = () => {
   const [width, setWidth] = useState<number>(767)

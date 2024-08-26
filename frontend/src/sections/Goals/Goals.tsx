@@ -3,22 +3,22 @@ import Image from 'next/image'
 
 const Goals = () => {
   return (
-    <div className='max-w-7xl overflow-x-hidden mx-auto p-6 pb-20'>
-      <h1 className='text-5xl font-black text-center archivo text-[#06038D] my-8'>
+    <div className='mx-auto max-w-7xl overflow-x-hidden p-6 pb-20'>
+      <h1 className='archivo my-8 text-center text-5xl font-black text-[#06038D]'>
         Our Goals
       </h1>
       <div className='space-y-40'>
-        <div className='flex flex-col md:flex-row  items-center justify-center mt-20 '>
+        <div className='mt-20 flex flex-col  items-center justify-center md:flex-row '>
           <Image
             src='/goals/learning.svg'
             alt='Learning'
             width={250}
             height={250}
-            className='object-contain mx-8'
+            className='mx-8 object-contain'
           />
           <div className='max-w-[570px]'>
-            <h2 className='font-extrabold pb-4 text-3xl'>Learning</h2>
-            <p className='text-gray-700 md:text-[24px] font-medium'>
+            <h2 className='pb-4 text-3xl font-extrabold'>Learning</h2>
+            <p className='font-medium text-gray-700 md:text-[24px]'>
               Foster an environment of knowledge sharing by organizing regular
               meetups, workshops, and webinars where members can learn from
               industry experts and peers.
@@ -27,11 +27,11 @@ const Goals = () => {
           <div className='w-[250px] bg-red-500'></div>
         </div>
 
-        <div className='flex flex-col-reverse md:flex-row items-center justify-center '>
-          <div className='w-[250px] h-[250px] mx-8 hidden md:block'></div>
+        <div className='flex flex-col-reverse items-center justify-center md:flex-row '>
+          <div className='mx-8 hidden size-[250px] md:block'></div>
           <div className='max-w-[570px]'>
-            <h2 className='font-extrabold pb-4 text-3xl'>Networking</h2>
-            <p className='text-gray-700 md:text-[24px] font-medium'>
+            <h2 className='pb-4 text-3xl font-extrabold'>Networking</h2>
+            <p className='font-medium text-gray-700 md:text-[24px]'>
               Networking is another key goal, with a focus on facilitating
               events such as hackathons, conferences, and social gatherings to
               help developers connect and collaborate.
@@ -46,32 +46,32 @@ const Goals = () => {
           />
         </div>
 
-        <div className='flex flex-col md:flex-row items-center justify-center '>
+        <div className='flex flex-col items-center justify-center md:flex-row '>
           <Image
             src='/goals/Collaborative.svg'
             alt='Learning'
             width={250}
             height={250}
-            className='object-contain mx-8'
+            className='mx-8 object-contain'
           />
           <div className='max-w-[570px]'>
-            <h2 className='font-extrabold pb-4 text-3xl'>
+            <h2 className='pb-4 text-3xl font-extrabold'>
               Collaborative Projects
             </h2>
-            <p className='text-gray-700 md:text-[24px] font-medium'>
+            <p className='font-medium text-gray-700 md:text-[24px]'>
               To promote collaborative projects, open-source initiatives and
               local development for the community. Recognizing and rewarding
               contributions to promote OSS.
             </p>
           </div>
-          <div className='w-[250px] h-[250px] hidden md:block'></div>
+          <div className='hidden size-[250px] md:block'></div>
         </div>
 
-        <div className='flex flex-col-reverse md:flex-row items-center justify-center '>
-          <div className='w-[250px] h-[250px] mx-8 hidden md:block'></div>
+        <div className='flex flex-col-reverse items-center justify-center md:flex-row '>
+          <div className='mx-8 hidden size-[250px] md:block'></div>
           <div className='max-w-[570px]'>
-            <h2 className='font-extrabold pb-4 text-3xl'>Awareness</h2>
-            <p className='text-gray-700 md:text-[24px] font-medium'>
+            <h2 className='pb-4 text-3xl font-extrabold'>Awareness</h2>
+            <p className='font-medium text-gray-700 md:text-[24px]'>
               Spreading Django&apos;s benefits through talks, blogs, and social
               media, along with successful case studies, will drive its adoption
               in diverse industries.

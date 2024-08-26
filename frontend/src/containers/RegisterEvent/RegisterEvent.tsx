@@ -1,5 +1,7 @@
 import React from 'react'
+
 import {
+  Button,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -8,7 +10,6 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  Button,
   Input,
   Label,
   RadioGroup,
@@ -23,7 +24,7 @@ export const RegisterEvent = () => {
           Register
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full">
+      <DrawerContent className="h-full bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover">
         <DrawerHeader>
           <DrawerTitle className='text-center text-4xl'>
             Register Now!
@@ -32,7 +33,7 @@ export const RegisterEvent = () => {
             Please fill the information carefully
           </DrawerDescription>
         </DrawerHeader>
-        <form className='w-2/4 flex flex-col mx-auto gap-6 mt-10'>
+        <form className='mx-auto mt-10 flex w-2/4 flex-col gap-6'>
           <div className='flex w-full justify-between gap-5'>
             <div className='grid w-full items-center gap-1.5'>
               <Label htmlFor='firstName'>First Name</Label>
@@ -117,7 +118,7 @@ export const RegisterEvent = () => {
               />
             </div>
           </div>
-          <DrawerFooter className='flex flex-row gap-4 mx-auto'>
+          <DrawerFooter className='mx-auto flex flex-row gap-4'>
             <Button>Register</Button>
             <DrawerClose asChild>
               <Button variant='outline'>Cancel</Button>
