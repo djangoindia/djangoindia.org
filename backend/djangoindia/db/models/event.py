@@ -94,8 +94,8 @@ class EventRegistration(BaseModel):
 
 class Sponsor(BaseModel):
     
-    INDIVIDUAL = "Individual"
-    ORGANIZATION = "Organization"
+    INDIVIDUAL = "individual"
+    ORGANIZATION = "organization"
     
     SPONSOR_TYPE_CHOICES = [
         (INDIVIDUAL, INDIVIDUAL),
