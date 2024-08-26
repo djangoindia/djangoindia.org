@@ -129,8 +129,8 @@ class Sponsorship(BaseModel):
     ]
 
     SPONSORSHIP_TYPE_CHOICES = [
-        (COMMUNITYSPONSORSHIP, 'Community Sponsorship'),
-        (EVENTSPONSORSHIP, 'Event Sponsorship'),
+        (COMMUNITYSPONSORSHIP, 'COMMUNITY SPONSORSHIP'),
+        (EVENTSPONSORSHIP, 'EVENT SPONSORSHIP'),
     ]
 
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sponsorships')
