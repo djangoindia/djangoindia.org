@@ -98,8 +98,8 @@ class Sponsor(BaseModel):
     ORGANIZATION = "Organization"
     
     SPONSOR_TYPE_CHOICES = [
-        (INDIVIDUAL, 'Individual'),
-        (ORGANIZATION, 'Organization'),
+        (INDIVIDUAL, 'INDIVIDUAL'),
+        (ORGANIZATION, 'ORGANIZATION'),
     ]
 
     name = models.CharField(max_length=255)
@@ -118,14 +118,14 @@ class Sponsorship(BaseModel):
     GOLD = "gold"
     SILVER = "silver"
     INDIVIDUAL = "individual"
-    COMMUNITYSPONSORSHIP = "community-sponsorship"
-    EVENTSPONSORSHIP = "event-sponsorship"
+    COMMUNITYSPONSORSHIP = "community_sponsorship"
+    EVENTSPONSORSHIP = "event_sponsorship"
     
     SPONSORSHIP_TIER_CHOICES = [
-        (PLATINUM, 'Platinum'),
-        (GOLD, 'Gold'),
-        (SILVER, 'Silver'),
-        (INDIVIDUAL, 'Individual'),
+        (PLATINUM, 'PLATINUM'),
+        (GOLD, 'GOLD'),
+        (SILVER, 'SILVER'),
+        (INDIVIDUAL, 'INDIVIDUAL'),
     ]
 
     SPONSORSHIP_TYPE_CHOICES = [
