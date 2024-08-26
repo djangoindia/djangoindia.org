@@ -7,11 +7,15 @@ First, use npm version from `nvmrc`:
 ```bash
 nvm use
 ```
+
 Install packages
+
 ```bash
 npm i
 ```
+
 Run dev server
+
 ```bash
 npm run dev
 ```

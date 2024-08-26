@@ -12,16 +12,20 @@
     "plugin:import/typescript",
     "plugin:tailwindcss/recommended"
   ],
-  "plugins": ["prettier","@typescript-eslint", "react", "react-hooks","import","tailwindcss"],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "import",
+    "tailwindcss"
+  ],
   "rules": {
     "prefer-const": "warn",
     "no-var": "warn",
     "no-unused-vars": "warn",
     "object-shorthand": "warn",
-    "quote-props": [
-      "warn",
-      "as-needed"
-    ],
+    "quote-props": ["warn", "as-needed"],
     "camelcase": [
       "warn",
       {
@@ -41,7 +45,14 @@
     "import/order": [
       "warn",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
         "pathGroups": [
           {
             "pattern": "react",
@@ -93,10 +104,7 @@
       }
     ],
     // React rules
-    "react/jsx-fragments": [
-      "warn",
-      "syntax"
-    ],
+    "react/jsx-fragments": ["warn", "syntax"],
     "react/jsx-filename-extension": [
       "warn",
       {

@@ -1,29 +1,28 @@
 /* styles.css */
 
 .curve-mask {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .curve-up {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 150px; /* Adjust height as needed */
-    background-color: #ffffff; /* Adjust background color */
-    z-index: 10;
-    clip-path: ellipse(55% 50% at 50% 0%);
-  }
-  
-  .curve-down {
-    position: absolute;
-    /* bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.curve-up {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150px; /* Adjust height as needed */
+  background-color: #ffffff; /* Adjust background color */
+  z-index: 10;
+  clip-path: ellipse(55% 50% at 50% 0%);
+}
+
+.curve-down {
+  position: absolute;
+  /* bottom: 0;
     left: 0;
     right: 0; */
-    /* height: 150px;  */
-    background-color: #ffffff; /* Adjust background color */
-    z-index: 10;
-    clip-path: ellipse(55% 50% at 50% 100%);
-  }
-  
+  /* height: 150px;  */
+  background-color: #ffffff; /* Adjust background color */
+  z-index: 10;
+  clip-path: ellipse(55% 50% at 50% 100%);
+}
