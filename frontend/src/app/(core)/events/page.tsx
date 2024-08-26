@@ -3,6 +3,7 @@ import React from 'react'
 import { API_ENDPOINTS } from '@/constants'
 import { EventsResponse } from '@/types'
 import { fetchData } from '@/utils'
+
 import { EventCard } from '@sections'
 
 const Page = async () => {

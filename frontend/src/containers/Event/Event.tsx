@@ -10,15 +10,13 @@ import { SlCalender } from 'react-icons/sl'
 import sanitizeHtml from 'sanitize-html'
 
 import { Button } from '@/components'
-
 import type { Event } from '@/types'
+import { calculateDuration } from '@/utils'
+
 import event1 from '../../../public/01.svg'
 import wave1 from '../../../public/wave01.png'
 import wave2 from '../../../public/wave02.png'
-
 import { RegisterEvent } from '../RegisterEvent'
-
-import { calculateDuration } from '@/utils'
 
 const EventContainer = async ({
   event: {

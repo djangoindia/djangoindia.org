@@ -35,8 +35,8 @@
     "sort-imports": [
       "warn",
       {
-        "ignoreCase": false,
-        "ignoreDeclarationSort": false,
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
         "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
         "allowSeparatedGroups": false
@@ -51,13 +51,20 @@
           "internal",
           "parent",
           "sibling",
-          "index"
+          "index",
+          "object",
+          "type"
         ],
         "pathGroups": [
           {
             "pattern": "react",
             "group": "external",
             "position": "before"
+          },
+          {
+            "pattern": "@/**", 
+            "group": "internal",
+            "position": "before" 
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 
 import useWidth from '@/hooks/useWidth'
+
 import { Button } from '@components'
 
 const WhatIsDjango = () => {
