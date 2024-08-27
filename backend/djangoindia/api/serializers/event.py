@@ -6,7 +6,7 @@ from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsor
 
 class SponsorDetailsSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
-    contact_email = serializers.CharField(max_length=100)
+    email = serializers.CharField(max_length=100)
     type = serializers.CharField()
     logo = serializers.ImageField()
     url = serializers.URLField(allow_blank=True, allow_null=True)

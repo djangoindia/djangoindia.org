@@ -103,7 +103,7 @@ class Sponsor(BaseModel):
     ]
 
     name = models.CharField(max_length=255)
-    contact_email = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
     type = models.CharField(max_length=20, choices=SPONSOR_TYPE_CHOICES)
     logo = models.ImageField(upload_to='sponsors/logos/')
     url = models.URLField(max_length=500, blank=True, null=True)
@@ -118,8 +118,8 @@ class Sponsorship(BaseModel):
     GOLD = "gold"
     SILVER = "silver"
     INDIVIDUAL = "individual"
-    COMMUNITYSPONSORSHIP = "community_sponsorship"
-    EVENTSPONSORSHIP = "event_sponsorship"
+    COMMUNITY_SPONSORSHIP = "community_sponsorship"
+    EVENT_SPONSORSHIP = "event_sponsorship"
     
     SPONSORSHIP_TIER_CHOICES = [
         (PLATINUM, PLATINUM),
@@ -129,8 +129,8 @@ class Sponsorship(BaseModel):
     ]
 
     SPONSORSHIP_TYPE_CHOICES = [
-        (COMMUNITYSPONSORSHIP, COMMUNITYSPONSORSHIP),
-        (EVENTSPONSORSHIP, EVENTSPONSORSHIP),
+        (COMMUNITY_SPONSORSHIP, COMMUNITY_SPONSORSHIP),
+        (EVENT_SPONSORSHIP, EVENT_SPONSORSHIP),
     ]
 
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sponsorships')

@@ -102,4 +102,4 @@ admin.site.register(Sponsorship, SponsorShipAdmin)
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
-    list_display = ['name', 'type', 'contact_email']
+    list_display = ['name', 'type', 'email']
