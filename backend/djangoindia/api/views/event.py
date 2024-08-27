@@ -26,7 +26,6 @@ class EventAPIView(
                 'sponsor__url',
                 'sponsor__name',
                 'sponsor__type',
-                'sponsor__email',
                 'sponsor__logo'
             ),
             to_attr='event_sponsors'

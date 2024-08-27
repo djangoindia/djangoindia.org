@@ -94,12 +94,16 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     
 
-class SponsorShipAdmin(admin.ModelAdmin):
-    list_display = ('sponsorship_tier', 'sponsorship_type', 'event')
+class SponsorshipAdmin(admin.ModelAdmin):
+    list_display = ('sponsor', 'sponsorship_tier', 'sponsorship_type', 'event')
     list_filter = ('sponsorship_type', 'event','sponsorship_tier')
+    search_fields=['sponsor__name',]
+    readonly_fields = ('created_at', 'updated_at')
 
-admin.site.register(Sponsorship, SponsorShipAdmin)
+admin.site.register(Sponsorship, SponsorshipAdmin)
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'email']
+    search_fields=['name',]
+    readonly_fields = ('created_at', 'updated_at')
