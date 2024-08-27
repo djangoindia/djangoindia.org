@@ -133,10 +133,10 @@ class Sponsorship(BaseModel):
         (EVENT_SPONSORSHIP, EVENT_SPONSORSHIP),
     ]
 
-    sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sponsorships')
+    sponsor_details = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sponsorships')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='sponsors', null=True, blank=True)
-    sponsorship_tier = models.CharField(max_length=20, choices=SPONSORSHIP_TIER_CHOICES)
-    sponsorship_type = models.CharField(max_length=30, choices=SPONSORSHIP_TYPE_CHOICES)
+    tier = models.CharField(max_length=20, choices=SPONSORSHIP_TIER_CHOICES)
+    type = models.CharField(max_length=30, choices=SPONSORSHIP_TYPE_CHOICES)
 
     def __str__(self):
-        return f"{self.sponsor.name} - {self.sponsorship_tier} - {self.sponsorship_type}"
+        return f"{self.sponsor_details.name} - {self.tier} - {self.type}"

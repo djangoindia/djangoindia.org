@@ -20,13 +20,14 @@ class EventAPIView(
         Prefetch(
             'sponsors',
             queryset=Sponsorship.objects.filter(
-                sponsorship_type='event_sponsorship'
-            ).select_related('sponsor').only(
-                'sponsorship_tier',
-                'sponsor__url',
-                'sponsor__name',
-                'sponsor__type',
-                'sponsor__logo'
+                type='event_sponsorship'
+            ).select_related('sponsor_details').only(
+                'tier',
+                'type',
+                'sponsor_details__url',
+                'sponsor_details__name',
+                'sponsor_details__type',
+                'sponsor_details__logo'
             ),
             to_attr='event_sponsors'
         )

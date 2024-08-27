@@ -12,8 +12,8 @@ class SponsorDetailsSerializer(serializers.Serializer):
     
 class SponsorSerializer(serializers.Serializer):
     sponsor_details = SponsorDetailsSerializer()
-    sponsorship_tier = serializers.CharField()
-    sponsorship_type = serializers.CharField()
+    tier = serializers.CharField()
+    type = serializers.CharField()
 
 
 class EventSerializer(serializers.Serializer):

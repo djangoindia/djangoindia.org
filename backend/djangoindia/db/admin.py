@@ -95,9 +95,9 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     
 
 class SponsorshipAdmin(admin.ModelAdmin):
-    list_display = ('sponsor', 'sponsorship_tier', 'sponsorship_type', 'event')
-    list_filter = ('sponsorship_type', 'event','sponsorship_tier')
-    search_fields=['sponsor__name',]
+    list_display = ('sponsor_details', 'tier', 'type', 'event')
+    list_filter = ('type', 'event','tier')
+    search_fields=['sponsor_details__name',]
     readonly_fields = ('created_at', 'updated_at')
 
 admin.site.register(Sponsorship, SponsorshipAdmin)
