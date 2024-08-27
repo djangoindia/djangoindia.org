@@ -65,7 +65,7 @@ const ContactUs = () => {
                 {...register('first_name', { required: true })}
                 type='text'
                 placeholder='Enter your first Name'
-                className={`${errors.first_name ? 'text-color-500 !outline-red-500' : ''}`}
+                className={`${errors.first_name ? 'text-red-500 !outline-red-500' : ''}`}
               />
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.first_name?.message ?? ' '}
@@ -83,7 +83,7 @@ const ContactUs = () => {
                 type='text'
                 id='lastName'
                 placeholder='Enter your last Name'
-                className={`${errors.last_name ? 'text-color-500 !outline-red-500' : ''}`}
+                className={`${errors.last_name ? 'text-red-500 !outline-red-500' : ''}`}
               />
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.last_name?.message ?? ' '}
@@ -102,7 +102,7 @@ const ContactUs = () => {
               type='email'
               id='email'
               placeholder='Enter your email'
-              className={`${errors.email ? 'text-color-500 !outline-red-500' : ''}`}
+              className={`${errors.email ? 'text-red-500 !outline-red-500' : ''}`}
             />
             <p className='h-[20px] text-sm text-red-500'>
               {errors.email?.message ?? ' '}
@@ -120,7 +120,7 @@ const ContactUs = () => {
               {...register('message', { required: true })}
               placeholder='Type your message here.'
               id='message'
-              className={`${errors.message ? 'text-color-500 !outline-red-500' : ''}`}
+              className={`${errors.message ? 'text-red-500 !outline-red-500' : ''}`}
             />
             <p className='h-[20px] text-sm text-red-500'>
               {errors.message?.message ?? ' '}

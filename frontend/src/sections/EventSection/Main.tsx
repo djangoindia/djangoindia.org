@@ -18,7 +18,7 @@ const Main: React.FC = async () => {
   const { data: events } = await fetchData<EventsResponse>(API_ENDPOINTS.events)
 
   return (
-    <div className='lg:mb-50 mb-10 p-4 md:mb-20'>
+    <div className='mb-10 p-4 md:mb-20 lg:mb-48'>
       <div className='mx-20 mb-4 flex flex-row items-center justify-center'>
         <h1 className='text-center text-[40px] font-bold text-[#06038D]'>
           Upcoming Events
@@ -38,7 +38,7 @@ const Main: React.FC = async () => {
                   event_mode,
                 }) => (
                   <CarouselItem
-                    className='basis-1/1 sm:basis-1/2 md:basis-1/3'
+                    className='basis-full sm:basis-1/2 md:basis-1/3'
                     key={id}
                   >
                     <div className='mb-4 h-auto w-full md:mb-0 md:w-auto'>

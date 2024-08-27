@@ -82,7 +82,7 @@ const Goals = () => {
             alt='Learning'
             width={250}
             height={250}
-            className='objext-contain'
+            className='object-contain'
           />
         </div>
       </div>

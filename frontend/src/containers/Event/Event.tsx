@@ -72,7 +72,7 @@ const EventContainer = async ({
           </span>
           {city && <span>City: {city}</span>}
           <RegisterEvent />
-          <div className='text-l my-12 flex flex-col gap-3'>
+          <div className='my-12 flex flex-col gap-3 text-lg'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
             </span>

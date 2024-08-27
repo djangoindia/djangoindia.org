@@ -39,7 +39,7 @@ function Join() {
             className='object-contain   '
           />
           <div className='absolute inset-1 right-0  top-0  z-30  h-fit pl-[22%]  pr-[9%]  sm:top-[30px] md:left-[72px] md:top-0 md:h-[707px]   md:pl-[10%] '>
-            <div className=' md:pt-35 ml-2 grid grid-cols-4 gap-6 pt-20  md:ml-0 md:mt-8  md:gap-10'>
+            <div className='ml-2 grid grid-cols-4 gap-6 pt-20 md:ml-0  md:mt-8 md:gap-10  md:pt-36'>
               <Link
                 href='https://www.instagram.com/djangoindia'
                 target='_blank'
