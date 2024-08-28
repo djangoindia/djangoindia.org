@@ -118,6 +118,8 @@ class Sponsorship(BaseModel):
     GOLD = "gold"
     SILVER = "silver"
     INDIVIDUAL = "individual"
+    ORGANIZATION = "organization"
+
     COMMUNITY_SPONSORSHIP = "community_sponsorship"
     EVENT_SPONSORSHIP = "event_sponsorship"
     
@@ -126,6 +128,7 @@ class Sponsorship(BaseModel):
         (GOLD, GOLD),
         (SILVER, SILVER),
         (INDIVIDUAL, INDIVIDUAL),
+        (ORGANIZATION, ORGANIZATION),
     ]
 
     SPONSORSHIP_TYPE_CHOICES = [
@@ -137,6 +140,14 @@ class Sponsorship(BaseModel):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='sponsors', null=True, blank=True)
     tier = models.CharField(max_length=20, choices=SPONSORSHIP_TIER_CHOICES)
     type = models.CharField(max_length=30, choices=SPONSORSHIP_TYPE_CHOICES)
+
+    def clean(self):
+        super().clean()
+        if self.type == self.COMMUNITY_SPONSORSHIP and self.tier not in [self.INDIVIDUAL, self.ORGANIZATION]:
+            raise ValidationError("For community sponsorship, tier must be either 'individual' or 'organization'.")
+        elif self.type == self.EVENT_SPONSORSHIP and self.tier not in [self.PLATINUM, self.GOLD, self.SILVER]:
+            raise ValidationError("For event sponsorship, tier must be either 'platinum', 'gold', or 'silver'.")
+
 
     def __str__(self):
         return f"{self.sponsor_details.name} - {self.tier} - {self.type}"
