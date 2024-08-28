@@ -1,6 +1,22 @@
 from rest_framework import serializers
 
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
+<<<<<<< HEAD
+=======
+
+
+
+class SponsorDetailsSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    type = serializers.CharField()
+    logo = serializers.ImageField()
+    url = serializers.URLField(allow_blank=True, allow_null=True)
+    
+class SponsorSerializer(serializers.Serializer):
+    sponsor_details = SponsorDetailsSerializer()
+    tier = serializers.CharField()
+    type = serializers.CharField()
+>>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
 
 
 
@@ -30,10 +46,16 @@ class EventSerializer(serializers.Serializer):
     registration_end_date= serializers.DateTimeField()
     event_mode = serializers.CharField()
 <<<<<<< HEAD
+<<<<<<< HEAD
     # Volunteer Details
     volunteer_details = EventVolunteerSerializer()
 =======
     sponsors = SponsorSerializer(many=True, read_only=True, source='event_sponsors')
+=======
+    sponsors = SponsorSerializer(many=True, read_only=True, source='event_sponsors')
+
+
+>>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
 
 
 
