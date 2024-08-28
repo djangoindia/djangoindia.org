@@ -4,6 +4,7 @@ from djangoindia.api.serializers.event import (
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
 from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.volunteers import EventVolunteers
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
@@ -12,9 +13,7 @@ from djangoindia.constants import POST, PRIMARY_KEY_SHORT
 
 
 # Create your views here.
-class EventAPIView(
-    generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin
-):
+class EventAPIView(generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin):
     queryset = Event.objects.all()
 
     def get_serializer_class(self):
@@ -24,11 +23,13 @@ class EventAPIView(
 
     def get(self, request, *args, **kwargs):
         try:
-            if (
-                PRIMARY_KEY_SHORT in kwargs
-            ):  # If pk is provided, retrieve a single instance
-                return self.retrieve(request, *args, **kwargs)
-            return self.list(request, *args, **kwargs)  # Otherwise, list all instances
+            if (PRIMARY_KEY_SHORT in kwargs):  # If pk is provided, retrieve a single instance
+                volunteer_details = EventVolunteers.objects.filter(id=PRIMARY_KEY_SHORT).all()
+                serialized_details = EventSerializer(volunteer_details)
+                return serialized_details
+            else:
+                volunteer_data = EventSerializer(EventVolunteers.objects.all(),many=True)
+                return volunteer_data  # Otherwise, list all instances
         except Exception as e:
             return Response(
                 {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
