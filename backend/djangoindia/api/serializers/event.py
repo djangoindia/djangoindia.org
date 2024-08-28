@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from djangoindia.db.models.event import Event, EventRegistration
 
+from .volunteer import EventVolunteerSerializer
 
 class EventSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
@@ -15,7 +16,8 @@ class EventSerializer(serializers.Serializer):
     event_end_date= serializers.DateTimeField()
     registration_end_date= serializers.DateTimeField()
     event_mode = serializers.CharField()
-
+    # Volunteer Details
+    volunteer_details = EventVolunteerSerializer()
 
 class EventRegistrationSerializer(serializers.Serializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
