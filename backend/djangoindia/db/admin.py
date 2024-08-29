@@ -96,12 +96,9 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 admin.site.register(volunteers.EventVolunteers)
-=======
-=======
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
+
 class SponsorshipAdmin(admin.ModelAdmin):
     list_display = ('sponsor_details', 'tier', 'type', 'event')
     list_filter = ('type', 'event','tier')
@@ -114,9 +111,5 @@ admin.site.register(Sponsorship, SponsorshipAdmin)
 class SponsorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'email']
     search_fields=['name',]
-<<<<<<< HEAD
     readonly_fields = ('created_at', 'updated_at')
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
-=======
     readonly_fields = ('created_at', 'updated_at')
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
