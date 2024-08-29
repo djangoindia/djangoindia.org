@@ -125,7 +125,7 @@
                 {% endif %}
                 <p><strong>Mode:</strong> {{ event.event_mode }}</p>
                 {% if event.venue_map_link %}
-                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 {% endif %}
             </div>
             <p>We look forward to seeing you there! If you have any queries, you can contact us @<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
