@@ -1,7 +1,7 @@
 # from django.conf import settings
 from django.contrib import admin
 
-from .forms import EventForm, EmailForm
+from .forms import *
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
 
@@ -12,7 +12,7 @@ from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
 
-from .models import event,communication,volunteers
+from .models import volunteers
 
 
 # Register your models here.
@@ -26,8 +26,6 @@ class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
 
-
-
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
     extra = 0
@@ -39,7 +37,7 @@ class EventAdmin(admin.ModelAdmin):
     search_fields=['name','city']
     form = EventForm
     inlines = [EventRegistrationInline,SponsorInline]
-
+            
 
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(admin.ModelAdmin):
@@ -96,9 +94,6 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     
 
-
-admin.site.register(volunteers.EventVolunteers)
-
 class SponsorshipAdmin(admin.ModelAdmin):
     list_display = ('sponsor_details', 'tier', 'type', 'event')
     list_filter = ('type', 'event','tier')
@@ -113,3 +108,30 @@ class SponsorAdmin(admin.ModelAdmin):
     search_fields=['name',]
     readonly_fields = ('created_at', 'updated_at')
     readonly_fields = ('created_at', 'updated_at')
+    
+@admin.register(EventVolunteers)
+class EventVolunteerAdmin(admin.ModelAdmin):
+    list_display = ['events','full_name','email','profile_pic','linkedin_url','twitter_url','bio']
+    search_fields=['events',]
+    readonly_fields = ('created_at', 'updated_at')
+    
+    def add_volunteers(self,request):
+        if request.method == "POST":
+            form = EventVolunteerCreationForm(request.POST)
+            if form.is_valid():
+                try:
+                    data = form.cleaned_data
+                    obj = EventVolunteers.objects.create(**data)
+                    obj.save()
+                    return obj
+                except Exception as e:
+                    messages.error(request, f"Error Validating Form: {str(e)}")
+        else:
+            form = EventVolunteerCreationForm()
+
+        context = {
+            'form': form,
+            'opts': self.model._meta,
+            'queryset': request.GET.get('ids').split(','),
+        }
+        # return TemplateResponse(request, 'admin/send_email.html', context)
