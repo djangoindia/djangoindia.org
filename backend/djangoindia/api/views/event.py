@@ -3,16 +3,10 @@ from djangoindia.api.serializers.event import (
     EventSerializer,
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
-<<<<<<< HEAD
-<<<<<<< HEAD
 from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.volunteers import EventVolunteers
-=======
 from djangoindia.db.models.event import Event, EventRegistration,Sponsorship
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
-=======
 from djangoindia.db.models.event import Event, EventRegistration,Sponsorship
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
@@ -22,10 +16,10 @@ from django.db.models import Prefetch
 
 
 # Create your views here.
-<<<<<<< HEAD
+
 class EventAPIView(generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin):
     queryset = Event.objects.all()
-=======
+
 class EventAPIView(
     generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin
 ):
@@ -45,10 +39,6 @@ class EventAPIView(
             to_attr='event_sponsors'
         )
     )
-<<<<<<< HEAD
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
-=======
->>>>>>> 328383cc9514cf02bd2080e8f2ed0977052b6471
 
     def get_serializer_class(self):
         if self.request.method == POST:
