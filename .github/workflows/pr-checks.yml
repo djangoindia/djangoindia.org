@@ -1,0 +1,50 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js for frontend build
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend 
+          npm run build
+
+      - name: Set up Python for backend
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install backend dependencies
+        run: |
+          cd backend  # Adjust this path to where your backend code is
+          pip install -r requirements.txt
+
+      - name: Start backend server
+        run: |
+          cd backend
+          python manage.py runserver &
+        env:
+          DJANGO_SETTINGS_MODULE: 'djangoindia.settings.production'
+
+      - name: Check if backend server is running
+        run: |
+          curl --silent --fail http://localhost:8000 || exit 1
+
