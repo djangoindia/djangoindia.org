@@ -18,10 +18,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SENDER_EMAIL = os.environ.get(
-    "SENDER_EMAIL", "example@example.com"
-)  # TODO: DjangoIndia's email address goes here
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -153,7 +149,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-DEFAULT_FROM_EMAIL = "admin@djangoindia.org"
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@djangoindia.org")
 
 
 # CELERY STUFF

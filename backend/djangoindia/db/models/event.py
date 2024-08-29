@@ -42,16 +42,25 @@ class Event(BaseModel):
         return f"{self.name} @ {self.city} ({self.event_start_date.date()})"
 
 class EventRegistration(BaseModel):
-    OCCUPATION_CHOICES = [
-        ("working_professional", "Working Professional"),
-        ("student", "Student"),
-        ("freelancer", "Freelancer"),
+    WORKING_PROFESSIONAL = "working_professional"
+    STUDENT = "student"
+    FREELANCER = "freelancer"
+    OTHER = "other"
+
+    MALE = "male"
+    FEMALE = "female"
+
+    PROFESSIONAL_STATUS_CHOICES = [
+        (WORKING_PROFESSIONAL, WORKING_PROFESSIONAL),
+        (STUDENT, STUDENT),
+        (FREELANCER, FREELANCER),
+        (OTHER, OTHER)
     ]
+
     GENDER_CHOICES = [
-        ("male", "Male"),
-        ("female", "Female"),
-        ("other", "Other"),
-        ("not_specified", "Not Specified" )
+        (MALE, MALE),
+        (FEMALE, FEMALE),
+        (OTHER, OTHER)
     ]
 
     event = models.ForeignKey(
@@ -62,19 +71,19 @@ class EventRegistration(BaseModel):
     email = models.EmailField()
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    occupation = models.CharField(
-        max_length=20, choices=OCCUPATION_CHOICES
+    professional_status = models.CharField(
+        max_length=100, choices=PROFESSIONAL_STATUS_CHOICES, default=OTHER
     )
+    company = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     gender = models.CharField(
         max_length=15,
-        choices=GENDER_CHOICES,
-        blank=True,
-        null=True
+        choices=GENDER_CHOICES
     )
     linkedin = models.URLField()
-    github = models.URLField(blank=True)
-    twitter = models.URLField(blank=True)
-    other_links = models.URLField(blank=True)
+    github = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
+    other_links = models.URLField(null=True, blank=True)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
     rsvp = models.BooleanField(default=False)
 

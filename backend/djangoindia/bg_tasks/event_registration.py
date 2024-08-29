@@ -15,7 +15,9 @@ def registration_confirmation_email_task(email, event_id):
             'first_name': registration.first_name,
             'event': {
                 'name': registration.event.name,
-                'date_time': registration.event.date_time,
+                'event_start_date': registration.event.event_start_date,
+                'event_end_date': registration.event.event_end_date,
+                'event_mode': registration.event.event_mode,
                 'venue': registration.event.venue,
                 'description': registration.event.description,
                 'cover_image': registration.event.cover_image if registration.event.cover_image else None,
@@ -26,7 +28,7 @@ def registration_confirmation_email_task(email, event_id):
         # Strip the HTML tags for a plain text alternative
         text_content = strip_tags(html_content)
 
-        subject = f'{registration.event.name} - Event Registration Successful!'
+        subject = f'{registration.event.name} - Registration Successful!'
         from_email = settings.DEFAULT_FROM_EMAIL
         to_email = [email]
 
