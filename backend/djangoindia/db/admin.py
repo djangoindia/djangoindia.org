@@ -111,7 +111,7 @@ class SponsorAdmin(admin.ModelAdmin):
     
 @admin.register(EventVolunteers)
 class EventVolunteerAdmin(admin.ModelAdmin):
-    list_display = ['events','full_name','email','profile_pic','linkedin_url','twitter_url','bio']
+    list_display = ['full_name','email','profile_pic','linkedin_url','twitter_url','bio']
     search_fields=['events',]
     readonly_fields = ('created_at', 'updated_at')
     
