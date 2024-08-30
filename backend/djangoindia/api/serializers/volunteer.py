@@ -1,4 +1,4 @@
-from db.models.volunteers import EventVolunteers
+from djangoindia.db.models.volunteers import EventVolunteers
 from rest_framework import serializers
 
 class EventVolunteerSerializer(serializers.Serializer):
