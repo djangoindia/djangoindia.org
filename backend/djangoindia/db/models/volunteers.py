@@ -6,7 +6,7 @@ class EventVolunteers(BaseModel):
     events = models.ManyToManyField(Event,related_name="events")
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
-    profile_pic = models.ImageField(upload_to='') # Don't know the location so kept blank
+    profile_pic = models.ImageField(upload_to='volunteers/') 
     linkedin_url = models.URLField()
     twitter_url = models.URLField()
     bio = models.CharField(max_length=5000)
