@@ -26,12 +26,13 @@
     "no-unused-vars": "warn",
     "object-shorthand": "warn",
     "quote-props": ["warn", "as-needed"],
-    "camelcase": [
+    "import/no-unresolved": [
       "warn",
       {
-        "properties": "always"
+        "ignore": ["@/*"]
       }
     ],
+
     "sort-imports": [
       "warn",
       {
@@ -62,9 +63,9 @@
             "position": "before"
           },
           {
-            "pattern": "@/**", 
+            "pattern": "@/**",
             "group": "internal",
-            "position": "before" 
+            "position": "before"
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],
@@ -79,7 +80,6 @@
     "import/namespace": "error",
     "import/default": "error",
     "import/export": "error",
-    // TypeScript rules
     "@typescript-eslint/array-type": [
       "warn",
       {
@@ -94,23 +94,53 @@
       }
     ],
     "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
-    "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/naming-convention": [
       "warn",
       {
         "selector": "variable",
-        "format": ["camelCase"]
+        "format": ["camelCase", "UPPER_CASE", "PascalCase"],
+        "leadingUnderscore": "allow",
+        "trailingUnderscore": "allow"
+      },
+      {
+        "selector": "variable",
+        "modifiers": ["exported"],
+        "format": ["camelCase", "UPPER_CASE", "PascalCase"]
       },
       {
         "selector": "function",
-        "format": ["camelCase"]
+        "format": ["camelCase", "PascalCase"],
+        "modifiers": ["exported"],
+        "filter": {
+          "regex": "^[A-Z]",
+          "match": true
+        }
       },
       {
         "selector": "typeLike",
         "format": ["PascalCase"]
+      },
+      {
+        "selector": "enumMember",
+        "format": ["PascalCase"]
+      },
+      {
+        "selector": "property",
+        "format": null
+      },
+      {
+        "selector": "import",
+        "format": null
       }
     ],
-    // React rules
+
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowExpressions": true,
+        "allowTypedFunctionExpressions": true
+      }
+    ],
     "react/jsx-fragments": ["warn", "syntax"],
     "react/jsx-filename-extension": [
       "warn",

@@ -10,13 +10,14 @@ import {
   WhatIsDjango,
 } from '@sections'
 
-const page = () => {
+const page = (): JSX.Element => {
   return (
     <>
       <Hero />
       <WhatIsDjango />
       <Goals />
       <Main />
+      <p>ihieidsdif</p>
       <JoinCommunity />
       <LatestUpdate />
       <Support />

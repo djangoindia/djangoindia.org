@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 
-const Goals = () => {
+const Goals = (): JSX.Element => {
   return (
     <div className='mx-auto max-w-7xl overflow-x-hidden p-6 pb-20'>
       <h1 className='archivo my-8 text-center text-5xl font-black text-[#06038D]'>

@@ -17,10 +17,10 @@ const Drawer = ({
   isOpen: boolean
   onClose: () => void
   pathname: string
-}) => {
+}): JSX.Element => {
   return (
     <div
-      className={`items-top fixed inset-0 z-50 flex w-full flex-col justify-between bg-[#8796a4] p-4 text-black transition-transform sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`fixed inset-0 z-50 flex w-full flex-col items-start justify-between bg-[#8796a4] p-4 text-black transition-transform sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className='flex flex-col items-center'>
         <button onClick={onClose}>
@@ -65,7 +65,7 @@ const Drawer = ({
     </div>
   )
 }
-const HamburgerMenuIcon = () => (
+const HamburgerMenuIcon = (): JSX.Element => (
   <svg
     width='24'
     height='24'
@@ -78,7 +78,7 @@ const HamburgerMenuIcon = () => (
     <rect x='3' y='16' width='18' height='2' fill='currentColor' />
   </svg>
 )
-const CrossIcon = () => (
+const CrossIcon = (): JSX.Element => (
   <svg
     width='24'
     height='24'
@@ -105,12 +105,12 @@ const CrossIcon = () => (
   </svg>
 )
 
-const Navbar = () => {
+const Navbar = (): JSX.Element => {
   const pathname = usePathname() //current pathname
   const width = useWidth()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setIsDrawerOpen(!isDrawerOpen)
 
     // Disables Background Scrolling whilst the SideDrawer/Modal is open

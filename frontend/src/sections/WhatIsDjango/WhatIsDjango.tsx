@@ -6,7 +6,7 @@ import useWidth from '@/hooks/useWidth'
 
 import { Button } from '@components'
 
-const WhatIsDjango = () => {
+const WhatIsDjango = (): JSX.Element => {
   const width = useWidth()
   return (
     <section className='relative h-auto w-full bg-[#f9f4ee]'>

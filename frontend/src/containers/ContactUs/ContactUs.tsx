@@ -12,7 +12,7 @@ import { fetchData } from '@utils'
 
 import { ContactUsForm } from './ContactUs.types'
 
-const ContactUs = () => {
+const ContactUs = (): JSX.Element => {
   const {
     register,
     handleSubmit,

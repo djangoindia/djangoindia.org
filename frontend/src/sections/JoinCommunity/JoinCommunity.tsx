@@ -8,7 +8,7 @@ import useWidth from '@/hooks/useWidth'
 
 import CirclesImage from '../../../public/10Circles.svg'
 
-function Join() {
+function Join(): JSX.Element {
   const width = useWidth()
   return (
     <>

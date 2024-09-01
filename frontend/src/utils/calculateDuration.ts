@@ -1,4 +1,12 @@
-export const calculateDuration = (date1: string, date2: string) => {
+interface Duration {
+  hours: number
+  days: number
+  weeks: number
+  months: number
+  years: number
+}
+
+export const calculateDuration = (date1: string, date2: string): Duration => {
   // Ensure date1 is the earlier date
   let startDate = new Date(date1)
   let endDate = new Date(date2)

@@ -33,7 +33,7 @@ const EventContainer = async ({
   },
 }: {
   event: Event
-}) => {
+}): Promise<JSX.Element> => {
   const sanitizedDescription = sanitizeHtml(description, {
     allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
     allowedAttributes: {

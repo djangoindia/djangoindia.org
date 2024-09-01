@@ -1,14 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-const useWidth = () => {
+const useWidth = (): number => {
   const [width, setWidth] = useState<number>(767)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setWidth(window.innerWidth)
 
-      const handleResize = () => {
+      const handleResize = (): void => {
         setWidth(window.innerWidth)
       }
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { SupportUsDialog } from '@containers'
 
-function Support() {
+function Support(): JSX.Element {
   return (
     <div className='flex flex-col items-center justify-between bg-green-800 p-6 lg:flex-row lg:px-48'>
       {/* Left side content */}

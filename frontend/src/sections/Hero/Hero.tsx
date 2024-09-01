@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 
-const HeroSection = () => {
+const HeroSection = (): JSX.Element => {
   return (
     <section className='relative h-auto w-full bg-[#f9f4ee]'>
       <div className='relative flex w-full items-start justify-center overflow-hidden lg:h-[750px]'>

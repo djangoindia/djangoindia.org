@@ -5,19 +5,18 @@ import { SubscriberForm } from './LatestUpdate.types'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaRegUser } from 'react-icons/fa'
 import { MdOutlineEmail } from 'react-icons/md'
 
 import './styles.css'
 import { Button } from '@/components'
 
-import { SubmitHandler, useForm } from 'react-hook-form'
-
 import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
 import { fetchData } from '@utils'
 
 
-function Update() {
+function Update(): JSX.Element {
   const {
     register,
     handleSubmit,

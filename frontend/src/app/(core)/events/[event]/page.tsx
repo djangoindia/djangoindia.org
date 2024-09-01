@@ -6,18 +6,18 @@ import { Event } from '@/types'
 import { PageProps } from '@/types/common'
 import { fetchData } from '@/utils'
 
-const EventPage = async ({
+const eventPage = async ({
   params: { event },
-}: PageProps<never, { event: string }>) => {
+}: PageProps<never, { event: string }>): Promise<JSX.Element | null> => {
   const { data } = await fetchData<Event>(
     API_ENDPOINTS.event.replace(':id', event),
   )
 
   if (!data) {
-    return
+    return null
   }
 
   return <EventContainer event={data as Event} />
 }
 
-export default EventPage
+export default eventPage

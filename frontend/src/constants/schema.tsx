@@ -18,7 +18,7 @@ export const CONTACT_US_FORM_SCHEMA = yup.object({
   message: yup
     .string()
     .test('wordCount', 'Message must be 250 words or less', (value) => {
-      const wordCount = (value: string) => {
+      const wordCount = (value: string): number => {
         return value ? value.trim().split(/\s+/).length : 0
       }
       return wordCount(value || '') <= 250

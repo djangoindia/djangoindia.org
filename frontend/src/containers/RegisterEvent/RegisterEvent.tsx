@@ -16,7 +16,7 @@ import {
   RadioGroupItem,
 } from '@components'
 
-export const RegisterEvent = () => {
+export const RegisterEvent = (): JSX.Element => {
   return (
     <Drawer>
       <DrawerTrigger asChild>

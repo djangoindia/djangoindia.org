@@ -2,7 +2,7 @@ import React from 'react'
 
 import { TbProgress } from 'react-icons/tb'
 
-const Loading = () => (
+const Loading = (): JSX.Element => (
   <div className='flex h-screen w-full items-center justify-center'>
     <TbProgress className='animate-spin text-8xl' />
   </div>

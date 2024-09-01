@@ -7,7 +7,11 @@ import { MdOutlineCancel } from 'react-icons/md'
 
 import { Footer, Navbar } from '@sections'
 
-const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
+const SnackbarCloseButton = ({
+  snackbarKey,
+}: {
+  snackbarKey: SnackbarKey
+}): JSX.Element => {
   const { closeSnackbar } = useSnackbar()
 
   return (
@@ -20,7 +24,7 @@ const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
   )
 }
 
-const Layout = ({ children }: PropsWithChildren) => {
+const Layout = ({ children }: PropsWithChildren): JSX.Element => {
   return (
     <SnackbarProvider
       maxSnack={3}

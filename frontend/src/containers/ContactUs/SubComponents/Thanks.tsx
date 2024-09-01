@@ -16,7 +16,7 @@ const Thanks = ({
 }: {
   open: boolean
   onClose: DialogProps['onOpenChange']
-}) => (
+}): JSX.Element => (
   <Dialog open={open} onOpenChange={onClose}>
     <DialogContent className='py-8 sm:max-w-[530px]'>
       <DialogHeader>

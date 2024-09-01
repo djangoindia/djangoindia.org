@@ -19,7 +19,7 @@ const SupportUsDialog = ({
   onClose,
 }: {
   onClose?: DialogTriggerProps['onClick']
-}) => {
+}): JSX.Element => {
   return (
     <Dialog>
       <DialogTrigger asChild onClick={onClose}>
