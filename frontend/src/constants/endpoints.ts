@@ -1,6 +1,6 @@
 export const API_ENDPOINTS = {
   contactUs: '/contact-us',
-  newsletter: '/newsletter',
+  subscriber: '/subscriber',
   events: '/events',
   event: '/events/:id',
 }

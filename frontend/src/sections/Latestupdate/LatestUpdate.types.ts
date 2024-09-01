@@ -1,4 +1,4 @@
-export type NewsletterForm = {
+export type SubscriberForm = {
   name: string
   email: string
 }

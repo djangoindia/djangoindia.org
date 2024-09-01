@@ -6,9 +6,9 @@ import { FaRegUser } from 'react-icons/fa'
 import './styles.css'
 import { Button } from '@/components'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { NewsletterForm } from './LatestUpdate.types'
+import { SubscriberForm } from './LatestUpdate.types'
 import { fetchData } from '@utils'
-import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
+import { API_ENDPOINTS, SUBSCRIBER_FORM_SCHEMA } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
 
@@ -18,12 +18,12 @@ function Update() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<NewsletterForm>({
-    resolver: yupResolver(NEWSLETTER_FORM_SCHEMA),
+  } = useForm<SubscriberForm>({
+    resolver: yupResolver(SUBSCRIBER_FORM_SCHEMA),
   })
 
-  const onSubmit: SubmitHandler<NewsletterForm> = async (data) => {
-    const res = await fetchData<{ message: string }>(API_ENDPOINTS.newsletter, {
+  const onSubmit: SubmitHandler<SubscriberForm> = async (data) => {
+    const res = await fetchData<{ message: string }>(API_ENDPOINTS.subscriber, {
       method: 'POST',
       body: JSON.stringify(data),
     })
@@ -39,7 +39,7 @@ function Update() {
 
   return (
     <>
-      <div className="w-full bg-[url('/newsletter/bg.svg')] bg-no-repeat bg-cover sm:px-6 lg:px-8 relative z-20">
+      <div className="w-full bg-[url('/subscriber/bg.svg')] bg-no-repeat bg-cover sm:px-6 lg:px-8 relative z-20">
         <div className='max-w-4xl pt-40 pb-10 mx-auto'>
           <div className='text-center mb-8'>
             <h1 className='text-3xl font-bold mb-2'>Get the latest updates</h1>
