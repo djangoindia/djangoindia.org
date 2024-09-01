@@ -1,2 +1,2 @@
 from .event import EventSerializer, EventRegistrationSerializer
-from .communication import NewsletterSubscriptionSerializer, ContactUsSerializer
+from .communication import SubscriberSerializer, ContactUsSerializer
