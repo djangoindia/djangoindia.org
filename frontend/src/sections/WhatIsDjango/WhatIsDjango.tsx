@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 
-import useWidth from '@/hooks/useWidth'
-
 import { Button } from '@components'
+
+import useWidth from '@hooks/useWidth'
 
 const WhatIsDjango = (): JSX.Element => {
   const width = useWidth()

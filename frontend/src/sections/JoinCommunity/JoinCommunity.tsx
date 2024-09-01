@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import useWidth from '@/hooks/useWidth'
+import useWidth from '@hooks/useWidth'
 
 import CirclesImage from '../../../public/10Circles.svg'
 

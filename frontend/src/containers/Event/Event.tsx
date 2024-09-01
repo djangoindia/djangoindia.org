@@ -9,9 +9,9 @@ import { MdWavingHand } from 'react-icons/md'
 import { SlCalender } from 'react-icons/sl'
 import sanitizeHtml from 'sanitize-html'
 
-import { Button } from '@/components'
-import type { Event } from '@/types'
-import { calculateDuration } from '@/utils'
+import { Button } from '@components'
+import type { Event } from '@types'
+import { calculateDuration } from '@utils'
 
 import event1 from '../../../public/01.svg'
 import wave1 from '../../../public/wave01.png'

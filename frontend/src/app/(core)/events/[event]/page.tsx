@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { API_ENDPOINTS } from '@/constants'
-import { EventContainer } from '@/containers'
-import { Event } from '@/types'
-import { PageProps } from '@/types/common'
-import { fetchData } from '@/utils'
+import { API_ENDPOINTS } from '@constants'
+import { EventContainer } from '@containers'
+import { Event } from '@types'
+import { fetchData } from '@utils'
+
+import { PageProps } from '@types/common'
 
 const eventPage = async ({
   params: { event },

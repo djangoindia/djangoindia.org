@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components'
+} from '@components'
 
 const SupportUsDialog = ({
   onClose,

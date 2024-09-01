@@ -26,13 +26,17 @@
     "no-unused-vars": "warn",
     "object-shorthand": "warn",
     "quote-props": ["warn", "as-needed"],
-    "import/no-unresolved": [
+    "no-restricted-imports": [
       "warn",
       {
-        "ignore": ["@/*"]
+        "patterns": [
+          {
+            "group": ["@/*"],
+            "message": "Avoid using '@/'. Use '@' instead."
+          }
+        ]
       }
     ],
-
     "sort-imports": [
       "warn",
       {
@@ -63,7 +67,7 @@
             "position": "before"
           },
           {
-            "pattern": "@/**",
+            "pattern": "@**",
             "group": "internal",
             "position": "before"
           }

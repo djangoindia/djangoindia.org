@@ -1,10 +1,9 @@
 import React from 'react'
 
-import { API_ENDPOINTS } from '@/constants'
-import { EventsResponse } from '@/types'
-import { fetchData } from '@/utils'
-
+import { API_ENDPOINTS } from '@constants'
 import { EventCard } from '@sections'
+import { EventsResponse } from '@types'
+import { fetchData } from '@utils'
 
 const page = async (): Promise<JSX.Element> => {
   const { data: events } = await fetchData<EventsResponse>(API_ENDPOINTS.events)

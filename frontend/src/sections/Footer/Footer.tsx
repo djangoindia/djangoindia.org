@@ -9,7 +9,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 
-import { APP_ROUTES } from '@/constants'
+import { APP_ROUTES } from '@constants'
 
 const Footer: React.FC = () => {
   return (

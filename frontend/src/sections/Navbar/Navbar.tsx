@@ -5,9 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { APP_ROUTES } from '@/constants'
-import { SupportUsDialog } from '@/containers'
-import useWidth from '@/hooks/useWidth'
+import { APP_ROUTES } from '@constants'
+import { SupportUsDialog } from '@containers'
+
+import useWidth from '@hooks/useWidth'
 
 const Drawer = ({
   isOpen,

@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-} from '@/components'
+} from '@components'
 
 const Thanks = ({
   open,

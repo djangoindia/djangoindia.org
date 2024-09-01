@@ -10,8 +10,8 @@ import { FaRegUser } from 'react-icons/fa'
 import { MdOutlineEmail } from 'react-icons/md'
 
 import './styles.css'
-import { Button } from '@/components'
 
+import { Button } from '@components'
 import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
 import { fetchData } from '@utils'
 

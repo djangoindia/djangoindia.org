@@ -17,7 +17,6 @@ const page = (): JSX.Element => {
       <WhatIsDjango />
       <Goals />
       <Main />
-      <p>ihieidsdif</p>
       <JoinCommunity />
       <LatestUpdate />
       <Support />
