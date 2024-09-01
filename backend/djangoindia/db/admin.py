@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from .forms import EventForm, EmailForm
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
-from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
+from djangoindia.db.models.communication import Subscriber, ContactUs
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -85,7 +85,7 @@ class EventRegistrationAdmin(admin.ModelAdmin):
         return TemplateResponse(request, 'admin/send_email.html', context)
 
 
-@admin.register(NewsletterSubscription)
+@admin.register(Subscriber)
 class EventRegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
