@@ -53,6 +53,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
 
+    volumes:
+      - ./frontend:/app/frontend
+
   # rabbitmq:
   #   image: rabbitmq:3-management
   #   container_name: rabbitmq
