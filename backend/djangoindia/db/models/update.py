@@ -1,7 +1,7 @@
 from django.db import models
 from .base import BaseModel
 from django.contrib.auth.models import User
-from djangoindia.db.models.communication import NewsletterSubscription
+from djangoindia.db.models.communication import Subscriber
 
 class Update(BaseModel):
     UPDATE_TYPE_CHOICES = [
@@ -14,9 +14,9 @@ class Update(BaseModel):
     update_type = models.CharField(max_length=20, choices=UPDATE_TYPE_CHOICES)
     content = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    recipients = models.ManyToManyField(NewsletterSubscription, related_name='received_updates')
-    sent_successfully = models.ManyToManyField(NewsletterSubscription, related_name='successful_updates')
-    failed_to_send = models.ManyToManyField(NewsletterSubscription, related_name='failed_updates')
+    recipients = models.ManyToManyField(Subscriber, related_name='received_updates')
+    sent_successfully = models.ManyToManyField(Subscriber, related_name='successful_updates')
+    failed_to_send = models.ManyToManyField(Subscriber, related_name='failed_updates')
 
     def __str__(self):
         return self.title

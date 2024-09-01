@@ -1,7 +1,7 @@
 from django import forms
 
 from djangoindia.db.models.event import Event
-from djangoindia.db.models.communication import NewsletterSubscription
+from djangoindia.db.models.communication import Subscriber
 from djangoindia.db.models.update import Update
 
 
@@ -19,7 +19,7 @@ class EmailForm(forms.Form):
 
 class UpdateForm(forms.ModelForm):
     recipients = forms.ModelMultipleChoiceField(
-        queryset=NewsletterSubscription.objects.all(),
+        queryset=Subscriber.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False
     )

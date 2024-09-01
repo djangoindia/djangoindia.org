@@ -1,16 +1,10 @@
 # from django.conf import settings
 from django.contrib import admin
 
-<<<<<<< HEAD
 from .forms import EventForm, EmailForm
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import Subscriber, ContactUs
-=======
-from .forms import EventForm, EmailForm, UpdateForm
-from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
 from djangoindia.db.models.update import Update
->>>>>>> 8d762b0 (Added Updates email sending functionality)
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -31,8 +25,6 @@ def send_email_to_selected_users(modeladmin, request, queryset):
 class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
-
-
 
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
