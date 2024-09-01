@@ -163,7 +163,8 @@ We will then take care of the issue as soon as possible.
     docker-compose up --build
     ```
 5. After a while, backend will be accessible at `http://localhost:8000` and frontend will be accessible at `http://localhost:3000`.
-6. To stop docker containers, run:
+6. Whatever changes are done in frontend, they will automatically be updated in the docker container but if there is any change in the backend, the image must be rebuilt for those changes to reflect in the docker container.
+7. To stop docker containers, run:
     ```
     docker-compose down
     ```
