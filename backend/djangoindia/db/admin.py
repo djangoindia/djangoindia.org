@@ -33,6 +33,7 @@ class EventRegistrationInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    list_display = ('name','city', 'event_start_date', 'event_mode', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['name','city']
     form = EventForm
@@ -41,6 +42,7 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('event', 'first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
@@ -86,24 +88,28 @@ class EventRegistrationAdmin(admin.ModelAdmin):
 
 
 @admin.register(Subscriber)
-class EventRegistrationAdmin(admin.ModelAdmin):
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ('email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ['name', 'email',]
 
 @admin.register(ContactUs)
-class EventRegistrationAdmin(admin.ModelAdmin):
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
-    
+    ordering = ('-created_at',)
+    search_fields = ['email',]
 
+@admin.register(Sponsorship)
 class SponsorshipAdmin(admin.ModelAdmin):
     list_display = ('sponsor_details', 'tier', 'type', 'event')
-    list_filter = ('type', 'event','tier')
-    search_fields=['sponsor_details__name',]
+    list_filter = ('type', 'event', 'tier')
+    search_fields = ['sponsor_details__name',]
     readonly_fields = ('created_at', 'updated_at')
-
-admin.site.register(Sponsorship, SponsorshipAdmin)
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'email']
-    search_fields=['name',]
+    search_fields = ['name',]
     readonly_fields = ('created_at', 'updated_at')
