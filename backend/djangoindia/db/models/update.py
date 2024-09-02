@@ -24,7 +24,7 @@ class Update(BaseModel):
         return self.title
     
     def send_bulk_emails(self):
-        if self.id:
+        if self.id and self.recipients.count() > 0:
             send_mass_update_email_task.delay(self.id)
     
     def get_formatted_type(self):
