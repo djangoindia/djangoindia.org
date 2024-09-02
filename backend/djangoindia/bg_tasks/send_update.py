@@ -1,24 +1,27 @@
 from celery import shared_task
-from django.core.mail import send_mail
-from djangoindia.db.models.update import Update
+from django.core.mail import send_mass_mail
+
 from django.conf import settings
 
 @shared_task
-def send_update_email(update_id):
-    update = Update.objects.get(pk=update_id)
-    for subscription in update.recipients.all():
-        try:
-            send_mail(
-                subject=f"DjangoIndia Update: {update.name}",
-                message=update.content,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[subscription.email],
-                fail_silently=False,
-            )
-            update.sent_successfully.add(subscription)
-        except Exception as e:
-            #stored failted email
-            update.failed_to_send.add(subscription)
-            print(f"Failed to send email to {subscription.email}: {str(e)}")
+def send_mass_update_email_task(update_id):
+    from djangoindia.db.models.update import Update
+    try:
+        update = Update.objects.get(id=update_id)
+    except Update.DoesNotExist:
+        raise ValueError("Update not found")
     
-    update.save()
+    email_objs=[]
+    for subscriber in update.recipients.all():
+        email_tuple = (
+            f"Django India: {update.get_formatted_type()}", 
+            update.html_template,    
+            settings.DEFAULT_FROM_EMAIL,
+            [subscriber.email],
+        )
+        email_objs.append(email_tuple)
+    try:
+        send_mass_mail((email for email in email_objs), fail_silently=False)
+    except Exception as e:
+        # Didn't threw error at django level even for wrong emails.
+        print(f"Failed to send email : {str(e)}")

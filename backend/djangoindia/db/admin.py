@@ -1,7 +1,7 @@
 # from django.conf import settings
 from django.contrib import admin
 
-from .forms import EventForm, EmailForm
+from .forms import EventForm, EmailForm, UpdateForm
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import Subscriber, ContactUs
 from djangoindia.db.models.update import Update
@@ -12,7 +12,6 @@ from django.shortcuts import redirect
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
-from djangoindia.bg_tasks.send_update import send_update_email
 
 
 # Register your models here.
@@ -118,30 +117,17 @@ class SponsorAdmin(admin.ModelAdmin):
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
-    list_display = ('title', 'update_type', 'created_by', 'created_at')
+    list_display = ('title', 'type', 'created_by', 'created_at')
+    search_fields = ['name','created_by__username','created_by__first_name']
+    readonly_fields = ('created_by',)
     actions = ['send_update']
 
     def save_model(self, request, obj, form, change):
-
-        if not obj.pk:
-            obj.created_by = request.user
+        obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
+    
     def send_update(self, request, queryset):
-        total_sent = 0
         for update in queryset:
-            recipients = update.recipient.all()
-            emails_sent = 0
-            for recipient in recipients:
-                try:
-                    send_update_email.delay(update.id, recipient.id)
-                    emails_sent += 1
-                except Exception as e:
-                    self.message_user(request, f"Failed to send email to {recipient.email}: {str(e)}", level=messages.ERROR)
-            update.sent_to.set(recipients)
-            update.save()
-
-            if emails_sent > 0:
-                total_sent += emails_sent
-        self.message_user(request, f"{total_sent} emails sent successfully.")
+            update.send_bulk_emails()
+        self.message_user(request, "Update emails sent.")
     send_update.short_description = "Send selected updates to subscribers"
