@@ -1,3 +1,4 @@
+import { getApiUrl } from '../utils/apiUrl';
 type ErrorResponse = {
   message?: string
   statusCode?: number
@@ -21,7 +22,7 @@ export const fetchData = async <TFetchedData>(
 ): Promise<FetchResponse<TFetchedData>> => {
   try {
     const { method, ...restOptions } = options
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}/`, {
+    const response = await fetch(`${getApiUrl()}${path}/`, {
       method,
       ...restOptions,
       headers: {
