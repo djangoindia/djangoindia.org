@@ -44,7 +44,12 @@ const WhatIsDjango = () => {
               contribute to the growth of the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
-                <Button>Learn More</Button>
+              <button className='mt-4 py-2 px-6 bg-[#046A38]
+                               text-white rounded-lg hover:bg-[#ff641f] 
+                                transition-all'
+                    >
+                      Learn More
+                    </button>
               </div>
             </div>
           </div>
