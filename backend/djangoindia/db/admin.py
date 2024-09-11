@@ -117,8 +117,8 @@ class SponsorAdmin(admin.ModelAdmin):
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
-    list_display = ('title', 'type', 'created_by', 'created_at')
-    search_fields = ['name','created_by__username','created_by__first_name']
+    list_display = ('title', 'type', 'created_by', 'created_at', 'mail_sent')
+    search_fields = ['title','created_by__username','created_by__first_name','type']
     readonly_fields = ('created_by',)
     actions = ['send_update']
 

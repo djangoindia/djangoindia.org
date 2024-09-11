@@ -19,6 +19,7 @@ class Update(BaseModel):
     html_template = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, editable=False)
     recipients = models.ManyToManyField('Subscriber', related_name='received_updates')
+    mail_sent = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

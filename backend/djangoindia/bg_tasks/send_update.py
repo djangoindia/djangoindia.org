@@ -22,6 +22,8 @@ def send_mass_update_email_task(update_id):
         email_objs.append(email_tuple)
     try:
         send_mass_mail((email for email in email_objs), fail_silently=False)
+        update.mail_sent=True
+        update.save()
     except Exception as e:
-        # Didn't threw error at django level even for wrong emails.
+        # Didn't throw error at django level even for wrong emails.
         print(f"Failed to send email : {str(e)}")
