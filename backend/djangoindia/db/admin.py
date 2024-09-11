@@ -119,7 +119,7 @@ class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
     list_display = ('title', 'type', 'created_by', 'created_at', 'mail_sent')
     search_fields = ['title','created_by__username','created_by__first_name','type']
-    readonly_fields = ('created_by',)
+    readonly_fields = ('created_by', 'created_at', 'updated_at')
     actions = ['send_update']
 
     def save_model(self, request, obj, form, change):
