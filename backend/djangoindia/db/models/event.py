@@ -43,7 +43,7 @@ class Event(BaseModel):
 
 class EventRegistration(BaseModel):
     OCCUPATION_CHOICES = [
-        ("working_professional", "Working Professional"),
+        ("employed", "Employed"),
         ("student", "Student"),
         ("freelancer", "Freelancer"),
     ]
@@ -51,7 +51,7 @@ class EventRegistration(BaseModel):
         ("male", "Male"),
         ("female", "Female"),
         ("other", "Other"),
-        ("not_specified", "Not Specified" )
+        ("not_specified", "No Disclosure" )
     ]
 
     event = models.ForeignKey(
