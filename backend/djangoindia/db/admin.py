@@ -1,9 +1,10 @@
 # from django.conf import settings
 from django.contrib import admin
 
-from .forms import EventForm, EmailForm
+from .forms import EventForm, EmailForm, UpdateForm
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import Subscriber, ContactUs
+from djangoindia.db.models.update import Update
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -23,8 +24,6 @@ def send_email_to_selected_users(modeladmin, request, queryset):
 class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
-
-
 
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
@@ -113,3 +112,22 @@ class SponsorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'email']
     search_fields = ['name',]
     readonly_fields = ('created_at', 'updated_at')
+    
+#email sending functionality and update registration
+@admin.register(Update)
+class UpdateAdmin(admin.ModelAdmin):
+    form = UpdateForm
+    list_display = ('title', 'type', 'created_by', 'created_at', 'mail_sent')
+    search_fields = ['title','created_by__username','created_by__first_name','type']
+    readonly_fields = ('created_by', 'created_at', 'updated_at')
+    actions = ['send_update']
+
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+    
+    def send_update(self, request, queryset):
+        for update in queryset:
+            update.send_bulk_emails()
+        self.message_user(request, "Update emails sent.")
+    send_update.short_description = "Send selected updates to subscribers"
