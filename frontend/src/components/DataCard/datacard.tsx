@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { FaCity, FaGithub, FaUsers } from "react-icons/fa";
+import { FaCity, FaGithub } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
+import { RiLandscapeFill } from "react-icons/ri";
 
 // Define props type for StatCard component
 interface StatCardProps {
@@ -13,13 +15,13 @@ interface StatCardProps {
 
 function DataCard() {
   return (
-    <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8 ">
+    <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8">
       <StatCard
         title="Member Cities"
         subText="& counting till date"
         startCount={0}
         count={5}
-        icon={<FaCity className="text-[2rem] " />}
+        icon={<FaCity className="text-[2rem]" />}
       />
       <StatCard
         title="Subscribers"
