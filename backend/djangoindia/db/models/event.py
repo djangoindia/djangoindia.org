@@ -26,20 +26,20 @@ class Event(BaseModel):
     venue = models.TextField(default="TBA",null=True, blank=True)
     city = models.CharField(max_length=255, default="TBA", null=True, blank=True)
     venue_map_link = models.TextField(null=True, blank=True)
-    event_start_date = models.DateTimeField(null=False, default=default_start_date)
-    event_end_date = models.DateTimeField()
+    start_date = models.DateTimeField(null=False, default=default_start_date)
+    end_date = models.DateTimeField()
     registration_end_date = models.DateTimeField(default=default_registration_end_date)
     event_mode = models.CharField(max_length=20,choices=EVENT_MODE_CHOICES,default=IN_PERSON)
 
     def clean(self):
-        if self.event_end_date and self.event_start_date:
-            if self.event_end_date <= self.event_start_date:
+        if self.end_date and self.start_date:
+            if self.end_date <= self.start_date:
                 raise ValidationError("Event end date must be after event start date.")
 
         super().clean()
 
     def __str__(self) -> str:
-        return f"{self.name} @ {self.city} ({self.event_start_date.date()})"
+        return f"{self.name} @ {self.city} ({self.start_date.date()})"
 
 class EventRegistration(BaseModel):
     WORKING_PROFESSIONAL = "working_professional"
@@ -74,7 +74,7 @@ class EventRegistration(BaseModel):
     professional_status = models.CharField(
         max_length=100, choices=PROFESSIONAL_STATUS_CHOICES, default=OTHER
     )
-    company = models.CharField(max_length=100, null=True, blank=True)
+    organization = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     gender = models.CharField(
         max_length=15,

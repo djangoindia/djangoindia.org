@@ -15,8 +15,8 @@ def registration_confirmation_email_task(email, event_id):
             'first_name': registration.first_name,
             'event': {
                 'name': registration.event.name,
-                'event_start_date': registration.event.event_start_date,
-                'event_end_date': registration.event.event_end_date,
+                'start_date': registration.event.start_date,
+                'end_date': registration.event.end_date,
                 'event_mode': registration.event.event_mode,
                 'venue': registration.event.venue,
                 'description': registration.event.description,

@@ -113,9 +113,9 @@
             <p>Thank you for registering for the Django india launch event. We are thrilled to have you join us. Below are the details:</p>
             <div class="details">
                 <p><strong>Event:</strong> {{ event.name }}</p>
-                {% if event.event_end_date %}
-                <p><strong>Date:</strong> {{ event.event_start_date.date }} - {{ event.event_end_date.date }}</p>
-                <p><strong>Time:</strong> {{ event.event_start_date.time }} - {{ event.event_end_date.time }}</p>
+                {% if event.end_date %}
+                <p><strong>Date:</strong> {{ event.start_date.date }} - {{ event.end_date.date }}</p>
+                <p><strong>Time:</strong> {{ event.start_date.time }} - {{ event.end_date.time }}</p>
                 {% else %}
                 <p><strong>Date:</strong> {{ event.date_time.date }}</p>
                 <p><strong>Time:</strong> {{ event.date_time.time }}</p>
