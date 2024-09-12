@@ -25,7 +25,7 @@ class Event(BaseModel):
     description = models.TextField()
     venue = models.TextField(default="TBA",null=True, blank=True)
     city = models.CharField(max_length=255, default="TBA", null=True, blank=True)
-    venue_map_link = models.TextField(null=True, blank=True)
+    venue_map_link = models.URLField(null=True, blank=True) #will only accepts links with "https://"
     event_start_date = models.DateTimeField(null=False, default=default_start_date)
     event_end_date = models.DateTimeField()
     registration_end_date = models.DateTimeField(default=default_registration_end_date)
@@ -43,7 +43,7 @@ class Event(BaseModel):
 
 class EventRegistration(BaseModel):
     OCCUPATION_CHOICES = [
-        ("working_professional", "Working Professional"),
+        ("employed", "Employed"),
         ("student", "Student"),
         ("freelancer", "Freelancer"),
     ]
@@ -51,7 +51,7 @@ class EventRegistration(BaseModel):
         ("male", "Male"),
         ("female", "Female"),
         ("other", "Other"),
-        ("not_specified", "Not Specified" )
+        ("not_specified", "No Disclosure" )
     ]
 
     event = models.ForeignKey(

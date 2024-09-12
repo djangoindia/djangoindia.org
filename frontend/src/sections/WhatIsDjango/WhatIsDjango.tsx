@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Button } from '@components'
 import useWidth from '@/hooks/useWidth'
+import DataCard from '@/components/DataCard/datacard'
 
 const WhatIsDjango = () => {
   const width = useWidth()
@@ -70,6 +71,7 @@ const WhatIsDjango = () => {
           </div>
         </div>
       </section>
+      <DataCard />
     </section>
   )
 }
