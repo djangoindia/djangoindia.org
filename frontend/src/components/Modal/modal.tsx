@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="bg-black text-white py-3 px-4 rounded-full hover:bg-gray-900 transition-all"
+            className="bg-black text-white py-2 px-6 rounded-full hover:bg-gray-900 transition-all self-start"
           >
             Submit
           </button>
