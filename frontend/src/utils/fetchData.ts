@@ -29,6 +29,7 @@ export const fetchData = async <TFetchedData>(
         ...restOptions.headers,
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     })
 
     const parsedResponse = await response.json()
