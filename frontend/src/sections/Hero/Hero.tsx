@@ -56,12 +56,12 @@ const HeroSection = () => {
                   </div>
                   <div className='flex flex-col text-right md:items-end'>
                     <div className='text-black'>
-                      Connecting passionate Django developers
+                      Connecting <strong>Django</strong> developers
                     </div>
                     <div className='text-black'>
-                      especially from India to share, learn, and
+                      from India & across the globe, to
                     </div>
-                    <div className='pb-2 text-black'>grow together. </div>
+                    <div className='pb-2 text-black'> share, learn, and grow <strong>together.</strong></div>
                     {/* <Button>Subscribe</Button> */}
                   </div>
                 </div>

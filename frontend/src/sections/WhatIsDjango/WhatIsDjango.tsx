@@ -37,11 +37,10 @@ const WhatIsDjango = () => {
                 </div>
               </div>
               <p className='w-full md:max-w-[600px] text-sm  md:text-2xl pl-8  text-black font-medium'>
-                Django India is a community of django developers, especially
-                from India. It brings together a passionate community eager to
-                learn, share knowledge, and collaborate on exciting projects.
-                Through meetups, workshops, and online events, members actively
-                contribute with an aim to grow the Django ecosystem in India.
+              A vibrant community of Django developers, primarily from India. 
+              It unites passionate individuals who are eager to learn, share knowledge, and collaborate 
+              on innovative projects. Through our meetups, workshops, and online events, members actively 
+              contribute to the growth of the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
                 <Button>Learn More</Button>
