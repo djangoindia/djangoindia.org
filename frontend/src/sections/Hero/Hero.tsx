@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import Update from '../Latestupdate/LatestUpdate'
-import { Modal } from '@/components/Modal/modal'
+import Modal from '@/components/Modal/modal'
+import { Button } from '@/components'
 
 const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -76,12 +77,9 @@ const HeroSection = () => {
                     </div>
 
                     {/* CTA Button */}
-                    <button
-                      onClick={toggleModal}
-                      className='mt-4 py-2 px-6 bg-[#046A38] text-white rounded-lg hover:bg-[#ff641f] transition-all'
-                    >
+                    <Button onClick={toggleModal}>
                       Subscribe for Updates
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
