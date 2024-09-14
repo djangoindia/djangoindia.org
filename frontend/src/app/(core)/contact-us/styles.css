@@ -20,13 +20,13 @@ body {
 }
 
 body::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 section {
@@ -50,17 +50,17 @@ section {
 }
 
 .section-header h2 {
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
   font-size: 3em;
   margin-bottom: 20px;
 }
 
 .section-header p {
-  color: #FFF;
+  color: #fff;
 }
 
-.row  {
+.row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -100,7 +100,7 @@ section {
 }
 
 .contact-info-content p {
-  color: #FFF;
+  color: #fff;
   font-size: 1em;
 }
 
@@ -126,7 +126,7 @@ section {
 }
 
 .contact-form .input-box input,
-.contact-form .input-box textarea{
+.contact-form .input-box textarea {
   width: 100%;
   padding: 5px 0;
   font-size: 16px;
@@ -149,17 +149,16 @@ section {
 }
 
 .contact-form .input-box input:focus ~ span,
-.contact-form .input-box textarea:focus ~ span{
+.contact-form .input-box textarea:focus ~ span {
   color: #e91e63;
   font-size: 12px;
   transform: translateY(-20px);
 }
 
-.contact-form .input-box input[type="submit"]
-{
+.contact-form .input-box input[type='submit'] {
   width: 100%;
   background: #00bcd4;
-  color: #FFF;
+  color: #fff;
   border: none;
   cursor: pointer;
   padding: 10px;
@@ -168,9 +167,8 @@ section {
   transition: 0.5s;
 }
 
-.contact-form .input-box input[type="submit"]:hover
-{
-  background: #FFF;
+.contact-form .input-box input[type='submit']:hover {
+  background: #fff;
   color: #00bcd4;
 }
 

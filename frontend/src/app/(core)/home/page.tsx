@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   Goals,
   Hero,
@@ -9,7 +10,7 @@ import {
   WhatIsDjango,
 } from '@sections'
 
-const page = () => {
+const page = (): JSX.Element => {
   return (
     <>
       <Hero />

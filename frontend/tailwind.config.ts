@@ -11,17 +11,17 @@ const config = {
   prefix: '',
   theme: {
     screens: {
-      'xs': '320px',
-      'sm': '480px',
+      xs: '320px',
+      sm: '480px',
       // => @media (min-width: 640px) { ... }
 
-      'md': '768px',
+      md: '768px',
       // => @media (min-width: 768px) { ... }
 
-      'lg': '1024px',
+      lg: '1024px',
       // => @media (min-width: 1024px) { ... }
 
-      'xl': '1200px',
+      xl: '1200px',
       // => @media (min-width: 1280px) { ... }
 
       '2xl': '1536px',
@@ -35,6 +35,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        archivo: ['Archivo Black', 'sans-serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

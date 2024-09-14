@@ -1,11 +1,17 @@
 'use client'
 
-import { Navbar, Footer } from '@sections'
 import React, { PropsWithChildren } from 'react'
+
 import { SnackbarKey, SnackbarProvider, useSnackbar } from 'notistack'
 import { MdOutlineCancel } from 'react-icons/md'
 
-const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
+import { Footer, Navbar } from '@sections'
+
+const SnackbarCloseButton = ({
+  snackbarKey,
+}: {
+  snackbarKey: SnackbarKey
+}): JSX.Element => {
   const { closeSnackbar } = useSnackbar()
 
   return (
@@ -18,7 +24,7 @@ const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
   )
 }
 
-const Layout = ({ children }: PropsWithChildren) => {
+const Layout = ({ children }: PropsWithChildren): JSX.Element => {
   return (
     <SnackbarProvider
       maxSnack={3}

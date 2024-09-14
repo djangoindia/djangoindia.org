@@ -1,11 +1,14 @@
 'use client'
 import { useState } from 'react'
+
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import Image from 'next/image'
-import { SupportUsDialog } from '@/containers'
-import useWidth from '@/hooks/useWidth'
-import { APP_ROUTES } from '@/constants'
+
+import { APP_ROUTES } from '@constants'
+import { SupportUsDialog } from '@containers'
+
+import useWidth from '@hooks/useWidth'
 
 const Drawer = ({
   isOpen,
@@ -15,10 +18,10 @@ const Drawer = ({
   isOpen: boolean
   onClose: () => void
   pathname: string
-}) => {
+}): JSX.Element => {
   return (
     <div
-      className={`bg-[#8796a4] fixed inset-0 z-50 flex flex-col p-4 justify-between items-top text-black transition-transform w-full sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`fixed inset-0 z-50 flex w-full flex-col items-start justify-between bg-[#8796a4] p-4 text-black transition-transform sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className='flex flex-col items-center'>
         <button onClick={onClose}>
@@ -54,7 +57,7 @@ const Drawer = ({
         width={200}
         height={42}
         alt='logo'
-        className=' object-center py-3 mt-auto mx-auto'
+        className=' mx-auto mt-auto object-center py-3'
         style={{
           maxWidth: '100%',
           height: 'auto',
@@ -63,7 +66,7 @@ const Drawer = ({
     </div>
   )
 }
-const HamburgerMenuIcon = () => (
+const HamburgerMenuIcon = (): JSX.Element => (
   <svg
     width='24'
     height='24'
@@ -76,7 +79,7 @@ const HamburgerMenuIcon = () => (
     <rect x='3' y='16' width='18' height='2' fill='currentColor' />
   </svg>
 )
-const CrossIcon = () => (
+const CrossIcon = (): JSX.Element => (
   <svg
     width='24'
     height='24'
@@ -103,12 +106,12 @@ const CrossIcon = () => (
   </svg>
 )
 
-const Navbar = () => {
+const Navbar = (): JSX.Element => {
   const pathname = usePathname() //current pathname
   const width = useWidth()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setIsDrawerOpen(!isDrawerOpen)
 
     // Disables Background Scrolling whilst the SideDrawer/Modal is open
@@ -119,10 +122,10 @@ const Navbar = () => {
 
   return (
     <>
-      <section className='h-full w-full relative bg-[#C1CAD2]'>
-        <div className='h-12 md:h-20 w-full flex justify-around items-center'>
+      <section className='relative size-full bg-[#C1CAD2]'>
+        <div className='flex h-12 w-full items-center justify-around md:h-20'>
           {/* logo  */}
-          <div className='hidden md:flex items-center justify-center '>
+          <div className='hidden items-center justify-center md:flex '>
             <Image
               src='/whatIsDjango/Logo.svg'
               width={121}
@@ -139,7 +142,7 @@ const Navbar = () => {
           {/* menu */}
           {width > 786 ? (
             <>
-              <div className='flex font-semibold gap-5 md:gap-16 text-xs md:text-base text-black justify-center items-center'>
+              <div className='flex items-center justify-center gap-5 text-xs font-semibold text-black md:gap-16 md:text-base'>
                 <Link
                   href={APP_ROUTES.home}
                   className={`py-5 ${
@@ -174,7 +177,7 @@ const Navbar = () => {
               <SupportUsDialog />
             </>
           ) : (
-            <button onClick={toggleDrawer} className='md:hidden mr-auto ml-5'>
+            <button onClick={toggleDrawer} className='ml-5 mr-auto md:hidden'>
               {/* Hamburger icon */}
               <HamburgerMenuIcon />
             </button>
