@@ -39,10 +39,11 @@ const WhatIsDjango = (): JSX.Element => {
                 </div>
               </div>
               <p className='w-full pl-8 text-sm  font-medium text-black  md:max-w-[600px] md:text-2xl'>
-              A vibrant community of Django developers, primarily from India. 
-              It unites passionate individuals who are eager to learn, share knowledge, and collaborate 
-              on innovative projects. Through our meetups, workshops, and online events, members actively 
-              contribute to the growth of the Django ecosystem in India.
+                A vibrant community of Django developers, primarily from India.
+                It unites passionate individuals who are eager to learn, share
+                knowledge, and collaborate on innovative projects. Through our
+                meetups, workshops, and online events, members actively
+                contribute to the growth of the Django ecosystem in India.
                 Django India is a community of django developers, especially
                 from India. It brings together a passionate community eager to
                 learn, share knowledge, and collaborate on exciting projects.

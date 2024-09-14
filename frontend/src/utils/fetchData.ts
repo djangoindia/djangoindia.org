@@ -1,4 +1,4 @@
-import { getApiUrl } from '../utils/apiUrl';
+import { getApiUrl } from '../utils/apiUrl'
 interface ErrorResponse {
   message?: string
   statusCode?: number

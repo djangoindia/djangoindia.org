@@ -61,7 +61,10 @@ const HeroSection = (): JSX.Element => {
                     <div className='text-black'>
                       from India & across the globe, to
                     </div>
-                    <div className='pb-2 text-black'> share, learn, and grow <strong>together.</strong></div>
+                    <div className='pb-2 text-black'>
+                      {' '}
+                      share, learn, and grow <strong>together.</strong>
+                    </div>
                     {/* <Button>Subscribe</Button> */}
                   </div>
                 </div>

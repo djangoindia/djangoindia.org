@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { SubscriberForm } from './LatestUpdate.types'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { enqueueSnackbar } from 'notistack'
@@ -12,9 +11,10 @@ import { MdOutlineEmail } from 'react-icons/md'
 import './styles.css'
 
 import { Button } from '@components'
-import { API_ENDPOINTS, NEWSLETTER_FORM_SCHEMA } from '@constants'
+import { API_ENDPOINTS, SUBSCRIBER_FORM_SCHEMA } from '@constants'
 import { fetchData } from '@utils'
 
+import { SubscriberForm } from './LatestUpdate.types'
 
 function Update(): JSX.Element {
   const {
