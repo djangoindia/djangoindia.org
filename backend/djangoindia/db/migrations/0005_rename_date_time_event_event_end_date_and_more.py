@@ -2,6 +2,7 @@
 
 from django.db import migrations, models
 import djangoindia.db.models.event
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -24,12 +25,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='event_start_date',
-            field=models.DateTimeField(default=djangoindia.db.models.event.default_start_date),
+            field=models.DateTimeField(default=django.utils.timezone.now),
         ),
         migrations.AddField(
             model_name='event',
             name='registration_end_date',
-            field=models.DateTimeField(default=djangoindia.db.models.event.default_registration_end_date),
+            field=models.DateTimeField(default=django.utils.timezone.now),
         ),
         migrations.AlterField(
             model_name='event',

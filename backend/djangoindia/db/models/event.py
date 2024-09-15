@@ -5,11 +5,10 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from datetime import timedelta
 
-def default_start_date():
-    return timezone.now() + timedelta(days=2)
+def validate_future_date(value):
+    if value <= timezone.now():
+        raise ValidationError("Date must be in the future.")
 
-def default_registration_end_date():
-    return timezone.now() + timedelta(days=1)
 
 class Event(BaseModel):
     IN_PERSON = "In-person"
@@ -26,17 +25,17 @@ class Event(BaseModel):
     venue = models.TextField(default="TBA",null=True, blank=True)
     city = models.CharField(max_length=255, default="TBA", null=True, blank=True)
     venue_map_link = models.TextField(null=True, blank=True)
-    start_date = models.DateTimeField(null=False, default=default_start_date)
-    end_date = models.DateTimeField()
-    registration_end_date = models.DateTimeField(default=default_registration_end_date)
+    start_date = models.DateTimeField(null=True, blank=True, validators=[validate_future_date])
+    end_date = models.DateTimeField(null=True, blank=True, validators=[validate_future_date])
+    registration_end_date = models.DateTimeField(null=True, blank=True, validators=[validate_future_date])
     event_mode = models.CharField(max_length=20,choices=EVENT_MODE_CHOICES,default=IN_PERSON)
 
     def clean(self):
-        if self.end_date and self.start_date:
-            if self.end_date <= self.start_date:
-                raise ValidationError("Event end date must be after event start date.")
-
         super().clean()
+        if self.end_date <= self.start_date:
+            raise ValidationError("End date must be after start date.")
+        if self.registration_end_date >= self.start_date:
+            raise ValidationError("Registration end date must be before event start date.")
 
     def __str__(self) -> str:
         return f"{self.name} @ {self.city} ({self.start_date.date()})"
