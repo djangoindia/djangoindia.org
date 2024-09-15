@@ -1,2 +1,3 @@
 from .event import EventSerializer, EventRegistrationSerializer
 from .communication import SubscriberSerializer, ContactUsSerializer
+from .community_partner import CommunityPartnerSerializer

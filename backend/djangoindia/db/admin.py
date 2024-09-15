@@ -5,6 +5,7 @@ from .forms import EventForm, EmailForm, UpdateForm
 from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
 from djangoindia.db.models.communication import Subscriber, ContactUs
 from djangoindia.db.models.update import Update
+from djangoindia.db.models.community_partner import CommunityPartner
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -183,3 +184,9 @@ class UpdateAdmin(admin.ModelAdmin):
             update.send_bulk_emails()
         self.message_user(request, "Update emails sent.")
     send_update.short_description = "Send selected updates to subscribers"
+
+@admin.register(CommunityPartner)
+class CommunityPartnerAdmin(admin.ModelAdmin):
+    list_display = ['organization_name', 'organization_email']
+    search_fields = ['organization_name',]
+    readonly_fields = ('created_at', 'updated_at')
