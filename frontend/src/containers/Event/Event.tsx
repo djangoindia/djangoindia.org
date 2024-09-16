@@ -26,9 +26,9 @@ const EventContainer = async ({
     venue_map_link,
     description,
     city,
-    event_end_date,
+    end_date,
     event_mode,
-    event_start_date,
+    start_date,
     registration_end_date,
   },
 }: {
@@ -41,13 +41,13 @@ const EventContainer = async ({
     },
   });
 
-  const duration = calculateDuration(event_end_date, event_start_date)
+  const duration = calculateDuration(end_date, start_date)
 
   const eventLink = google({
     title: name,
     description,
-    start: event_start_date,
-    end: event_end_date,
+    start: start_date,
+    end: end_date,
     duration: [duration.hours, 'hours'],
   })
 
@@ -66,7 +66,7 @@ const EventContainer = async ({
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-6xl font-bold'>{name}</h2>
-          <span>Starts {dayjs(event_start_date).format('DD MMMM, YYYY')} at {dayjs(event_start_date).format('hh:mm A')}</span>
+          <span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>
           {city && <span>City: {city}</span>}
           <RegisterEvent />
           <div className='my-12 text-l flex flex-col gap-3'>
@@ -82,13 +82,13 @@ const EventContainer = async ({
             <h4 className='text-2xl font-bold'>When</h4>
             <span className='flex items-center gap-2'>
               <SlCalender />
-              {dayjs(event_start_date).format('DD MMMM, YYYY')}
-              {event_end_date && ` - ${dayjs(event_end_date).format('DD MMMM, YYYY')}`}
+              {dayjs(start_date).format('DD MMMM, YYYY')}
+              {end_date && ` - ${dayjs(end_date).format('DD MMMM, YYYY')}`}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
-              {dayjs(event_start_date).format('hh:mm A')} -
-              {dayjs(event_end_date).format('hh:mm A')}
+              {dayjs(start_date).format('hh:mm A')} -
+              {dayjs(end_date).format('hh:mm A')}
             </span>
             {/* TODO: Use text variant of button */}
             <Button className='w-fit' asChild>

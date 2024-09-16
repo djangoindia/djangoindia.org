@@ -56,7 +56,7 @@ class EventAPIView(
                 email=request.data.get("email"), event=request.data.get("event")
             ).exists():
                 return Response(
-                    {"message": "You have already registered for this event."},
+                    {"message": "We get it, you’re excited. But you've already secured your ticket!"},
                     status=status.HTTP_409_CONFLICT,
                 )
             self.create(request, *args, **kwargs)
@@ -66,7 +66,7 @@ class EventAPIView(
             event_id = request.data.get("event")
             registration_confirmation_email_task.delay(recipient_email, event_id)
             return Response(
-                {"message": "Registration successful. Confirmation email sent."},
+                {"message": "You're in! We've sent a shiny email to your inbox. Time to celebrate!"},
                 status=status.HTTP_201_CREATED,
             )
         except Exception as e:

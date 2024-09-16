@@ -32,7 +32,7 @@ class EventRegistrationInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('name','city', 'event_start_date', 'event_mode', 'created_at')
+    list_display = ('name','city', 'start_date', 'event_mode', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['name','city']
     form = EventForm
