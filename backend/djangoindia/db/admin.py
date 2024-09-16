@@ -187,6 +187,6 @@ class UpdateAdmin(admin.ModelAdmin):
 
 @admin.register(CommunityPartner)
 class CommunityPartnerAdmin(admin.ModelAdmin):
-    list_display = ['organization_name', 'organization_email']
-    search_fields = ['organization_name',]
+    list_display = ['name', 'website', 'contact_name', 'contact_email', 'contact_number', 'description']
+    search_fields = ['name']
     readonly_fields = ('created_at', 'updated_at')
