@@ -17,10 +17,15 @@ export const metadata: Metadata = {
     siteName: 'Django India',
     images: [
       {
-        url: '/djangoindia_logo.png',
+        url: '/og-image-large.png',
         width: 1200,
         height: 630,
       },
+      {
+        url: '/og-image-small.png',
+        width: 400,
+        height: 400,
+      }
     ],
     locale: 'en_IN',
     type: 'website',
@@ -29,7 +34,25 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Django India Community',
     description: 'Connect with Django developers across India.',
-    images: ['/djangoindia_twitter.png'],
+    url: 'https://djangoindia.org',
+    siteName: 'Django India',
+    images: [
+      {
+        url:'/og-twitter.jpg',
+        width: 300,
+        height: 157,
+      },
+      {
+        url:'/og-twitter-square.jpg',
+        width: 600,
+        height: 600,
+      },
+      {
+        url:'/og-image-large-twitter.jpg',
+        width: 1200,
+        height: 675,
+      }
+    ],
   },
   robots: {
     index: true,
