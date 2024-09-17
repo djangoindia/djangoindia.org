@@ -6,6 +6,9 @@ import useWidth from '@/hooks/useWidth'
 
 const WhatIsDjango = () => {
   const width = useWidth()
+  const handleClick = () => {
+    window.open("https://www.linkedin.com/company/djangoindia/")
+  };
   return (
     <section className='w-full h-auto relative bg-[#f9f4ee]'>
       <section className="w-full h-[600px] relative bg-[url('/whatIsDjango/Curve.svg')] bg-cover bg-no-repeat">
@@ -43,7 +46,7 @@ const WhatIsDjango = () => {
               contribute to the growth of the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
-                <Button>Learn More</Button>
+                <Button onClick={handleClick}>Learn More</Button>
               </div>
             </div>
           </div>
