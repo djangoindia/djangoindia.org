@@ -34,8 +34,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Django India Community',
     description: 'Connect with Django developers across India.',
-    url: 'https://djangoindia.org',
-    siteName: 'Django India',
     images: [
       {
         url:'/og-twitter.jpg',
