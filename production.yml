@@ -37,20 +37,20 @@ services:
     expose:
       - 5432
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    container_name: frontend
-    volumes:
-      - ./frontend:/app/frontend
-    depends_on:
-        - backend
-        - postgres
-    env_file:
-      - frontend/.env
-    ports:
-      - "3000:3000"
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.prod
+  #   container_name: frontend
+  #   volumes:
+  #     - ./frontend:/app/frontend
+  #   depends_on:
+  #       - backend
+  #       - postgres
+  #   env_file:
+  #     - frontend/.env
+  #   ports:
+  #     - "3000:3000"
   
   nginx:
     build:
@@ -88,6 +88,6 @@ volumes:
   logs:
   nginx_logs:
   postgres:
-  frontend:
+  # frontend:
   certbot_conf:
   certbot_www:
