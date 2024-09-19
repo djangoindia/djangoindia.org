@@ -15,11 +15,11 @@ import { google } from 'calendar-link'
 import type { Event } from '@/types'
 import Link from 'next/link'
 import { calculateDuration } from '@/utils'
-import sanitizeHtml from 'sanitize-html';
-
+import sanitizeHtml from 'sanitize-html'
 
 const EventContainer = async ({
   event: {
+    id,
     name,
     cover_image,
     venue,
@@ -37,9 +37,9 @@ const EventContainer = async ({
   const sanitizedDescription = sanitizeHtml(description, {
     allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
     allowedAttributes: {
-      a: ['href','target'],
+      a: ['href', 'target'],
     },
-  });
+  })
 
   const duration = calculateDuration(end_date, start_date)
 
@@ -66,17 +66,20 @@ const EventContainer = async ({
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-6xl font-bold'>{name}</h2>
-          <span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>
+          <span>
+            Starts {dayjs(start_date).format('DD MMMM, YYYY')} at{' '}
+            {dayjs(start_date).format('hh:mm A')}
+          </span>
           {city && <span>City: {city}</span>}
-          <RegisterEvent />
+          <RegisterEvent eventId={id} />
           <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
             </span>
             <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-          />
+              className='prose'
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            />
           </div>
           <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold'>When</h4>
@@ -97,23 +100,27 @@ const EventContainer = async ({
               </Link>
             </Button>
           </div>
-          {venue && <div className='my-10 flex flex-col gap-2'>
-            <h4 className='text-2xl font-bold flex items-center gap-2'>
-              <CiLocationOn />
-              Where
-            </h4>
-            <p>{venue}</p>
-          </div>}
+          {venue && (
+            <div className='my-10 flex flex-col gap-2'>
+              <h4 className='text-2xl font-bold flex items-center gap-2'>
+                <CiLocationOn />
+                Where
+              </h4>
+              <p>{venue}</p>
+            </div>
+          )}
           <div>
-            {venue_map_link && <iframe
-              src={venue_map_link}
-              width='100%'
-              className='rounded-2xl w-full mx-auto shadow-xl'
-              height='450'
-              loading='lazy'
-              allowFullScreen
-              referrerPolicy='no-referrer-when-downgrade'
-            ></iframe>}
+            {venue_map_link && (
+              <iframe
+                src={venue_map_link}
+                width='100%'
+                className='rounded-2xl w-full mx-auto shadow-xl'
+                height='450'
+                loading='lazy'
+                allowFullScreen
+                referrerPolicy='no-referrer-when-downgrade'
+              ></iframe>
+            )}
           </div>
         </div>
       </div>
@@ -123,12 +130,16 @@ const EventContainer = async ({
         <h5 className='text-4xl	font-bold text-blue-900 text-center'>
           RSVP for this event now!
         </h5>
-        <span>Registration ends {dayjs(registration_end_date).format('DD MMMM, YYYY')} at {dayjs(registration_end_date).format('hh:mm A')}</span>
+        <span>
+          Registration ends{' '}
+          {dayjs(registration_end_date).format('DD MMMM, YYYY')} at{' '}
+          {dayjs(registration_end_date).format('hh:mm A')}
+        </span>
         <span className='flex items-center gap-2'>
           <CiLocationOn />
           {event_mode}
         </span>
-        <RegisterEvent />
+        <RegisterEvent eventId={id} />
       </div>
     </div>
   )

@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import event2 from '../../../public/02.svg'
 import { useRouter } from 'next/navigation'
 
-
 interface EventProps {
   eventId: string
   title: string
@@ -24,7 +23,7 @@ const EventCard: React.FC<EventProps> = ({
   imageSrc,
   venue,
   time,
-  event_mode
+  event_mode,
 }) => {
   const router = useRouter()
 
@@ -66,12 +65,14 @@ const EventCard: React.FC<EventProps> = ({
             <span className='font-bold'>Mode: </span>
             {event_mode}
           </p>
-          {venue && <p className='text-gray-700 mb-2 line-clamp-4'>
-            <span className='font-bold'>Venue: </span>
-            <br />
-            {venue}
-          </p>}
-          <p className='text-gray-600'>{dayjs(time).format('hh:mm A')}</p>
+          {venue && (
+            <p className='text-gray-700 mb-2 line-clamp-4'>
+              <span className='font-bold'>Venue: </span>
+              <br />
+              {venue}
+            </p>
+          )}
+          {/* <p className='text-gray-600'>{dayjs(time).format('hh:mm A')}</p> */}
         </div>
       </div>
     </div>
