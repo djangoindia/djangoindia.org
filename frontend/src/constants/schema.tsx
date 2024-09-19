@@ -26,7 +26,7 @@ export const CONTACT_US_FORM_SCHEMA = yup.object({
     .required('Message is required'),
 })
 
-export const NEWSLETTER_FORM_SCHEMA = yup.object({
+export const SUBSCRIBER_FORM_SCHEMA = yup.object({
   name: yup
     .string()
     .min(2, 'Name must be at least 2 characters')

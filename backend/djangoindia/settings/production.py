@@ -35,3 +35,12 @@ STORAGES = {
         "BACKEND": "djangoindia.storage_utils.S3StaticStorage",
     },
 }
+
+REST_FRAMEWORK.update({
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+    }
+})

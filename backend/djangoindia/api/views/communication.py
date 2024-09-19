@@ -1,20 +1,20 @@
 from djangoindia.api.serializers.communication import (
     ContactUsSerializer,
-    NewsletterSubscriptionSerializer,
+    SubscriberSerializer,
 )
-from djangoindia.db.models.communication import NewsletterSubscription
+from djangoindia.db.models.communication import Subscriber
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 
 
-class NewsletterSubscriptionAPIView(generics.GenericAPIView, CreateModelMixin):
-    queryset = NewsletterSubscription.objects.all()
-    serializer_class = NewsletterSubscriptionSerializer
+class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
 
     def post(self, request, *args, **kwargs):
         try:
-            if NewsletterSubscription.objects.filter(
+            if Subscriber.objects.filter(
                 email=request.data.get("email")
             ).exists():
                 return Response(

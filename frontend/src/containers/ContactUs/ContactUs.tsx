@@ -26,7 +26,11 @@ const ContactUs = () => {
     })
     if (res.statusCode === 200 || res.statusCode === 201) {
       enqueueSnackbar(res?.data?.message, { variant: 'success' })
-    } else {
+    } 
+    else if (res.statusCode === 429) {
+      enqueueSnackbar('Too many requests, Please try again after some time.', { variant: 'error' })
+    } 
+    else {
       enqueueSnackbar(res?.error?.message, {
         variant: 'error',
       })
