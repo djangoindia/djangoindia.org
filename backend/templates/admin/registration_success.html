@@ -93,6 +93,10 @@
         .social-links a:hover {
             color: #333;
         }
+        .bottom-section p{
+           text-align: center;
+           font-size: smaller;
+        }
     </style>
 </head>
 <body>
@@ -101,37 +105,47 @@
             {% if event.cover_image %}
                 <img src="{{ event.cover_image }}" alt="Event Cover Image">
             {% else %}
-                <img src="https://via.placeholder.com/80" alt="Logo">
+            <img src="https://raw.githubusercontent.com/djangoindia/djangoindia.org/main/assets/djangoindia-logo.png" alt="Logo">
             {% endif %}
-            <h1>Registration Confirmation</h1>
         </div>
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Thank you for registering for the event. Here are the details:</p>
+            <p>Thank you for registering for the Django india launch event. We are thrilled to have you join us. Below are the details:</p>
             <div class="details">
                 <p><strong>Event:</strong> {{ event.name }}</p>
+                {% if event.end_date %}
+                <p><strong>Date:</strong> {{ event.start_date.date }} - {{ event.end_date.date }}</p>
+                <p><strong>Time:</strong> {{ event.start_date.time }} - {{ event.end_date.time }}</p>
+                {% else %}
                 <p><strong>Date:</strong> {{ event.date_time.date }}</p>
                 <p><strong>Time:</strong> {{ event.date_time.time }}</p>
+                {% endif %}
+                {% if event.venue %}
                 <p><strong>Venue:</strong> {{ event.venue }}</p>
-                <p><strong>Description:</strong> {{ event.description }}</p>
+                {% endif %}
+                <p><strong>Mode:</strong> {{ event.event_mode }}</p>
                 {% if event.venue_map_link %}
-                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 {% endif %}
             </div>
-            <p>We look forward to seeing you there!</p>
-            <p>Follow us on social media:</p>
-            <ul class="social-links">
-                <li><a href="https://www.twitter.com/djangoindiaa" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="https://www.instagram.com/djangoindia/" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank"><i class="fab fa-youtube"></i></a></li>
-                <li><a href="https://discord.gg/YrmYTTBspe" target="_blank"><i class="fab fa-discord"></i></a></li>
-                <li><a href="https://github.com/djangoindia" target="_blank"><i class="fab fa-github"></i></a></li>
-                <li><a href="https://www.reddit.com/r/djangoindia/" target="_blank"><i class="fab fa-reddit"></i></a></li>
-                <li><a href="https://www.linkedin.com/company/django-india/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-            </ul>
+            <p>We look forward to seeing you there! If you have any queries, you can contact us @<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
+            <p>Best regards,</p>
+            <p>Team Django India</p>
+            <div class="bottom-section">
+                <p>Follow us on social media:</p>
+                <ul class="social-links">
+                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/twitterx--v1.png" alt="twitterx--v1"/></a></li>
+                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/instagram-new--v1.png" alt="instagram-new--v1"/></a></li>
+                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/youtube-play--v1.png" alt="youtube-play--v1"/></a></li>
+                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/discord-logo--v1.png" alt="discord-logo--v1"/></a></li>
+                    <li><a href="https://github.com/djangoindia" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/github.png" alt="github"/></a></li>
+                    <li><a href="https://www.reddit.com/r/djangoindia/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/reddit.png" alt="reddit"/></a></li>
+                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/linkedin--v1.png" alt="linkedin--v1"/></a></li>
+                </ul>
+            </div>
         </div>
         <div class="footer">
-            <p>&copy; 2024 Djangoindia community. All rights reserved.</p>
+            <p>&copy; 2024 Django India community. All rights reserved.</p>
         </div>
     </div>
 </body>

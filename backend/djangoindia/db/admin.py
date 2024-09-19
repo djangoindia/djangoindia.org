@@ -1,9 +1,10 @@
 # from django.conf import settings
 from django.contrib import admin
 
-from .forms import EventForm, EmailForm
-from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
+from .forms import EventForm, EmailForm, UpdateForm
+from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
+from djangoindia.db.models.communication import Subscriber, ContactUs
+from djangoindia.db.models.update import Update
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -20,6 +21,10 @@ def send_email_to_selected_users(modeladmin, request, queryset):
     ids = queryset.values_list('id', flat=True)
     return redirect(f'send_email/?ids={",".join(map(str, ids))}')
 
+class SponsorInline(admin.TabularInline):
+    model = Sponsorship
+    extra = 1 
+
 class EventRegistrationInline(admin.TabularInline):
     model = EventRegistration
     extra = 0
@@ -27,14 +32,16 @@ class EventRegistrationInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    list_display = ('name','city', 'start_date', 'event_mode', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['name','city']
     form = EventForm
-    inlines = [EventRegistrationInline]
+    inlines = [EventRegistrationInline,SponsorInline]
 
 
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('event', 'first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
@@ -79,10 +86,48 @@ class EventRegistrationAdmin(admin.ModelAdmin):
         return TemplateResponse(request, 'admin/send_email.html', context)
 
 
-@admin.register(NewsletterSubscription)
-class EventRegistrationAdmin(admin.ModelAdmin):
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ('email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ['name', 'email',]
 
 @admin.register(ContactUs)
-class EventRegistrationAdmin(admin.ModelAdmin):
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
+    ordering = ('-created_at',)
+    search_fields = ['email',]
+
+@admin.register(Sponsorship)
+class SponsorshipAdmin(admin.ModelAdmin):
+    list_display = ('sponsor_details', 'tier', 'type', 'event')
+    list_filter = ('type', 'event', 'tier')
+    search_fields = ['sponsor_details__name',]
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Sponsor)
+class SponsorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'type', 'email']
+    search_fields = ['name',]
+    readonly_fields = ('created_at', 'updated_at')
+    
+#email sending functionality and update registration
+@admin.register(Update)
+class UpdateAdmin(admin.ModelAdmin):
+    form = UpdateForm
+    list_display = ('title', 'type', 'created_by', 'created_at', 'mail_sent')
+    search_fields = ['title','created_by__username','created_by__first_name','type']
+    readonly_fields = ('created_by', 'created_at', 'updated_at')
+    actions = ['send_update']
+
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        super().save_model(request, obj, form, change)
+    
+    def send_update(self, request, queryset):
+        for update in queryset:
+            update.send_bulk_emails()
+        self.message_user(request, "Update emails sent.")
+    send_update.short_description = "Send selected updates to subscribers"

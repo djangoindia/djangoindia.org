@@ -15,15 +15,15 @@ services:
       - .env
     command: /start-local
 
-  # djangoindia-worker:
-  #   <<: *djangoindia-backend
-  #   container_name: djangoindia-worker
-  #   command: celery -A djangoindia worker -l info
-  #   ports: []
-  #   depends_on:
-  #     - djangoindia-backend
-  #     - postgres
-  #     - rabbitmq
+  djangoindia-worker:
+    <<: *djangoindia-backend
+    container_name: djangoindia-worker
+    command: celery -A djangoindia worker -l info
+    ports: []
+    depends_on:
+      - djangoindia-backend
+      - postgres
+      - rabbitmq
 
   postgres:
     image: postgres:14.1-alpine
@@ -53,12 +53,16 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
 
-  # rabbitmq:
-  #   image: rabbitmq:3-management
-  #   container_name: rabbitmq
-  #   ports:
-  #     - "5672:5672"  # RabbitMQ default port
-  #     - "15672:15672"  # Management UI port
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # Management UI port
 
 volumes:
   logs:

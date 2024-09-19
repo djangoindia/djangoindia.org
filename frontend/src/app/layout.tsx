@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
@@ -17,10 +18,15 @@ export const metadata: Metadata = {
     siteName: 'Django India',
     images: [
       {
-        url: '/djangoindia_logo.png',
+        url: '/og-image-large.png',
         width: 1200,
         height: 630,
       },
+      {
+        url: '/og-image-small.png',
+        width: 400,
+        height: 400,
+      }
     ],
     locale: 'en_IN',
     type: 'website',
@@ -29,7 +35,23 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Django India Community',
     description: 'Connect with Django developers across India.',
-    images: ['/djangoindia_twitter.png'],
+    images: [
+      {
+        url:'/og-twitter.jpg',
+        width: 300,
+        height: 157,
+      },
+      {
+        url:'/og-twitter-square.jpg',
+        width: 600,
+        height: 600,
+      },
+      {
+        url:'/og-image-large-twitter.jpg',
+        width: 1200,
+        height: 675,
+      }
+    ],
   },
   robots: {
     index: true,
@@ -44,7 +66,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`bg-orange-50 ${inter.className}`}>{children}</body>
+      <head>
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-KL53GH4J');
+            `,
+          }}
+        />
+      </head>
+      <body className={`bg-orange-50 ${inter.className}`}>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KL53GH4J"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {children}
+      </body>
     </html>
   )
 }

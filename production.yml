@@ -17,15 +17,15 @@ services:
       - DJANGO_SETTINGS_MODULE=djangoindia.settings.production
     command: /start-prod
 
-  # worker:
-  #   <<: *backend
-  #   container_name: worker
-  #   command: celery -A djangoindia worker -l info 
-  #   ports: []
-  #   depends_on:
-  #     - backend
-  #     - postgres
-  #     - rabbitmq
+  worker:
+    <<: *backend
+    container_name: worker
+    command: celery -A djangoindia worker -l info 
+    ports: []
+    depends_on:
+      - backend
+      - postgres
+      - rabbitmq
 
   postgres:
     image: postgres:14.1-alpine
@@ -37,20 +37,20 @@ services:
     expose:
       - 5432
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    container_name: frontend
-    volumes:
-      - ./frontend:/app/frontend
-    depends_on:
-        - backend
-        - postgres
-    env_file:
-      - frontend/.env
-    ports:
-      - "3000:3000"
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.prod
+  #   container_name: frontend
+  #   volumes:
+  #     - ./frontend:/app/frontend
+  #   depends_on:
+  #       - backend
+  #       - postgres
+  #   env_file:
+  #     - frontend/.env
+  #   ports:
+  #     - "3000:3000"
   
   nginx:
     build:
@@ -77,17 +77,17 @@ services:
       - ./certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-  # rabbitmq:
-  #   image: rabbitmq:3-management
-  #   container_name: rabbitmq
-  #   ports:
-  #     - "5672:5672"  # RabbitMQ default port
-  #     - "15672:15672"  # Management UI port
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # Management UI port
   
 volumes:
   logs:
   nginx_logs:
   postgres:
-  frontend:
+  # frontend:
   certbot_conf:
   certbot_www:

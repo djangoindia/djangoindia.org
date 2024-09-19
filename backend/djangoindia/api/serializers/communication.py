@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from djangoindia.db.models.communication import NewsletterSubscription, ContactUs
+from djangoindia.db.models.communication import Subscriber, ContactUs
 
-class NewsletterSubscriptionSerializer(serializers.Serializer):
+class SubscriberSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
 
     def create(self, validated_data):
-        return NewsletterSubscription.objects.create(**validated_data)
+        return Subscriber.objects.create(**validated_data)
     
 class ContactUsSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=100)

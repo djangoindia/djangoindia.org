@@ -87,22 +87,19 @@ We will then take care of the issue as soon as possible.
         DJANGO_ADMIN_URL=admin/
         DJANGO_SECRET_KEY=secret_key
         DEBUG=true
-        DOCKERIZED=1
+        DOCKERIZED=0
 
         AWS_ACCESS_KEY_ID=id
         AWS_SECRET_ACCESS_KEY=key
         AWS_STORAGE_BUCKET_NAME=bucket
         AWS_S3_REGION_NAME=region
 
-        SENDER_EMAIL=email
-        EMAIL_HOST=host
-        EMAIL_PORT=port
-        EMAIL_HOST_USER=user
-        EMAIL_HOST_PASSWORD=password
-
         CELERY_BROKER_URL=amqp://localhost
         CELERY_RESULT_BACKEND=rpc://celery.sqlite3
 
+        DJANGO_SUPERUSER_USERNAME=admin
+        DJANGO_SUPERUSER_EMAIL=admin@djangoindia.org
+        DJANGO_SUPERUSER_PASSWORD=admin
         ```
 
   4.  **Run database migrations**:
@@ -146,11 +143,6 @@ We will then take care of the issue as soon as possible.
     AWS_STORAGE_BUCKET_NAME=bucket
     AWS_S3_REGION_NAME=region
 
-    SENDER_EMAIL=email
-    EMAIL_HOST=host
-    EMAIL_PORT=port
-    EMAIL_HOST_USER=user
-    EMAIL_HOST_PASSWORD=password
 
     CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
     CELERY_RESULT_BACKEND=db+postgresql://postgres:postgres@postgres:5432/djangoindia-db
@@ -171,7 +163,8 @@ We will then take care of the issue as soon as possible.
     docker-compose up --build
     ```
 5. After a while, backend will be accessible at `http://localhost:8000` and frontend will be accessible at `http://localhost:3000`.
-6. To stop docker containers, run:
+6. Whatever changes are done in frontend, they will automatically be updated in the docker container but if there is any change in the backend, the image must be rebuilt for those changes to reflect in the docker container.
+7. To stop docker containers, run:
     ```
     docker-compose down
     ```
