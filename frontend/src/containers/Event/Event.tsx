@@ -20,6 +20,7 @@ import splitAndCapitalize from '../../utils/formatKey'
 
 const EventContainer = async ({
   event: {
+    id,
     name,
     cover_image,
     venue,
@@ -38,9 +39,9 @@ const EventContainer = async ({
   const sanitizedDescription = sanitizeHtml(description, {
     allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
     allowedAttributes: {
-      a: ['href','target'],
+      a: ['href', 'target'],
     },
-  });
+  })
 
   const duration = calculateDuration(end_date, start_date)
 
@@ -76,9 +77,9 @@ const EventContainer = async ({
               Hey Everyone <MdWavingHand className='text-amber-500' />
             </span>
             <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-          />
+              className='prose'
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            />
           </div>
           <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold'>When</h4>
@@ -101,23 +102,27 @@ const EventContainer = async ({
               </Button>
             </>):'TBA'}
           </div>
-          {venue && <div className='my-10 flex flex-col gap-2'>
-            <h4 className='text-2xl font-bold flex items-center gap-2'>
-              <CiLocationOn />
-              Where
-            </h4>
-            <p>{venue}</p>
-          </div>}
+          {venue && (
+            <div className='my-10 flex flex-col gap-2'>
+              <h4 className='text-2xl font-bold flex items-center gap-2'>
+                <CiLocationOn />
+                Where
+              </h4>
+              <p>{venue}</p>
+            </div>
+          )}
           <div>
-            {venue_map_link && <iframe
-              src={venue_map_link}
-              width='100%'
-              className='rounded-2xl w-full mx-auto shadow-xl'
-              height='450'
-              loading='lazy'
-              allowFullScreen
-              referrerPolicy='no-referrer-when-downgrade'
-            ></iframe>}
+            {venue_map_link && (
+              <iframe
+                src={venue_map_link}
+                width='100%'
+                className='rounded-2xl w-full mx-auto shadow-xl'
+                height='450'
+                loading='lazy'
+                allowFullScreen
+                referrerPolicy='no-referrer-when-downgrade'
+              ></iframe>
+            )}
           </div>
         </div>
       </div>
@@ -132,7 +137,7 @@ const EventContainer = async ({
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
         </span>
-        <RegisterEvent />
+        <RegisterEvent eventId={id} />
       </div>
     </div>
   )

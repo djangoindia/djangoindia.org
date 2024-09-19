@@ -8,7 +8,6 @@ import event3 from '../../../public/03.svg'
 import { useRouter } from 'next/navigation'
 import splitAndCapitalize from '../../utils/formatKey'
 
-
 interface EventProps {
   eventId: string
   slug: string
