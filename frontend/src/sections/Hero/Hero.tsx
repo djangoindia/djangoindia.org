@@ -1,11 +1,21 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
+import Update from '../Latestupdate/LatestUpdate'
+import Modal from '@/components/Modal/modal'
 
 const HeroSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
+
   return (
     <section className='relative h-auto w-full bg-[#f9f4ee]'>
       <div className='relative flex w-full items-start justify-center overflow-hidden lg:h-[750px]'>
+        {/* Hero images */}
         <Image
           src='/HeroRight.png'
           width={600}
@@ -19,7 +29,7 @@ const HeroSection = () => {
           width={200}
           height={200}
           alt='hero'
-          className=' xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
+          className='xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
         />
 
         <div className='z-10 flex h-auto w-full max-w-[1200px] flex-col justify-center gap-8 px-10 pb-10 pt-10 xl:pt-16'>
@@ -61,8 +71,17 @@ const HeroSection = () => {
                     <div className='text-black'>
                       from India & across the globe, to
                     </div>
-                    <div className='pb-2 text-black'> share, learn, and grow <strong>together.</strong></div>
-                    {/* <Button>Subscribe</Button> */}
+                    <div className='pb-2 text-black'>
+                      share, learn, and grow <strong>together.</strong>
+                    </div>
+
+                    {/* CTA Button */}
+                    <button
+                      onClick={toggleModal}
+                      className='mt-4 py-2 px-6 bg-[#046A38] text-white rounded-lg hover:bg-[#ff641f] transition-all'
+                    >
+                      Subscribe for Updates
+                    </button>
                   </div>
                 </div>
               </div>
@@ -70,6 +89,13 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal for CTA form */}
+      {isModalOpen && (
+        <Modal onClose={toggleModal}>
+          <Update />
+        </Modal>
+      )}
     </section>
   )
 }
