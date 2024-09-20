@@ -4,7 +4,7 @@
 // Define props type for StatCard component
 interface StatCardProps {
   title: string;
-  subText: string;
+  subTitle: string;
   startCount: number;
   count: number;
   icon: React.ReactNode;
