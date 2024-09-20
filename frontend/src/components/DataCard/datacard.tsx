@@ -13,7 +13,7 @@ interface StatCardProps {
   icon: React.ReactNode;
 }
 
-const DataCard  = () => {
+export const DataCard  = () => {
   return (
     <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8">
       <StatCard
@@ -88,4 +88,3 @@ const StatCard: React.FC<StatCardProps> = ({ title, subText, count, startCount, 
   );
 };
 
-export default DataCard;
