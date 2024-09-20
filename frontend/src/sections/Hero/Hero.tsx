@@ -9,7 +9,7 @@ const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen)
+    setIsModalOpen((prevState) => !prevState);
   }
 
   return (
