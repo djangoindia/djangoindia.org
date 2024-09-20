@@ -8,7 +8,9 @@ import Modal from '@/components/Modal/modal'
 const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const toggleModal = () => setIsModalOpen((prevState) => !prevState);
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  }
 
   return (
     <section className='relative h-auto w-full bg-[#f9f4ee]'>
