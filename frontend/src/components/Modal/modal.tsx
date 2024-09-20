@@ -2,12 +2,12 @@ import React from 'react';
 import { MdOutlineEmail } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { SubscriberForm } from './LatestUpdate.types';
+import { SubscriberForm } from '@/sections/Latestupdate/LatestUpdate.types';
 import { fetchData } from '@utils';
 import { API_ENDPOINTS, SUBSCRIBER_FORM_SCHEMA } from '@constants';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
-import { Button } from '../Button';
+import { Button } from '../Button';       
 
 interface ModalProps {
   onClose: () => void;
