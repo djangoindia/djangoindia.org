@@ -7,6 +7,7 @@ import { fetchData } from '@utils';
 import { API_ENDPOINTS, SUBSCRIBER_FORM_SCHEMA } from '@constants';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
+import { Button } from '../Button';
 
 interface ModalProps {
   onClose: () => void;
@@ -86,12 +87,9 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            className="bg-black text-white py-3 px-4 rounded-full hover:bg-gray-900 transition-all"
-          >
+          <Button> 
             Submit
-          </button>
+          </Button>
         </form>
       </div>
     </div>
