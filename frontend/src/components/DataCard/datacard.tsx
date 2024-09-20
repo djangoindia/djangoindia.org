@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { FaCity, FaGithub } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
-import { RiLandscapeFill } from "react-icons/ri";
+
 
 // Define props type for StatCard component
 interface StatCardProps {
@@ -17,10 +17,10 @@ const DataCard  = () => {
   return (
     <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8">
       <StatCard
-        title="Member Cities"
+        title="Active Contributors"
         subText="& counting till date"
         startCount={0}
-        count={5}
+        count={20}
         icon={<FaCity className="text-[2rem]" />}
       />
       <StatCard
@@ -78,7 +78,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, subText, count, startCount, 
           {inView ? number : 0}+
         </span>
         <span className="text-xl font-bold">
-          {title === count ? " " : title}
+          {title}
         </span>
         <div className="flex items-center justify-between">
           <span className="gradient font-bold">{subText}</span>
