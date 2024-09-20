@@ -13,7 +13,7 @@ interface StatCardProps {
   icon: React.ReactNode;
 }
 
-function DataCard() {
+const DataCard  = () => {
   return (
     <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8">
       <StatCard
