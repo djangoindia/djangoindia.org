@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-import { FaCity, FaGithub } from "react-icons/fa";
-import { FaUsers } from "react-icons/fa";
+"use client"
 
 
 // Define props type for StatCard component
