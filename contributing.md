@@ -122,7 +122,15 @@ We will then take care of the issue as soon as possible.
       ```
       npm install (or) yarn install
       ```
-  3.  **Start the Next.js development server:**
+  3. **Add required env variables:**
+       - Create a `.env` file in the frontend folder and add necessary environment variables.
+      - the ideal env for would look something like(refer to .env.example for latest envs):
+        ```
+        NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+        NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+        NEXT_PUBLIC_NODE_ENV=development
+        ```
+  4.  **Start the Next.js development server:**
       ```
       npm run dev (or) yarn dev
       ```
