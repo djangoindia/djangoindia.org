@@ -122,7 +122,15 @@ We will then take care of the issue as soon as possible.
       ```
       npm install (or) yarn install
       ```
-  3.  **Start the Next.js development server:**
+  3. **Add required env variables:**
+       - Create a `.env` file in the frontend folder and add necessary environment variables.
+      - the ideal env for would look something like(refer to .env.example for latest envs):
+        ```
+        NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+        NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+        NEXT_PUBLIC_NODE_ENV=development
+        ```
+  4.  **Start the Next.js development server:**
       ```
       npm run dev (or) yarn dev
       ```
@@ -156,6 +164,11 @@ We will then take care of the issue as soon as possible.
     DJANGO_SUPERUSER_USERNAME=admin
     DJANGO_SUPERUSER_EMAIL=admin@djangoindia.org
     DJANGO_SUPERUSER_PASSWORD=admin
+
+    API_URL=http://djangoindia-backend:8000/api/v1
+    NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+    NEXT_PUBLIC_NODE_ENV=development
     ```
 
 4. Then in the root directory run the following command to build and run docker images:
