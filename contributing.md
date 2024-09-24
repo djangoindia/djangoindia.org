@@ -164,6 +164,11 @@ We will then take care of the issue as soon as possible.
     DJANGO_SUPERUSER_USERNAME=admin
     DJANGO_SUPERUSER_EMAIL=admin@djangoindia.org
     DJANGO_SUPERUSER_PASSWORD=admin
+
+    API_URL=http://djangoindia-backend:8000/api/v1
+    NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+    NEXT_PUBLIC_NODE_ENV=development
     ```
 
 4. Then in the root directory run the following command to build and run docker images:
