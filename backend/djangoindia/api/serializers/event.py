@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
+from djangoindia.db.models.event import Event, EventRegistration
 
 
 
@@ -29,6 +29,8 @@ class EventSerializer(serializers.Serializer):
     end_date= serializers.DateTimeField()
     registration_end_date= serializers.DateTimeField()
     event_mode = serializers.CharField()
+    max_seats = serializers.IntegerField()
+    seats_left = serializers.IntegerField()
     sponsors = SponsorSerializer(many=True, read_only=True, source='event_sponsors')
 
 
@@ -37,8 +39,8 @@ class EventRegistrationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     first_name = serializers.CharField(max_length=255)
     last_name = serializers.CharField(max_length=255)
-    professional_status = serializers.ChoiceField(choices=EventRegistration.PROFESSIONAL_STATUS_CHOICES)
-    gender = serializers.ChoiceField(choices=EventRegistration.GENDER_CHOICES)
+    professional_status = serializers.ChoiceField(choices=EventRegistration.ProfessionalStatus)
+    gender = serializers.ChoiceField(choices=EventRegistration.Gender)
     organization = serializers.CharField(max_length=100,required=False, allow_blank=True)
     description = serializers.CharField(required=False, allow_blank=True)
     linkedin = serializers.URLField()
