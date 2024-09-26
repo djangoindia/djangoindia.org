@@ -2,10 +2,11 @@
 from django.contrib import admin
 
 from .forms import EventForm, EmailForm, UpdateForm
-from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
+from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.partner_and_sponsor import Sponsor, Sponsorship, CommunityPartner
 from djangoindia.db.models.communication import Subscriber, ContactUs
 from djangoindia.db.models.update import Update
-from djangoindia.db.models.community_partner import CommunityPartner
+from djangoindia.db.models.partner_and_sponsor import CommunityPartner
 
 from django.core.mail import send_mass_mail
 from django.conf import settings

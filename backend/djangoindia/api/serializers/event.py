@@ -1,22 +1,21 @@
 from rest_framework import serializers
 
 from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.partner_and_sponsor import CommunityPartner
+from .partner_and_sponsor import SponsorSerializer, CommunityPartnerSerializer
 
 
+class EventLiteSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    slug = serializers.SlugField(read_only=True)
+    name = serializers.CharField(max_length=100)
+    cover_image = serializers.ImageField()
+    venue= serializers.CharField()
+    start_date= serializers.DateTimeField()
+    event_mode = serializers.CharField()
+    seats_left = serializers.IntegerField()
 
-class SponsorDetailsSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255)
-    type = serializers.CharField()
-    logo = serializers.ImageField()
-    url = serializers.URLField(allow_blank=True, allow_null=True)
-    
-class SponsorSerializer(serializers.Serializer):
-    sponsor_details = SponsorDetailsSerializer()
-    tier = serializers.CharField()
-    type = serializers.CharField()
-
-
-class EventSerializer(serializers.Serializer):
+class EventSerializer(EventLiteSerializer):
     id = serializers.UUIDField(read_only=True)
     slug = serializers.SlugField(read_only=True)
     name = serializers.CharField(max_length=100)
@@ -32,7 +31,10 @@ class EventSerializer(serializers.Serializer):
     max_seats = serializers.IntegerField()
     seats_left = serializers.IntegerField()
     sponsors = SponsorSerializer(many=True, read_only=True, source='event_sponsors')
+    partners = serializers.SerializerMethodField()
 
+    def get_partners(self, obj):
+        return CommunityPartner.objects.values("name","logo","website","description")
 
 class EventRegistrationSerializer(serializers.Serializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
