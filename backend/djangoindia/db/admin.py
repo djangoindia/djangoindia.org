@@ -12,6 +12,9 @@ from django.shortcuts import redirect
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.db.models import F, Count
 
 
 # Register your models here.
@@ -43,6 +46,7 @@ class EventAdmin(admin.ModelAdmin):
 class EventRegistrationAdmin(admin.ModelAdmin):
     list_display = ('event', 'first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
+    list_filter = ('event',)
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
 
@@ -52,6 +56,38 @@ class EventRegistrationAdmin(admin.ModelAdmin):
             path('send_email/', self.admin_site.admin_view(self.send_email_view), name='send_email'),
         ]
         return custom_urls + urls
+
+    @transaction.atomic
+    def save_model(self, request, obj, form, change):
+        # This is a new registration
+        if not change:  
+            if obj.event.seats_left > 0:
+                obj.event.seats_left -= 1
+                obj.event.save()
+            else:
+                raise ValidationError("No seats left for this event.")
+        super().save_model(request, obj, form, change)
+
+    @transaction.atomic
+    def delete_model(self, request, obj):
+        if obj.event.seats_left < obj.event.max_seats:
+            obj.event.seats_left += 1
+            obj.event.save()
+        super().delete_model(request, obj)
+
+    @transaction.atomic
+    def delete_queryset(self, request, queryset):
+        # Group registrations by event and count them
+        event_counts = queryset.values('event').annotate(count=Count('id'))
+        
+        # Update seats_left for each affected event
+        for event_count in event_counts:
+            Event.objects.filter(id=event_count['event']).update(
+                seats_left=F('seats_left') + event_count['count']
+            )
+        
+        # Perform the actual deletion
+        super().delete_queryset(request, queryset)
 
     def send_email_view(self, request):
         if request.method == 'POST':
