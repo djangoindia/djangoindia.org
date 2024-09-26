@@ -3,8 +3,8 @@
 from django.db import migrations, models
 
 def generate_slugs(apps, schema_editor):
-    YourModel = apps.get_model('db', 'event')
-    for obj in YourModel.objects.all():
+    Event = apps.get_model('db', 'event')
+    for obj in Event.objects.all():
         if not obj.slug:
             obj.slug = slugify(obj.name)
             obj.save()
