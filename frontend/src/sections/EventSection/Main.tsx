@@ -7,13 +7,14 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  ClientError,
 } from '@components'
 import { fetchData } from '@/utils'
 import { API_ENDPOINTS } from '@/constants'
 import { EventsResponse } from '@/types'
 
 const Main: React.FC = async () => {
-  const { data: events } = await fetchData<EventsResponse>(
+  const { data: events, error } = await fetchData<EventsResponse>(
     API_ENDPOINTS.events,
   )
 
@@ -25,6 +26,7 @@ const Main: React.FC = async () => {
         </h1>
       </div>
       <div className='max-w-7xl mx-auto'>
+        {error && error.message && <ClientError error={error} />}
         {events?.length ? (
           <Carousel>
             <CarouselContent>

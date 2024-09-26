@@ -1,5 +1,5 @@
 import { getApiUrl } from '../utils/apiUrl';
-type ErrorResponse = {
+export type ErrorResponse = {
   message?: string
   statusCode?: number
 }
@@ -35,6 +35,13 @@ export const fetchData = async <TFetchedData>(
     const parsedResponse = await response.json()
 
     if (!response.ok) {
+      if (response.status === 429) {
+        const newError = {
+          message: 'Too many requests, Please try again after some time.',
+          statusCode: response.status,
+        }
+        throw newError
+      }
       const newError = {
         message:
           parsedResponse?.message !== ''
