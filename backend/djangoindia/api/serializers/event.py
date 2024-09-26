@@ -18,6 +18,7 @@ class SponsorSerializer(serializers.Serializer):
 
 class EventSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
+    slug = serializers.SlugField(read_only=True)
     name = serializers.CharField(max_length=100)
     description = serializers.CharField()
     cover_image = serializers.ImageField()

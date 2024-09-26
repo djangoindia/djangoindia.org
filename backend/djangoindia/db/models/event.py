@@ -3,7 +3,6 @@ from django.db import models
 from .base import BaseModel
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from datetime import timedelta
 from django.utils.text import slugify
 
 def validate_future_date(value):
@@ -21,7 +20,7 @@ class Event(BaseModel):
     ]
 
     name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255)
     cover_image = models.ImageField(upload_to="event_images/", blank=True)
     description = models.TextField()
     venue = models.TextField(default="TBA",null=True, blank=True)
@@ -43,9 +42,7 @@ class Event(BaseModel):
         return f"{self.name} @ {self.city} ({self.start_date.date()})"
 
     def save(self, *args, **kwargs):
-        # Automatically create from the name
-        if not self.slug:
-            self.slug = slugify(self.name)
+        self.slug = slugify(self.name)
         super(Event, self).save(*args, **kwargs)
 
 class EventRegistration(BaseModel):
