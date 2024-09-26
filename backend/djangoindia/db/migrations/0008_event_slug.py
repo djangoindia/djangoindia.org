@@ -12,6 +12,7 @@ def generate_slugs(apps, schema_editor):
 
 def generate_slugs_reverse(apps, schema_editor):
     pass
+
 class Migration(migrations.Migration):
 
     dependencies = [
