@@ -4,6 +4,7 @@ from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsor
 from .partner_and_sponsor import SponsorSerializer, CommunityPartnerSerializer
 from .volunteer import VolunteerSerializer
+from .media_library import FolderLiteSerializer
 
 
 class EventLiteSerializer(serializers.Serializer):
@@ -16,7 +17,8 @@ class EventLiteSerializer(serializers.Serializer):
     event_mode = serializers.CharField()
     seats_left = serializers.IntegerField()
 
-class EventSerializer(EventLiteSerializer):
+
+class EventSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     slug = serializers.SlugField(read_only=True)
     name = serializers.CharField(max_length=100)
@@ -34,10 +36,11 @@ class EventSerializer(EventLiteSerializer):
     sponsors = SponsorSerializer(many=True, read_only=True, source='event_sponsors')
     partners = serializers.SerializerMethodField()
     volunteers = VolunteerSerializer(many=True, read_only=True, source='event_volunteers')
+    media = FolderLiteSerializer()
 
     def get_partners(self, obj):
-        partners = self.context.get('all_community_partners', [])
-        return CommunityPartnerSerializer(partners, many=True, context=self.context).data
+            partners = self.context.get('all_community_partners', [])
+            return CommunityPartnerSerializer(partners, many=True, context=self.context).data
 
 
 class EventRegistrationSerializer(serializers.Serializer):
