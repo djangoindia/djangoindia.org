@@ -10,3 +10,4 @@ python-dotenv==1.0.1
 drf-spectacular
 django-import-export==4.1.1
 django-import-export[all]
+django-cabinet==0.17.0

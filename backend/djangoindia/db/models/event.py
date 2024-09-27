@@ -1,5 +1,5 @@
 from django.db import models
-
+from cabinet.models import Folder
 from .base import BaseModel
 from django.utils import timezone
 from django.core.exceptions import ValidationError
@@ -29,6 +29,7 @@ class Event(BaseModel):
     event_mode = models.CharField(max_length=20,choices=EventModes.choices,default=EventModes.IN_PERSON)
     max_seats = models.IntegerField(null=True, blank=True)
     seats_left = models.IntegerField(null=True, blank=True)
+    media = models.ForeignKey(Folder, on_delete=models.CASCADE,null=True, blank=True)
 
     def clean(self):
         super().clean()
