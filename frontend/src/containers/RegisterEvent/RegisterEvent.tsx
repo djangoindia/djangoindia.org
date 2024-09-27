@@ -76,6 +76,7 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
     reset()
     setIsOpen(false)
   }
+  
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
@@ -84,7 +85,10 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
           Register
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full">
+      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full overflow-y-auto pb-8 z-50">
+      <div className="overflow-auto no-scrollbar">
+      {/* your content that overflows here */}
+
         <DrawerHeader>
           <DrawerTitle className='text-center text-4xl'>
             Register Now!
@@ -92,6 +96,11 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
           <DrawerDescription className='text-center'>
             Please fill the information carefully
           </DrawerDescription>
+          <DrawerClose asChild>
+            <Button className='absolute top-0 right-0 m-4 font-bold' variant='ghost'>
+              ✕
+            </Button>
+          </DrawerClose>
         </DrawerHeader>
         <Form
           register={register}
@@ -102,15 +111,15 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
           {...rest}
         >
           <form
-            className='w-2/4 flex flex-col mx-auto gap-6 mt-10'
+            className='sm:w-2/4 w-5/6 flex flex-col mx-auto gap-6 mt-10  h-full' // Added h-full and overflow-y-auto
             onSubmit={handleSubmit(onSubmit)}
           >
             {REGISTER_FORM_FIELDS.map((item, i) =>
               Array.isArray(item) ? (
                 <div
-                  className='flex w-full justify-between gap-5'
-                  key={`field-group-${i}`}
-                >
+                className='flex w-full justify-between gap-5'
+                key={`field-group-${i}`}
+              >
                   {item.map(({ name, label, placeholder, type, options }) => (
                     <div
                       className='grid w-full items-center gap-1.5'
@@ -221,6 +230,7 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
             </DrawerFooter>
           </form>
         </Form>
+        </div>
       </DrawerContent>
     </Drawer>
   )
