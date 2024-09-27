@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     "djangoindia.bg_tasks",
     "djangoindia.db",
     "rest_framework",
-    'drf_spectacular'
+    'drf_spectacular',
+    'import_export',
 ]
 
 MIDDLEWARE = [
