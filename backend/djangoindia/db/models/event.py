@@ -46,7 +46,7 @@ class Event(BaseModel):
                 raise ValidationError("Registration end date cannot be after event end date.")
 
     def __str__(self) -> str:
-        return f"{self.name} @ {self.city} ({self.start_date.date()})"
+        return f"{self.name}"
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

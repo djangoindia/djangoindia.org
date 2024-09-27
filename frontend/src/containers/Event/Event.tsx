@@ -16,7 +16,7 @@ import type { Event } from '@/types'
 import Link from 'next/link'
 import { calculateDuration } from '@/utils'
 import sanitizeHtml from 'sanitize-html';
-
+import splitAndCapitalize from '../../utils/formatKey'
 
 const EventContainer = async ({
   event: {
@@ -30,6 +30,7 @@ const EventContainer = async ({
     event_mode,
     start_date,
     registration_end_date,
+    seats_left,
   },
 }: {
   event: Event
@@ -66,8 +67,9 @@ const EventContainer = async ({
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-6xl font-bold'>{name}</h2>
-          <span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>
+          {start_date?(<span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>):(<span>Starts: TBA</span>)}
           {city && <span>City: {city}</span>}
+          {seats_left && <span>Seats left: {seats_left}</span>}
           <RegisterEvent />
           <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
@@ -80,22 +82,24 @@ const EventContainer = async ({
           </div>
           <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold'>When</h4>
-            <span className='flex items-center gap-2'>
+            {start_date ? (<>
+              <span className='flex items-center gap-2'>
               <SlCalender />
               {dayjs(start_date).format('DD MMMM, YYYY')}
               {end_date && ` - ${dayjs(end_date).format('DD MMMM, YYYY')}`}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
-              {dayjs(start_date).format('hh:mm A')} -
-              {dayjs(end_date).format('hh:mm A')}
+              {dayjs(start_date).format('hh:mm A')}
+              {end_date && ` - ${dayjs(end_date).format('DD MMMM, YYYY')}`}
             </span>
             {/* TODO: Use text variant of button */}
             <Button className='w-fit' asChild>
               <Link href={eventLink} target='_blank'>
                 Add to Calender
               </Link>
-            </Button>
+              </Button>
+            </>):'TBA'}
           </div>
           {venue && <div className='my-10 flex flex-col gap-2'>
             <h4 className='text-2xl font-bold flex items-center gap-2'>
@@ -123,10 +127,10 @@ const EventContainer = async ({
         <h5 className='text-4xl	font-bold text-blue-900 text-center'>
           RSVP for this event now!
         </h5>
-        <span>Registration ends {dayjs(registration_end_date).format('DD MMMM, YYYY')} at {dayjs(registration_end_date).format('hh:mm A')}</span>
+        {registration_end_date? (<span>Registration ends: {dayjs(registration_end_date).format('DD MMMM, YYYY')} at {dayjs(registration_end_date).format('hh:mm A')}</span>):(<span>Registration ends: TBA</span>)}
         <span className='flex items-center gap-2'>
           <CiLocationOn />
-          {event_mode}
+          {splitAndCapitalize(event_mode)}
         </span>
         <RegisterEvent />
       </div>
