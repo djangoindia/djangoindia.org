@@ -21,10 +21,11 @@ const Page = async () => {
         {events?.length ? (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {events?.map(
-              ({ cover_image, start_date, name, venue, id, event_mode, seats_left }, index) => (
+              ({ cover_image, start_date, name, venue, id, event_mode, seats_left, slug }, index) => (
                 <div key={index} className='w-full h-auto mb-4'>
                   <EventCard
                     eventId={id}
+                    slug={slug}
                     title={name}
                     date={start_date}
                     imageSrc={cover_image}

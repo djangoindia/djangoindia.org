@@ -16,6 +16,7 @@ from django.db.models import Prefetch
 class EventAPIView(
     generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin
 ):
+    lookup_field = "slug"
     queryset = Event.objects.all().prefetch_related(
         Prefetch(
             'sponsors',
@@ -31,7 +32,7 @@ class EventAPIView(
             ),
             to_attr='event_sponsors'
         )
-    )
+    ).order_by("-created_at")
 
     def get_serializer_class(self):
         if self.request.method == POST:
@@ -42,7 +43,7 @@ class EventAPIView(
         try:
             if (
                 PRIMARY_KEY_SHORT in kwargs
-            ):  # If pk is provided, retrieve a single instance
+            ):  # If slug is provided, retrieve a single instance
                 return self.retrieve(request, *args, **kwargs)
             return self.list(request, *args, **kwargs)  # Otherwise, list all instances
         except Exception as e:
