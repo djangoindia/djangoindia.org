@@ -10,6 +10,7 @@ export type Event = {
   end_date: string
   registration_end_date: string
   event_mode: string
+  seats_left: BigInteger
 }
 
 export type EventsResponse = Event[]

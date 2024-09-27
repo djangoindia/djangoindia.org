@@ -28,18 +28,13 @@ class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
 
-class EventRegistrationInline(admin.TabularInline):
-    model = EventRegistration
-    extra = 0
-    readonly_fields = [field.name for field in EventRegistration._meta.get_fields()]
-
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('name','city', 'start_date', 'event_mode', 'created_at')
     readonly_fields = ('created_at', 'updated_at','slug')
     search_fields=['name','city']
     form = EventForm
-    inlines = [EventRegistrationInline,SponsorInline]
+    inlines = [SponsorInline]
 
 
 @admin.register(EventRegistration)
@@ -56,17 +51,6 @@ class EventRegistrationAdmin(admin.ModelAdmin):
             path('send_email/', self.admin_site.admin_view(self.send_email_view), name='send_email'),
         ]
         return custom_urls + urls
-
-    @transaction.atomic
-    def save_model(self, request, obj, form, change):
-        # This is a new registration
-        if not change:  
-            if obj.event.seats_left > 0:
-                obj.event.seats_left -= 1
-                obj.event.save()
-            else:
-                raise ValidationError("No seats left for this event.")
-        super().save_model(request, obj, form, change)
 
     @transaction.atomic
     def delete_model(self, request, obj):
