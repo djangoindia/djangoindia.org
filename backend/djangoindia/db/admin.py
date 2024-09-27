@@ -12,12 +12,13 @@ from django.shortcuts import redirect
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import F, Count
 
+from import_export import resources,fields
+from import_export.admin import ImportExportModelAdmin
+from import_export.widgets import ForeignKeyWidget
 
-# Register your models here.
 
 @admin.action(description="Send email to selected users")
 def send_email_to_selected_users(modeladmin, request, queryset):
@@ -37,13 +38,18 @@ class EventAdmin(admin.ModelAdmin):
     inlines = [SponsorInline]
 
 
+class EventRegistrationResource(resources.ModelResource):
+
+    class Meta:
+        model = EventRegistration
 @admin.register(EventRegistration)
-class EventRegistrationAdmin(admin.ModelAdmin):
+class EventRegistrationAdmin(ImportExportModelAdmin):
     list_display = ('event', 'first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
     list_filter = ('event',)
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
+    resource_class = EventRegistrationResource
 
     def get_urls(self):
         urls = super().get_urls()
@@ -120,12 +126,38 @@ class ContactUsAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     search_fields = ['email',]
 
+
+class SponsorshipResource(resources.ModelResource):
+
+    sponsor_name = fields.Field(
+        column_name='sponsor_name',
+        attribute='sponsor_details',
+        widget=ForeignKeyWidget(Sponsor, 'name')
+    )
+    sponsor_email = fields.Field(
+        column_name='sponsor_email',
+        attribute='sponsor_details__email'
+    )
+    sponsor_url = fields.Field(
+        column_name='sponsor_url',
+        attribute='sponsor_details__url'
+    )
+
+    class Meta:
+        model = Sponsorship
+        fields = ('id', 'sponsor_name', 'sponsor_email', 'sponsor_url', 'tier', 'type', 'amount_inr', 'created_at', 'updated_at')
+        export_order = fields
+
 @admin.register(Sponsorship)
-class SponsorshipAdmin(admin.ModelAdmin):
+class SponsorshipAdmin(ImportExportModelAdmin):
     list_display = ('sponsor_details', 'tier', 'type', 'event')
     list_filter = ('type', 'event', 'tier')
     search_fields = ['sponsor_details__name',]
     readonly_fields = ('created_at', 'updated_at')
+    resource_class = SponsorshipResource
+
+    def get_export_queryset(self, request):
+        return super().get_export_queryset(request).select_related('sponsor_details')
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
