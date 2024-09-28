@@ -1,5 +1,6 @@
 export type Event = {
   id: string
+  slug: string
   name: string
   description: string
   cover_image: string

@@ -30,7 +30,7 @@ const Main: React.FC = async () => {
         {events?.length ? (
           <Carousel>
             <CarouselContent>
-              {events?.map(({ cover_image, start_date, id, name, venue,event_mode }) => (
+              {events?.map(({ cover_image, start_date, id, name, venue, event_mode, seats_left, slug }) => (
                 <CarouselItem
                   className='basis-1/1 sm:basis-1/2 md:basis-1/3'
                   key={id}
@@ -38,12 +38,14 @@ const Main: React.FC = async () => {
                   <div className='w-full md:w-auto h-auto mb-4 md:mb-0'>
                     <EventCard
                       eventId={id}
+                      slug={slug}
                       title={name}
                       date={start_date}
                       imageSrc={cover_image}
                       venue={venue}
                       time={start_date}
                       event_mode={event_mode}
+                      seats_left={(seats_left)}
                     />
                   </div>
                 </CarouselItem>
