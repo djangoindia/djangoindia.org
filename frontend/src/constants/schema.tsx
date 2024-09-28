@@ -37,3 +37,59 @@ export const SUBSCRIBER_FORM_SCHEMA = yup.object({
     .email('Invalid email address')
     .required('Email is required'),
 })
+
+export const REGISTER_EVENT_FORM_SCHEMA = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  first_name: yup
+    .string()
+    .min(2, 'First name must be at least 2 characters')
+    .max(50, 'First name cannot be more than 50 characters')
+    .required('First name is required'),
+  last_name: yup
+    .string()
+    .min(2, 'Last name must be at least 2 characters')
+    .max(50, 'Last name cannot be more than 50 characters')
+    .required('Last name is required'),
+  professional_status: yup
+    .string()
+    .oneOf(
+      ['working_professional', 'student', 'freelancer', 'other'],
+      'Please select a valid professional status',
+    )
+    .required('Professional status is required'),
+  gender: yup
+    .string()
+    .oneOf(['male', 'female', 'other'], 'Please select a valid gender')
+    .required('Gender is required'),
+  organization: yup
+    .string()
+    .min(2, 'Organization name must be at least 2 characters')
+    .max(100, 'Organization name cannot be more than 100 characters'),
+  description: yup
+    .string()
+    .max(500, 'Description cannot be more than 500 characters'),
+  linkedin: yup
+    .string()
+    .matches(
+      /^https?:\/\/(www\.)?linkedin\.com\/.*$/,
+      'Please enter a valid LinkedIn URL',
+    )
+    .required('LinkedIn URL is required'),
+  github: yup
+    .string()
+    .optional()
+    .matches(
+      /^https?:\/\/(www\.)?github\.com\/.*$/,
+      'Please enter a valid GitHub URL',
+    ),
+  twitter: yup
+    .string()
+    .optional()
+    .matches(
+      /^https?:\/\/(www\.)?twitter\.com\/.*$/,
+      'Please enter a valid Twitter URL',
+    ),
+})
