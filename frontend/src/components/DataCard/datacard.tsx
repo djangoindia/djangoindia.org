@@ -1,4 +1,8 @@
 "use client"
+import React, { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { FaCity, FaGithub } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 
 
 // Define props type for StatCard component
@@ -10,7 +14,7 @@ interface StatCardProps {
   icon: React.ReactNode;
 }
 
-export const DataCard  = () => {
+export const DataCard = () => {
   return (
     <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8">
       <StatCard
@@ -22,7 +26,7 @@ export const DataCard  = () => {
       />
       <StatCard
         title="Subscribers"
-        subText="building Django India"
+        subText="loving Django India"
         startCount={10}
         count={100}
         icon={<FaUsers className="text-[3rem]" />}
@@ -31,7 +35,7 @@ export const DataCard  = () => {
         title="GitHub Stars"
         subText="till date"
         startCount={0}
-        count={50}
+        count={70}
         icon={<FaGithub className="text-[2rem]" />}
       />
     </div>
