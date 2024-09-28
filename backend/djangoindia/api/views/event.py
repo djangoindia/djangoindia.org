@@ -1,9 +1,11 @@
 from djangoindia.api.serializers.event import (
     EventRegistrationSerializer,
     EventSerializer,
+    EventLiteSerializer,
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
-from djangoindia.db.models.event import Event, EventRegistration,Sponsorship
+from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.partner_and_sponsor import Sponsorship
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
@@ -37,14 +39,15 @@ class EventAPIView(
     def get_serializer_class(self):
         if self.request.method == POST:
             return EventRegistrationSerializer
-        return EventSerializer
+        return EventLiteSerializer
 
     def get(self, request, *args, **kwargs):
         try:
             if (
                 PRIMARY_KEY_SHORT in kwargs
-            ):  # If slug is provided, retrieve a single instance
-                return self.retrieve(request, *args, **kwargs)
+            ):  # If pk is provided, retrieve a single instance
+                serializer = EventSerializer(self.get_object())
+                return Response(serializer.data)
             return self.list(request, *args, **kwargs)  # Otherwise, list all instances
         except Exception as e:
             return Response(
