@@ -81,7 +81,7 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button className='w-fit bg-blue-900' onClick={() => setIsOpen(true)}>
+        <Button className='w-fit bg-blue-900 z-50' onClick={() => setIsOpen(true)}>
           Register
         </Button>
       </DrawerTrigger>
