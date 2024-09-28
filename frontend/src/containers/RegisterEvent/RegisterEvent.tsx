@@ -85,10 +85,8 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
           Register
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full overflow-y-auto pb-8 z-50">
+      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full pb-8 z-50">
       <div className="overflow-auto no-scrollbar">
-      {/* your content that overflows here */}
-
         <DrawerHeader>
           <DrawerTitle className='text-center text-4xl'>
             Register Now!
