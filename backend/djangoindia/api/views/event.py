@@ -5,7 +5,7 @@ from djangoindia.api.serializers.event import (
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
 from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.partner_and_sponsor import Sponsorship,CommunityPartner
+from djangoindia.db.models.partner_and_sponsor import Sponsorship
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
