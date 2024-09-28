@@ -21,21 +21,11 @@
             padding: 20px;
         }
         .header {
-            background-color: #144D3D;
             color: #fff;
             text-align: center;
             padding: 20px;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
-        }
-        .header img {
-            width: 80px;
-            margin-top: 20px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 600;
         }
         .content {
             padding: 20px;
@@ -101,13 +91,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            {% if event.cover_image %}
-                <img src="{{ event.cover_image }}" alt="Event Cover Image">
-            {% else %}
-            <img src="https://raw.githubusercontent.com/djangoindia/djangoindia.org/main/assets/djangoindia-logo.png" alt="Logo">
-            {% endif %}
-        </div>
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
             <p>Thank you for registering for the Django india launch event. We are thrilled to have you join us. Below are the details:</p>
@@ -129,8 +112,7 @@
                 {% endif %}
             </div>
             <p>We look forward to seeing you there! If you have any queries, you can contact us @<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
-            <p>Best regards,</p>
-            <p>Team Django India</p>
+            <p>Best regards,<br/>Team Django India</p>
             <div class="bottom-section">
                 <p>Follow us on social media:</p>
                 <ul class="social-links">
