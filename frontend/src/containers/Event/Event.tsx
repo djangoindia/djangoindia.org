@@ -127,8 +127,8 @@ const EventContainer = async ({
         </div>
       </div>
       <div className='bg-orange-100	relative w-full p-12 mt-24 flex flex-col items-center gap-3 overflow-hidden'>
-        <Image src={wave1} alt='wave 1' className='absolute left-0 top-0' />
-        <Image src={wave2} alt='wave 2' className='absolute right-0 top-0' />
+        <Image src={wave1} alt='wave 1' className='absolute left-0 top-0 z-0 opacity-20 md:opacity-100' />
+        <Image src={wave2} alt='wave 2' className='absolute right-0 top-0 z-0 opacity-20 md:opacity-100' />
         <h5 className='text-4xl	font-bold text-blue-900 text-center'>
           RSVP for this event now!
         </h5>

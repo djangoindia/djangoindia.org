@@ -91,3 +91,15 @@
 .rotate {
   animation: rotate 20s linear infinite;
 }
+
+@layer utilities {
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar  */
+  .no-scrollbar {
+      -ms-overflow-style: none; 
+      scrollbar-width: none;  
+}
+}
