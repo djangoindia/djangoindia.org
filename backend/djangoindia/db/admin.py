@@ -6,6 +6,7 @@ from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import Sponsor, Sponsorship, CommunityPartner
 from djangoindia.db.models.communication import Subscriber, ContactUs
 from djangoindia.db.models.update import Update
+from djangoindia.db.models.volunteer import Volunteer
 from djangoindia.db.models.partner_and_sponsor import CommunityPartner
 
 from django.core.mail import send_mass_mail
@@ -31,13 +32,25 @@ class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
 
+class EventVolunteerInline(admin.StackedInline):
+    model = Volunteer
+    extra = 1
+    classes = ['collapse']
+    fieldsets = [
+        (None, {'fields': ['name','email']}),
+        ('Additional Information', {
+            'classes': ('collapse',),
+            'fields': ['about', 'photo', 'twitter', 'linkedin'],
+        }),
+    ]
+    
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('name','city', 'start_date', 'event_mode', 'created_at')
     readonly_fields = ('created_at', 'updated_at','slug')
     search_fields=['name','city']
     form = EventForm
-    inlines = [SponsorInline]
+    inlines = [SponsorInline, EventVolunteerInline]
 
 
 class EventRegistrationResource(resources.ModelResource):
@@ -191,3 +204,10 @@ class CommunityPartnerAdmin(admin.ModelAdmin):
     list_display = ['name', 'website', 'contact_name', 'contact_email', 'contact_number', 'description']
     search_fields = ['name']
     readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Volunteer)
+class EventVolunteerAdmin(admin.ModelAdmin):
+    list_display = ['event', 'name', 'about', 'email']
+    search_fields = ['event__name','name','email']
+    readonly_fields = ('created_at', 'updated_at')
+    list_filter = ('event__name',)
