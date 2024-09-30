@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Update from '../Latestupdate/LatestUpdate'
 import Modal from '@/components/Modal/modal'
+import { Button } from '@/components'
 
 const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -11,6 +12,22 @@ const HeroSection = () => {
   const toggleModal = () => {
     setIsModalOpen((prevState) => !prevState);
   }
+
+  // Effect to handle body scroll when the modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      // Disable scrolling when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Enable scrolling when modal is closed
+      document.body.style.overflow = 'auto';
+    }
+
+    // Clean up when the component is unmounted
+    return () => {
+      document.body.style.overflow = 'auto'; // Ensure scrolling is restored
+    };
+  }, [isModalOpen]);
 
   return (
     <section className='relative h-auto w-full bg-[#f9f4ee]'>
@@ -76,12 +93,11 @@ const HeroSection = () => {
                     </div>
 
                     {/* CTA Button */}
-                    <button
+                    <Button
                       onClick={toggleModal}
-                      className='mt-4 py-2 px-6 bg-[#046A38] text-white rounded-lg hover:bg-[#ff641f] transition-all'
                     >
                       Subscribe for Updates
-                    </button>
+                   </Button>
                   </div>
                 </div>
               </div>
