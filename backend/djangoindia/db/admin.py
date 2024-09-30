@@ -29,7 +29,7 @@ def send_email_to_selected_users(modeladmin, request, queryset):
 
 class SponsorInline(admin.TabularInline):
     model = Sponsorship
-    extra = 1 
+    extra = 1
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
