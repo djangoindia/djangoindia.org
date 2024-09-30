@@ -4,7 +4,8 @@ from .event import Event
 
 
 class Volunteer(BaseModel):
-    Event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    photo = models.ImageField(null=True, blank=True)
     name = models.CharField(max_length=255)
     about = models.CharField(max_length=50, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
@@ -13,3 +14,5 @@ class Volunteer(BaseModel):
 
     def __str__(self):
         return self.name
+    class Meta:
+        unique_together = ['event', 'email']

@@ -32,9 +32,17 @@ class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
 
-class EventVolunteer(admin.TabularInline):
+class EventVolunteerInline(admin.StackedInline):
     model = Volunteer
     extra = 1
+    classes = ['collapse']
+    fieldsets = [
+        (None, {'fields': ['name','email']}),
+        ('Additional Information', {
+            'classes': ('collapse',),
+            'fields': ['about', 'photo', 'twitter', 'linkedin'],
+        }),
+    ]
     
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -42,7 +50,7 @@ class EventAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at','slug')
     search_fields=['name','city']
     form = EventForm
-    inlines = [SponsorInline]
+    inlines = [SponsorInline, EventVolunteerInline]
 
 
 class EventRegistrationResource(resources.ModelResource):
@@ -196,3 +204,10 @@ class CommunityPartnerAdmin(admin.ModelAdmin):
     list_display = ['name', 'website', 'contact_name', 'contact_email', 'contact_number', 'description']
     search_fields = ['name']
     readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Volunteer)
+class EventVolunteerAdmin(admin.ModelAdmin):
+    list_display = ['event', 'name', 'about', 'email']
+    search_fields = ['event__name','name','email']
+    readonly_fields = ('created_at', 'updated_at')
+    list_filter = ('event__name',)

@@ -4,8 +4,7 @@ from djangoindia.api.serializers.event import (
     EventLiteSerializer,
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
-from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.partner_and_sponsor import Sponsorship
+from djangoindia.db.models import Event, EventRegistration,Volunteer, Sponsorship
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
@@ -33,6 +32,18 @@ class EventAPIView(
                 'sponsor_details__logo'
             ),
             to_attr='event_sponsors'
+        ),
+        Prefetch(
+            'volunteer_set',
+            queryset=Volunteer.objects.only(
+                'name',
+                'photo',
+                'about',
+                'email',
+                'twitter',
+                'linkedin'
+            ),
+            to_attr='event_volunteers'
         )
     ).order_by("-created_at")
 
