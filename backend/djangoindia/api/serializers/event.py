@@ -11,7 +11,7 @@ class EventLiteSerializer(serializers.Serializer):
     slug = serializers.SlugField(read_only=True)
     name = serializers.CharField(max_length=100)
     cover_image = serializers.ImageField()
-    venue= serializers.CharField()
+    city= serializers.CharField()
     start_date= serializers.DateTimeField()
     event_mode = serializers.CharField()
     seats_left = serializers.IntegerField()
