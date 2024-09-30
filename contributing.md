@@ -91,7 +91,7 @@ We value all types of contributions, not just code. Here are several ways you ca
   - Test the project with screen readers or other assistive technologies
 
 
-To contribute in these areas, please open an issue in our GitHub repository describing what you'd like to do. We'll be happy to provide guidance and support for your contribution. All the low or no code contributions that does not require creating pull requests will be listed down in the [contributions.md](https://github.com/djangoindia/djangoindia.org/edit/main/contributions.md) file. The contributor will have to create a PR after including the necessary details about their contributions in the contributions.md file so that all their contribution remains shining forever in our repository.
+To contribute in these areas, please open an issue in our GitHub repository describing what you'd like to do. We'll be happy to provide guidance and support for your contribution. All the low or no code contributions that does not require creating pull requests will be listed down in the [contributions.md](https://github.com/djangoindia/djangoindia.org/blob/main/contributions.md) file. The contributor will have to create a PR after including the necessary details about their contributions in the contributions.md file so that all their contribution remains shining forever in our repository.
 Remember, every contribution, no matter how small, is valuable and appreciated!
 
 ## Setting Up and Running the Project Locally
