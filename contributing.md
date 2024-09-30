@@ -11,6 +11,7 @@ All type of contributions are encouraged and valued. See the [Table of Contents]
 - [Code of Conduct](#code-of-conduct)
 - [I Have a Question](#i-have-a-question)
 - [I Want To Contribute](#i-want-to-contribute)
+- [Low or no code contributions](#low-or-no-code-contributions)
 - [Setting Up and Running the Project Locally](#setting-up-and-running-the-project-locally)
 - [Reporting Bugs](#reporting-bugs)
 - [Suggesting Enhancements](#suggesting-enhancements)
@@ -45,6 +46,53 @@ If you then still feel the need to ask a question and need clarification, we rec
 We will then take care of the issue as soon as possible.
 
 ## I Want To Contribute
+
+We value all types of contributions, not just code. Here are several ways you can contribute to the Django India Community without writing code:
+
+- Documentation
+  - Improve existing documentation
+  - Write new documentation or tutorials
+  - Translate documentation into other languages
+
+- Design
+  - Create or improve UI/UX designs
+  - Design logos, icons, or other graphical assets
+  - Suggest improvements to the user interface
+
+- Testing
+  - Test the application and report bugs
+  - Verify bug fixes
+  - Suggest scenarios for edge cases
+
+- Community Support
+  - Answer questions in issues or discussions
+  - Help new contributors get started
+  - Share your experience using the project
+
+- Content Creation
+  - Write blog posts about the project
+  - Create video tutorials
+  - Develop presentation materials
+
+
+- Project Management
+  - Help organize issues and pull requests
+  - Assist in roadmap planning
+  - Facilitate community discussions
+
+
+- Advocacy
+  - Promote the project on social media
+  - Give talks about the project at events
+  - Write articles or reviews about the project
+
+- Accessibility
+  - Suggest improvements for accessibility
+  - Test the project with screen readers or other assistive technologies
+
+
+To contribute in these areas, please open an issue in our GitHub repository describing what you'd like to do. We'll be happy to provide guidance and support for your contribution. All the low or no code contributions that does not require creating pull requests will be listed down in the [contributions.md](https://github.com/djangoindia/djangoindia.org/edit/main/contributions.md) file. The contributor will have to create a PR after including the necessary details about their contributions in the contributions.md file so that all their contribution remains shining forever in our repository.
+Remember, every contribution, no matter how small, is valuable and appreciated!
 
 ## Setting Up and Running the Project Locally
 1. **Fork the repository:**
