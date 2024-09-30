@@ -47,6 +47,8 @@ We will then take care of the issue as soon as possible.
 
 ## I Want To Contribute
 
+## Low or no code contributions
+
 We value all types of contributions, not just code. Here are several ways you can contribute to the Django India Community without writing code:
 
 - Documentation
