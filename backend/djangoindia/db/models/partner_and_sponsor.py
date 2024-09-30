@@ -14,6 +14,7 @@ class Sponsor(BaseModel):
     type = models.CharField(max_length=20, choices=SponsorType.choices)
     logo = models.ImageField(upload_to='sponsors/logos/')
     url = models.URLField(max_length=500, blank=True, null=True)
+    description = models.TextField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.name
