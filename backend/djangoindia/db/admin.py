@@ -6,6 +6,7 @@ from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import Sponsor, Sponsorship, CommunityPartner
 from djangoindia.db.models.communication import Subscriber, ContactUs
 from djangoindia.db.models.update import Update
+from djangoindia.db.models.volunteer import Volunteer
 from djangoindia.db.models.partner_and_sponsor import CommunityPartner
 
 from django.core.mail import send_mass_mail
@@ -31,6 +32,10 @@ class SponsorInline(admin.TabularInline):
     model = Sponsorship
     extra = 1 
 
+class EventVolunteer(admin.TabularInline):
+    model = Volunteer
+    extra = 1
+    
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('name','city', 'start_date', 'event_mode', 'created_at')
