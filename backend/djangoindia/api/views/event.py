@@ -34,7 +34,7 @@ class EventAPIView(
             to_attr='event_sponsors'
         ),
         Prefetch(
-            'volunteer_set',
+            'volunteers',
             queryset=Volunteer.objects.only(
                 'name',
                 'photo',
