@@ -1,9 +1,10 @@
 from djangoindia.api.serializers.event import (
     EventRegistrationSerializer,
     EventSerializer,
+    EventLiteSerializer,
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
-from djangoindia.db.models.event import Event, EventRegistration,Sponsorship
+from djangoindia.db.models import Event, EventRegistration,Volunteer, Sponsorship
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
@@ -16,6 +17,7 @@ from django.db.models import Prefetch
 class EventAPIView(
     generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin
 ):
+    lookup_field = "slug"
     queryset = Event.objects.all().prefetch_related(
         Prefetch(
             'sponsors',
@@ -30,20 +32,33 @@ class EventAPIView(
                 'sponsor_details__logo'
             ),
             to_attr='event_sponsors'
+        ),
+        Prefetch(
+            'volunteers',
+            queryset=Volunteer.objects.only(
+                'name',
+                'photo',
+                'about',
+                'email',
+                'twitter',
+                'linkedin'
+            ),
+            to_attr='event_volunteers'
         )
-    )
+    ).order_by("-created_at")
 
     def get_serializer_class(self):
         if self.request.method == POST:
             return EventRegistrationSerializer
-        return EventSerializer
+        return EventLiteSerializer
 
     def get(self, request, *args, **kwargs):
         try:
             if (
                 PRIMARY_KEY_SHORT in kwargs
             ):  # If pk is provided, retrieve a single instance
-                return self.retrieve(request, *args, **kwargs)
+                serializer = EventSerializer(self.get_object())
+                return Response(serializer.data)
             return self.list(request, *args, **kwargs)  # Otherwise, list all instances
         except Exception as e:
             return Response(

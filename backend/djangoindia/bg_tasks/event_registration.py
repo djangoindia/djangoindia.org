@@ -6,6 +6,11 @@ from django.conf import settings
 from djangoindia.db.models import EventRegistration
 from celery import shared_task
 
+def format_text(text: str) -> str:
+    words = text.split("_")
+    formatted_words = [word.capitalize() for word in words]
+    return " ".join(formatted_words)
+
 @shared_task
 def registration_confirmation_email_task(email, event_id):
     try:
@@ -17,7 +22,7 @@ def registration_confirmation_email_task(email, event_id):
                 'name': registration.event.name,
                 'start_date': registration.event.start_date,
                 'end_date': registration.event.end_date,
-                'event_mode': registration.event.event_mode,
+                'event_mode': format_text(registration.event.event_mode),
                 'venue': registration.event.venue,
                 'description': registration.event.description,
                 'cover_image': registration.event.cover_image if registration.event.cover_image else None,

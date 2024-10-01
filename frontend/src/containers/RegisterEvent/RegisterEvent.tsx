@@ -1,4 +1,8 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 import {
   Drawer,
   DrawerClose,
@@ -10,20 +14,79 @@ import {
   DrawerTrigger,
   Button,
   Input,
-  Label,
-  RadioGroup,
-  RadioGroupItem,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  Form,
 } from '@components'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { RegisterEventForm } from './RegisterEvent.types'
+import { API_ENDPOINTS, REGISTER_EVENT_FORM_SCHEMA } from '@constants'
+import { REGISTER_FORM_FIELDS } from './RegisterEvent.config'
+import { fetchData } from '@/utils'
+import { enqueueSnackbar } from 'notistack'
 
-export const RegisterEvent = () => {
+export const RegisterEvent = ({ eventId }: { eventId: string }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const {
+    register,
+    control,
+    reset,
+    formState: { errors, ...restFormState },
+    handleSubmit,
+    ...rest
+  } = useForm<RegisterEventForm>({
+    resolver: yupResolver(REGISTER_EVENT_FORM_SCHEMA),
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      linkedin: '',
+      organization: '',
+      description: '',
+    },
+  })
+
+  const onSubmit: SubmitHandler<RegisterEventForm> = async (data) => {
+    const res = await fetchData<{ message: string }>(
+      API_ENDPOINTS.registerEvent.replace(':id', eventId),
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          event: eventId,
+          ...data,
+        }),
+      },
+    )
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      enqueueSnackbar(res?.data?.message, { variant: 'success' })
+    } else {
+      enqueueSnackbar(res?.error?.message, {
+        variant: 'error',
+      })
+    }
+    reset()
+    setIsOpen(false)
+  }
+  
+
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button className='w-fit bg-blue-900' disabled>
+        <Button className='w-fit bg-blue-900 z-50' onClick={() => setIsOpen(true)}>
           Register
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full">
+      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full pb-8 z-50">
+      <div className="overflow-auto no-scrollbar">
         <DrawerHeader>
           <DrawerTitle className='text-center text-4xl'>
             Register Now!
@@ -31,99 +94,141 @@ export const RegisterEvent = () => {
           <DrawerDescription className='text-center'>
             Please fill the information carefully
           </DrawerDescription>
+          <DrawerClose asChild>
+            <Button className='absolute top-0 right-0 m-4 font-bold' variant='ghost'>
+              ✕
+            </Button>
+          </DrawerClose>
         </DrawerHeader>
-        <form className='w-2/4 flex flex-col mx-auto gap-6 mt-10'>
-          <div className='flex w-full justify-between gap-5'>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label htmlFor='firstName'>First Name</Label>
-              <Input
-                type='text'
-                id='firstName'
-                placeholder='Enter your first Name'
-              />
-            </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label htmlFor='lastName'>Last Name</Label>
-              <Input
-                type='text'
-                id='lastName'
-                placeholder='Enter your last Name'
-              />
-            </div>
-          </div>
-          <div className='grid w-full items-center gap-1.5'>
-            <Label htmlFor='email'>Email</Label>
-            <Input type='email' id='email' placeholder='Enter your email' />
-          </div>
-          <div className='flex w-full justify-between gap-5'>
-            <div className='grid w-full items-center'>
-              <RadioGroup className='flex items-center gap-10'>
-                <div className='flex items-center gap-2'>
-                  <RadioGroupItem value='male' id='r1' />
-                  <Label className='mb-0' htmlFor='r1'>
-                    Male
-                  </Label>
+        <Form
+          register={register}
+          control={control}
+          reset={reset}
+          formState={{ errors, ...restFormState }}
+          handleSubmit={handleSubmit}
+          {...rest}
+        >
+          <form
+            className='sm:w-2/4 w-5/6 flex flex-col mx-auto gap-6 mt-10  h-full' // Added h-full and overflow-y-auto
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {REGISTER_FORM_FIELDS.map((item, i) =>
+              Array.isArray(item) ? (
+                <div
+                className='flex w-full justify-between gap-5'
+                key={`field-group-${i}`}
+              >
+                  {item.map(({ name, label, placeholder, type, options }) => (
+                    <div
+                      className='grid w-full items-center gap-1.5'
+                      key={name}
+                    >
+                      <FormField
+                        control={control}
+                        name={name}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{label}</FormLabel>
+                            {type === 'select' ? (
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={placeholder} />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {options.map(({ label, value }) => (
+                                    <SelectItem key={value} value={value}>
+                                      {label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            ) : (
+                              <FormControl>
+                                <Input
+                                  type={type}
+                                  placeholder={placeholder}
+                                  {...field}
+                                />
+                              </FormControl>
+                            )}
+                            <FormMessage>
+                              {errors[name]?.message ?? ' '}
+                            </FormMessage>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  ))}
                 </div>
-                <div className='flex items-center gap-2'>
-                  <RadioGroupItem value='female' id='r2' />
-                  <Label className='mb-0' htmlFor='r2'>
-                    Female
-                  </Label>
+              ) : (
+                <div
+                  className='grid w-full items-center gap-1.5'
+                  key={item.name}
+                >
+                  <FormField
+                    control={control}
+                    name={item.name}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{item.label}</FormLabel>
+                        {item.type === 'select' ? (
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={item.placeholder} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {item.options.map(({ label, value }) => (
+                                <SelectItem key={value} value={value}>
+                                  {label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <FormControl>
+                            <Input
+                              type={item.type}
+                              placeholder={item.placeholder}
+                              {...field}
+                            />
+                          </FormControl>
+                        )}
+                        <FormMessage>
+                          {errors[item.name]?.message ?? ' '}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <div className='flex items-center gap-2'>
-                  <RadioGroupItem value='other' id='r3' />
-                  <Label className='mb-0' htmlFor='r3'>
-                    Other
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label htmlFor='mobile'>Mobile</Label>
-              <Input
-                type='number'
-                id='mobile'
-                placeholder='Enter your mobile'
-              />
-            </div>
-          </div>
-          <div className='grid w-full items-center gap-1.5'>
-            <Label htmlFor='Occupation'>Occupation</Label>
-            <Input
-              type='text'
-              id='Occupation'
-              placeholder='Enter your occupation'
-            />
-          </div>
-          <div className='grid w-full items-center gap-1.5'>
-            <Label htmlFor='linkedin'>LinkedIn</Label>
-            <Input
-              type='text'
-              id='linkedin'
-              placeholder='Enter your linkedin id'
-            />
-          </div>
-          <div className='flex w-full justify-between gap-5'>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label htmlFor='github'>Github</Label>
-              <Input type='text' id='github' placeholder='Enter your github' />
-            </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label htmlFor='twitter'>Twitter</Label>
-              <Input
-                type='text'
-                id='twitter'
-                placeholder='Enter your twitter'
-              />
-            </div>
-          </div>
-          <DrawerFooter className='flex flex-row gap-4 mx-auto'>
-            <Button>Register</Button>
-            <DrawerClose asChild>
-              <Button variant='outline'>Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </form>
+              ),
+            )}
+            <DrawerFooter className='flex flex-row gap-4 mx-auto'>
+              <Button type='submit'>Register</Button>
+              <DrawerClose asChild>
+                <Button
+                  variant='outline'
+                  onClick={() => {
+                    reset()
+                    setIsOpen(false)
+                  }}
+                >
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </form>
+        </Form>
+        </div>
       </DrawerContent>
     </Drawer>
   )

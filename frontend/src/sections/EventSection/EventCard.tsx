@@ -8,9 +8,9 @@ import event3 from '../../../public/03.svg'
 import { useRouter } from 'next/navigation'
 import splitAndCapitalize from '../../utils/formatKey'
 
-
 interface EventProps {
   eventId: string
+  slug: string
   title: string
   date: string
   imageSrc: string
@@ -22,6 +22,7 @@ interface EventProps {
 
 const EventCard: React.FC<EventProps> = ({
   eventId,
+  slug,
   title,
   date,
   imageSrc,
@@ -35,7 +36,7 @@ const EventCard: React.FC<EventProps> = ({
   return (
     <div
       className='bg-white shadow-lg rounded-lg overflow-hidden max-w-sm mx-auto my-6 transition transform hover:scale-105 cursor-pointer h-[380px]'
-      onClick={() => router.push(`/events/${eventId}`)}
+      onClick={() => router.push(`/events/${slug}`)}
     >
       <div className='h-48 overflow-hidden'>
         <Image
@@ -62,7 +63,7 @@ const EventCard: React.FC<EventProps> = ({
             </span>
             <br/>
             <span className='text-xs font-bold justify-center'>
-              {dayjs(date).format('hh:mm A')}
+              {dayjs(time).format('hh:mm A')}
             </span>
           </div>
         </div>)}

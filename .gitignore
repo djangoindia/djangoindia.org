@@ -167,3 +167,5 @@ cython_debug/
 #.idea/
 init-letsencrypt.sh
 prod.nginx.conf
+staging.nginx.conf
+.env.staging
