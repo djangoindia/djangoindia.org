@@ -37,7 +37,7 @@ const EventCard: React.FC<EventProps> = ({
   const router = useRouter()
   return (
     <div
-      className='bg-white shadow-lg rounded-lg overflow-hidden max-w-sm mx-auto my-6 transition transform hover:scale-105 cursor-pointer h-[380px]'
+      className='bg-white shadow-lg rounded-lg overflow-hidden max-w-xs md:max-w-sm mx-auto my-6 transition transform md:hover:scale-105 cursor-pointer h-[380px]'
       onClick={() => router.push(`/events/${slug}`)}
     >
       <div className='h-48 overflow-hidden'>
