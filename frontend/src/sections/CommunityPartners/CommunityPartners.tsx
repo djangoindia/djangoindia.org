@@ -51,6 +51,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners }) => {
                 style={{
                   transform: 'rotateY(180deg)',
                   backfaceVisibility: 'hidden',
+                  overflow: 'hidden', 
                 }}
               >
                 <p className='text-gray-600 text-center mt-2'>{partner.description}</p>
