@@ -19,4 +19,4 @@ class CommunityPartnerSerializer(serializers.Serializer):
 
 class CommunityPartnerAndSponsorSerializer(serializers.Serializer):
     sponsors = SponsorSerializer(many=True, read_only=True, source='community_sponsors')
-    partners = CommunityPartnerSerializer(many=True, read_only=True)
+    partners = CommunityPartnerSerializer(many=True, read_only=True, source='community_partners')

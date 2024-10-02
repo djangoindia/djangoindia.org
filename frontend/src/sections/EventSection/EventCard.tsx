@@ -17,7 +17,7 @@ interface EventProps {
   venue: string
   time: string
   event_mode: string
-  seats_left: BigInteger
+  seats_left: number
 }
 
 const EventCard: React.FC<EventProps> = ({

@@ -70,8 +70,8 @@ const EventContainer = async ({
           <h2 className='text-6xl font-bold'>{name}</h2>
           {start_date?(<span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>):(<span>Starts: TBA</span>)}
           {city && <span>City: {city}</span>}
-          {seats_left && <span>Seats left: {seats_left}</span>}
-          <RegisterEvent />
+          {seats_left != null&& <span>Seats left: {seats_left}</span>}
+          <RegisterEvent seats_left={seats_left} registration_end_date={registration_end_date} />
           <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
@@ -92,7 +92,7 @@ const EventContainer = async ({
             <span className='flex items-center gap-2'>
               <CiClock1 />
               {dayjs(start_date).format('hh:mm A')}
-              {end_date && ` - ${dayjs(end_date).format('DD MMMM, YYYY')}`}
+              {end_date && ` - ${dayjs(end_date).format('hh:mm A')}`}
             </span>
             {/* TODO: Use text variant of button */}
             <Button className='w-fit' asChild>
@@ -137,7 +137,7 @@ const EventContainer = async ({
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
         </span>
-        <RegisterEvent eventId={id} />
+        <RegisterEvent eventId={id} seats_left={seats_left} registration_end_date={registration_end_date} />
       </div>
     </div>
   )

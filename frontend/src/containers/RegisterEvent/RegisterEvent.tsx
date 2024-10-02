@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import dayjs from 'dayjs';
 
 import {
   Drawer,
@@ -33,7 +34,7 @@ import { REGISTER_FORM_FIELDS } from './RegisterEvent.config'
 import { fetchData } from '@/utils'
 import { enqueueSnackbar } from 'notistack'
 
-export const RegisterEvent = ({ eventId }: { eventId: string }) => {
+export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { eventId: string, seats_left: number, registration_end_date: string }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const {
@@ -76,14 +77,21 @@ export const RegisterEvent = ({ eventId }: { eventId: string }) => {
     reset()
     setIsOpen(false)
   }
-  
+
+  const currentDate = dayjs();
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button className='w-fit bg-blue-900 z-50' onClick={() => setIsOpen(true)}>
-          Register
-        </Button>
+        {seats_left !== 0 && seats_left != null && currentDate.isBefore(dayjs(registration_end_date)) ? (
+            <Button className="w-fit bg-blue-900 z-50" onClick={() => setIsOpen(true)}>
+                Register
+            </Button>
+        ) : ( seats_left != null &&
+            <Button className="w-fit bg-blue-900 z-50" disabled>
+                {seats_left < 1 ? 'Housefull !' : 'Registration closed'}
+            </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full pb-8 z-50">
       <div className="overflow-auto no-scrollbar">
