@@ -55,8 +55,8 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           {/* Full Name Field */}
-          <div className="relative">
-            <FaRegUser className="absolute left-3 top-3 text-gray-500" />
+          <div className="relative flex items-center">
+            <FaRegUser className="absolute left-4 text-gray-500" />
             <input
               type="text"
               placeholder="Full Name"
@@ -71,8 +71,8 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
           </div>
 
           {/* Email Field */}
-          <div className="relative">
-            <MdOutlineEmail className="absolute left-3 top-3 text-gray-500" />
+          <div className="relative flex items-center">
+            <MdOutlineEmail className="absolute left-4 text-gray-500" />
             <input
               type="email"
               placeholder="Email"
