@@ -85,6 +85,7 @@ class EventRegistration(BaseModel):
     github = models.URLField(null=True, blank=True)
     twitter = models.URLField(null=True, blank=True)
     other_links = models.URLField(null=True, blank=True)
+    include_in_attendee_list = models.BooleanField(default=False)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
     rsvp = models.BooleanField(default=False)
 

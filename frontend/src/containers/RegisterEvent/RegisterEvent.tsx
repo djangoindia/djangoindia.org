@@ -79,19 +79,27 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
   }
 
   const currentDate = dayjs();
+  const registrationEndDate = dayjs(registration_end_date);
+  const isRegistrationOpen = seats_left > 0 && currentDate.isBefore(registrationEndDate);
+  const isFull = seats_left === 0;
+
+  let buttonText = 'Registration closed';
+  if (isRegistrationOpen) {
+    buttonText = 'Register';
+  } else if (isFull) {
+    buttonText = 'Housefull!';
+  }
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        {seats_left !== 0 && seats_left != null && currentDate.isBefore(dayjs(registration_end_date)) ? (
-            <Button className="w-fit bg-blue-900 z-50" onClick={() => setIsOpen(true)}>
-                Register
-            </Button>
-        ) : ( seats_left != null &&
-            <Button className="w-fit bg-blue-900 z-50" disabled>
-                {seats_left < 1 ? 'Housefull !' : 'Registration closed'}
-            </Button>
-        )}
+      {seats_left && registration_end_date&& <Button 
+          className="w-fit bg-blue-900 z-50"
+          onClick={() => isRegistrationOpen && setIsOpen(true)}
+          disabled={!isRegistrationOpen}
+        >
+          {buttonText}
+        </Button>}
       </DrawerTrigger>
       <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full pb-8 z-50">
       <div className="overflow-auto no-scrollbar">
