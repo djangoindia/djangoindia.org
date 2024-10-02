@@ -17,6 +17,9 @@ import Link from 'next/link'
 import { calculateDuration } from '@/utils'
 import sanitizeHtml from 'sanitize-html';
 import splitAndCapitalize from '../../utils/formatKey'
+import { EventVolunteers } from '@/sections/EventVolunteers'
+import { CommunityPartners } from '@/sections/CommunityPartners'
+import { EventSponsors } from '@/sections/EventSponsors'
 
 const EventContainer = async ({
   event: {
@@ -32,6 +35,9 @@ const EventContainer = async ({
     start_date,
     registration_end_date,
     seats_left,
+    sponsors,
+    partners,
+    volunteers
   },
 }: {
   event: Event
@@ -58,7 +64,7 @@ const EventContainer = async ({
       <div className='container'>
         <div className='relative w-full h-96 my-12 rounded-2xl mx-auto overflow-hidden shadow-xl'>
           <Image
-            src={cover_image ?? event1}
+            src={cover_image && cover_image.startsWith('http') ? cover_image : cover_image ? `${process.env.NEXT_PUBLIC_BASE_URL}${cover_image}` : event1}
             alt={name}
             style={{
               objectFit: 'cover',
@@ -124,6 +130,11 @@ const EventContainer = async ({
               ></iframe>
             )}
           </div>
+
+       <EventSponsors sponsors={sponsors} />
+       <CommunityPartners partners={partners} />
+       <EventVolunteers volunteers={volunteers}/>
+
         </div>
       </div>
       <div className='bg-orange-100	relative w-full p-12 mt-24 flex flex-col items-center gap-3 overflow-hidden'>
