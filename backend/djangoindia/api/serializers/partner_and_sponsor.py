@@ -18,5 +18,5 @@ class CommunityPartnerSerializer(serializers.Serializer):
     description = serializers.CharField()
 
 class CommunityPartnerAndSponsorSerializer(serializers.Serializer):
-    sponsors = SponsorSerializer(many=True, read_only=True)
-    partners = CommunityPartnerSerializer(many=True, read_only=True)
+    sponsors = SponsorSerializer(many=True, read_only=True, source='community_sponsors')
+    partners = CommunityPartnerSerializer(many=True, read_only=True, source='community_sponsors')
