@@ -43,7 +43,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners }) => {
               }
             >
               <div
-                className='absolute w-full h-full flex justify-center items-center rounded-lg shadow-lg bg-white'
+                className='absolute w-full h-full flex justify-center items-center rounded-lg shadow-sm bg-white'
                 style={{
                   backfaceVisibility: 'hidden',
                 }}
