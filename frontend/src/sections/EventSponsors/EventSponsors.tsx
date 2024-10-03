@@ -3,41 +3,51 @@ import Image from 'next/image';
 import React from 'react';
 
 type SponsorDetails = {
-  name?: string; 
-  logo?: string; 
-  type?: string; 
+  name?: string;
+  logo?: string;
+  type?: string;
   url?: string;
-  description?: string; 
+  description?: string;
 };
 
 type Sponsor = {
-  sponsor_details?: SponsorDetails; 
-  tier?: string; 
+  sponsor_details?: SponsorDetails;
+  tier?: string;
 };
 
 type SponsorLevelProps = {
   level: string;
   sponsors: SponsorDetails[];
   size: { width: number; height: number };
+  hasHoverEffect: boolean;
 };
 
 type EventSponsorsProps = {
-  sponsors?: Sponsor[]; 
+  sponsors?: Sponsor[];
 };
 
-const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size }) => {
+const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasHoverEffect }) => {
   return (
     <div className='flex flex-col gap-2'>
       <h5 className='text-base font-semibold text-[#06038D]'>{level}</h5>
       <div className='flex flex-wrap gap-12'>
         {sponsors.map((sponsor, index) => (
-          <div
+          <a
             key={index}
+            href={sponsor.url || '#'}
+            target='_blank'
+            rel='noopener noreferrer'
             style={{ width: `${size.width}px`, height: `${size.height}px` }}
-            className='relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden'
+            className={`relative bg-white rounded-lg shadow-sm transition-all duration-300 ${
+              hasHoverEffect ? 'hover:shadow-md group overflow-hidden' : ''
+            }`}
           >
             {sponsor.logo ? (
-              <div className='absolute inset-0 flex justify-center items-center transition-opacity duration-300 ease-in-out group-hover:opacity-0 p-4'>
+              <div
+                className={`absolute inset-0 flex justify-center items-center ${
+                  hasHoverEffect ? 'transition-opacity duration-300 ease-in-out group-hover:opacity-0' : ''
+                } p-4`}
+              >
                 <Image
                   src={
                     sponsor.logo.startsWith('http')
@@ -56,13 +66,16 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size }) =>
                 <p className='text-gray-400 italic'>No logo available</p>
               </div>
             )}
-            <div className='absolute inset-0 flex flex-col justify-start p-5 gap-3 text-center transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100'>
-              <h6 className='text-sm font-semibold text-[#06038D] text-start'>About</h6>
-              <p className='text-black font-medium break-all text-xs text-start'>
-                {sponsor.description ? sponsor.description : 'No description available'}
-              </p>
-            </div>
-          </div>
+
+            {hasHoverEffect && (
+              <div className='absolute inset-0 flex flex-col justify-start p-5 gap-3 text-center transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100'>
+                <h6 className='text-sm font-semibold text-[#06038D] text-start'>About</h6>
+                <p className='text-black font-medium break-all text-xs text-start'>
+                  {sponsor.description ? sponsor.description : 'No description available'}
+                </p>
+              </div>
+            )}
+          </a>
         ))}
       </div>
     </div>
@@ -116,6 +129,7 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
             level={tier.charAt(0).toUpperCase() + tier.slice(1)}
             sponsors={sponsorsByTier[tier]}
             size={tierSizeConfig[tier] || { width: 120, height: 120 }}
+            hasHoverEffect={tier === 'platinum'}
           />
         )
       ))}

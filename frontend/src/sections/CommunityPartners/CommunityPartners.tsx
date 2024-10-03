@@ -5,7 +5,7 @@ import Image from 'next/image';
 type Partner = {
   name?: string; 
   logo?: string; 
-  description?: string; 
+  website?: string; 
 };
 
 type CommunityPartnersProps = {
@@ -30,41 +30,33 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
       </p>
       <div className='flex flex-wrap gap-12'>
         {partners.map((partner, index) => (
-          <div
+          <a
             key={index}
+            href={partner.website || '#'}
+            target='_blank'
+            rel='noopener noreferrer'
             style={{ width: '160px', height: '160px' }}
-            className='relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden'
+            className='relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden p-4 flex flex-col items-center justify-center text-center'
           >
             {partner?.logo ? (
-              <div className='absolute inset-0 flex justify-center items-center transition-opacity duration-300 ease-in-out group-hover:opacity-0 p-4'>
-                <Image
-                  src={
-                    partner.logo.startsWith('http')
-                      ? partner.logo
-                      : `/${partner.logo}`
-                  }
-                  alt={`${partner?.name || 'Partner'} logo`}
-                  width={120}
-                  height={120}
-                  objectFit='contain'
-                  className='rounded-lg'
-                />
-              </div>
+              <Image
+                src={
+                  partner.logo.startsWith('http')
+                    ? partner.logo
+                    : `/${partner.logo}`
+                }
+                alt={`${partner?.name || 'Partner'} logo`}
+                width={120}
+                height={120}
+                objectFit='contain'
+                className='rounded-lg mb-2'
+              />
             ) : (
-              <div className='absolute inset-0 flex justify-center items-center p-4'>
+              <div className='flex justify-center items-center p-4'>
                 <p className='text-gray-400 italic'>No logo available</p>
               </div>
             )}
-
-            <div className='absolute inset-0 flex gap-2 flex-col text-center transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 p-4'>
-              <h6 className='text-sm font-semibold text-[#06038D] text-start w-full'>
-                About
-              </h6>
-              <p className='text-black font-medium break-all text-xs text-start w-full'>
-                {partner?.description ? partner.description : 'No description available'}
-              </p>
-            </div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
