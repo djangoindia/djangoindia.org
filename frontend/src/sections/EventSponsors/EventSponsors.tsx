@@ -1,18 +1,18 @@
-"use client";
+'use client';
 import Image from 'next/image';
 import React from 'react';
 
 type SponsorDetails = {
-  name: string;
-  logo: string;
-  type: string;
-  url: string;
-  description: string;
+  name?: string; 
+  logo?: string; 
+  type?: string; 
+  url?: string;
+  description?: string; 
 };
 
 type Sponsor = {
-  sponsor_details: SponsorDetails;
-  tier: string;
+  sponsor_details?: SponsorDetails; 
+  tier?: string; 
 };
 
 type SponsorLevelProps = {
@@ -22,7 +22,7 @@ type SponsorLevelProps = {
 };
 
 type EventSponsorsProps = {
-  sponsors: Sponsor[];
+  sponsors?: Sponsor[]; 
 };
 
 const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size }) => {
@@ -33,54 +33,34 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size }) =>
         {sponsors.map((sponsor, index) => (
           <div
             key={index}
-            style={{ perspective: '1000px', width: `${size.width}px`, height: `${size.height}px` }}
-            className='relative'
+            style={{ width: `${size.width}px`, height: `${size.height}px` }}
+            className='relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden'
           >
-            <div
-              className='relative w-full h-full text-center transition-transform duration-700'
-              style={{
-                transformStyle: 'preserve-3d',
-                transition: 'transform 0.7s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = 'rotateY(180deg)')}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = 'rotateY(0deg)')}
-            >
-              <div
-                className='absolute w-full h-full flex justify-center items-center p-5 rounded-lg shadow-sm bg-white'
-                style={{
-                  backfaceVisibility: 'hidden',
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
+            {sponsor.logo ? (
+              <div className='absolute inset-0 flex justify-center items-center transition-opacity duration-300 ease-in-out group-hover:opacity-0 p-4'>
                 <Image
                   src={
                     sponsor.logo.startsWith('http')
                       ? sponsor.logo
-                      : `${process.env.NEXT_PUBLIC_BASE_URL}${sponsor.logo}`
+                      : `${process.env.NEXT_PUBLIC_BASE_URL || ''}${sponsor.logo}`
                   }
-                  alt={`${sponsor.name} logo`}
-                  width={size.width - 10}
-                  height={size.height - 10}
+                  alt={`${sponsor.name || 'Sponsor'} logo`}
+                  width={size.width - 20}
+                  height={size.height - 20}
                   objectFit='contain'
-                  className='rounded-lg'
+                  className='rounded-md'
                 />
               </div>
-
-              <div
-                className='absolute w-full h-full flex flex-col justify-center items-center rounded-lg shadow-sm bg-white px-4 py-2'
-                style={{
-                  transform: 'rotateY(180deg)',
-                  backfaceVisibility: 'hidden',
-                  width: '100%',
-                  height: '100%',
-                  overflow: 'hidden', 
-                }}
-              >
-                <p className='text-gray-600 text-center mt-2 text-wrap'>
-                  {sponsor.description}
-                </p>
+            ) : (
+              <div className='absolute inset-0 flex justify-center items-center p-4'>
+                <p className='text-gray-400 italic'>No logo available</p>
               </div>
+            )}
+            <div className='absolute inset-0 flex flex-col justify-start p-5 gap-3 text-center transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100'>
+              <h6 className='text-sm font-semibold text-[#06038D] text-start'>About</h6>
+              <p className='text-black font-medium break-all text-xs text-start'>
+                {sponsor.description ? sponsor.description : 'No description available'}
+              </p>
             </div>
           </div>
         ))}
@@ -89,24 +69,38 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size }) =>
   );
 };
 
-const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors }) => {
-  const sponsorsByTier = sponsors.reduce(
-    (acc: Record<string, SponsorDetails[]>, sponsor) => {
-      const tier = sponsor.tier.toLowerCase();
-      if (!acc[tier]) {
-        acc[tier] = [];
-      }
+const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
+  if (sponsors.length === 0) {
+    return (
+      <div className='flex flex-col items-center justify-center py-10'>
+        <h4 className='text-2xl font-bold'>Event Sponsors</h4>
+        <p className='text-gray-500 mt-4'>No sponsors are available at the moment.</p>
+      </div>
+    );
+  }
+
+  const sponsorsByTier = sponsors.reduce((acc: Record<string, SponsorDetails[]>, sponsor) => {
+    const tier = sponsor.tier?.toLowerCase() || 'unknown';
+    if (!acc[tier]) {
+      acc[tier] = [];
+    }
+    if (sponsor.sponsor_details) {
       acc[tier].push(sponsor.sponsor_details);
-      return acc;
-    },
-    {}
-  );
+    }
+    return acc;
+  }, {});
 
   const tierSizeConfig: Record<string, { width: number; height: number }> = {
     platinum: { width: 200, height: 200 },
     gold: { width: 180, height: 180 },
     silver: { width: 140, height: 140 },
   };
+
+  const tierOrder = ['platinum', 'gold', 'silver'];
+  const remainingTiers = Object.keys(sponsorsByTier).filter(
+    (tier) => !tierOrder.includes(tier)
+  );
+  const sortedTiers = [...tierOrder, ...remainingTiers];
 
   return (
     <div className='flex flex-col gap-6 py-10'>
@@ -115,13 +109,15 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors }) => {
         Support our open-source community and connect with a passionate, skilled audience. Join us in driving innovation
         and making an impact.
       </p>
-      {Object.entries(sponsorsByTier).map(([tier, sponsorsList]) => (
-        <SponsorLevel
-          key={tier}
-          level={tier.charAt(0).toUpperCase() + tier.slice(1)}
-          sponsors={sponsorsList}
-          size={tierSizeConfig[tier] || { width: 120, height: 120 }}
-        />
+      {sortedTiers.map((tier) => (
+        sponsorsByTier[tier] && (
+          <SponsorLevel
+            key={tier}
+            level={tier.charAt(0).toUpperCase() + tier.slice(1)}
+            sponsors={sponsorsByTier[tier]}
+            size={tierSizeConfig[tier] || { width: 120, height: 120 }}
+          />
+        )
       ))}
     </div>
   );

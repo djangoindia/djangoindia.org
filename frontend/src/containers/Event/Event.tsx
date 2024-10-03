@@ -130,10 +130,12 @@ const EventContainer = async ({
               ></iframe>
             )}
           </div>
+          {Array.isArray(sponsors) && sponsors.length > 0 && <EventSponsors sponsors={sponsors} />}
 
-       <EventSponsors sponsors={sponsors} />
-       <CommunityPartners partners={partners} />
-       <EventVolunteers volunteers={volunteers}/>
+          {Array.isArray(partners) && partners.length > 0 && <CommunityPartners partners={partners} />}
+
+          {Array.isArray(volunteers) && volunteers.length > 0 && <EventVolunteers volunteers={volunteers} />}
+
 
         </div>
       </div>
