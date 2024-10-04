@@ -54,8 +54,8 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasH
                   alt={`${sponsor.name || 'Sponsor'} logo`}
                   width={size.width - 20}
                   height={size.height - 20}
-                  objectFit='contain'
-                  className='rounded-md'
+                  style={{height: `100%` }}
+                  className='rounded-lg object-contain'
                 />
               </div>
             ) : (
@@ -101,9 +101,9 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
   }, {});
 
   const tierSizeConfig: Record<string, { width: number; height: number }> = {
-    platinum: { width: 200, height: 200 },
-    gold: { width: 180, height: 180 },
-    silver: { width: 140, height: 140 },
+    platinum: { width: 300, height: 200 },
+    gold: { width: 240, height: 160 },
+    silver: { width: 180, height: 120 },
   };
 
   const tierOrder = ['platinum', 'gold', 'silver'];

@@ -35,7 +35,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
             href={partner.website || '#'}
             target='_blank'
             rel='noopener noreferrer'
-            style={{ width: '160px', height: '160px' }}
+            style={{ width: '180px', height: '120px' }}
             className='relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden p-4 flex flex-col items-center justify-center text-center'
           >
             {partner?.logo ? (
@@ -43,9 +43,9 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
                 src={partner.logo}
                 alt={`${partner?.name || 'Partner'} logo`}
                 width={120}
-                height={120}
-                objectFit='contain'
-                className='rounded-lg mb-2'
+                height={100}
+                style={{height: `100%` }}
+                className='rounded-lg mb-2 object-contain'
               />
             ) : (
               <div className='flex justify-center items-center p-4'>
