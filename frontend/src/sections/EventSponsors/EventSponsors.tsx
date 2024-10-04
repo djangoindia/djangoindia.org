@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import React from 'react';
+import splitAndCapitalize from '../../utils/formatKey'
 
 type SponsorDetails = {
   name?: string;
@@ -29,7 +30,7 @@ type EventSponsorsProps = {
 const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasHoverEffect }) => {
   return (
     <div className='flex flex-col gap-2'>
-      <h5 className='text-base font-semibold text-[#06038D]'>{level}</h5>
+      <h5 className='text-xl font-semibold text-[#06038D]'>{splitAndCapitalize(level)}</h5>
       <div className='flex flex-wrap gap-12'>
         {sponsors.map((sponsor, index) => (
           <a
@@ -49,7 +50,7 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasH
                 } p-4`}
               >
                 <Image
-                  src={sponsor.logo}
+                  src={`http://localhost:8000${sponsor.logo}`}
                   alt={`${sponsor.name || 'Sponsor'} logo`}
                   width={size.width - 20}
                   height={size.height - 20}
@@ -124,7 +125,7 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
             level={tier.charAt(0).toUpperCase() + tier.slice(1)}
             sponsors={sponsorsByTier[tier]}
             size={tierSizeConfig[tier] || { width: 120, height: 120 }}
-            hasHoverEffect={tier === 'platinum'}
+            hasHoverEffect={tier === 'platinum' || 'gold'}
           />
         )
       ))}
