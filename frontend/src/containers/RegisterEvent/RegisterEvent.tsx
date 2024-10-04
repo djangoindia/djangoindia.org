@@ -149,7 +149,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                               <div className='flex items-center gap-2'>
                                 <FormLabel>{label}</FormLabel>
                                 <FormControl>
-                                  <Input type='checkbox' {...field} />
+                                  <Input type='checkbox' onChange={field.onChange} />
                                 </FormControl>
                               </div>
                               ):(
@@ -158,7 +158,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                             {type === 'select' ? (
                               <Select
                                 onValueChange={field.onChange}
-                                defaultValue={field.value}
+                                defaultValue={String(field.value)}
                               >
                                 <FormControl>
                                   <SelectTrigger>
@@ -175,10 +175,9 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                               </Select>
                             ) : (
                               <FormControl>
-                                <Input
-                                  type={type}
+                                <Input type={type}
                                   placeholder={placeholder}
-                                  {...field}
+                                  onChange={field.onChange}
                                 />
                               </FormControl>
                             )}
@@ -207,7 +206,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                         {item.type === 'select' ? (
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            defaultValue={String(field.value)}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -224,10 +223,9 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                           </Select>
                         ) : (
                           <FormControl>
-                            <Input
-                              type={item.type}
+                            <Input type={item.type}
                               placeholder={item.placeholder}
-                              {...field}
+                              onChange={field.onChange}
                             />
                           </FormControl>
                         )}
