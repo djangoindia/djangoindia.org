@@ -64,7 +64,7 @@ const EventContainer = async ({
       <div className='container'>
         <div className='relative w-full h-96 my-12 rounded-2xl mx-auto overflow-hidden shadow-xl'>
           <Image
-            src={cover_image && cover_image.startsWith('http') ? cover_image : cover_image ? `${process.env.NEXT_PUBLIC_BASE_URL}${cover_image}` : event1}
+            src={cover_image ?? event1}
             alt={name}
             style={{
               objectFit: 'cover',
@@ -130,11 +130,11 @@ const EventContainer = async ({
               ></iframe>
             )}
           </div>
-          {Array.isArray(sponsors) && sponsors.length > 0 && <EventSponsors sponsors={sponsors} />}
+          {sponsors && <EventSponsors sponsors={sponsors} />}
 
-          {Array.isArray(partners) && partners.length > 0 && <CommunityPartners partners={partners} />}
+          {partners && <CommunityPartners partners={partners} />}
 
-          {Array.isArray(volunteers) && volunteers.length > 0 && <EventVolunteers volunteers={volunteers} />}
+          {volunteers && <EventVolunteers volunteers={volunteers} />}
 
 
         </div>

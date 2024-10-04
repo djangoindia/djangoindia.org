@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import account from '../../../public/account.png'
 
 type Volunteer = {
   name?: string; 
@@ -19,7 +20,7 @@ type EventVolunteersProps = {
 const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) => {
   if (volunteers.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center py-10'>
+      <div className='flex flex-col items-left justify-left py-10'>
         <h4 className='text-2xl font-bold'>Event Volunteers</h4>
         <p className='text-gray-500 mt-4'>No volunteers are available at the moment.</p>
       </div>
@@ -40,20 +41,14 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
             style={{ height: '150px', overflow: 'hidden' }}
           >
             <div className='absolute inset-0 flex items-center gap-6 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 p-4'>
-              {volunteer.photo && (
                 <Image
-                  src={
-                    volunteer.photo.startsWith('http')
-                      ? volunteer.photo
-                      : `${process.env.NEXT_PUBLIC_BASE_URL}${volunteer.photo}`
-                  }
+                  src={volunteer.photo ? volunteer.photo: account}
                   alt={`${volunteer.name || 'Volunteer'}'s photo`}
                   width={70}
                   height={70}
                   objectFit='cover'
                   className='rounded-full border border-gray-300'
                 />
-              )}
               <div className='flex flex-col'>
                 <h6 className='text-lg font-semibold text-gray-800'>
                   {volunteer.name ? volunteer.name : 'Anonymous Volunteer'}

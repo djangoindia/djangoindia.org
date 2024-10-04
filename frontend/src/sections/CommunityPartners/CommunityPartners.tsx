@@ -15,7 +15,7 @@ type CommunityPartnersProps = {
 const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) => {
   if (partners.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center py-10'>
+      <div className='flex flex-col items-left justify-left py-10'>
         <h4 className='text-2xl font-bold'>Community Partners</h4>
         <p className='text-gray-500 mt-4'>No community partners are available at the moment.</p>
       </div>
@@ -26,7 +26,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
     <div className='flex flex-col gap-6 py-10'>
       <h4 className='text-2xl font-bold flex items-center'>Community Partners</h4>
       <p className='font-medium text-gray-700'>
-        We are proud to collaborate with our community partners who share our vision of innovation and open collaboration.
+        We are proud to collaborate with our community partners who share our vision of making Django famous in India.
       </p>
       <div className='flex flex-wrap gap-12'>
         {partners.map((partner, index) => (
@@ -40,11 +40,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
           >
             {partner?.logo ? (
               <Image
-                src={
-                  partner.logo.startsWith('http')
-                    ? partner.logo
-                    : `/${partner.logo}`
-                }
+                src={partner.logo}
                 alt={`${partner?.name || 'Partner'} logo`}
                 width={120}
                 height={120}

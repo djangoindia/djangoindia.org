@@ -49,11 +49,7 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasH
                 } p-4`}
               >
                 <Image
-                  src={
-                    sponsor.logo.startsWith('http')
-                      ? sponsor.logo
-                      : `${process.env.NEXT_PUBLIC_BASE_URL || ''}${sponsor.logo}`
-                  }
+                  src={sponsor.logo}
                   alt={`${sponsor.name || 'Sponsor'} logo`}
                   width={size.width - 20}
                   height={size.height - 20}
@@ -85,7 +81,7 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasH
 const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
   if (sponsors.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center py-10'>
+      <div className='flex flex-col items-left justify-left py-10'>
         <h4 className='text-2xl font-bold'>Event Sponsors</h4>
         <p className='text-gray-500 mt-4'>No sponsors are available at the moment.</p>
       </div>
@@ -119,8 +115,7 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
     <div className='flex flex-col gap-6 py-10'>
       <h4 className='text-2xl font-bold flex items-center'>Event Sponsors</h4>
       <p className='font-medium'>
-        Support our open-source community and connect with a passionate, skilled audience. Join us in driving innovation
-        and making an impact.
+      Support the Django India community and connect with a passionate, skilled audience. Join us in driving innovation and making an impact within the Django ecosystem.
       </p>
       {sortedTiers.map((tier) => (
         sponsorsByTier[tier] && (

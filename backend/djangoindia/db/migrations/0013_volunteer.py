@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('photo', models.ImageField(blank=True, null=True, upload_to='')),
+                ('photo', models.ImageField(blank=True, null=True, upload_to='volunteers/photos/')),
                 ('name', models.CharField(max_length=255)),
                 ('about', models.CharField(blank=True, max_length=50, null=True)),
                 ('email', models.EmailField(blank=True, max_length=254, null=True)),
