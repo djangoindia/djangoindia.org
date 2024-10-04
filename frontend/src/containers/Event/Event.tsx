@@ -77,7 +77,7 @@ const EventContainer = async ({
           {start_date?(<span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>):(<span>Starts: TBA</span>)}
           {city && <span>City: {city}</span>}
           {seats_left != null&& <span>Seats left: {seats_left}</span>}
-          <RegisterEvent seats_left={seats_left} registration_end_date={registration_end_date} />
+          <RegisterEvent eventId={id}  seats_left={seats_left} registration_end_date={registration_end_date} />
           <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
