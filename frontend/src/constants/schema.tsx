@@ -91,5 +91,8 @@ export const REGISTER_EVENT_FORM_SCHEMA = yup.object({
     .matches(
       /^https?:\/\/(www\.)?twitter\.com\/.*$/,
       'Please enter a valid Twitter URL',
-    ),
+  ),
+  include_in_attendee_list: yup
+    .bool()
+    .optional()
 })
