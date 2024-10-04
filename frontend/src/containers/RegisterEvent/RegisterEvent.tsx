@@ -78,7 +78,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
     setIsOpen(false)
   }
 
-  const currentDate = dayjs();
+  const currentDate = dayjs();  
   const registrationEndDate = dayjs(registration_end_date);
   const isRegistrationOpen = seats_left > 0 && currentDate.isBefore(registrationEndDate);
   const isFull = seats_left === 0;
@@ -89,17 +89,19 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
   } else if (isFull) {
     buttonText = 'Housefull!';
   }
-
+  
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-      {seats_left && registration_end_date&& <Button 
-          className="w-fit bg-blue-900 z-50"
-          onClick={() => isRegistrationOpen && setIsOpen(true)}
-          disabled={!isRegistrationOpen}
-        >
-          {buttonText}
-        </Button>}
+        {seats_left !== 0 && seats_left != null && currentDate.isBefore(dayjs(registration_end_date)) ? (
+            <Button className="w-fit bg-blue-900 z-50" onClick={() => setIsOpen(true)}>
+                Register
+            </Button>
+        ) : ( seats_left != null &&
+            <Button className="w-fit bg-blue-900 z-50" disabled>
+                {seats_left < 1 ? 'Housefull !' : 'Registration closed'}
+            </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full pb-8 z-50">
       <div className="overflow-auto no-scrollbar">
@@ -144,7 +146,17 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                         name={name}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{label}</FormLabel>
+                            {type === 'checkbox' ? (
+                              <div className='flex items-center gap-2'>
+                                <FormLabel>{label}</FormLabel>
+                                <FormControl>
+                                  <Input type='checkbox' {...field} />
+                                </FormControl>
+                              </div>
+                              ):(
+                                <>
+                                 <FormLabel>{label}</FormLabel>
+
                             {type === 'select' ? (
                               <Select
                                 onValueChange={field.onChange}
@@ -171,6 +183,8 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                                   {...field}
                                 />
                               </FormControl>
+                            )}
+                            </>
                             )}
                             <FormMessage>
                               {errors[name]?.message ?? ' '}
