@@ -52,6 +52,7 @@ class EventRegistrationSerializer(serializers.Serializer):
     twitter = serializers.URLField(required=False, allow_blank=True)
     other_links = serializers.URLField(required=False, allow_blank=True)
     rsvp = serializers.BooleanField(default=False)
+    include_in_attendee_list = serializers.BooleanField(default=False)
 
     def create(self, validated_data):
         return EventRegistration.objects.create(**validated_data)

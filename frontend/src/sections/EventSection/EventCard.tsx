@@ -24,7 +24,6 @@ interface EventProps {
 }
 
 const EventCard: React.FC<EventProps> = ({
-  eventId,
   slug,
   title,
   date,

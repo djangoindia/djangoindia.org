@@ -13,6 +13,7 @@ export type RegisterEventForm = {
   linkedin: string
   github?: string
   twitter?: string
+  include_in_attendee_list?: boolean
 }
 
 type SelectField = {
@@ -25,8 +26,13 @@ type InputField = {
   options?: never
 }
 
+type Checkbox = {
+  type: 'checkbox'
+  options?: never
+}
+
 export type FieldType = {
   label: string
   placeholder: string
   name: keyof RegisterEventForm
-} & (SelectField | InputField)
+} & (SelectField | InputField | Checkbox)
