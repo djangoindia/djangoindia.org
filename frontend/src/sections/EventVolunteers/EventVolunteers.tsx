@@ -42,7 +42,7 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
           >
             <div className='absolute inset-0 flex items-center gap-6 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 p-4'>
                 <Image
-                  src={volunteer.photo ? `http://localhost:8000${volunteer.photo}`: account}
+                  src={volunteer.photo ? volunteer.photo: account}
                   alt={`${volunteer.name || 'Volunteer'}'s photo`}
                   width={70}
                   height={70}

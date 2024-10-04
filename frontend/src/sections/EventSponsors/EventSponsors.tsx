@@ -50,7 +50,7 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasH
                 } p-4`}
               >
                 <Image
-                  src={`http://localhost:8000${sponsor.logo}`}
+                  src={sponsor.logo}
                   alt={`${sponsor.name || 'Sponsor'} logo`}
                   width={size.width - 20}
                   height={size.height - 20}
@@ -125,7 +125,7 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
             level={tier.charAt(0).toUpperCase() + tier.slice(1)}
             sponsors={sponsorsByTier[tier]}
             size={tierSizeConfig[tier] || { width: 120, height: 120 }}
-            hasHoverEffect={tier === 'platinum' || 'gold'}
+            hasHoverEffect={tier === 'platinum' || tier === 'gold'}
           />
         )
       ))}
