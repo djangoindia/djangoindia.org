@@ -14,7 +14,6 @@ EMAIL_USE_TLS = True  # TODO: Set this to False if using SSL
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 ADMIN_URL = os.environ.get("DJANGO_ADMIN_URL")
-CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 # AWS settings
 
