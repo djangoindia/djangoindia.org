@@ -205,9 +205,21 @@ class CommunityPartnerAdmin(admin.ModelAdmin):
     search_fields = ['name']
     readonly_fields = ('created_at', 'updated_at')
 
+
+class EventVolunteerResource(resources.ModelResource):
+    event_name = fields.Field(
+        column_name='event_name',
+        attribute='event',
+        widget=ForeignKeyWidget(Event, 'name')
+    )
+
+    class Meta:
+        model = Volunteer
+        fields = ('id', 'event_name', 'name', 'about', 'email', 'twitter',' linkedin')
 @admin.register(Volunteer)
-class EventVolunteerAdmin(admin.ModelAdmin):
+class EventVolunteerAdmin(ImportExportModelAdmin):
     list_display = ['event', 'name', 'about', 'email']
     search_fields = ['event__name','name','email']
     readonly_fields = ('created_at', 'updated_at')
     list_filter = ('event__name',)
+    resource_class = EventVolunteerResource
