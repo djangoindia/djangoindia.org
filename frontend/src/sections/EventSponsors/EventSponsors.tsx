@@ -2,7 +2,9 @@
 import Image from 'next/image';
 import React from 'react';
 import splitAndCapitalize from '../../utils/formatKey'
+import { Button } from '@components'
 import Link from 'next/link';
+import { FaArrowRight } from "react-icons/fa";
 
 type SponsorDetails = {
   name?: string;
@@ -82,7 +84,17 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
   if (sponsors.length === 0) {
     return (
       <div className='flex flex-col items-left justify-left py-10'>
-        <h4 className='text-2xl font-bold'>Event Sponsors</h4>
+        <div className='flex items-center'>
+          <h4 className='text-2xl font-bold'>Event Sponsors</h4>
+          <Link href={process.env.SPONSOR_FORM || '#'} target='_blank' passHref>
+            <Button className='ml-2 group transition-all linear overflow-hidden'>
+              <span className='w-0 group-hover:w-auto overflow-hidden whitespace-nowrap transition-all linear'>
+                Become a sponsor
+              </span>
+              <FaArrowRight className='ml-0 group-hover:ml-2 transition-all linear' />
+            </Button>
+          </Link>
+        </div>
         <p className='text-gray-500 mt-4'>No sponsors are available at the moment.</p>
       </div>
     );
@@ -113,7 +125,17 @@ const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
 
   return (
     <div className='flex flex-col gap-6 py-10'>
-      <h4 className='text-2xl font-bold flex items-center'>Event Sponsors</h4>
+      <div className='flex items-center'>
+          <h4 className='text-2xl font-bold'>Event Sponsors</h4>
+          <Link href={process.env.SPONSOR_FORM || '#'} target='_blank' passHref>
+            <Button className='ml-2 group transition-all linear overflow-hidden'>
+              <span className='w-0 group-hover:w-auto overflow-hidden whitespace-nowrap transition-all linear'>
+                Become a sponsor
+              </span>
+              <FaArrowRight className='ml-0 group-hover:ml-2 transition-all linear' />
+            </Button>
+          </Link>
+        </div>
       <p className='font-medium'>
       Support the Django India community and connect with a passionate, skilled audience. Join us in driving innovation and making an impact within the Django ecosystem.
       </p>
