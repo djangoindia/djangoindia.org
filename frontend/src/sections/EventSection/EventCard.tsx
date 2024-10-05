@@ -2,40 +2,46 @@
 
 import React from 'react'
 import Image from 'next/image'
-import dayjs from 'dayjs'
+import { dayjsWithTZ } from '@utils'
 import event2 from '../../../public/02.svg'
+import event3 from '../../../public/03.svg'
+import event_mode_img from '../../../public/event_mode.svg'
+import city_img from '../../../public/location.svg'
+import seats from '../../../public/ticket.svg'
 import { useRouter } from 'next/navigation'
-
+import splitAndCapitalize from '../../utils/formatKey'
 
 interface EventProps {
   eventId: string
+  slug: string
   title: string
   date: string
   imageSrc: string
-  venue: string
+  city: string
   time: string
   event_mode: string
+  seats_left: number
 }
 
 const EventCard: React.FC<EventProps> = ({
-  eventId,
+  slug,
   title,
   date,
   imageSrc,
-  venue,
+  city,
   time,
-  event_mode
+  event_mode,
+  seats_left,
 }) => {
   const router = useRouter()
-
   return (
     <div
-      className='bg-white shadow-lg rounded-lg overflow-hidden max-w-sm mx-auto my-6 transition transform hover:scale-105 cursor-pointer h-[380px]'
-      onClick={() => router.push(`/events/${eventId}`)}
+      className='bg-white shadow-lg rounded-lg overflow-hidden max-w-xs md:max-w-sm mx-auto my-6 transition transform md:hover:scale-105 cursor-pointer h-[380px]'
+      onClick={() => router.push(`/events/${slug}`)}
     >
       <div className='h-48 overflow-hidden'>
         <Image
-          src={imageSrc ?? event2}
+          src={imageSrc ?? (event_mode == "online" ? event2 : event3)}
           alt={title}
           width={400}
           height={400}
@@ -46,32 +52,35 @@ const EventCard: React.FC<EventProps> = ({
           }}
         />
       </div>
-      <div className='p-4 flex'>
-        <div className='w-1/5'>
+      <div className='p-4 flex h-[50%]'>
+        {date && (<div className='w-1/5'>
           <div className='mb-2 justify-center'>
             <span className='text-xl font-bold justify-center'>
-              {dayjs(date).format('MMM')}
+              {dayjsWithTZ(date).format('MMM')}
             </span>
             <br />
             <span className='text-xl font-bold justify-center'>
-              {dayjs(date).format('YY')}
+              {dayjsWithTZ(date).format('YY')}
+            </span>
+            <br/>
+            <span className='text-xs font-bold justify-center'>
+              {dayjsWithTZ(time).format('hh:mm A')}
             </span>
           </div>
-        </div>
-        <div className='flex-1 text-left overflow-hidden'>
+        </div>)}
+        <div className='flex-1 text-left overflow-hidden space-y-2'>
           <h2 className='text-xl font-semibold select-none line-clamp-2'>
             {title}
           </h2>
-          <p className='text-gray-700 mb-2 line-clamp-4'>
-            <span className='font-bold'>Mode: </span>
-            {event_mode}
+          <p className='text-gray-700 mb-2 line-clamp-4 flex items-center ml-0'>
+          <Image src={event_mode_img} alt='event-mode' width={26} height={26} className='mr-1'/>
+            {splitAndCapitalize(event_mode)}
           </p>
-          {venue && <p className='text-gray-700 mb-2 line-clamp-4'>
-            <span className='font-bold'>Venue: </span>
-            <br />
-            {venue}
+          {<p className='text-gray-700 mb-2 line-clamp-4 flex items-center'>
+            <Image src={city_img} alt='city' width={26} height={26} className='mr-1'/>
+            {city ? city:'TBA'}
           </p>}
-          <p className='text-gray-600'>{dayjs(time).format('hh:mm A')}</p>
+          {seats_left && (<p className='flex items-center'><Image src={seats} alt='seats' width={26} height={26} className='mr-1'/>{seats_left} Seats left</p>)}
         </div>
       </div>
     </div>
