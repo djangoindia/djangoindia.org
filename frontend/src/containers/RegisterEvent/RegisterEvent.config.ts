@@ -83,7 +83,7 @@ export const REGISTER_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
   [
     {
       name: 'include_in_attendee_list',
-      label: `I would like to be included in the attendee's list`,
+      label: "I would like to be included in the attendee's list",
       placeholder: '',
       type: 'checkbox',
     },
