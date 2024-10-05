@@ -58,7 +58,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
             href={partner.website || '#'}
             target='_blank'
             rel='noopener noreferrer'
-            className='w-[180px] h-[120px] relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden p-4 flex flex-col items-center justify-center text-center'
+            className='w-[40%] md:w-1/3 lg:w-[22%] h-[120px] relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden p-4 flex flex-col items-center justify-center text-center'
           >
             {partner?.logo ? (
               <Image

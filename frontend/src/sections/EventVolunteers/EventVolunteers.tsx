@@ -60,14 +60,14 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
         {volunteers.map((volunteer, index) => (
           <div
             key={index}
-            className='relative bg-white rounded-2xl shadow-sm transition-all duration-300 hover:shadow-lg group flex items-center gap-4 p-5 w-full md:w-1/3 lg:w-1/4 h-[150px] overflow-hidden'
+            className='relative bg-white rounded-2xl shadow-sm transition-all duration-300 hover:shadow-lg group flex items-center gap-4 p-5 w-full md:w-1/3 lg:w-[23%] h-[150px] overflow-hidden'
           >
-            <div className='absolute inset-0 flex items-center gap-6 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 p-4'>
+            <div className='absolute inset-0 flex items-center gap-3 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 p-4'>
                 <Image
                   src={volunteer.photo ? volunteer.photo: account}
                   alt={`${volunteer.name || 'Volunteer'}'s photo`}
-                  width={70}
-                  height={70}
+                  width={60}
+                  height={60}
                   objectFit='cover'
                   className='rounded-full border border-gray-300'
                 />

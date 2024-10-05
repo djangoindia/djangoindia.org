@@ -33,7 +33,7 @@ type EventSponsorsProps = {
 const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasHoverEffect }) => (
     <div className='flex flex-col gap-2'>
       <h5 className='text-xl font-semibold text-[#06038D]'>{splitAndCapitalize(level)}</h5>
-      <div className='flex flex-wrap gap-12'>
+      <div className='flex flex-wrap gap-10'>
         {sponsors.map((sponsor, index) => (
           <Link
             key={index}
