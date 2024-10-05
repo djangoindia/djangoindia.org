@@ -1,6 +1,6 @@
 import React from 'react'
 import EventCard from './EventCard'
-import dayjsWithTZ from '@/utils/dayjsWithTZ'
+import { dayjsWithTZ } from '@utils'
 
 import {
   Carousel,

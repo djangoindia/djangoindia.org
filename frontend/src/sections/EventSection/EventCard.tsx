@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import dayjsWithTZ from '@/utils/dayjsWithTZ'
+import { dayjsWithTZ } from '@utils'
 import event2 from '../../../public/02.svg'
 import event3 from '../../../public/03.svg'
 import event_mode_img from '../../../public/event_mode.svg'

@@ -3,7 +3,7 @@ import React from 'react'
 import event1 from '../../../public/01.svg'
 import wave1 from '../../../public/wave01.png'
 import wave2 from '../../../public/wave02.png'
-import dayjsWithTZ from '@/utils/dayjsWithTZ'
+import { dayjsWithTZ } from '@utils'
 
 
 import { Button } from '@/components'

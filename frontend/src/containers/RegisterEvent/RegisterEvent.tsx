@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import dayjsWithTZ from '@/utils/dayjsWithTZ'
+import { dayjsWithTZ } from '@utils'
 
 import {
   Drawer,

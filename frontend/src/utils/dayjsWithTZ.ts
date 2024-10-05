@@ -5,10 +5,8 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const DEFAULT_TIMEZONE = 'Asia/Kolkata';
+export const DEFAULT_TIMEZONE = 'Asia/Kolkata';
 
-const dayjsWithTZ = (date?: dayjs.ConfigType) => {
+export const dayjsWithTZ = (date?: dayjs.ConfigType) => {
     return dayjs(date).tz(DEFAULT_TIMEZONE);
 };
-
-export default dayjsWithTZ;
