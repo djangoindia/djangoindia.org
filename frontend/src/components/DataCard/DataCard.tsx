@@ -88,4 +88,3 @@ const StatCard: React.FC<StatCardProps> = ({ title, subText, count, startCount, 
     </div>
   );
 };
-
