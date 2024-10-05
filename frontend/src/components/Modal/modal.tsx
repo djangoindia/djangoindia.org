@@ -11,6 +11,7 @@ import { Button } from '../Button';
 
 interface ModalProps {
   onClose: () => void;
+  children?: React.ReactNode;
 }
 
 const Modal: React.FC<ModalProps> = ({ onClose }) => {

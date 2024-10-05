@@ -6,6 +6,7 @@ class SponsorDetailsSerializer(serializers.Serializer):
     type = serializers.CharField()
     logo = serializers.ImageField()
     url = serializers.URLField(allow_blank=True, allow_null=True)
+    description=serializers.CharField()
     
 class SponsorSerializer(serializers.Serializer):
     sponsor_details = SponsorDetailsSerializer()

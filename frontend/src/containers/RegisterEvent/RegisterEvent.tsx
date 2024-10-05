@@ -126,7 +126,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
           {...rest}
         >
           <form
-            className='sm:w-2/4 w-5/6 flex flex-col mx-auto gap-6 mt-10  h-full' // Added h-full and overflow-y-auto
+            className='sm:w-2/4 w-5/6 flex flex-col mx-auto gap-6 mt-10 h-full'
             onSubmit={handleSubmit(onSubmit)}
           >
             {REGISTER_FORM_FIELDS.map((item, i) =>
@@ -146,11 +146,11 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                         render={({ field }) => (
                           <FormItem>
                             {type === 'checkbox' ? (
-                              <div className='flex items-center gap-2'>
-                                <FormLabel>{label}</FormLabel>
+                              <div className='flex items-center gap-0'>
                                 <FormControl>
-                                  <Input type='checkbox' {...field} />
+                                  <Input type='checkbox' onChange={field.onChange} />
                                 </FormControl>
+                                <FormLabel className='mb-0'>{label}</FormLabel>
                               </div>
                               ):(
                                 <>
@@ -158,7 +158,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                             {type === 'select' ? (
                               <Select
                                 onValueChange={field.onChange}
-                                defaultValue={field.value}
+                                defaultValue={String(field.value)}
                               >
                                 <FormControl>
                                   <SelectTrigger>
@@ -175,10 +175,9 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                               </Select>
                             ) : (
                               <FormControl>
-                                <Input
-                                  type={type}
+                                <Input type={type}
                                   placeholder={placeholder}
-                                  {...field}
+                                  onChange={field.onChange}
                                 />
                               </FormControl>
                             )}
@@ -207,7 +206,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                         {item.type === 'select' ? (
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            defaultValue={String(field.value)}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -224,10 +223,9 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
                           </Select>
                         ) : (
                           <FormControl>
-                            <Input
-                              type={item.type}
+                            <Input type={item.type}
                               placeholder={item.placeholder}
-                              {...field}
+                              onChange={field.onChange}
                             />
                           </FormControl>
                         )}

@@ -17,6 +17,9 @@ import Link from 'next/link'
 import { calculateDuration } from '@/utils'
 import sanitizeHtml from 'sanitize-html';
 import splitAndCapitalize from '../../utils/formatKey'
+import { EventVolunteers } from '@/sections/EventVolunteers'
+import { CommunityPartners } from '@/sections/CommunityPartners'
+import { EventSponsors } from '@/sections/EventSponsors'
 
 const EventContainer = async ({
   event: {
@@ -32,6 +35,9 @@ const EventContainer = async ({
     start_date,
     registration_end_date,
     seats_left,
+    sponsors,
+    partners,
+    volunteers
   },
 }: {
   event: Event
@@ -71,7 +77,7 @@ const EventContainer = async ({
           {start_date?(<span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>):(<span>Starts: TBA</span>)}
           {city && <span>City: {city}</span>}
           {seats_left != null&& <span>Seats left: {seats_left}</span>}
-          <RegisterEvent seats_left={seats_left} registration_end_date={registration_end_date} />
+          <RegisterEvent eventId={id}  seats_left={seats_left} registration_end_date={registration_end_date} />
           <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
@@ -124,6 +130,13 @@ const EventContainer = async ({
               ></iframe>
             )}
           </div>
+          {sponsors && <EventSponsors sponsors={sponsors} />}
+
+          {partners && <CommunityPartners partners={partners} />}
+
+          {volunteers && <EventVolunteers volunteers={volunteers} />}
+
+
         </div>
       </div>
       <div className='bg-orange-100	relative w-full p-12 mt-24 flex flex-col items-center gap-3 overflow-hidden'>

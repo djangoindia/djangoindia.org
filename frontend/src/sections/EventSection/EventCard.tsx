@@ -73,14 +73,14 @@ const EventCard: React.FC<EventProps> = ({
             {title}
           </h2>
           <p className='text-gray-700 mb-2 line-clamp-4 flex items-center ml-0'>
-          <Image src={event_mode_img} width={26} height={26} className='mr-1'/>
+          <Image src={event_mode_img} alt='event-mode' width={26} height={26} className='mr-1'/>
             {splitAndCapitalize(event_mode)}
           </p>
           {<p className='text-gray-700 mb-2 line-clamp-4 flex items-center'>
-            <Image src={city_img} width={26} height={26} className='mr-1'/>
+            <Image src={city_img} alt='city' width={26} height={26} className='mr-1'/>
             {city ? city:'TBA'}
           </p>}
-          {seats_left && (<p className='flex items-center'><Image src={seats} width={26} height={26} className='mr-1'/>{seats_left} Seats left</p>)}
+          {seats_left && (<p className='flex items-center'><Image src={seats} alt='seats' width={26} height={26} className='mr-1'/>{seats_left} Seats left</p>)}
         </div>
       </div>
     </div>
