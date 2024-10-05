@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import dayjs from 'dayjs'
+import { dayjsWithTZ } from '@utils'
 import event2 from '../../../public/02.svg'
 import event3 from '../../../public/03.svg'
 import event_mode_img from '../../../public/event_mode.svg'
@@ -56,15 +56,15 @@ const EventCard: React.FC<EventProps> = ({
         {date && (<div className='w-1/5'>
           <div className='mb-2 justify-center'>
             <span className='text-xl font-bold justify-center'>
-              {dayjs(date).format('MMM')}
+              {dayjsWithTZ(date).format('MMM')}
             </span>
             <br />
             <span className='text-xl font-bold justify-center'>
-              {dayjs(date).format('YY')}
+              {dayjsWithTZ(date).format('YY')}
             </span>
             <br/>
             <span className='text-xs font-bold justify-center'>
-              {dayjs(time).format('hh:mm A')}
+              {dayjsWithTZ(time).format('hh:mm A')}
             </span>
           </div>
         </div>)}

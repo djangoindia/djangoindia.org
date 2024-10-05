@@ -1,6 +1,6 @@
 import React from 'react'
 import EventCard from './EventCard'
-import dayjs from 'dayjs'
+import { dayjsWithTZ } from '@utils'
 
 import {
   Carousel,
@@ -11,19 +11,14 @@ import {
 import { fetchData } from '@/utils'
 import { API_ENDPOINTS } from '@/constants'
 import { EventsResponse } from '@/types'
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 const Main: React.FC = async () => {
   const { data: events, error } = await fetchData<EventsResponse>(
     API_ENDPOINTS.events,
   )
   const filtered_events = events?.filter((event) => {
-    const eventStartDate = dayjs(event.start_date).tz('Asia/Kolkata');
-    const currentDate = dayjs().tz('Asia/Kolkata');
+    const eventStartDate = dayjsWithTZ(event.start_date);
+    const currentDate = dayjsWithTZ();
 
     return eventStartDate.isAfter(currentDate) || event.start_date === null
   });
