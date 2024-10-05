@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import React from 'react';
 import splitAndCapitalize from '../../utils/formatKey'
+import Link from 'next/link';
 
 type SponsorDetails = {
   name?: string;
@@ -27,13 +28,12 @@ type EventSponsorsProps = {
   sponsors?: Sponsor[];
 };
 
-const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasHoverEffect }) => {
-  return (
+const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasHoverEffect }) => (
     <div className='flex flex-col gap-2'>
       <h5 className='text-xl font-semibold text-[#06038D]'>{splitAndCapitalize(level)}</h5>
       <div className='flex flex-wrap gap-12'>
         {sponsors.map((sponsor, index) => (
-          <a
+          <Link
             key={index}
             href={sponsor.url || '#'}
             target='_blank'
@@ -72,12 +72,11 @@ const SponsorLevel: React.FC<SponsorLevelProps> = ({ level, sponsors, size, hasH
                 </p>
               </div>
             )}
-          </a>
+          </Link>
         ))}
       </div>
     </div>
   );
-};
 
 const EventSponsors: React.FC<EventSponsorsProps> = ({ sponsors = [] }) => {
   if (sponsors.length === 0) {

@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Partner = {
   name?: string; 
@@ -30,29 +31,27 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
       </p>
       <div className='flex flex-wrap gap-12'>
         {partners.map((partner, index) => (
-          <a
+          <Link
             key={index}
             href={partner.website || '#'}
             target='_blank'
             rel='noopener noreferrer'
-            style={{ width: '180px', height: '120px' }}
-            className='relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden p-4 flex flex-col items-center justify-center text-center'
+            className='w-[180px] h-[120px] relative bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md group overflow-hidden p-4 flex flex-col items-center justify-center text-center'
           >
             {partner?.logo ? (
               <Image
-                src={partner.logo}
+                src={`/${partner.logo}`}
                 alt={`${partner?.name || 'Partner'} logo`}
                 width={120}
                 height={100}
-                style={{height: `100%` }}
-                className='rounded-lg mb-2 object-contain'
+                className='rounded-lg mb-2 object-contain h-full'
               />
             ) : (
               <div className='flex justify-center items-center p-4'>
                 <p className='text-gray-400 italic'>No logo available</p>
               </div>
             )}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

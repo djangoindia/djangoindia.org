@@ -2,7 +2,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import account from '../../../public/account.png'
+import account from '../../../public/account.png';
+import Link from 'next/link';
 
 type Volunteer = {
   name?: string; 
@@ -37,8 +38,7 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
         {volunteers.map((volunteer, index) => (
           <div
             key={index}
-            className='relative bg-white rounded-2xl shadow-sm transition-all duration-300 hover:shadow-lg group flex items-center gap-4 p-5 w-full md:w-1/3 lg:w-1/4'
-            style={{ height: '150px', overflow: 'hidden' }}
+            className='relative bg-white rounded-2xl shadow-sm transition-all duration-300 hover:shadow-lg group flex items-center gap-4 p-5 w-full md:w-1/3 lg:w-1/4 h-[150px] overflow-hidden'
           >
             <div className='absolute inset-0 flex items-center gap-6 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 p-4'>
                 <Image
@@ -65,34 +65,34 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
               {volunteer.email || volunteer.linkedin || volunteer.twitter ? (
                 <div className='flex gap-8'>
                   {volunteer.email && (
-                    <a
+                    <Link
                       href={`mailto:${volunteer.email}`}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='text-gray-600 hover:text-blue-600'
                     >
                       <FaEnvelope size={28} />
-                    </a>
+                    </Link>
                   )}
                   {volunteer.linkedin && (
-                    <a
+                    <Link
                       href={volunteer.linkedin}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='text-gray-600 hover:text-blue-600'
                     >
                       <FaLinkedin size={28} />
-                    </a>
+                    </Link>
                   )}
                   {volunteer.twitter && (
-                    <a
+                    <Link
                       href={volunteer.twitter}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='text-gray-600 hover:text-blue-600'
                     >
                       <FaTwitter size={28} />
-                    </a>
+                    </Link>
                   )}
                 </div>
               ) : (
