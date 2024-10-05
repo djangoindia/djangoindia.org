@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import dayjs from 'dayjs';
+import dayjsWithTZ from '@/utils/dayjsWithTZ'
 
 import {
   Drawer,
@@ -79,8 +79,8 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
     setIsOpen(false)
   }
 
-  const currentDate = dayjs();
-  const registrationEndDate = dayjs(registration_end_date);
+  const currentDate = dayjsWithTZ();
+  const registrationEndDate = dayjsWithTZ(registration_end_date);
   const isRegistrationOpen = seats_left > 0 && currentDate.isBefore(registrationEndDate);
   const isFull = seats_left === 0;
 

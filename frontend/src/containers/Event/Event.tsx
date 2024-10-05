@@ -3,8 +3,8 @@ import React from 'react'
 import event1 from '../../../public/01.svg'
 import wave1 from '../../../public/wave01.png'
 import wave2 from '../../../public/wave02.png'
+import dayjsWithTZ from '@/utils/dayjsWithTZ'
 
-import dayjs from 'dayjs'
 
 import { Button } from '@/components'
 import { CiClock1, CiLocationOn } from 'react-icons/ci'
@@ -74,7 +74,7 @@ const EventContainer = async ({
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-6xl font-bold'>{name}</h2>
-          {start_date?(<span>Starts {dayjs(start_date).format('DD MMMM, YYYY')} at {dayjs(start_date).format('hh:mm A')}</span>):(<span>Starts: TBA</span>)}
+          {start_date?(<span>Starts {dayjsWithTZ(start_date).format('DD MMMM, YYYY')} at {dayjsWithTZ(start_date).format('hh:mm A')} (IST)</span>):(<span>Starts: TBA</span>)}
           {city && <span>City: {city}</span>}
           {seats_left != null&& <span>Seats left: {seats_left}</span>}
           <RegisterEvent eventId={id}  seats_left={seats_left} registration_end_date={registration_end_date} />
@@ -92,13 +92,13 @@ const EventContainer = async ({
             {start_date ? (<>
               <span className='flex items-center gap-2'>
               <SlCalender />
-              {dayjs(start_date).format('DD MMMM, YYYY')}
-              {end_date && ` - ${dayjs(end_date).format('DD MMMM, YYYY')}`}
+              {dayjsWithTZ(start_date).format('DD MMMM, YYYY')}
+              {end_date && ` - ${dayjsWithTZ(end_date).format('DD MMMM, YYYY')}`}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
-              {dayjs(start_date).format('hh:mm A')}
-              {end_date && ` - ${dayjs(end_date).format('hh:mm A')}`}
+              {dayjsWithTZ(start_date).format('hh:mm A')}
+              {end_date && ` - ${dayjsWithTZ(end_date).format('hh:mm A')}`}
             </span>
             {/* TODO: Use text variant of button */}
             <Button className='w-fit' asChild>
@@ -145,7 +145,7 @@ const EventContainer = async ({
         <h5 className='text-4xl	font-bold text-blue-900 text-center'>
           RSVP for this event now!
         </h5>
-        {registration_end_date? (<span>Registration ends: {dayjs(registration_end_date).format('DD MMMM, YYYY')} at {dayjs(registration_end_date).format('hh:mm A')}</span>):(<span>Registration ends: TBA</span>)}
+        {registration_end_date? (<span>Registration ends: {dayjsWithTZ(registration_end_date).format('DD MMMM, YYYY')} at {dayjsWithTZ(registration_end_date).format('hh:mm A')} (IST)</span>):(<span>Registration ends: TBA</span>)}
         <span className='flex items-center gap-2'>
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
