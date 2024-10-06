@@ -61,7 +61,7 @@ class EventRegistrationResource(resources.ModelResource):
 class EventRegistrationAdmin(ImportExportModelAdmin):
     list_display = ('event', 'first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
-    list_filter = ('event',)
+    list_filter = ('event__name',)
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
     resource_class = EventRegistrationResource

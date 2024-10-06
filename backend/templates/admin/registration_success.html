@@ -13,7 +13,7 @@
             background-color: #f4f4f4;
         }
         .container {
-            max-width: 600px;
+            max-width: 90%;
             margin: 40px auto;
             background-color: #fff;
             border-radius: 10px;
@@ -93,7 +93,7 @@
     <div class="container">
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Thank you for registering for the Django india launch event. We are thrilled to have you join us. Below are the details:</p>
+            <p>Thank you for registering for the {{event.name}}. We are thrilled to have you join us. Below are the details:</p>
             <div class="details">
                 <p><strong>Event:</strong> {{ event.name }}</p>
                 {% if event.end_date %}
@@ -111,7 +111,7 @@
                     <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 {% endif %}
             </div>
-            <p>We look forward to seeing you there! If you have any queries, you can contact us @<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
+            <p>We look forward to seeing you there! If you have any queries, you can contact us at <a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
             <p>Best regards,<br/>Team Django India</p>
             <div class="bottom-section">
                 <p>Follow us on social media:</p>
