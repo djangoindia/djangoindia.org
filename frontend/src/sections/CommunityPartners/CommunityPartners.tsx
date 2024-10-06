@@ -62,7 +62,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
           >
             {partner?.logo ? (
               <Image
-                src={`/${partner.logo}`}
+                src={partner.logo}
                 alt={`${partner?.name || 'Partner'} logo`}
                 width={120}
                 height={100}

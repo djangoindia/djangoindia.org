@@ -4,8 +4,8 @@ from djangoindia.api.serializers.event import (
     EventLiteSerializer,
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
-from djangoindia.db.models import Event, EventRegistration,Volunteer, Sponsorship
-from rest_framework import generics, status
+from djangoindia.db.models import Event, EventRegistration,Volunteer, Sponsorship,CommunityPartner
+from rest_framework import generics, status, viewsets
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 
@@ -15,7 +15,7 @@ from django.utils import timezone
 
 # Create your views here.
 class EventAPIView(
-    generics.GenericAPIView, ListModelMixin, CreateModelMixin, RetrieveModelMixin
+    viewsets.ModelViewSet
 ):
     lookup_field = "slug"
     queryset = Event.objects.all().prefetch_related(
@@ -52,18 +52,23 @@ class EventAPIView(
             return EventRegistrationSerializer
         return EventLiteSerializer
 
-    def get(self, request, *args, **kwargs):
-        try:
-            if (
-                PRIMARY_KEY_SHORT in kwargs
-            ):  # If pk is provided, retrieve a single instance
-                serializer = EventSerializer(self.get_object())
-                return Response(serializer.data)
-            return self.list(request, *args, **kwargs)  # Otherwise, list all instances
-        except Exception as e:
-            return Response(
-                {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        all_community_partners = CommunityPartner.objects.all()
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, context={'all_community_partners': all_community_partners})
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True, context={'all_community_partners': all_community_partners})
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        all_community_partners = CommunityPartner.objects.all()
+        serializer = EventSerializer(instance, context={'all_community_partners': all_community_partners})
+        return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         try:
