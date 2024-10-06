@@ -63,14 +63,15 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
             className='relative bg-white rounded-2xl shadow-sm transition-all duration-300 hover:shadow-lg group flex items-center gap-4 p-5 w-full md:w-1/3 lg:w-[23%] h-[150px] overflow-hidden'
           >
             <div className='absolute inset-0 flex items-center gap-3 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 p-4'>
+            <div className='w-[60px] h-[60px] flex-shrink-0'>
                 <Image
-                  src={volunteer.photo ? volunteer.photo: account}
+                  src={volunteer.photo ? `http://localhost:8000${volunteer.photo}`: account}
                   alt={`${volunteer.name || 'Volunteer'}'s photo`}
                   width={60}
                   height={60}
-                  objectFit='cover'
-                  className='rounded-full border border-gray-300'
+                  className='rounded-full border border-gray-300 object-cover w-full h-full'
                 />
+                </div>
               <div className='flex flex-col'>
                 <h6 className='text-lg font-semibold text-gray-800'>
                   {volunteer.name ? volunteer.name : 'Anonymous Volunteer'}
