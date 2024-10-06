@@ -13,7 +13,7 @@
             background-color: #f4f4f4;
         }
         .container {
-            max-width: 90%;
+            max-width: 600px;
             margin: 40px auto;
             background-color: #fff;
             border-radius: 10px;
@@ -107,9 +107,6 @@
                 <p><strong>Venue:</strong> {{ event.venue }}</p>
                 {% endif %}
                 <p><strong>Mode:</strong> {{ event.event_mode }}</p>
-                {% if event.venue_map_link %}
-                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                {% endif %}
             </div>
             <p>We look forward to seeing you there! If you have any queries, you can contact us at <a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
             <p>Best regards,<br/>Team Django India</p>

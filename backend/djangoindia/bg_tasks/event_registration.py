@@ -25,8 +25,7 @@ def registration_confirmation_email_task(email, event_id):
                 'event_mode': format_text(registration.event.event_mode),
                 'venue': registration.event.venue,
                 'description': registration.event.description,
-                'cover_image': registration.event.cover_image if registration.event.cover_image else None,
-                'venue_map_link': registration.event.venue_map_link
+                'cover_image': registration.event.cover_image if registration.event.cover_image else None
             }
         }
         html_content = render_to_string('admin/registration_success.html', context)
