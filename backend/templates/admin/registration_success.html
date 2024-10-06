@@ -4,19 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Confirmation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
     <style>
-        :root {
-            --primary-color: #144D3D;
-            --background-color: #f4f4f4;
-            --text-color: #333;
-            --light-text-color: #666;
-        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
         }
         .container {
             max-width: 600px;
@@ -24,19 +16,20 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
         .content {
             padding: 20px;
         }
-        h2 {
-            color: var(--primary-color);
+        .content h2 {
+            color: #144D3D;
             margin-top: 0;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
         }
-        p {
-            color: var(--light-text-color);
-            margin-bottom: 1em;
+        .content p {
+            line-height: 1.8;
+            color: #666;
         }
         .details {
             margin: 20px 0;
@@ -46,42 +39,44 @@
         }
         .details p {
             margin: 10px 0;
-            color: var(--text-color);
+            color: #333;
         }
-        .details strong {
+        .details p strong {
             display: inline-block;
             width: 100px;
-            font-weight: 600;
         }
         .footer {
-            background-color: var(--primary-color);
+            background-color: #144D3D;
             text-align: center;
             padding: 20px;
-            
+            color: #fff;
             font-size: 14px;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
         }
-        .footer > p {
-            color: #fff;
+        .footer p {
+            margin: 0;
         }
         .social-links {
             list-style: none;
             padding: 0;
-            margin: 20px 0;
+            margin: 0;
             display: flex;
             justify-content: center;
         }
         .social-links li {
             margin: 0 10px;
         }
-        .social-links img {
-            width: 24px;
-            height: 24px;
+        .social-links a {
+            color: #144D3D;
+            transition: color 0.2s ease;
         }
-        .bottom-section {
-            text-align: center;
-            font-size: 14px;
+        .social-links a:hover {
+            color: #333;
+        }
+        .bottom-section p{
+           text-align: center;
+           font-size: smaller;
         }
     </style>
 </head>
@@ -89,7 +84,7 @@
     <div class="container">
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Thank you for registering for the {{event.name}}. We are thrilled to have you join us. Below are the details:</p>
+            <p>Thank you for registering for the Django india launch event. We are thrilled to have you join us. Below are the details:</p>
             <div class="details">
                 <p><strong>Event:</strong> {{ event.name }}</p>
                 {% if event.end_date %}
@@ -104,18 +99,18 @@
                 {% endif %}
                 <p><strong>Mode:</strong> {{ event.event_mode }}</p>
             </div>
-            <p>We look forward to seeing you there! If you have any queries, you can contact us at <a href="mailto:admin@djangoindia.org">admin@djangoindia.org</a></p>
-            <p>Best regards,<br>Team Django India</p>
+            <p>We look forward to seeing you there! If you have any queries, you can contact us @<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
+            <p>Best regards,<br/>Team Django India</p>
             <div class="bottom-section">
                 <p>Follow us on social media:</p>
                 <ul class="social-links">
-                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/twitterx--v1.png" alt="Twitter"></a></li>
-                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/instagram-new--v1.png" alt="Instagram"></a></li>
-                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/youtube-play--v1.png" alt="YouTube"></a></li>
-                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/discord-logo--v1.png" alt="Discord"></a></li>
-                    <li><a href="https://github.com/djangoindia" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/github.png" alt="GitHub"></a></li>
-                    <li><a href="https://www.reddit.com/r/djangoindia/" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/reddit.png" alt="Reddit"></a></li>
-                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/material/24/linkedin--v1.png" alt="LinkedIn"></a></li>
+                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/twitterx--v1.png" alt="twitterx--v1"/></a></li>
+                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/instagram-new--v1.png" alt="instagram-new--v1"/></a></li>
+                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/youtube-play--v1.png" alt="youtube-play--v1"/></a></li>
+                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/discord-logo--v1.png" alt="discord-logo--v1"/></a></li>
+                    <li><a href="https://github.com/djangoindia" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/github.png" alt="github"/></a></li>
+                    <li><a href="https://www.reddit.com/r/djangoindia/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/reddit.png" alt="reddit"/></a></li>
+                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/linkedin--v1.png" alt="linkedin--v1"/></a></li>
                 </ul>
             </div>
         </div>
