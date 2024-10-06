@@ -21,7 +21,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
       <div className='flex flex-col items-left justify-left py-10'>
         <div className='flex items-center'>
           <h4 className='text-2xl font-bold'>Community Partners</h4>
-          <Link href={process.env.COMMUNITY_PARTNER_FORM || '#'} target='_blank' passHref>
+          <Link href={process.env.NEXT_PUBLIC_COMMUNITY_PARTNER_FORM || '#'} target='_blank' passHref>
             <Button className='ml-2 group transition-all linear overflow-hidden'>
               <span className='w-0 group-hover:w-auto overflow-hidden whitespace-nowrap transition-all linear'>
                 Become a community partner
@@ -39,7 +39,7 @@ const CommunityPartners: React.FC<CommunityPartnersProps> = ({ partners = [] }) 
     <div className='flex flex-col gap-6 py-10'>
       <div className='flex items-center'>
           <h4 className='text-2xl font-bold'>Community Partners</h4>
-          <Link href={process.env.COMMUNITY_PARTNER_FORM || '#'} target='_blank' passHref>
+          <Link href={process.env.NEXT_PUBLIC_COMMUNITY_PARTNER_FORM || '#'} target='_blank' passHref>
             <Button className='ml-2 group transition-all linear overflow-hidden'>
               <span className='w-0 group-hover:w-auto overflow-hidden whitespace-nowrap transition-all linear'>
                 Become a community partner

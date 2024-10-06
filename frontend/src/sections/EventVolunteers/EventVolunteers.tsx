@@ -26,7 +26,7 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
       <div className='flex flex-col items-left justify-left py-10'>
         <div className='flex items-center'>
           <h4 className='text-2xl font-bold'>Event Volunteers</h4>
-          <Link href={process.env.EVENT_VOLUNTEER_FORM || '#'} target='_blank' passHref>
+          <Link href={process.env.NEXT_PUBLIC_EVENT_VOLUNTEER_FORM || '#'} target='_blank' passHref>
             <Button className='ml-2 group transition-all linear overflow-hidden'>
               <span className='w-0 group-hover:w-auto overflow-hidden whitespace-nowrap transition-all linear'>
                 Become a volunteer
@@ -44,7 +44,7 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({ volunteers = [] }) =>
     <div className='flex flex-col gap-8 py-10'>
       <div className='flex items-center'>
           <h4 className='text-2xl font-bold'>Event Volunteers</h4>
-          <Link href={process.env.EVENT_VOLUNTEER_FORM || '#'} target='_blank' passHref>
+          <Link href={process.env.NEXT_PUBLIC_EVENT_VOLUNTEER_FORM || '#'} target='_blank' passHref>
             <Button className='ml-2 group transition-all linear overflow-hidden'>
               <span className='w-0 group-hover:w-auto overflow-hidden whitespace-nowrap transition-all linear'>
                 Become a volunteer
