@@ -37,7 +37,6 @@ class EventSerializer(EventLiteSerializer):
 
     def get_partners(self, obj):
         partners = self.context.get('all_community_partners', [])
-        print(partners)
         return CommunityPartnerSerializer(partners, many=True, context=self.context).data
 
 

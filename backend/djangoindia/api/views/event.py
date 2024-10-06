@@ -55,12 +55,6 @@ class EventAPIView(
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         all_community_partners = CommunityPartner.objects.all()
-        
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True, context={'all_community_partners': all_community_partners})
-            return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(queryset, many=True, context={'all_community_partners': all_community_partners})
         return Response(serializer.data)
 
@@ -76,11 +70,11 @@ class EventAPIView(
             email = request.data.get("email")
             
             event = self.get_event(event_id)
-            self.validate_event_registration(event)
-            self.check_existing_registration(email, event_id)
+            self._validate_event_registration(event)
+            self._check_existing_registration(email, event_id)
             
             self.create(request, *args, **kwargs)
-            self.send_confirmation_email(email, event_id)
+            self._send_confirmation_email(email, event_id)
             
             return Response(
                 {"message": "You're in! We've sent a shiny email to your inbox. Time to celebrate!"},
@@ -99,7 +93,7 @@ class EventAPIView(
         except Event.DoesNotExist:
             raise ValidationError("Event not found.")
 
-    def validate_event_registration(self, event):
+    def _validate_event_registration(self, event):
         if event.registration_end_date <= timezone.now():
             raise ValidationError("Registration has already ended for this event.")
         if event.seats_left is None:
@@ -108,11 +102,11 @@ class EventAPIView(
             raise ValidationError("Unfortunately, there are no more seats left for the event.")
 
 
-    def check_existing_registration(self, email, event_id):
+    def _check_existing_registration(self, email, event_id):
         if EventRegistration.objects.filter(email=email, event=event_id).exists():
             raise ConflictError("We get it, you're excited. But you've already secured your ticket!")
 
-    def send_confirmation_email(self, email, event_id):
+    def _send_confirmation_email(self, email, event_id):
         registration_confirmation_email_task.delay(email, event_id)
 
 class ValidationError(Exception):
