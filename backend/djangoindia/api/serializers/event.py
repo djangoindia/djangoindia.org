@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.partner_and_sponsor import CommunityPartner
-from .partner_and_sponsor import SponsorSerializer
+from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsor
+from .partner_and_sponsor import SponsorSerializer, CommunityPartnerSerializer
 from .volunteer import VolunteerSerializer
 
 
@@ -36,7 +36,10 @@ class EventSerializer(EventLiteSerializer):
     volunteers = VolunteerSerializer(many=True, read_only=True, source='event_volunteers')
 
     def get_partners(self, obj):
-        return CommunityPartner.objects.values("name","logo","website","description")
+        partners = self.context.get('all_community_partners', [])
+        print(partners)
+        return CommunityPartnerSerializer(partners, many=True, context=self.context).data
+
 
 class EventRegistrationSerializer(serializers.Serializer):
     event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
