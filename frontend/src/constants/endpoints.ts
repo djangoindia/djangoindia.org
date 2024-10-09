@@ -3,4 +3,5 @@ export const API_ENDPOINTS = {
   subscriber: '/subscriber',
   events: '/events',
   event: '/events/:id',
+  registerEvent: '/events/:id',
 }

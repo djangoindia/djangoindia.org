@@ -1,11 +1,38 @@
 'use client'
 
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import Update from '../Latestupdate/LatestUpdate'
+import Modal from '@/components/Modal/modal'
+import { Button } from '@/components'
 
 const HeroSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  }
+
+  // Effect to handle body scroll when the modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      // Disable scrolling when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Enable scrolling when modal is closed
+      document.body.style.overflow = 'auto';
+    }
+
+    // Clean up when the component is unmounted
+    return () => {
+      document.body.style.overflow = 'auto'; // Ensure scrolling is restored
+    };
+  }, [isModalOpen]);
+
   return (
     <section className='relative h-auto w-full bg-[#f9f4ee]'>
       <div className='relative flex w-full items-start justify-center overflow-hidden lg:h-[750px]'>
+        {/* Hero images */}
         <Image
           src='/HeroRight.png'
           width={600}
@@ -19,7 +46,7 @@ const HeroSection = () => {
           width={200}
           height={200}
           alt='hero'
-          className=' xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
+          className='xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
         />
 
         <div className='z-10 flex h-auto w-full max-w-[1200px] flex-col justify-center gap-8 px-10 pb-10 pt-10 xl:pt-16'>
@@ -61,8 +88,16 @@ const HeroSection = () => {
                     <div className='text-black'>
                       from India & across the globe, to
                     </div>
-                    <div className='pb-2 text-black'> share, learn, and grow <strong>together.</strong></div>
-                    {/* <Button>Subscribe</Button> */}
+                    <div className='pb-2 text-black'>
+                      share, learn, and grow <strong>together.</strong>
+                    </div>
+
+                    {/* CTA Button */}
+                    <Button
+                      onClick={toggleModal}
+                    >
+                      Subscribe for Updates
+                   </Button>
                   </div>
                 </div>
               </div>
@@ -70,6 +105,13 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal for CTA form */}
+      {isModalOpen && (
+        <Modal onClose={toggleModal}>
+          <Update />
+        </Modal>
+      )}
     </section>
   )
 }

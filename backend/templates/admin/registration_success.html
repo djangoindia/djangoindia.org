@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Confirmation</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -19,23 +17,6 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             padding: 20px;
-        }
-        .header {
-            background-color: #144D3D;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-        .header img {
-            width: 80px;
-            margin-top: 20px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 600;
         }
         .content {
             padding: 20px;
@@ -101,13 +82,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            {% if event.cover_image %}
-                <img src="{{ event.cover_image }}" alt="Event Cover Image">
-            {% else %}
-            <img src="https://raw.githubusercontent.com/djangoindia/djangoindia.org/main/assets/djangoindia-logo.png" alt="Logo">
-            {% endif %}
-        </div>
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
             <p>Thank you for registering for the Django india launch event. We are thrilled to have you join us. Below are the details:</p>
@@ -124,13 +98,9 @@
                 <p><strong>Venue:</strong> {{ event.venue }}</p>
                 {% endif %}
                 <p><strong>Mode:</strong> {{ event.event_mode }}</p>
-                {% if event.venue_map_link %}
-                    <p><strong>Venue Map:</strong> <iframe src="{{ event.venue_map_link }}" width="400" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                {% endif %}
             </div>
             <p>We look forward to seeing you there! If you have any queries, you can contact us @<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
-            <p>Best regards,</p>
-            <p>Team Django India</p>
+            <p>Best regards,<br/>Team Django India</p>
             <div class="bottom-section">
                 <p>Follow us on social media:</p>
                 <ul class="social-links">

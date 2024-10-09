@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     "djangoindia.bg_tasks",
     "djangoindia.db",
     "rest_framework",
-    'drf_spectacular'
+    'drf_spectacular',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -169,3 +170,6 @@ SPECTACULAR_SETTINGS = {
 CORS_ORIGIN_ALLOW_ALL=True
 AWS_MEDIA_STORAGE_LOCATION = "media"  # Prefix added to all the files uploaded
 AWS_STATIC_STORAGE_LOCATION = "static"  # Prefix added to all the files uploaded
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600 # 100 mb
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600 # 100 mb

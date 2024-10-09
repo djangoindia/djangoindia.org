@@ -1,8 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { Button } from '@components'
+import { Button, DataCard } from '@components'
 import useWidth from '@/hooks/useWidth'
+
 
 const WhatIsDjango = () => {
   const width = useWidth()
@@ -70,6 +71,7 @@ const WhatIsDjango = () => {
           </div>
         </div>
       </section>
+      <DataCard />
     </section>
   )
 }

@@ -2,9 +2,12 @@
 from django.contrib import admin
 
 from .forms import EventForm, EmailForm, UpdateForm
-from djangoindia.db.models.event import Event, EventRegistration,Sponsor,Sponsorship
+from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.partner_and_sponsor import Sponsor, Sponsorship, CommunityPartner
 from djangoindia.db.models.communication import Subscriber, ContactUs
 from djangoindia.db.models.update import Update
+from djangoindia.db.models.volunteer import Volunteer
+from djangoindia.db.models.partner_and_sponsor import CommunityPartner
 
 from django.core.mail import send_mass_mail
 from django.conf import settings
@@ -12,9 +15,13 @@ from django.shortcuts import redirect
 from django.urls import path
 from django.template.response import TemplateResponse
 from django.contrib import messages
+from django.db import transaction
+from django.db.models import F, Count
 
+from import_export import resources,fields
+from import_export.admin import ImportExportModelAdmin
+from import_export.widgets import ForeignKeyWidget
 
-# Register your models here.
 
 @admin.action(description="Send email to selected users")
 def send_email_to_selected_users(modeladmin, request, queryset):
@@ -23,28 +30,41 @@ def send_email_to_selected_users(modeladmin, request, queryset):
 
 class SponsorInline(admin.TabularInline):
     model = Sponsorship
-    extra = 1 
+    extra = 1
 
-class EventRegistrationInline(admin.TabularInline):
-    model = EventRegistration
-    extra = 0
-    readonly_fields = [field.name for field in EventRegistration._meta.get_fields()]
-
+class EventVolunteerInline(admin.StackedInline):
+    model = Volunteer
+    extra = 1
+    classes = ['collapse']
+    fieldsets = [
+        (None, {'fields': ['name','email']}),
+        ('Additional Information', {
+            'classes': ('collapse',),
+            'fields': ['about', 'photo', 'twitter', 'linkedin'],
+        }),
+    ]
+    
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('name','city', 'start_date', 'event_mode', 'created_at')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at','slug')
     search_fields=['name','city']
     form = EventForm
-    inlines = [EventRegistrationInline,SponsorInline]
+    inlines = [SponsorInline, EventVolunteerInline]
 
 
+class EventRegistrationResource(resources.ModelResource):
+
+    class Meta:
+        model = EventRegistration
 @admin.register(EventRegistration)
-class EventRegistrationAdmin(admin.ModelAdmin):
+class EventRegistrationAdmin(ImportExportModelAdmin):
     list_display = ('event', 'first_name', 'email', 'created_at')
     readonly_fields = ('created_at', 'updated_at')
+    list_filter = ('event__name',)
     search_fields=['email','event__name','first_name','last_name',]
     actions = [send_email_to_selected_users]
+    resource_class = EventRegistrationResource
 
     def get_urls(self):
         urls = super().get_urls()
@@ -52,6 +72,27 @@ class EventRegistrationAdmin(admin.ModelAdmin):
             path('send_email/', self.admin_site.admin_view(self.send_email_view), name='send_email'),
         ]
         return custom_urls + urls
+
+    @transaction.atomic
+    def delete_model(self, request, obj):
+        if obj.event.seats_left < obj.event.max_seats:
+            obj.event.seats_left += 1
+            obj.event.save()
+        super().delete_model(request, obj)
+
+    @transaction.atomic
+    def delete_queryset(self, request, queryset):
+        # Group registrations by event and count them
+        event_counts = queryset.values('event').annotate(count=Count('id'))
+        
+        # Update seats_left for each affected event
+        for event_count in event_counts:
+            Event.objects.filter(id=event_count['event']).update(
+                seats_left=F('seats_left') + event_count['count']
+            )
+        
+        # Perform the actual deletion
+        super().delete_queryset(request, queryset)
 
     def send_email_view(self, request):
         if request.method == 'POST':
@@ -100,12 +141,38 @@ class ContactUsAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     search_fields = ['email',]
 
+
+class SponsorshipResource(resources.ModelResource):
+
+    sponsor_name = fields.Field(
+        column_name='sponsor_name',
+        attribute='sponsor_details',
+        widget=ForeignKeyWidget(Sponsor, 'name')
+    )
+    sponsor_email = fields.Field(
+        column_name='sponsor_email',
+        attribute='sponsor_details__email'
+    )
+    sponsor_url = fields.Field(
+        column_name='sponsor_url',
+        attribute='sponsor_details__url'
+    )
+
+    class Meta:
+        model = Sponsorship
+        fields = ('id', 'sponsor_name', 'sponsor_email', 'sponsor_url', 'tier', 'type', 'amount_inr', 'created_at', 'updated_at')
+        export_order = fields
+
 @admin.register(Sponsorship)
-class SponsorshipAdmin(admin.ModelAdmin):
+class SponsorshipAdmin(ImportExportModelAdmin):
     list_display = ('sponsor_details', 'tier', 'type', 'event')
     list_filter = ('type', 'event', 'tier')
     search_fields = ['sponsor_details__name',]
     readonly_fields = ('created_at', 'updated_at')
+    resource_class = SponsorshipResource
+
+    def get_export_queryset(self, request):
+        return super().get_export_queryset(request).select_related('sponsor_details')
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
@@ -131,3 +198,28 @@ class UpdateAdmin(admin.ModelAdmin):
             update.send_bulk_emails()
         self.message_user(request, "Update emails sent.")
     send_update.short_description = "Send selected updates to subscribers"
+
+@admin.register(CommunityPartner)
+class CommunityPartnerAdmin(admin.ModelAdmin):
+    list_display = ['name', 'website', 'contact_name', 'contact_email', 'contact_number', 'description']
+    search_fields = ['name']
+    readonly_fields = ('created_at', 'updated_at')
+
+
+class EventVolunteerResource(resources.ModelResource):
+    event_name = fields.Field(
+        column_name='event_name',
+        attribute='event',
+        widget=ForeignKeyWidget(Event, 'name')
+    )
+
+    class Meta:
+        model = Volunteer
+        fields = ('id', 'event_name', 'name', 'about', 'email', 'twitter',' linkedin')
+@admin.register(Volunteer)
+class EventVolunteerAdmin(ImportExportModelAdmin):
+    list_display = ['event', 'name', 'about', 'email']
+    search_fields = ['event__name','name','email']
+    readonly_fields = ('created_at', 'updated_at')
+    list_filter = ('event__name',)
+    resource_class = EventVolunteerResource
