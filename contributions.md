@@ -4,5 +4,5 @@ The Django India community welcomes contributions from people of all skill level
 
 | Category | Contributor Name | Link | Description |
 |----------|------------------|------|-------------|
+| UI/UX Design | Vinayak Soni | https://www.figma.com/design/SYj98ljIoq63RXPvRzYOUM/Django-India-media-screen?node-id=0-1&t=gypdyRGwffnyZXdb-1 | Designed media section to add event photographs |
 | UX/UI Design | Sriya Mukkavilli | https://www.figma.com/design/V5y3RMsDsTlF0nBaWudQBX/Django-Contibutions?node-id=0-1&t=k9uFvcXmrWMJua5E-1 | Added Attendees List Modal Design - Grid View|
-|
