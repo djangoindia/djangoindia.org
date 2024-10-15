@@ -4,4 +4,4 @@ The Django India community welcomes contributions from people of all skill level
 
 | Category | Contributor Name | Link | Description |
 |----------|------------------|------|-------------|
-| UI/UX Design | Charlie | https://figma.com/designs/t33vy4v5y | Designed new mockups for the landing page | #Example
+| UI/UX Design | Vinayak Soni | https://www.figma.com/design/SYj98ljIoq63RXPvRzYOUM/Django-India-media-screen?node-id=0-1&t=gypdyRGwffnyZXdb-1 | Designed media section to add event photographs |
