@@ -47,25 +47,26 @@ const WhatIsDjango = () => {
 
           {/* Right Image Section */}
           <div className='absolute md:relative w-full md:w-1/2 h-full flex items-center justify-center md:items-end md:justify-end'>
-            <Image
-              src='/whatIsDjango/mandala.svg'
-              width={width >= 768 ? 490 : width >= 400 ? 350 : 300}
-              height={500}
-              alt='Description of the image'
-              className='object-contain scale-75 md:scale-90 rotate opacity-15 md:opacity-100 md:mb-10 md:mr-10'
-            />
+            <div className='relative'>
+              <Image
+                src='/whatIsDjango/mandala.svg'
+                width={width >= 768 ? 490 : width >= 400 ? 350 : 300}
+                height={500}
+                alt='Description of the image'
+                className='object-contain scale-75 md:scale-90 rotate opacity-15 md:opacity-100 md:mb-10 md:mr-10'
+              />
+              {/* Logo positioned at the center of mandala */}
+              <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:block'>
+                <Image
+                  src='/whatIsDjango/Logo.svg'
+                  width={150}
+                  height={62}
+                  alt='Django India Logo'
+                  className='object-contain scale-75 md:scale-90 lg:scale-100'
+                />
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Logo positioned at bottom right */}
-        <div className='absolute bottom-4 right-4 md:bottom-8 md:right-8 lg:bottom-12 lg:right-12 z-30'>
-          <Image
-            src='/whatIsDjango/Logo.svg'
-            width={150}
-            height={62}
-            alt='Django India Logo'
-            className='object-contain scale-75 md:scale-90 lg:scale-100'
-          />
         </div>
       </section>
       <DataCard />
