@@ -55,6 +55,23 @@ class EventRegistrationSerializer(serializers.Serializer):
     other_links = serializers.URLField(required=False, allow_blank=True)
     rsvp = serializers.BooleanField(default=False)
     include_in_attendee_list = serializers.BooleanField(default=False)
+    first_time_attendee = serializers.BooleanField(default= True)
+    attendee_type = serializers.ChoiceField(choices=EventRegistration.AttendeeType)
+    
+    class EventAttendeeSerializer(serializers.ModelSerializer):
+        full_name = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = EventRegistration
+        fields = [
+            'full_name', 'professional_status', 'organization',
+            'linkedin', 'github', 'twitter', 'first_time_attendee',
+            'attendee_type'
+        ]
 
     def create(self, validated_data):
         return EventRegistration.objects.create(**validated_data)
+    
+    def get_full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+
