@@ -28,15 +28,16 @@ function Join() {
         </div>
 
         <div className='relative top-[40px] md:top-0'>
-          <div className='absolute top-32 -left-8'>
-            <p className='relative -left-8 text-[20px] font-semibold'>
+          <div className='absolute -top-8 md:top-8 lg:top-36'>
+            <p className='relative md:-left-12 md:bottom-0 text-[20px] font-semibold left-2 bottom-2'>
               Click here
             </p>
             <Image
-              src='/twistedArrow.png'
               alt='Click here'
-              width={110}
-              height={140}
+              className='rotate-13 md:rotate-0'
+              src='/twistedArrow.png'
+              width={90}
+              height={120}
             />
           </div>
           <Image
