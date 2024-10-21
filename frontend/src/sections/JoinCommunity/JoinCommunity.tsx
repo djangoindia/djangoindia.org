@@ -28,6 +28,17 @@ function Join() {
         </div>
 
         <div className='relative top-[40px] md:top-0'>
+          <div className='absolute top-32 -left-8'>
+            <p className='relative -left-8 text-[20px] font-semibold'>
+              Click here
+            </p>
+            <Image
+              src='/twistedArrow.png'
+              alt='Click here'
+              width={110}
+              height={140}
+            />
+          </div>
           <Image
             src='/Phone2.png'
             alt='Phone Image'
@@ -133,12 +144,8 @@ function Join() {
                   className='transition transform hover:scale-110'
                 />
               </Link>
-              
-              <Link
-                href='https://t.me/djangoindiaa'
-                target='_blank'
-                passHref
-              >
+
+              <Link href='https://t.me/djangoindiaa' target='_blank' passHref>
                 <Image
                   src='/icons/telegram.svg'
                   alt='LinkedIn'
