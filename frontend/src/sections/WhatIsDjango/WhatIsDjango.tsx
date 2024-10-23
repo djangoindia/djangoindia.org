@@ -1,8 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { Button, DataCard } from '@components'
+import { DataCard } from '@components'
 import useWidth from '@/hooks/useWidth'
+import { LearnMoreDialog } from '@containers'
 
 const WhatIsDjango = () => {
   const width = useWidth()
@@ -40,7 +41,7 @@ const WhatIsDjango = () => {
                 contribute to the growth of the Django ecosystem in India.
               </p>
               <div className='z-20 pl-8'>
-                <Button>Learn More</Button>
+                <LearnMoreDialog/>
               </div>
             </div>
           </div>
