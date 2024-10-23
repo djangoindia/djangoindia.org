@@ -17,20 +17,16 @@ const LearnMoreDialog = ({
 }) => {
     return (
     <Dialog>
-
         <DialogTrigger asChild onClick={onClose}>
         <Button className='text-xs md:text-base'>Learn More</Button>
         </DialogTrigger>
-
         <DialogContent className='sm:max-w-[730px] max-h-[90vh] overflow-y-auto'>
-
         <DialogHeader>
             <DialogTitle className='text-2xl'>About Django India</DialogTitle>
             <DialogDescription>
             For the Community, by the Community
             </DialogDescription>
         </DialogHeader>
-
         <div className="grid gap-4 py-4">
             <div>
                 <p className='text-sm'>
@@ -190,7 +186,6 @@ const LearnMoreDialog = ({
                 </p>
             </div>
         </div>
-
         </DialogContent>
     </Dialog>
     )

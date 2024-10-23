@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { DataCard } from '@components'
 import useWidth from '@/hooks/useWidth'
-import { LearnMoreDialog } from '@/containers/LearnMoreDialog'
+import { LearnMoreDialog } from '@containers'
 
 
 const WhatIsDjango = () => {
