@@ -8,10 +8,20 @@ class FileSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class FolderLiteSerializer(serializers.ModelSerializer):
+    folders = serializers.SerializerMethodField()
 
     class Meta:
         model = Folder
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'folders']
+    
+    def get_folders(self, obj):
+        return FolderLiteSerializer(obj.children.all(), many=True, context=self.context).data
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if not representation['folders']:
+            representation.pop('folders')
+        return representation
 
 class FolderSerializer(FolderLiteSerializer):
     files = FileSerializer(many=True, read_only=True)
