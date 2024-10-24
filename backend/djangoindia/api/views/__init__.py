@@ -1,3 +1,3 @@
-from .event import EventAPIView
+from .event import EventAPIView,EventAttendeeViewSet
 from .communication import SubscriberAPIView, ContactUsAPIView
 from .partner_and_sponsor import CommunityPartnerAndSponsorAPIView
