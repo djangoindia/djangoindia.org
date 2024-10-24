@@ -5,4 +5,4 @@ The Django India community welcomes contributions from people of all skill level
 | Category | Contributor Name | Link | Description |
 |----------|------------------|------|-------------|
 | UX/UI Design | Sriya Mukkavilli | https://www.figma.com/design/V5y3RMsDsTlF0nBaWudQBX/Django-Contibutions?node-id=0-1&t=k9uFvcXmrWMJua5E-1 | Added Attendees List Modal Design - Grid View|
-|
+|Graphic Design | Sriya Mukkavilli | https://www.figma.com/design/V5y3RMsDsTlF0nBaWudQBX/Django-Contibutions?node-id=2-538&t=AHKHlaQH2pDHvIPx-1 | Illustration Kit for Mandala Designs
