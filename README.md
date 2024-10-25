@@ -1,3 +1,5 @@
+![Monorepo CI](https://github.com/djangoindia/djangoindia/actions/workflows/monorepoci.yml/badge.svg?branch=main)
+
 <div align="center">
   <img src="assets/djangoindia-logo.png" alt="Django India Logo" />
 </div>
