@@ -52,7 +52,7 @@ class EventRegistrationResource(resources.ModelResource):
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(ImportExportModelAdmin):
     list_display = ('event', 'first_name', 'email', 'created_at','attendee_type','first_time_attendee')
-    readonly_fields = ('created_at', 'updated_at','first_time_attendee','attendee_type')
+    readonly_fields = ('created_at', 'updated_at','first_time_attendee')
     list_filter = ('event__name','attendee_type','first_time_attendee')
     search_fields=['email','event__name','first_name','last_name','first_time_attendee','attendee_type']
     raw_id_fields = ("event",)
