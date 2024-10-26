@@ -55,6 +55,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
     readonly_fields = ('created_at', 'updated_at','first_time_attendee','attendee_type')
     list_filter = ('event__name','attendee_type','first_time_attendee')
     search_fields=['email','event__name','first_name','last_name','first_time_attendee','attendee_type']
+    raw_id_fields = ("event",)
     actions = [send_email_to_selected_users]
     resource_class = EventRegistrationResource
 

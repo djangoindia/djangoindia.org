@@ -58,7 +58,7 @@ class EventRegistrationSerializer(serializers.Serializer):
     first_time_attendee = serializers.BooleanField(default= True)
     attendee_type = serializers.ChoiceField(choices=EventRegistration.AttendeeType)
     
-    class EventAttendeeSerializer(serializers.ModelSerializer):
+    class EventAttendeeSerializer(serializers.Serializer):
         full_name = serializers.SerializerMethodField()
     
     class Meta:

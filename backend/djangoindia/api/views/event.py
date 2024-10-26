@@ -11,7 +11,7 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveMode
 from rest_framework.response import Response
 
 from djangoindia.constants import POST, PRIMARY_KEY_SHORT
-from django.db.models import Prefetch
+from django.db.models import Prefetch,Count,Q
 from django.utils import timezone
 
 class EventAttendeeViewSet(
@@ -22,21 +22,25 @@ class EventAttendeeViewSet(
 
     def get_queryset(self):
         event_id = self.kwargs.get('event_id')
-        return EventRegistration.objects.filter(
+        er =  EventRegistration.objects.filter(
             event_id=event_id,
             # include_in_attendee_list=True
         ).select_related('event').order_by('first_name', 'last_name')
+        return er, er.first().event
 
     def list(self, request, *args, **kwargs):
         event_id = self.kwargs.get('event_id')
-        event = get_object_or_404(Event, id=event_id)  
-        queryset = self.get_queryset()
+        queryset, event = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
+        attendee_data = queryset.aggregate(
+            total_attendees=Count('id'),
+            first_time_attendees=Count('id', filter=Q(first_time_attendee=True))
+        )
 
         response_data = {
             'event_name': event.name,
-            'total_attendees': queryset.count(),
-            'first_time_attendees': queryset.filter(first_time_attendee=True).count(),
+            'total_attendees': attendee_data['total_attendees'],
+            'first_time_attendees': attendee_data['first_time_attendees'],
             'attendees': serializer.data
         }
 

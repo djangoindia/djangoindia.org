@@ -85,7 +85,7 @@ class EventRegistration(BaseModel):
         HOST = "host", "Host"
         SPEAKER = "speaker", "Speaker"
         VOLUNTEER = "volunteer", "Volunteer"
-        
+
 
     event = models.ForeignKey(
         "db.Event",
@@ -114,7 +114,7 @@ class EventRegistration(BaseModel):
 
     first_time_attendee = models.BooleanField(default=True)
     attendee_type = models.CharField(
-        max_length=20,
+        max_length = 20,
         choices=AttendeeType.choices,
         default=AttendeeType.GUEST
     )
