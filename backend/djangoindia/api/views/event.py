@@ -14,23 +14,28 @@ from djangoindia.constants import POST, PRIMARY_KEY_SHORT
 from django.db.models import Prefetch,Count,Q
 from django.utils import timezone
 
-class EventAttendeeViewSet(
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet
-):
+# Create your views here.
+class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = EventRegistrationSerializer 
 
     def get_queryset(self):
-        event_id = self.kwargs.get('event_id')
-        er =  EventRegistration.objects.filter(
-            event_id=event_id,
-            # include_in_attendee_list=True
+        event_slug = self.kwargs.get('event_slug')
+        event = get_object_or_404(Event, slug=event_slug)
+        queryset = EventRegistration.objects.filter(
+            event__slug=event_slug
         ).select_related('event').order_by('first_name', 'last_name')
-        return er, er.first().event
+        return queryset, event
 
     def list(self, request, *args, **kwargs):
-        event_id = self.kwargs.get('event_id')
         queryset, event = self.get_queryset()
+        if not queryset.exists():
+            response_data = {
+                'event_name': event.name,
+                'total_attendees': 0,
+                'first_time_attendees': 0,
+                'attendees': []
+            }
+            return Response(response_data)
         serializer = self.get_serializer(queryset, many=True)
         attendee_data = queryset.aggregate(
             total_attendees=Count('id'),
@@ -43,9 +48,8 @@ class EventAttendeeViewSet(
             'first_time_attendees': attendee_data['first_time_attendees'],
             'attendees': serializer.data
         }
-
         return Response(response_data)
-# Create your views here.
+
 class EventAPIView(
     viewsets.ModelViewSet
 ):

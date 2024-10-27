@@ -118,7 +118,7 @@ class EventRegistration(BaseModel):
         choices=AttendeeType.choices,
         default=AttendeeType.GUEST
     )
-
+    
     class Meta:
         constraints = [
             models.UniqueConstraint(
