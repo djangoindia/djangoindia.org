@@ -60,7 +60,7 @@ const EventCard: React.FC<EventProps> = ({
             </span>
             <br />
             <span className='text-xl font-bold justify-center'>
-              {dayjsWithTZ(date).format('YY')}
+              {dayjsWithTZ(date).format('DD')}
             </span>
             <br/>
             <span className='text-xs font-bold justify-center'>
@@ -80,7 +80,7 @@ const EventCard: React.FC<EventProps> = ({
             <Image src={city_img} alt='city' width={26} height={26} className='mr-1'/>
             {city ? city:'TBA'}
           </p>}
-          {seats_left && (<p className='flex items-center'><Image src={seats} alt='seats' width={26} height={26} className='mr-1'/>{seats_left} Seats left</p>)}
+          {dayjsWithTZ().isBefore(dayjsWithTZ(date)) && seats_left && (<p className='flex items-center'><Image src={seats} alt='seats' width={26} height={26} className='mr-1'/>{seats_left} Seats left</p>)}
         </div>
       </div>
     </div>

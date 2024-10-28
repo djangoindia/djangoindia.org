@@ -59,6 +59,8 @@ const EventContainer = async ({
     duration: [duration.hours, 'hours'],
   })
 
+  const isSameDay = dayjsWithTZ(end_date) ? dayjsWithTZ(start_date).format('DD MMMM, YYYY') === dayjsWithTZ(end_date).format('DD MMMM, YYYY') : false;
+
   return (
     <div>
       <div className='container'>
@@ -76,7 +78,7 @@ const EventContainer = async ({
           <h2 className='text-6xl font-bold'>{name}</h2>
           {start_date?(<span>Starts {dayjsWithTZ(start_date).format('DD MMMM, YYYY')} at {dayjsWithTZ(start_date).format('hh:mm A')} (IST)</span>):(<span>Starts: TBA</span>)}
           {city && <span>City: {city}</span>}
-          {seats_left != null&& <span>Seats left: {seats_left}</span>}
+          {seats_left != null && dayjsWithTZ().isBefore(dayjsWithTZ(start_date)) && <span>Seats left: {seats_left}</span>}
           <RegisterEvent eventId={id}  seats_left={seats_left} registration_end_date={registration_end_date} />
           <div className='my-12 text-l flex flex-col gap-3'>
             <span className='flex items-center gap-2'>
@@ -93,7 +95,7 @@ const EventContainer = async ({
               <span className='flex items-center gap-2'>
               <SlCalender />
               {dayjsWithTZ(start_date).format('DD MMMM, YYYY')}
-              {end_date && ` - ${dayjsWithTZ(end_date).format('DD MMMM, YYYY')}`}
+              {end_date && !isSameDay &&` - ${dayjsWithTZ(end_date).format('DD MMMM, YYYY')}`}
             </span>
             <span className='flex items-center gap-2'>
               <CiClock1 />
