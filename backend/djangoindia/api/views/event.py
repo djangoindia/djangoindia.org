@@ -3,6 +3,7 @@ from djangoindia.api.serializers.event import (
     EventRegistrationSerializer,
     EventSerializer,
     EventLiteSerializer,
+    EventAttendeeSerializer
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
 from djangoindia.db.models import Event, EventRegistration,Volunteer, Sponsorship,CommunityPartner
@@ -16,13 +17,14 @@ from django.utils import timezone
 
 # Create your views here.
 class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    serializer_class = EventRegistrationSerializer 
+    serializer_class = EventAttendeeSerializer  
 
     def get_queryset(self):
         event_slug = self.kwargs.get('event_slug')
         event = get_object_or_404(Event, slug=event_slug)
         queryset = EventRegistration.objects.filter(
-            event__slug=event_slug
+            event__slug=event_slug,
+            include_in_attendee_list=True
         ).select_related('event').order_by('first_name', 'last_name')
         return queryset, event
 
