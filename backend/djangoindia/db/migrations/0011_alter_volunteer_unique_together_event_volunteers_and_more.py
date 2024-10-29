@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="event",
             name="volunteers",
-            field=models.ManyToManyField(to="db.volunteer"),
+            field=models.ManyToManyField(related_name='events', to="db.volunteer"),
         ),
         migrations.RemoveField(
             model_name="volunteer",
