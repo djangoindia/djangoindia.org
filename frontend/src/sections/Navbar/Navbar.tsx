@@ -122,7 +122,7 @@ const Navbar = () => {
       <section className='h-full w-full relative bg-[#C1CAD2]'>
         <div className='h-12 md:h-20 w-full flex justify-around items-center'>
           {/* logo  */}
-          <div className='hidden items-center justify-center'>
+          <div className='hidden md:flex items-center justify-center'>
             <Image
               src='/whatIsDjango/Logo.svg'
               width={121}
