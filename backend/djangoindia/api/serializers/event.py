@@ -39,8 +39,8 @@ class EventSerializer(serializers.Serializer):
     media = FolderLiteSerializer()
 
     def get_partners(self, obj):
-            partners = self.context.get('all_community_partners', [])
-            return CommunityPartnerSerializer(partners, many=True, context=self.context).data
+        partners = self.context.get('all_community_partners', [])
+        return CommunityPartnerSerializer(partners, many=True, context=self.context).data
 
 
 class EventRegistrationSerializer(serializers.Serializer):
