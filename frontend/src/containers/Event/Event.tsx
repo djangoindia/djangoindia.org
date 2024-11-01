@@ -43,9 +43,10 @@ const EventContainer = async ({
   event: Event
 }) => {
   const sanitizedDescription = sanitizeHtml(description, {
-    allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+    allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'button'],
     allowedAttributes: {
       a: ['href', 'target'],
+      button: ['onclick', 'style', 'type', 'class']
     },
   })
 
