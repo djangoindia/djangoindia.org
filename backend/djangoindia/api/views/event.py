@@ -23,22 +23,13 @@ class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         event_slug = self.kwargs.get('event_slug')
         event = get_object_or_404(Event, slug=event_slug)
         queryset = EventRegistration.objects.filter(
-            event__slug=event_slug,
-            include_in_attendee_list=True
+            event__slug=event_slug
         ).select_related('event').order_by('first_name', 'last_name')
         return queryset, event
 
     def list(self, request, *args, **kwargs):
         queryset, event = self.get_queryset()
-        if not queryset.exists():
-            response_data = {
-                'event_name': event.name,
-                'total_attendees': 0,
-                'first_time_attendees': 0,
-                'attendees': []
-            }
-            return Response(response_data)
-        serializer = self.get_serializer(queryset, many=True)
+        serializer = self.get_serializer(queryset.filter(include_in_attendee_list=True), many=True)
         attendee_data = queryset.aggregate(
             total_attendees=Count('id'),
             first_time_attendees=Count('id', filter=Q(first_time_attendee=True))
@@ -123,6 +114,8 @@ class EventAPIView(
         except ConflictError as e:
             return Response({"message": str(e)}, status=status.HTTP_409_CONFLICT)
         except Exception as e:
+            import traceback
+            print(traceback.format_exc())
             return Response({"message": "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_event(self, event_id):

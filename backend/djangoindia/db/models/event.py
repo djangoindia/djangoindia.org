@@ -110,8 +110,6 @@ class EventRegistration(BaseModel):
     include_in_attendee_list = models.BooleanField(default=False)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
     rsvp = models.BooleanField(default=False)
-
-
     first_time_attendee = models.BooleanField(default=True)
     attendee_type = models.CharField(
         max_length = 20,
