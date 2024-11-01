@@ -23,6 +23,7 @@ from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
 )
+
 urlpatterns = [
     path(f"api/{settings.ADMIN_URL}", admin.site.urls),
     path("api/v1/", include("djangoindia.api.urls")),

@@ -114,8 +114,6 @@ class EventAPIView(
         except ConflictError as e:
             return Response({"message": str(e)}, status=status.HTTP_409_CONFLICT)
         except Exception as e:
-            import traceback
-            print(traceback.format_exc())
             return Response({"message": "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_event(self, event_id):
