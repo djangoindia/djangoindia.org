@@ -63,7 +63,7 @@ class EventAttendeeSerializer(serializers.Serializer):
     full_name = serializers.SerializerMethodField()
     professional_status = serializers.ChoiceField(choices=EventRegistration.ProfessionalStatus)
     organization = serializers.CharField(max_length=100,required=False, allow_blank=True)
-    description = serializers.CharField()
+    description = serializers.CharField(required=False, allow_blank=True)
     gender = serializers.ChoiceField(choices=EventRegistration.Gender)
     email = serializers.EmailField()
     linkedin = serializers.URLField()
