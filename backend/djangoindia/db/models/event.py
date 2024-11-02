@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
+from cabinet.models import Folder
 from .base import BaseModel
 from .volunteer import Volunteer
 
@@ -40,6 +41,7 @@ class Event(BaseModel):
     max_seats = models.IntegerField(null=True, blank=True)
     seats_left = models.IntegerField(null=True, blank=True)
     volunteers = models.ManyToManyField(Volunteer, related_name="events")
+    media = models.ForeignKey(Folder, on_delete=models.CASCADE,null=True, blank=True)
 
     def clean(self):
         super().clean()
