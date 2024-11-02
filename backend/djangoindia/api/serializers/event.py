@@ -58,3 +58,19 @@ class EventRegistrationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return EventRegistration.objects.create(**validated_data)
+    
+class EventAttendeeSerializer(serializers.Serializer):
+    full_name = serializers.SerializerMethodField()
+    professional_status = serializers.ChoiceField(choices=EventRegistration.ProfessionalStatus)
+    organization = serializers.CharField(max_length=100,required=False, allow_blank=True)
+    description = serializers.CharField(required=False, allow_blank=True)
+    gender = serializers.ChoiceField(choices=EventRegistration.Gender)
+    email = serializers.EmailField()
+    linkedin = serializers.URLField()
+    github = serializers.URLField(required=False, allow_blank=True)
+    twitter = serializers.URLField(required=False, allow_blank=True)
+    first_time_attendee = serializers.BooleanField(default= True)
+    attendee_type = serializers.ChoiceField(choices=EventRegistration.AttendeeType)
+
+    def get_full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"

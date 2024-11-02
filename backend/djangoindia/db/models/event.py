@@ -80,6 +80,13 @@ class EventRegistration(BaseModel):
         FEMALE = "female"
         OTHER = "other"
 
+    class AttendeeType(models.TextChoices):
+        GUEST = "guest", "Guest"
+        HOST = "host", "Host"
+        SPEAKER = "speaker", "Speaker"
+        VOLUNTEER = "volunteer", "Volunteer"
+
+
     event = models.ForeignKey(
         "db.Event",
         on_delete=models.CASCADE,
@@ -103,7 +110,13 @@ class EventRegistration(BaseModel):
     include_in_attendee_list = models.BooleanField(default=False)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
     rsvp = models.BooleanField(default=False)
-
+    first_time_attendee = models.BooleanField(default=True)
+    attendee_type = models.CharField(
+        max_length = 20,
+        choices=AttendeeType.choices,
+        default=AttendeeType.GUEST
+    )
+    
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -114,6 +127,9 @@ class EventRegistration(BaseModel):
     def save(self, *args, **kwargs):
         # This is a new registration
         if self._state.adding:
+            user_has_registered_before = EventRegistration.objects.filter(email=self.email).exists()
+            self.first_time_attendee = not user_has_registered_before
+
             if self.event.seats_left > 0:
                 self.event.seats_left -= 1
                 self.event.save()

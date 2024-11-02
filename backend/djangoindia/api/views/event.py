@@ -1,19 +1,48 @@
+from django.shortcuts import get_object_or_404
 from djangoindia.api.serializers.event import (
     EventRegistrationSerializer,
     EventSerializer,
     EventLiteSerializer,
+    EventAttendeeSerializer
 )
 from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
 from djangoindia.db.models import Event, EventRegistration,Volunteer, Sponsorship,CommunityPartner
-from rest_framework import generics, status, viewsets
+from rest_framework import generics, status, viewsets,mixins
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 
 from djangoindia.constants import POST, PRIMARY_KEY_SHORT
-from django.db.models import Prefetch
+from django.db.models import Prefetch,Count,Q
 from django.utils import timezone
 
 # Create your views here.
+class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = EventAttendeeSerializer  
+
+    def get_queryset(self):
+        event_slug = self.kwargs.get('event_slug')
+        event = get_object_or_404(Event, slug=event_slug)
+        queryset = EventRegistration.objects.filter(
+            event__slug=event_slug
+        ).select_related('event').order_by('first_name', 'last_name')
+        return queryset, event
+
+    def list(self, request, *args, **kwargs):
+        queryset, event = self.get_queryset()
+        serializer = self.get_serializer(queryset.filter(include_in_attendee_list=True), many=True)
+        attendee_data = queryset.aggregate(
+            total_attendees=Count('id'),
+            first_time_attendees=Count('id', filter=Q(first_time_attendee=True))
+        )
+
+        response_data = {
+            'event_name': event.name,
+            'total_attendees': attendee_data['total_attendees'],
+            'first_time_attendees': attendee_data['first_time_attendees'],
+            'attendees': serializer.data
+        }
+        return Response(response_data)
+
 class EventAPIView(
     viewsets.ModelViewSet
 ):
