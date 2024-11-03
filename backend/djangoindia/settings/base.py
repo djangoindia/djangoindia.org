@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+
 from pathlib import Path
 
-from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
+
+from django.core.management.utils import get_random_secret_key
+
 
 load_dotenv()
 
@@ -50,10 +53,10 @@ INSTALLED_APPS = [
     "djangoindia.bg_tasks",
     "djangoindia.db",
     "rest_framework",
-    'drf_spectacular',
-    'import_export',
-    'cabinet',
-    'imagefield',
+    "drf_spectacular",
+    "import_export",
+    "cabinet",
+    "imagefield",
 ]
 
 MIDDLEWARE = [
@@ -104,7 +107,7 @@ if DOCKERIZED:
     }
 else:
     DATABASES = {
-        "default":{
+        "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
@@ -146,13 +149,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Django India <no-reply@djangoindia.org>")
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "DEFAULT_FROM_EMAIL", "Django India <no-reply@djangoindia.org>"
+)
 
 
 # CELERY STUFF
@@ -160,18 +165,18 @@ CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'djangoindia',
-    'DESCRIPTION': 'Official website of djangoindia community.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "djangoindia",
+    "DESCRIPTION": "Official website of djangoindia community.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 AWS_MEDIA_STORAGE_LOCATION = "media"  # Prefix added to all the files uploaded
 AWS_STATIC_STORAGE_LOCATION = "static"  # Prefix added to all the files uploaded
 
-FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600 # 100 mb
-DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600 # 100 mb
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 mb
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 mb

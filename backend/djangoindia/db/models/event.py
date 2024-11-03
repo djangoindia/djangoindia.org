@@ -1,9 +1,10 @@
+from cabinet.models import Folder
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
-from cabinet.models import Folder
 from .base import BaseModel
 from .volunteer import Volunteer
 
@@ -14,7 +15,6 @@ def validate_future_date(value):
 
 
 class Event(BaseModel):
-
     class EventModes(models.TextChoices):
         IN_PERSON = "in_person"
         ONLINE = "online"
@@ -41,7 +41,7 @@ class Event(BaseModel):
     max_seats = models.IntegerField(null=True, blank=True)
     seats_left = models.IntegerField(null=True, blank=True)
     volunteers = models.ManyToManyField(Volunteer, related_name="events")
-    media = models.ForeignKey(Folder, on_delete=models.CASCADE,null=True, blank=True)
+    media = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
 
     def clean(self):
         super().clean()
@@ -88,7 +88,6 @@ class EventRegistration(BaseModel):
         SPEAKER = "speaker", "Speaker"
         VOLUNTEER = "volunteer", "Volunteer"
 
-
     event = models.ForeignKey(
         "db.Event",
         on_delete=models.CASCADE,
@@ -114,11 +113,9 @@ class EventRegistration(BaseModel):
     rsvp = models.BooleanField(default=False)
     first_time_attendee = models.BooleanField(default=True)
     attendee_type = models.CharField(
-        max_length = 20,
-        choices=AttendeeType.choices,
-        default=AttendeeType.GUEST
+        max_length=20, choices=AttendeeType.choices, default=AttendeeType.GUEST
     )
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -129,7 +126,9 @@ class EventRegistration(BaseModel):
     def save(self, *args, **kwargs):
         # This is a new registration
         if self._state.adding:
-            user_has_registered_before = EventRegistration.objects.filter(email=self.email).exists()
+            user_has_registered_before = EventRegistration.objects.filter(
+                email=self.email
+            ).exists()
             self.first_time_attendee = not user_has_registered_before
 
             if self.event.seats_left > 0:

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 class VolunteerSerializer(serializers.Serializer):
     photo = serializers.ImageField(required=False)
     name = serializers.CharField(max_length=255)
