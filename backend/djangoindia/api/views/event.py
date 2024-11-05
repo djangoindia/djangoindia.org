@@ -1,3 +1,10 @@
+from rest_framework import mixins, status, viewsets
+from rest_framework.response import Response
+
+from django.db.models import Count, Prefetch, Q
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+
 from djangoindia.api.serializers.event import (
     EventAttendeeSerializer,
     EventLiteSerializer,
@@ -13,12 +20,6 @@ from djangoindia.db.models import (
     Sponsorship,
     Volunteer,
 )
-from rest_framework import mixins, status, viewsets
-from rest_framework.response import Response
-
-from django.db.models import Count, Prefetch, Q
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
 
 
 # Create your views here.

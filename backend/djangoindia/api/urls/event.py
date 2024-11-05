@@ -1,6 +1,6 @@
-from djangoindia.api.views.event import EventAPIView, EventAttendeeViewSet
-
 from django.urls import path
+
+from djangoindia.api.views.event import EventAPIView, EventAttendeeViewSet
 
 
 # URL conf

@@ -1,7 +1,7 @@
-from djangoindia.bg_tasks.send_update import send_mass_update_email_task
-
 from django.contrib.auth.models import User
 from django.db import models
+
+from djangoindia.bg_tasks.send_update import send_mass_update_email_task
 
 from .base import BaseModel
 

@@ -1,6 +1,6 @@
-from djangoindia.api.views.partner_and_sponsor import CommunityPartnerAndSponsorAPIView
-
 from django.urls import path
+
+from djangoindia.api.views.partner_and_sponsor import CommunityPartnerAndSponsorAPIView
 
 
 urlpatterns = [

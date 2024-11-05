@@ -1,9 +1,9 @@
+from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
 from djangoindia.db.models.communication import Subscriber
 from djangoindia.db.models.event import Event
 from djangoindia.db.models.update import Update
-
-from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 class EventForm(forms.ModelForm):

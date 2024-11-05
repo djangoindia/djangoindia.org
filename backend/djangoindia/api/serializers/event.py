@@ -1,5 +1,6 @@
-from djangoindia.db.models.event import Event, EventRegistration
 from rest_framework import serializers
+
+from djangoindia.db.models.event import Event, EventRegistration
 
 from .media_library import FolderLiteSerializer
 from .partner_and_sponsor import CommunityPartnerSerializer, SponsorSerializer

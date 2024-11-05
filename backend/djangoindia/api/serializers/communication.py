@@ -1,5 +1,6 @@
-from djangoindia.db.models.communication import ContactUs, Subscriber
 from rest_framework import serializers
+
+from djangoindia.db.models.communication import ContactUs, Subscriber
 
 
 class SubscriberSerializer(serializers.Serializer):

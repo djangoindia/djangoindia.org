@@ -1,9 +1,10 @@
+from rest_framework import generics
+from rest_framework.mixins import ListModelMixin
+
 from djangoindia.api.serializers.partner_and_sponsor import (
     CommunityPartnerAndSponsorSerializer,
 )
 from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsorship
-from rest_framework import generics
-from rest_framework.mixins import ListModelMixin
 
 
 class CommunityPartnerAndSponsorAPIView(generics.GenericAPIView, ListModelMixin):

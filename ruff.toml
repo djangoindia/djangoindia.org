@@ -38,8 +38,9 @@ lint.ignore = ["F405", "F841"]
 
 [lint.isort.sections]
 "django" = ["django"]
+"djangoindia" = ["djangoindia"]
 
 [lint.isort]
 lines-after-imports = 2
 lines-between-types = 1
-section-order = ["future", "standard-library", "third-party", "django", "local-folder", ]
+section-order = ["future", "standard-library", "third-party", "django", "djangoindia", "local-folder", ]

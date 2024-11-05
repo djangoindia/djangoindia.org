@@ -1,11 +1,12 @@
+from rest_framework import generics, status
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.response import Response
+
 from djangoindia.api.serializers.communication import (
     ContactUsSerializer,
     SubscriberSerializer,
 )
 from djangoindia.db.models.communication import Subscriber
-from rest_framework import generics, status
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.response import Response
 
 
 class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):

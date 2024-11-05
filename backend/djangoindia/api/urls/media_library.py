@@ -1,6 +1,6 @@
-from djangoindia.api.views.media_library import MediaLibraryAPIView
-
 from django.urls import path
+
+from djangoindia.api.views.media_library import MediaLibraryAPIView
 
 
 # URL conf

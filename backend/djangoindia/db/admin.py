@@ -1,13 +1,4 @@
 # from django.conf import settings
-from djangoindia.db.models.communication import ContactUs, Subscriber
-from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.partner_and_sponsor import (
-    CommunityPartner,
-    Sponsor,
-    Sponsorship,
-)
-from djangoindia.db.models.update import Update
-from djangoindia.db.models.volunteer import Volunteer
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
@@ -20,6 +11,16 @@ from django.db.models import Count, F
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import path
+
+from djangoindia.db.models.communication import ContactUs, Subscriber
+from djangoindia.db.models.event import Event, EventRegistration
+from djangoindia.db.models.partner_and_sponsor import (
+    CommunityPartner,
+    Sponsor,
+    Sponsorship,
+)
+from djangoindia.db.models.update import Update
+from djangoindia.db.models.volunteer import Volunteer
 
 from .forms import EmailForm, EventForm, UpdateForm
 

@@ -1,6 +1,6 @@
-from djangoindia.api.views.communication import ContactUsAPIView, SubscriberAPIView
-
 from django.urls import path
+
+from djangoindia.api.views.communication import ContactUsAPIView, SubscriberAPIView
 
 
 urlpatterns = [
