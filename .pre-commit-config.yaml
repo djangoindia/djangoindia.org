@@ -1,47 +1,40 @@
+exclude: ^docs/
+
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
-    hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
--   repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-    -   id: black
-        args: ["--line-length=88"]
--   repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        name: isort (python)
-        args: ["--profile", "black", "--filter-files"]
--   repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.2
-    hooks:
-    -   id: pyupgrade
-        args: ["--py3-plus", "--py39-plus"]
--   repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.17.0"
-    hooks:
-      - id: django-upgrade
-        args: [--target-version, "4.0"]
--   repo: https://github.com/pycqa/bandit
-    rev: 1.7.8
-    hooks:
-      - id: bandit
-        args: ["-iii", "-ll"]
--   repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
-        exclude: ^(.*\/migrations\/.*|.*\/client\/.*)
-        # Extra flake8 checks
-        additional_dependencies: [
-            "flake8-bugbear",
-            "flake8-comprehensions",
-            "flake8-mutable",
-            "flake8-print",
-            "flake8-simplify",
-            "flake8-django",
-          ]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+  - id: check-yaml
+  - id: check-case-conflict
+  - id: check-json
+  - id: check-merge-conflict
+  - id: check-symlinks
+  - id: check-toml
+  - id: end-of-file-fixer
+    exclude: ^(frontend/|.*\.js$)
+  - id: requirements-txt-fixer
+  - id: detect-private-key
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.3.5
+  hooks:
+    - id: ruff
+      args: [
+        --fix,
+        --select=I, # only run imports sorting
+        --exit-non-zero-on-fix,
+      ]
+    - id: ruff
+      args: [
+        --fix,
+        --exit-non-zero-on-fix,
+      ]
+    - id: ruff-format
+- repo: https://github.com/Yelp/detect-secrets
+  rev: v1.5.0
+  hooks:
+  - id: detect-secrets
+    exclude: |
+        (?x)^(
+          package.lock.json|
+          .*\.js
+        )$

@@ -1,4 +1,8 @@
 # from django.conf import settings
+from import_export import fields, resources
+from import_export.admin import ImportExportModelAdmin
+from import_export.widgets import ForeignKeyWidget
+
 from django.conf import settings
 from django.contrib import admin, messages
 from django.core.mail import send_mass_mail
@@ -7,6 +11,7 @@ from django.db.models import Count, F
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import path
+
 from djangoindia.db.models.communication import ContactUs, Subscriber
 from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import (
@@ -16,9 +21,6 @@ from djangoindia.db.models.partner_and_sponsor import (
 )
 from djangoindia.db.models.update import Update
 from djangoindia.db.models.volunteer import Volunteer
-from import_export import fields, resources
-from import_export.admin import ImportExportModelAdmin
-from import_export.widgets import ForeignKeyWidget
 
 from .forms import EmailForm, EventForm, UpdateForm
 
@@ -51,10 +53,24 @@ class EventRegistrationResource(resources.ModelResource):
 
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(ImportExportModelAdmin):
-    list_display = ('event', 'first_name', 'email', 'created_at','attendee_type','first_time_attendee')
-    readonly_fields = ('created_at', 'updated_at','first_time_attendee')
-    list_filter = ('event__name','attendee_type','first_time_attendee')
-    search_fields=['email','event__name','first_name','last_name','first_time_attendee','attendee_type']
+    list_display = (
+        "event",
+        "first_name",
+        "email",
+        "created_at",
+        "attendee_type",
+        "first_time_attendee",
+    )
+    readonly_fields = ("created_at", "updated_at", "first_time_attendee")
+    list_filter = ("event__name", "attendee_type", "first_time_attendee")
+    search_fields = [
+        "email",
+        "event__name",
+        "first_name",
+        "last_name",
+        "first_time_attendee",
+        "attendee_type",
+    ]
     raw_id_fields = ("event",)
     actions = [send_email_to_selected_users]
     resource_class = EventRegistrationResource
@@ -148,7 +164,6 @@ class ContactUsAdmin(admin.ModelAdmin):
 
 
 class SponsorshipResource(resources.ModelResource):
-
     sponsor_name = fields.Field(
         column_name="sponsor_name",
         attribute="sponsor_details",

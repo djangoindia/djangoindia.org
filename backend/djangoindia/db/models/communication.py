@@ -1,5 +1,7 @@
 from django.db import models
+
 from .base import BaseModel
+
 
 class Subscriber(BaseModel):
     name = models.CharField(max_length=100)
@@ -7,7 +9,8 @@ class Subscriber(BaseModel):
 
     def __str__(self):
         return self.email
-    
+
+
 class ContactUs(BaseModel):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)

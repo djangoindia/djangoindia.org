@@ -1,11 +1,12 @@
+from rest_framework import generics, status
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.response import Response
+
 from djangoindia.api.serializers.communication import (
     ContactUsSerializer,
     SubscriberSerializer,
 )
 from djangoindia.db.models.communication import Subscriber
-from rest_framework import generics, status
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.response import Response
 
 
 class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
@@ -14,11 +15,11 @@ class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
 
     def post(self, request, *args, **kwargs):
         try:
-            if Subscriber.objects.filter(
-                email=request.data.get("email")
-            ).exists():
+            if Subscriber.objects.filter(email=request.data.get("email")).exists():
                 return Response(
-                    {"message": "Nice try! But you're already in our exclusive club.🕵️‍♂️"},
+                    {
+                        "message": "Nice try! But you're already in our exclusive club.🕵️‍♂️"
+                    },
                     status=status.HTTP_409_CONFLICT,
                 )
             self.create(request, *args, **kwargs)
@@ -33,14 +34,15 @@ class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
 
 
 class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
-
     def post(self, request):
         try:
             serializer = ContactUsSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(
-                    {"message": "Message received! We'll be in touch before you can say 'supercalifragilisticexpialidocious.' 😜"},
+                    {
+                        "message": "Message received! We'll be in touch before you can say 'supercalifragilisticexpialidocious.' 😜"
+                    },
                     status=status.HTTP_201_CREATED,
                 )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
