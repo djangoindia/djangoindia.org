@@ -26,6 +26,11 @@ class CommunityPartnerAndSponsorAPIView(generics.GenericAPIView, ListModelMixin)
         )
 
         return {
-            "community_partners": partners_queryset,
-            "community_sponsors": sponsors_queryset,
+            'community_partners': partners_queryset,
+            'community_sponsors': sponsors_queryset
         }
+    
+    def get(self, request):
+        queryset=self.get_queryset()
+        serializer=CommunityPartnerAndSponsorSerializer(queryset)
+        return Response(serializer.data)

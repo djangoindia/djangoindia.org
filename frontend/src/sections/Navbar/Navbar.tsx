@@ -39,6 +39,13 @@ const Drawer = ({
           Events
         </Link>
         <Link
+          href={APP_ROUTES.sponsors_and_partners}
+          className={`py-3 ${pathname === APP_ROUTES.sponsors_and_partners && 'font-semibold'}`}
+          onClick={onClose}
+        >
+          Sponsors and partners
+        </Link>
+        <Link
           href={APP_ROUTES.contactUs}
           className={`py-3 ${pathname === APP_ROUTES.contactUs && 'font-semibold'}`}
           onClick={onClose}
@@ -116,6 +123,8 @@ const Navbar = () => {
       document.body.style.overflow = isDrawerOpen ? 'unset' : 'hidden'
     }
   }
+  console.log(APP_ROUTES)
+
 
   return (
     <>
@@ -159,6 +168,16 @@ const Navbar = () => {
                   }`}
                 >
                   Events
+                </Link>
+                <Link
+                  href={APP_ROUTES.sponsors_and_partners}
+                  className={`py-5 ${
+                    pathname === APP_ROUTES.sponsors_and_partners
+                      ? 'border-b-2 border-black'
+                      : 'hover:border-b-2 hover:border-black'
+                  }`}
+                >
+                  Sponsors and partners
                 </Link>
                 <Link
                   href={APP_ROUTES.contactUs}
