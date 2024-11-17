@@ -10,15 +10,24 @@ class FileSerializer(serializers.ModelSerializer):
 
 class FolderLiteSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
 
     class Meta:
         model = Folder
-        fields = ["id", "name", "children"]
+        fields = ["id", "name", "children", "type"]
 
     def get_children(self, obj):
         return FolderLiteSerializer(
             obj.children.all(), many=True, context=self.context
         ).data
+
+    def get_type(self, obj):
+        if len(obj.children.all()) > 0:
+            return "root"
+        elif len(obj.children.all()) >= 0 and obj.parent is None:
+            return "root"
+        else:
+            return "children"
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
