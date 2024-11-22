@@ -1,9 +1,6 @@
 import React from 'react'
 import { Button } from '@/components'
-import { Hero } from '@/sections/SponsorsAndPartners/Hero'
-import { PartnerCommunities } from '@/sections/SponsorsAndPartners/PartnerCommunities'
-import { IndividualSponsors } from '@/sections/SponsorsAndPartners/Sponsors/IndividualSponsors'
-import { OrganizationSponsors } from '@/sections/SponsorsAndPartners/Sponsors/OrganizationSponsors'
+import { Hero, PartnerCommunities, IndividualSponsors, OrganizationSponsors } from '@/sections/SponsorsAndPartners';
 import Link from 'next/link'
 
 interface Sponsor {
@@ -62,7 +59,7 @@ const Page = async () => {
           No organization sponsors available.
         </div>
       )}
-      {data?.sponsors && data.sponsors.length > 0 ? (
+      {data?.sponsors && !!data.sponsors.length  ? (  
         <IndividualSponsors
           sponsors={data.sponsors.filter(
             (sponsor) => sponsor?.tier === 'individual',

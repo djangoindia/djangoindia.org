@@ -1,10 +1,10 @@
-'use client';
+'use client';  
+
 import React from 'react';
 import Image from 'next/image';
 import { AiOutlineLink } from 'react-icons/ai';
 
-const OrganizationSponsors: React.FC<{ sponsors: any[] }> = ({ sponsors }) => {
-  return (
+const OrganizationSponsors: React.FC<{ sponsors: any[] }> = ({ sponsors }) => (
     <section className='py-16 px-6 sm:px-12 lg:px-24'>
       <h2 className='text-center text-3xl font-bold text-gray-800 mb-12'>OUR SPONSORS</h2>
       <div className='text-gray-800'>
@@ -30,7 +30,7 @@ const OrganizationSponsors: React.FC<{ sponsors: any[] }> = ({ sponsors }) => {
         </div>
       </div>
     </section>
-  );
-};
+  ); 
+
 
 export default OrganizationSponsors;

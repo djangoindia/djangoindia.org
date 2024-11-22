@@ -2,9 +2,15 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components';
 import Link from 'next/link';
-import django from "../../../../public/DJANGO.svg"
 
-const PartnerCommunities: React.FC<{ partners: any[] }> = ({ partners }) => {
+interface Partner {
+  name: string
+  logo: string
+  website: string
+  description: string
+}
+
+const PartnerCommunities: React.FC<{ partners: Partner[] }> = ({ partners }) => {
   return (
     <section className='py-16 px-6 sm:px-12 lg:px-24'>
       <h2 className='text-center text-3xl font-bold text-gray-800 mb-12'>OUR PARTNER COMMUNITIES</h2>
