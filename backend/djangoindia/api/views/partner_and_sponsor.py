@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.mixins import ListModelMixin
+from rest_framework.response import Response
 
 from djangoindia.api.serializers.partner_and_sponsor import (
     CommunityPartnerAndSponsorSerializer,
@@ -26,11 +27,11 @@ class CommunityPartnerAndSponsorAPIView(generics.GenericAPIView, ListModelMixin)
         )
 
         return {
-            'community_partners': partners_queryset,
-            'community_sponsors': sponsors_queryset
+            "community_partners": partners_queryset,
+            "community_sponsors": sponsors_queryset,
         }
-    
+
     def get(self, request):
-        queryset=self.get_queryset()
-        serializer=CommunityPartnerAndSponsorSerializer(queryset)
+        queryset = self.get_queryset()
+        serializer = CommunityPartnerAndSponsorSerializer(queryset)
         return Response(serializer.data)
