@@ -1,17 +1,20 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import Update from '../Latestupdate/LatestUpdate'
-import Modal from '@/components/Modal/modal'
-import { Button } from '@/components'
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
+
+import { Button } from '@/components';
+import Modal from '@/components/Modal/modal';
+
+import Update from '../Latestupdate/LatestUpdate';
 
 const HeroSection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen((prevState) => !prevState);
-  }
+  };
 
   // Effect to handle body scroll when the modal is open
   useEffect(() => {
@@ -46,17 +49,17 @@ const HeroSection = () => {
           width={200}
           height={200}
           alt='hero'
-          className='xs:h-auto absolute left-0 top-60 z-0 object-contain md:top-40'
+          className='absolute left-0 top-60 z-0 object-contain xs:h-auto md:top-40'
         />
 
-        <div className='z-10 flex h-auto w-full max-w-[1200px] flex-col justify-center gap-8 px-10 pb-10 pt-10 xl:pt-16'>
-          <div className='md:h-40 w-full justify-start'>
+        <div className='z-10 flex h-auto w-full max-w-screen-xl flex-col justify-center gap-8 p-10 xl:pt-16'>
+          <div className='w-full justify-start md:h-40'>
             <Image
               src='/DJANGO.svg'
               width={816}
               height={164}
               alt='logo'
-              className='pt-14 md:pt-0 md:scale-100'
+              className='pt-14 md:scale-100 md:pt-0'
             />
           </div>
           <div className='flex w-full flex-row items-center justify-center md:gap-8'>
@@ -93,11 +96,7 @@ const HeroSection = () => {
                     </div>
 
                     {/* CTA Button */}
-                    <Button
-                      onClick={toggleModal}
-                    >
-                      Subscribe for Updates
-                   </Button>
+                    <Button onClick={toggleModal}>Subscribe for Updates</Button>
                   </div>
                 </div>
               </div>
@@ -113,7 +112,7 @@ const HeroSection = () => {
         </Modal>
       )}
     </section>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

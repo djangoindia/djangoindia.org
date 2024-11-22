@@ -9,4 +9,4 @@ export {
   DrawerPortal,
   DrawerTitle,
   DrawerTrigger,
-} from './Drawer'
+} from './Drawer';

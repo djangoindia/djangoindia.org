@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+
 import {
   Goals,
   Hero,
@@ -7,7 +8,7 @@ import {
   Main,
   Support,
   WhatIsDjango,
-} from '@sections'
+} from '@sections';
 
 const page = () => {
   return (
@@ -20,7 +21,7 @@ const page = () => {
       <LatestUpdate />
       <Support />
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

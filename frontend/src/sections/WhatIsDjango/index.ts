@@ -1,1 +1,1 @@
-export { default as WhatIsDjango } from './WhatIsDjango'
+export { default as WhatIsDjango } from './WhatIsDjango';

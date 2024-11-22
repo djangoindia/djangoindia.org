@@ -1,1 +1,1 @@
-export { default as LearnMoreDialog } from './LearnMoreDialog'
+export { default as LearnMoreDialog } from './LearnMoreDialog';

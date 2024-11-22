@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const CONTACT_US_FORM_SCHEMA = yup.object({
   first_name: yup
@@ -19,12 +19,12 @@ export const CONTACT_US_FORM_SCHEMA = yup.object({
     .string()
     .test('wordCount', 'Message must be 250 words or less', (value) => {
       const wordCount = (value: string) => {
-        return value ? value.trim().split(/\s+/).length : 0
-      }
-      return wordCount(value || '') <= 250
+        return value ? value.trim().split(/\s+/).length : 0;
+      };
+      return wordCount(value || '') <= 250;
     })
     .required('Message is required'),
-})
+});
 
 export const SUBSCRIBER_FORM_SCHEMA = yup.object({
   name: yup
@@ -36,7 +36,7 @@ export const SUBSCRIBER_FORM_SCHEMA = yup.object({
     .string()
     .email('Invalid email address')
     .required('Email is required'),
-})
+});
 
 export const REGISTER_EVENT_FORM_SCHEMA = yup.object({
   email: yup
@@ -91,8 +91,6 @@ export const REGISTER_EVENT_FORM_SCHEMA = yup.object({
     .matches(
       /^https?:\/\/(www\.)?twitter\.com\/.*$/,
       'Please enter a valid Twitter URL',
-  ),
-  include_in_attendee_list: yup
-    .bool()
-    .optional()
-})
+    ),
+  include_in_attendee_list: yup.bool().optional(),
+});
