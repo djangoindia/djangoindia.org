@@ -14,7 +14,7 @@ const HeroSection = () => {
           We are grateful to our sponsors and partners for their pivotal role in
           Django India's growth. Your support helps us inspire and nurture the
           next generation of developers, creating a community where innovation
-          thrives. Together, we’re building a stronger, more inclusive ecosystem
+          thrives. Together, we're building a stronger, more inclusive ecosystem
           that empowers developers across India and beyond.
         </p>
         <Link

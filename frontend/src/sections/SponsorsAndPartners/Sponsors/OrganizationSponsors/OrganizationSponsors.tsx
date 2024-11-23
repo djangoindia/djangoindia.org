@@ -2,9 +2,19 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { AiOutlineLink } from 'react-icons/ai';
 
-const OrganizationSponsors: React.FC<{ sponsors: any[] }> = ({ sponsors }) => (
+interface Sponsor {
+  tier: string
+  sponsor_details: {
+    name: string
+    logo: string
+    description?: string
+    url:string
+  }
+}
+
+
+const OrganizationSponsors: React.FC<{ sponsors: Sponsor[] }> = ({ sponsors }) => (
     <section className='py-16 px-6 sm:px-12 lg:px-24'>
       <h2 className='text-center text-3xl font-bold text-gray-800 mb-12'>OUR SPONSORS</h2>
       <div className='text-gray-800'>

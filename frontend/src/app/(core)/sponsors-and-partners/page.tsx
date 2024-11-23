@@ -41,7 +41,7 @@ const Page = async () => {
     }
 
     data = await response.json();
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error fetching data:', err);
     throw new Error(err.message || 'An unknown error occurred');
   }
