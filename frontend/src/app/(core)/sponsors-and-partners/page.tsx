@@ -1,37 +1,35 @@
-import React from 'react'
-import { Button } from '@/components'
+import React from 'react';
+import { Button } from '@/components';
 import { Hero, PartnerCommunities, IndividualSponsors, OrganizationSponsors } from '@/sections/SponsorsAndPartners';
-import Link from 'next/link'
+import Link from 'next/link';
 
 interface Sponsor {
-  tier: string
+  tier: string;
   sponsor_details: {
-    name: string
-    logo: string
-    description?: string
-  }
+    name: string;
+    logo: string;
+    description?: string;
+  };
 }
 
 interface Partner {
-  name: string
-  logo: string
-  website: string
-  description: string
+  name: string;
+  logo: string;
+  website: string;
+  description: string;
 }
 
 interface PageData {
-  sponsors: Sponsor[]
-  partners: Partner[]
+  sponsors: Sponsor[];
+  partners: Partner[];
 }
 
-const Page = async () => {
-  let data: PageData | null = null
+const fetchSponsorsAndPartners = async (): Promise<PageData> => {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sponsors-and-partners/`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const response = await fetch(`${API_URL}/sponsors-and-partners/`, {
+      headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
     });
 
@@ -40,55 +38,47 @@ const Page = async () => {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
 
-    data = await response.json();
-  } catch (error: unknown) {
-    console.error('Error fetching data:', error);
-    throw new Error((error as Error).message || 'An unknown error occurred');
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching sponsors and partners:', error);
+    return { sponsors: [], partners: [] };
   }
+};
+
+const Page = async () => {
+  const data = await fetchSponsorsAndPartners();
+
   return (
     <>
       <Hero />
-      {data?.sponsors && data.sponsors.length > 0 ? (
+      {data.sponsors && data.sponsors.length > 0 ? (
         <OrganizationSponsors
-          sponsors={data.sponsors.filter(
-            (sponsor) => sponsor?.tier === 'organization',
-          )}
+          sponsors={data.sponsors.filter((sponsor) => sponsor?.tier === 'organization')}
         />
       ) : (
-        <div className='text-center py-8'>
-          No organization sponsors available.
-        </div>
+        <div className="text-center py-8">No organization sponsors available.</div>
       )}
-      {data?.sponsors && !!data.sponsors.length  ? (  
+      {data.sponsors && data.sponsors.length > 0 ? (
         <IndividualSponsors
-          sponsors={data.sponsors.filter(
-            (sponsor) => sponsor?.tier === 'individual',
-          )}
+          sponsors={data.sponsors.filter((sponsor) => sponsor?.tier === 'individual')}
         />
       ) : (
-        <div className='text-center py-8'>
-          No individual sponsors available.
-        </div>
+        <div className="text-center py-8">No individual sponsors available.</div>
       )}
-      <div className='flex justify-center'>
-        <Link
-          href={process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'}
-          target='_blank'
-        >
-          <Button className='inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-semibold rounded-lg transition hover:bg-opacity-90'>
+      <div className="flex justify-center">
+        <Link href={process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'} target="_blank">
+          <Button className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-semibold rounded-lg transition hover:bg-opacity-90">
             Become a sponsor &rarr;
           </Button>
         </Link>
       </div>
-      {data?.partners && data.partners.length > 0 ? (
+      {data.partners && data.partners.length > 0 ? (
         <PartnerCommunities partners={data.partners} />
       ) : (
-        <div className='text-center py-8'>
-          No partner communities available.
-        </div>
+        <div className="text-center py-8">No partner communities available.</div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
