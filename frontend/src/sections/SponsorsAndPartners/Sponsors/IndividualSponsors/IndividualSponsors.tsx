@@ -8,7 +8,7 @@ interface Sponsor {
     name: string
     logo: string
     description?: string
-    url:string
+    url?: string
   }
 }
 
