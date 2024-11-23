@@ -3,6 +3,7 @@ import { Button } from '@/components';
 import { Hero, PartnerCommunities, IndividualSponsors, OrganizationSponsors } from '@/sections/SponsorsAndPartners';
 import Link from 'next/link';
 
+
 interface Sponsor {
   tier: string;
   sponsor_details: {
@@ -25,7 +26,7 @@ interface PageData {
 }
 
 const fetchSponsorsAndPartners = async (): Promise<PageData> => {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   try {
     const response = await fetch(`${API_URL}/sponsors-and-partners/`, {
@@ -45,37 +46,37 @@ const fetchSponsorsAndPartners = async (): Promise<PageData> => {
   }
 };
 
+
+
 const Page = async () => {
   const data = await fetchSponsorsAndPartners();
+  const OrganizationSponsorsList = data.sponsors.filter((sponsor) => sponsor?.tier === 'organization') || [];
+  const IndividualSponsorsList = data.sponsors.filter((sponsor) => sponsor?.tier === 'individual') || [];
+  const ShowOurSponsor = OrganizationSponsorsList.length > 0 || IndividualSponsorsList.length > 0
 
   return (
     <>
       <Hero />
-      {data.sponsors && data.sponsors.length > 0 ? (
+      {ShowOurSponsor && <h2 className='text-center text-3xl font-bold text-gray-800 mb-12'>OUR SPONSORS</h2>}
+      {OrganizationSponsorsList.length > 0 && (
         <OrganizationSponsors
-          sponsors={data.sponsors.filter((sponsor) => sponsor?.tier === 'organization')}
+          sponsors={OrganizationSponsorsList}
         />
-      ) : (
-        <div className="text-center py-8">No organization sponsors available.</div>
       )}
-      {data.sponsors && data.sponsors.length > 0 ? (
+      {IndividualSponsorsList.length > 0 && (
         <IndividualSponsors
-          sponsors={data.sponsors.filter((sponsor) => sponsor?.tier === 'individual')}
+          sponsors={IndividualSponsorsList}
         />
-      ) : (
-        <div className="text-center py-8">No individual sponsors available.</div>
       )}
-      <div className="flex justify-center">
+      {data.sponsors && data.sponsors.length > 0 && (<div className="flex justify-center">
         <Link href={process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'} target="_blank">
-          <Button className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-semibold rounded-lg transition hover:bg-opacity-90">
-            Become a sponsor &rarr;
+          <Button className="inline-flex items-center px-6 py-3 mb-5 bg-[#1e3a8a] text-white font-semibold rounded-lg transition hover:bg-opacity-90">
+            Become a sponsor
           </Button>
         </Link>
-      </div>
-      {data.partners && data.partners.length > 0 ? (
+      </div>)}
+      {data.partners && data.partners.length > 0 && (
         <PartnerCommunities partners={data.partners} />
-      ) : (
-        <div className="text-center py-8">No partner communities available.</div>
       )}
     </>
   );

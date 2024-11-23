@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const HeroSection = () => {
   return (
-    <section className=' py-16 px-6 sm:px-12 lg:px-24 flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0'>
+    <section className='py-16 px-6 sm:px-12 lg:px-24 flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0'>
       <div className='flex-1 flex flex-col gap-4 space-y-4'>
         <h2 className='text-3xl font-bold text-black'>
           We value our Sponsors and Partners!
@@ -22,17 +22,17 @@ const HeroSection = () => {
           target='_blank'
         >
           <Button className='inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-semibold rounded-lg transition hover:bg-opacity-90'>
-            Become a sponsor &rarr;
+            Become a sponsor
           </Button>
         </Link>
       </div>
-      <div className='flex flex-1 justify-center items-center'>
+      <div className='flex flex-1 justify-end items-right'>
         <Image
           src='/sponsors_and_partners_hero.svg'
           alt='Sponsors joining hands'
           className='rounded-lg object-cover'
           height={400}
-          width={400}
+          width={600}
         />
       </div>
     </section>
