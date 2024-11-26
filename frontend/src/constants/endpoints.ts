@@ -4,5 +4,5 @@ export const API_ENDPOINTS = {
   events: '/events',
   event: '/events/:id',
   registerEvent: '/events/:id',
-  sponsorsAndEvents:'/sponsors-and-events'
-}
+  sponsorsAndEvents: '/sponsors-and-events',
+};

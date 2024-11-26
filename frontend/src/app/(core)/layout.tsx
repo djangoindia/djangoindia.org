@@ -1,12 +1,14 @@
-'use client'
+'use client';
 
-import { Navbar, Footer } from '@sections'
-import React, { PropsWithChildren } from 'react'
-import { SnackbarKey, SnackbarProvider, useSnackbar } from 'notistack'
-import { MdOutlineCancel } from 'react-icons/md'
+import React, { type PropsWithChildren } from 'react';
+
+import { type SnackbarKey, SnackbarProvider, useSnackbar } from 'notistack';
+import { MdOutlineCancel } from 'react-icons/md';
+
+import { Footer, Navbar } from '@sections';
 
 const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
-  const { closeSnackbar } = useSnackbar()
+  const { closeSnackbar } = useSnackbar();
 
   return (
     <MdOutlineCancel
@@ -15,8 +17,8 @@ const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
       size={20}
       className=' mr-2 cursor-pointer'
     />
-  )
-}
+  );
+};
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -36,7 +38,7 @@ const Layout = ({ children }: PropsWithChildren) => {
       <div className='min-h-[calc(100vh-299px)]'>{children}</div>
       <Footer />
     </SnackbarProvider>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

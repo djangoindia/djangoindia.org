@@ -1,1 +1,1 @@
-export { default as JoinCommunity } from './JoinCommunity'
+export { default as JoinCommunity } from './JoinCommunity';

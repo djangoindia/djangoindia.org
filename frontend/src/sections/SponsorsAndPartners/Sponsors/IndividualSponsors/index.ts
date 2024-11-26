@@ -1,1 +1,1 @@
-export { default as IndividualSponsors } from './IndividualSponsors'
+export { default as IndividualSponsors } from './IndividualSponsors';

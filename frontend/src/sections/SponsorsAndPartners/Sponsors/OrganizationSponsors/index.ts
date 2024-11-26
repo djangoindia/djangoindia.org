@@ -1,1 +1,1 @@
-export { default as OrganizationSponsors } from './OrganizationSponsors'
+export { default as OrganizationSponsors } from './OrganizationSponsors';

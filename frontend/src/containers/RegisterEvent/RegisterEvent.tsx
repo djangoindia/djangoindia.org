@@ -1,10 +1,13 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { dayjsWithTZ } from '@utils';
+import React, { useState } from 'react';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import {
+  Button,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -13,29 +16,38 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  Button,
-  Input,
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  Form,
-} from '@components'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { RegisterEventForm } from './RegisterEvent.types'
-import { API_ENDPOINTS, REGISTER_EVENT_FORM_SCHEMA } from '@constants'
-import { REGISTER_FORM_FIELDS } from './RegisterEvent.config'
-import { fetchData } from '@/utils'
-import { enqueueSnackbar } from 'notistack'
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@components';
+import { API_ENDPOINTS, REGISTER_EVENT_FORM_SCHEMA } from '@constants';
+import { dayjsWithTZ } from '@utils';
 
-export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { eventId: string, seats_left: number, registration_end_date: string }) => {
-  const [isOpen, setIsOpen] = useState(false)
+import { fetchData } from '@/utils';
+
+import { REGISTER_FORM_FIELDS } from './RegisterEvent.config';
+
+import type { RegisterEventForm } from './RegisterEvent.types';
+
+export const RegisterEvent = ({
+  eventId,
+  seats_left,
+  registration_end_date,
+}: {
+  eventId: string;
+  seats_left: number;
+  registration_end_date: string;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   const {
     register,
@@ -55,7 +67,7 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
       description: '',
       include_in_attendee_list: false,
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<RegisterEventForm> = async (data) => {
     const res = await fetchData<{ message: string }>(
@@ -67,21 +79,22 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
           ...data,
         }),
       },
-    )
+    );
     if (res.statusCode === 200 || res.statusCode === 201) {
-      enqueueSnackbar(res?.data?.message, { variant: 'success' })
+      enqueueSnackbar(res?.data?.message, { variant: 'success' });
     } else {
       enqueueSnackbar(res?.error?.message, {
         variant: 'error',
-      })
+      });
     }
-    reset()
-    setIsOpen(false)
-  }
+    reset();
+    setIsOpen(false);
+  };
 
   const currentDate = dayjsWithTZ();
   const registrationEndDate = dayjsWithTZ(registration_end_date);
-  const isRegistrationOpen = seats_left > 0 && currentDate.isBefore(registrationEndDate);
+  const isRegistrationOpen =
+    seats_left > 0 && currentDate.isBefore(registrationEndDate);
   const isFull = seats_left === 0;
 
   let buttonText = 'Registration closed';
@@ -90,172 +103,186 @@ export const RegisterEvent = ({ eventId, seats_left, registration_end_date }: { 
   } else if (isFull) {
     buttonText = 'Housefull!';
   }
-  
+
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-      {seats_left && registration_end_date&& <Button 
-          className="w-fit bg-blue-900 z-50"
-          onClick={() => isRegistrationOpen && setIsOpen(true)}
-          disabled={!isRegistrationOpen}
-        >
-          {buttonText}
-        </Button>}
-      </DrawerTrigger>
-      <DrawerContent className="bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover h-full pb-8 z-50">
-      <div className="overflow-auto no-scrollbar">
-        <DrawerHeader>
-          <DrawerTitle className='text-center text-4xl'>
-            Register Now!
-          </DrawerTitle>
-          <DrawerDescription className='text-center'>
-            Please fill the information carefully
-          </DrawerDescription>
-          <DrawerClose asChild>
-            <Button className='absolute top-0 right-0 m-4 font-bold' variant='ghost'>
-              ✕
-            </Button>
-          </DrawerClose>
-        </DrawerHeader>
-        <Form
-          register={register}
-          control={control}
-          reset={reset}
-          formState={{ errors, ...restFormState }}
-          handleSubmit={handleSubmit}
-          {...rest}
-        >
-          <form
-            className='sm:w-2/4 w-5/6 flex flex-col mx-auto gap-6 mt-10 h-full'
-            onSubmit={handleSubmit(onSubmit)}
+        {seats_left && registration_end_date && (
+          <Button
+            className='z-50 w-fit bg-blue-900'
+            onClick={() => isRegistrationOpen && setIsOpen(true)}
+            disabled={!isRegistrationOpen}
           >
-            {REGISTER_FORM_FIELDS.map((item, i) =>
-              Array.isArray(item) ? (
-                <div
-                className='flex w-full justify-between gap-5'
-                key={`field-group-${i}`}
+            {buttonText}
+          </Button>
+        )}
+      </DrawerTrigger>
+      <DrawerContent className="z-50 h-full bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover pb-8">
+        <div className='no-scrollbar overflow-auto'>
+          <DrawerHeader>
+            <DrawerTitle className='text-center text-4xl'>
+              Register Now!
+            </DrawerTitle>
+            <DrawerDescription className='text-center'>
+              Please fill the information carefully
+            </DrawerDescription>
+            <DrawerClose asChild>
+              <Button
+                className='absolute right-0 top-0 m-4 font-bold'
+                variant='ghost'
               >
-                  {item.map(({ name, label, placeholder, type, options }) => (
-                    <div
-                      className='grid w-full items-center gap-1.5'
-                      key={name}
-                    >
-                      <FormField
-                        control={control}
-                        name={name}
-                        render={({ field }) => (
-                          <FormItem>
-                            {type === 'checkbox' ? (
-                              <div className='flex items-center gap-0'>
-                                <FormControl>
-                                  <Input type='checkbox' onChange={field.onChange} />
-                                </FormControl>
-                                <FormLabel className='mb-0'>{label}</FormLabel>
-                              </div>
-                              ):(
+                ✕
+              </Button>
+            </DrawerClose>
+          </DrawerHeader>
+          <Form
+            register={register}
+            control={control}
+            reset={reset}
+            formState={{ errors, ...restFormState }}
+            handleSubmit={handleSubmit}
+            {...rest}
+          >
+            <form
+              className='mx-auto mt-10 flex h-full w-5/6 flex-col gap-6 sm:w-2/4'
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              {REGISTER_FORM_FIELDS.map((item, i) =>
+                Array.isArray(item) ? (
+                  <div
+                    className='flex w-full justify-between gap-5'
+                    key={`field-group-${i}`}
+                  >
+                    {item.map(({ name, label, placeholder, type, options }) => (
+                      <div
+                        className='grid w-full items-center gap-1.5'
+                        key={name}
+                      >
+                        <FormField
+                          control={control}
+                          name={name}
+                          render={({ field }) => (
+                            <FormItem>
+                              {type === 'checkbox' ? (
+                                <div className='flex items-center gap-0'>
+                                  <FormControl>
+                                    <Input
+                                      type='checkbox'
+                                      onChange={field.onChange}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className='mb-0'>
+                                    {label}
+                                  </FormLabel>
+                                </div>
+                              ) : (
                                 <>
-                                 <FormLabel>{label}</FormLabel>
-                            {type === 'select' ? (
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={String(field.value)}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder={placeholder} />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {options.map(({ label, value }) => (
-                                    <SelectItem key={value} value={value}>
-                                      {label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            ) : (
+                                  <FormLabel>{label}</FormLabel>
+                                  {type === 'select' ? (
+                                    <Select
+                                      onValueChange={field.onChange}
+                                      defaultValue={String(field.value)}
+                                    >
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue
+                                            placeholder={placeholder}
+                                          />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        {options.map(({ label, value }) => (
+                                          <SelectItem key={value} value={value}>
+                                            {label}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  ) : (
+                                    <FormControl>
+                                      <Input
+                                        type={type}
+                                        placeholder={placeholder}
+                                        onChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  )}
+                                </>
+                              )}
+                              <FormMessage>
+                                {errors[name]?.message ?? ' '}
+                              </FormMessage>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div
+                    className='grid w-full items-center gap-1.5'
+                    key={item.name}
+                  >
+                    <FormField
+                      control={control}
+                      name={item.name}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{item.label}</FormLabel>
+                          {item.type === 'select' ? (
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={String(field.value)}
+                            >
                               <FormControl>
-                                <Input type={type}
-                                  placeholder={placeholder}
-                                  onChange={field.onChange}
-                                />
+                                <SelectTrigger>
+                                  <SelectValue placeholder={item.placeholder} />
+                                </SelectTrigger>
                               </FormControl>
-                            )}
-                            </>
-                            )}
-                            <FormMessage>
-                              {errors[name]?.message ?? ' '}
-                            </FormMessage>
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div
-                  className='grid w-full items-center gap-1.5'
-                  key={item.name}
-                >
-                  <FormField
-                    control={control}
-                    name={item.name}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{item.label}</FormLabel>
-                        {item.type === 'select' ? (
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={String(field.value)}
-                          >
+                              <SelectContent>
+                                {item.options.map(({ label, value }) => (
+                                  <SelectItem key={value} value={value}>
+                                    {label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : (
                             <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder={item.placeholder} />
-                              </SelectTrigger>
+                              <Input
+                                type={item.type}
+                                placeholder={item.placeholder}
+                                onChange={field.onChange}
+                              />
                             </FormControl>
-                            <SelectContent>
-                              {item.options.map(({ label, value }) => (
-                                <SelectItem key={value} value={value}>
-                                  {label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          <FormControl>
-                            <Input type={item.type}
-                              placeholder={item.placeholder}
-                              onChange={field.onChange}
-                            />
-                          </FormControl>
-                        )}
-                        <FormMessage>
-                          {errors[item.name]?.message ?? ' '}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ),
-            )}
-            <DrawerFooter className='flex flex-row gap-4 mx-auto'>
-              <Button type='submit'>Register</Button>
-              <DrawerClose asChild>
-                <Button
-                  variant='outline'
-                  onClick={() => {
-                    reset()
-                    setIsOpen(false)
-                  }}
-                >
-                  Cancel
-                </Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </form>
-        </Form>
+                          )}
+                          <FormMessage>
+                            {errors[item.name]?.message ?? ' '}
+                          </FormMessage>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ),
+              )}
+              <DrawerFooter className='mx-auto flex flex-row gap-4'>
+                <Button type='submit'>Register</Button>
+                <DrawerClose asChild>
+                  <Button
+                    variant='outline'
+                    onClick={() => {
+                      reset();
+                      setIsOpen(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </form>
+          </Form>
         </div>
       </DrawerContent>
     </Drawer>
-  )
-}
+  );
+};

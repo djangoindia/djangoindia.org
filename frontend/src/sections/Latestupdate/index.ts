@@ -1,1 +1,1 @@
-export { default as LatestUpdate } from './LatestUpdate'
+export { default as LatestUpdate } from './LatestUpdate';

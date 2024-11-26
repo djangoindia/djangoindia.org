@@ -1,2 +1,2 @@
-export { default as EventCard } from './EventCard'
-export { default as Main } from './Main'
+export { default as EventCard } from './EventCard';
+export { default as Main } from './Main';

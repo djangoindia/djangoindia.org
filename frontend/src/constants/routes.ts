@@ -4,5 +4,5 @@ export const APP_ROUTES = {
   events: '/events',
   event: '/events/:eventId',
   contactUs: '/contact-us',
-  sponsorsAndPartners:'/sponsors-and-partners',
-}
+  sponsorsAndPartners: '/sponsors-and-partners',
+};
