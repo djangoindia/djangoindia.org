@@ -32,7 +32,7 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({
 }) => {
   if (volunteers.length === 0) {
     return (
-      <div className='items-left justify-left flex flex-col py-10'>
+      <div className='flex flex-col items-start justify-start py-10'>
         <div className='flex items-center'>
           <h4 className='text-2xl font-bold'>Event Volunteers</h4>
           <Link
@@ -40,11 +40,11 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({
             target='_blank'
             passHref
           >
-            <Button className='linear group ml-2 overflow-hidden transition-all'>
-              <span className='linear w-0 overflow-hidden whitespace-nowrap transition-all group-hover:w-auto'>
+            <Button className='group ml-2 overflow-hidden transition-all'>
+              <span className='w-0 overflow-hidden whitespace-nowrap transition-all group-hover:w-auto'>
                 Become a volunteer
               </span>
-              <FaArrowRight className='linear ml-0 transition-all group-hover:ml-2' />
+              <FaArrowRight className='ml-0 transition-all group-hover:ml-2' />
             </Button>
           </Link>
         </div>
@@ -64,11 +64,11 @@ const EventVolunteers: React.FC<EventVolunteersProps> = ({
           target='_blank'
           passHref
         >
-          <Button className='linear group ml-2 overflow-hidden transition-all'>
-            <span className='linear w-0 overflow-hidden whitespace-nowrap transition-all group-hover:w-auto'>
+          <Button className='group ml-2 overflow-hidden transition-all'>
+            <span className='w-0 overflow-hidden whitespace-nowrap transition-all group-hover:w-auto'>
               Become a volunteer
             </span>
-            <FaArrowRight className='linear ml-0 transition-all group-hover:ml-2' />
+            <FaArrowRight className='ml-0 transition-all group-hover:ml-2' />
           </Button>
         </Link>
       </div>

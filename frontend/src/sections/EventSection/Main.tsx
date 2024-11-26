@@ -27,13 +27,13 @@ const Main: React.FC = async () => {
   });
 
   return (
-    <div className='lg:mb-50 mb-10 p-4 md:mb-20'>
+    <div className='mb-10 p-4 md:mb-20 lg:mb-48'>
       <div className='mx-20 mb-4 flex flex-row items-center justify-center'>
         <h1 className='text-center text-[40px] font-bold text-[#06038D]'>
           Upcoming Events
         </h1>
       </div>
-      <div className='overflow-x mx-auto max-w-7xl'>
+      <div className='mx-auto max-w-7xl overflow-x-auto'>
         {error && error.message && <ClientError error={error} />}
         {filtered_events?.length ? (
           <Carousel>
@@ -50,7 +50,7 @@ const Main: React.FC = async () => {
                   slug,
                 }) => (
                   <CarouselItem
-                    className='basis-1/1 sm:basis-1/2 md:basis-1/3'
+                    className='basis-1 sm:basis-1/2 md:basis-1/3'
                     key={id}
                   >
                     <div className='mb-4 h-auto w-full md:mb-0 md:w-auto'>

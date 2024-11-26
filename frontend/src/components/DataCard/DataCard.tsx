@@ -85,7 +85,7 @@ const StatCard: React.FC<StatCardProps> = ({
         </span>
         <span className='text-xl font-bold'>{title}</span>
         <div className='flex items-center justify-between'>
-          <span className='gradient font-bold'>{subText}</span>
+          <span className='font-bold'>{subText}</span>
         </div>
       </div>
     </div>

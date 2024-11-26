@@ -20,7 +20,7 @@ const Drawer = ({
 }) => {
   return (
     <div
-      className={`items-top fixed inset-0 z-50 flex w-full flex-col justify-between bg-[#8796a4] p-4 text-black transition-transform sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`fixed inset-0 z-50 flex w-full flex-col justify-between bg-[#8796a4] p-4 text-black transition-transform sm:w-1/2 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className='flex flex-col items-center'>
         <button onClick={onClose}>

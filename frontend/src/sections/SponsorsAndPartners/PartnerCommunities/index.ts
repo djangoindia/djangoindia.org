@@ -1,1 +1,1 @@
-export { default as PartnerCommunities } from './PartnerCommunities'
+export { default as PartnerCommunities } from './PartnerCommunities';
