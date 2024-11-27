@@ -31,6 +31,30 @@ class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
             return Response(
                 {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+class UnsubscribeAPIView(generics.GenericAPIView):
+    def delete(self, request, *args, **kwargs):
+        try:
+            email = request.data.get("email")
+            if not email:
+                return Response(
+                    {"message": "Email address is required."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            subscriber = Subscriber.objects.filter(email=email).first()
+            if not subscriber:
+                return Response(
+                    {"message": "No subscription found for this email."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            subscriber.delete()
+            return Response(
+                {"message": "You have been unsubscribed. We're sad to see you go. 😢"},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
