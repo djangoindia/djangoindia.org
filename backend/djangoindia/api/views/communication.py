@@ -35,18 +35,13 @@ class UnsubscribeAPIView(generics.GenericAPIView):
     def delete(self, request, *args, **kwargs):
         try:
             email = request.data.get("email")
-            if not email:
+            subscriber = Subscriber.objects.filter(email=email).first()
+            if not (email and subscriber):
                 return Response(
-                    {"message": "Email address is required."},
+                    {"message": "Subscriber not found or Invalid Email"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            subscriber = Subscriber.objects.filter(email=email).first()
-            if not subscriber:
-                return Response(
-                    {"message": "No subscription found for this email."},
-                    status=status.HTTP_404_NOT_FOUND,
-                )
-            subscriber.delete()
+            subscriber.delete()  
             return Response(
                 {"message": "You have been unsubscribed. We're sad to see you go. 😢"},
                 status=status.HTTP_200_OK,
