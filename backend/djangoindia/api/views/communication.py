@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
+
 from django.shortcuts import get_object_or_404
 
 from djangoindia.api.serializers.communication import (
@@ -32,6 +33,8 @@ class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
             return Response(
                 {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
 class UnsubscribeAPIView(generics.GenericAPIView):
     def delete(self, request, *args, **kwargs):
         try:
@@ -41,8 +44,10 @@ class UnsubscribeAPIView(generics.GenericAPIView):
                     {"message": "Unsubscribe token is required."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            subscriber = get_object_or_404(Subscriber, unsubscribe_token=unsubscribe_token)
-            subscriber.delete()  
+            subscriber = get_object_or_404(
+                Subscriber, unsubscribe_token=unsubscribe_token
+            )
+            subscriber.delete()
             return Response(
                 {"message": "You have been unsubscribed. We're sad to see you go. 😢"},
                 status=status.HTTP_200_OK,
@@ -51,6 +56,8 @@ class UnsubscribeAPIView(generics.GenericAPIView):
             return Response(
                 {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
 class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
     def post(self, request):
         try:
