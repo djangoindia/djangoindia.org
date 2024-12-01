@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 @shared_task
 def send_mass_update_email_task(update_id):
     from djangoindia.db.models.update import Update
-    from djangoindia.db.models.communication import Subscriber
+
     try:
         update = Update.objects.prefetch_related("recipients").get(id=update_id)
     except Update.DoesNotExist:
