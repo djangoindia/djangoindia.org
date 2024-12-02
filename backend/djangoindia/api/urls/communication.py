@@ -9,6 +9,6 @@ from djangoindia.api.views.communication import (
 
 urlpatterns = [
     path("subscriber/", SubscriberAPIView.as_view(), name="subscriber"),
-    path("unsubscribe/", UnsubscribeAPIView.as_view(), name="unsubscribe"),
+    path("unsubscribe/<uuid:token>/", UnsubscribeAPIView.as_view(), name="unsubscribe"),
     path("contact-us/", ContactUsAPIView.as_view(), name="contact-us"),
 ]
