@@ -38,7 +38,7 @@ class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
 class UnsubscribeAPIView(generics.GenericAPIView):
     def delete(self, request, token=None):
         try:
-            unsubscribe_token = request.data.get("unsubscribe_token")
+            unsubscribe_token = token
             if not unsubscribe_token:
                 return Response(
                     {"message": "Unsubscribe token is required."},
