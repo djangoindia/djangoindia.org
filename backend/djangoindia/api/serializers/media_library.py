@@ -1,6 +1,8 @@
 from cabinet.models import File, Folder
 from rest_framework import serializers
 
+from django.utils.text import slugify
+
 
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,24 +12,19 @@ class FileSerializer(serializers.ModelSerializer):
 
 class FolderLiteSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
-    type = serializers.SerializerMethodField()
+    slug = serializers.SerializerMethodField()
 
     class Meta:
         model = Folder
-        fields = ["id", "name", "children", "type"]
+        fields = ["id", "name", "children", "slug"]
 
     def get_children(self, obj):
         return FolderLiteSerializer(
             obj.children.all(), many=True, context=self.context
         ).data
 
-    def get_type(self, obj):
-        if len(obj.children.all()) > 0:
-            return "root"
-        elif len(obj.children.all()) >= 0 and obj.parent is None:
-            return "root"
-        else:
-            return "children"
+    def get_slug(self, obj):
+        return slugify(obj.name)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
