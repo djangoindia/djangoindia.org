@@ -56,7 +56,7 @@ def registration_confirmation_email_task(email, event_id):
 
 
 @shared_task(bind=True, max_retries=3)
-def send_mass_email_task(self, emails, **kwargs):
+def send_mass_mail_task(self, emails, **kwargs):
     """
     Converts django.core.mail.send_mass_email into a background task.
 
