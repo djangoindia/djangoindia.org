@@ -1,3 +1,5 @@
+from bg_tasks.event_registration import send_mass_email_task
+
 # from django.conf import settings
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
@@ -5,7 +7,6 @@ from import_export.widgets import ForeignKeyWidget
 
 from django.conf import settings
 from django.contrib import admin, messages
-from django.core.mail import send_mass_mail
 from django.db import transaction
 from django.db.models import Count, F
 from django.shortcuts import redirect
@@ -124,7 +125,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
                         recipient_email = registration.email
                         emails.append((subject, message, from_email, [recipient_email]))
 
-                    send_mass_mail(emails, fail_silently=False)
+                    send_mass_email_task(emails, fail_silently=False)
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )

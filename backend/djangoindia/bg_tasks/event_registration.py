@@ -1,12 +1,17 @@
+import logging
+
 from celery import shared_task
 
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mass_mail
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.html import strip_tags
 
 from djangoindia.db.models import EventRegistration
+
+
+logger = logging.getLogger(__name__)
 
 
 def format_text(text: str) -> str:
@@ -48,3 +53,27 @@ def registration_confirmation_email_task(email, event_id):
     except Exception as e:
         # Handle exceptions (e.g., logging, re-raising, etc.)
         print(f"Error sending email: {e}")
+
+
+@shared_task(bind=True, max_retries=3)
+def send_mass_email_task(self, emails, **kwargs):
+    """
+    Converts django.core.mail.send_mass_email into a background task.
+
+    - Args:
+        emails (list): List of email data tuples (subject, message, from_email, recipient_list).
+        kwargs: Additional arguments passed to `send_mass_mail`.
+
+    Returns:
+        same as `send_mass_mail`
+    """
+    if not isinstance(emails, (list, tuple)):
+        logger.exception(
+            "Invalid input: Emails must be a list or tuple of email data tuples."
+        )
+
+    try:
+        return send_mass_mail(emails, **kwargs)
+    except Exception:
+        logger.exception("Failed to send mass emails.")
+        logger.debug("Detailed exception information:", exc_info=True)
