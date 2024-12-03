@@ -1,5 +1,3 @@
-from bg_tasks.event_registration import send_mass_email_task
-
 # from django.conf import settings
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
@@ -13,6 +11,7 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import path
 
+from djangoindia.bg_tasks.event_registration import send_mass_email_task
 from djangoindia.db.models.communication import ContactUs, Subscriber
 from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import (
