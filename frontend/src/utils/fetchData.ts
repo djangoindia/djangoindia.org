@@ -11,7 +11,7 @@ export type FetchResponse<TData> =
       statusCode: number;
     }
   | {
-      data?: null;
+      data: undefined;
       error: ErrorResponse;
       statusCode: number;
     };
@@ -56,7 +56,7 @@ export const fetchData = async <TFetchedData>(
     return { data: responseBody, error: null, statusCode: response.status };
   } catch (error: unknown) {
     return {
-      data: null,
+      data: undefined,
       error: { message: (error as ErrorResponse).message },
       statusCode: (error as ErrorResponse).statusCode as number,
     };

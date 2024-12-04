@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: '*',
         pathname: '/media/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/**',
+      },
     ],
   },
   redirects: () => [

@@ -21,7 +21,7 @@ const Page = async () => {
         </div>
         {error && error.message && <ClientError error={error} />}
         {events?.length ? (
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+          <div className='mx-auto grid w-fit grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
             {events?.map(
               (
                 {

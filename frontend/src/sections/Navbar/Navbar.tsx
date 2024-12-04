@@ -41,6 +41,13 @@ const Drawer = ({
           Events
         </Link>
         <Link
+          href={APP_ROUTES.media}
+          className={`py-3 ${pathname === APP_ROUTES.media && 'font-semibold'}`}
+          onClick={onClose}
+        >
+          Media
+        </Link>
+        <Link
           href={APP_ROUTES.sponsorsAndPartners}
           className={`py-3 ${pathname === APP_ROUTES.sponsorsAndPartners && 'font-semibold'}`}
           onClick={onClose}
@@ -168,6 +175,16 @@ const Navbar = () => {
                   }`}
                 >
                   Events
+                </Link>
+                <Link
+                  href={APP_ROUTES.media}
+                  className={`py-5 ${
+                    pathname === APP_ROUTES.media
+                      ? 'border-b-2 border-black'
+                      : 'hover:border-b-2 hover:border-black'
+                  }`}
+                >
+                  Media
                 </Link>
                 <Link
                   href={APP_ROUTES.sponsorsAndPartners}
