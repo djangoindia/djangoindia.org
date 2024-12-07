@@ -43,25 +43,6 @@ class Event(BaseModel):
     volunteers = models.ManyToManyField(Volunteer, related_name="events")
     media = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
 
-    def clean(self):
-        super().clean()
-
-        if self.start_date and self.end_date:
-            if self.end_date <= self.start_date:
-                raise ValidationError("End date must be after start date.")
-
-        if self.start_date and self.registration_end_date:
-            if self.registration_end_date > self.start_date:
-                raise ValidationError(
-                    "Registration end date must be on or before event start date."
-                )
-
-        if self.registration_end_date and self.end_date:
-            if self.registration_end_date > self.end_date:
-                raise ValidationError(
-                    "Registration end date cannot be after event end date."
-                )
-
     def __str__(self) -> str:
         return f"{self.name}"
 
