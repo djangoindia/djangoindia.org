@@ -30,8 +30,8 @@ class UpdateForm(forms.ModelForm):
     class Meta:
         model = Update
         fields = [
-            "title",
+            "email_subject",
             "type",
-            "html_template",
+            "email_body",
             "recipients",
         ]

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 10px auto;
+            background-color: #ededed;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            padding: 30px;
+        }
+        .content h2,h5 {
+            color: #144D3D;
+            font-size: 20px;
+        }
+        .content p {
+            line-height: 1.6;
+            color: #666;
+        }
+        .footer {
+            background-color: #144D3D;
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            font-size: 14px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .footer p {
+            margin: 0;
+        }
+        .social-links {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+            text-align: center;
+        }
+        .social-links-container {
+            display: inline-block;
+        }
+        .social-links li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .social-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .social-links a:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            {{ body }}
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Django India Community. All rights reserved.</p>
+            <div class="social-links-container">
+                <ul class="social-links">
+                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank">YouTube</a></li>
+                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank">Discord</a></li>
+                    <li><a href="https://github.com/djangoindia" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
