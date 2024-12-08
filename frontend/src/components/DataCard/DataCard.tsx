@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FaCity, FaGithub, FaUsers } from 'react-icons/fa';
 import { useInView } from 'react-intersection-observer';
