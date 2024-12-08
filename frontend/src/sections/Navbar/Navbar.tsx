@@ -139,17 +139,15 @@ const Navbar = () => {
         <div className='flex h-12 w-full items-center justify-around md:h-20'>
           {/* logo  */}
           <div className='hidden items-center justify-center md:flex'>
-            <Image
-              src='/whatIsDjango/Logo.svg'
-              width={121}
-              height={42}
-              alt='logo'
-              className=' object-center'
-              style={{
-                maxWidth: '100%',
-                height: 'auto',
-              }}
-            />
+            <Link href='/' passHref>
+              <Image
+                src='/whatIsDjango/Logo.svg'
+                width={121}
+                height={42}
+                alt='logo'
+                className='h-full max-w-full object-center'
+              />
+            </Link>
           </div>
 
           {/* menu */}
