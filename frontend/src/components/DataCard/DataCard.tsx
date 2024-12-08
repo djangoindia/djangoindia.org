@@ -20,21 +20,21 @@ export const DataCard = () => {
         title='Active Contributors'
         subText='& counting till date'
         startCount={0}
-        count={20}
+        count={25}
         icon={<FaCity className='text-[2rem]' />}
       />
       <StatCard
         title='Subscribers'
         subText='loving Django India'
-        startCount={10}
-        count={100}
+        startCount={100}
+        count={250}
         icon={<FaUsers className='text-[3rem]' />}
       />
       <StatCard
         title='GitHub Stars'
         subText='till date'
-        startCount={0}
-        count={70}
+        startCount={10}
+        count={100}
         icon={<FaGithub className='text-[2rem]' />}
       />
     </div>
