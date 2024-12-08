@@ -5,13 +5,13 @@ from import_export.widgets import ForeignKeyWidget
 
 from django.conf import settings
 from django.contrib import admin, messages
-from django.core.mail import send_mass_mail
 from django.db import transaction
 from django.db.models import Count, F
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import path
 
+from djangoindia.bg_tasks.event_registration import send_mass_mail_task
 from djangoindia.db.models.communication import ContactUs, Subscriber
 from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import (
@@ -124,7 +124,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
                         recipient_email = registration.email
                         emails.append((subject, message, from_email, [recipient_email]))
 
-                    send_mass_mail(emails, fail_silently=False)
+                    send_mass_mail_task(emails, fail_silently=False)
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
