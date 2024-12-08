@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ update.email_subject }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
     <style>
         body {
@@ -14,28 +13,15 @@
         }
         .container {
             max-width: 600px;
-            margin: 40px auto;
-            background-color: #fff;
+            margin: 10px auto;
+            background-color: #ededed;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .header {
-            background-color: #144D3D;
-            color: #fff;
-            padding: 20px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
         }
         .content {
-            padding: 20px;
+            padding: 30px;
         }
-        .content h2 {
+        .content h2,h5 {
             color: #144D3D;
             font-size: 20px;
         }
@@ -59,14 +45,18 @@
             list-style: none;
             padding: 0;
             margin: 10px 0 0;
-            display: flex;
-            justify-content: center;
+            text-align: center;
+        }
+        .social-links-container {
+            display: inline-block;
         }
         .social-links li {
+            display: inline-block;
             margin: 0 10px;
         }
         .social-links a {
             color: #fff;
+            text-decoration: none;
             transition: color 0.2s ease;
         }
         .social-links a:hover {
@@ -76,25 +66,21 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>{{ update.email_subject }}</h1>
-        </div>
         <div class="content">
-            <h2>Dear Subscriber,</h2>
-            <p>{{ update.email_body }}</p>
-            <p>Thank you for being part of our community.</p>
-            <p>Best regards,<br>Team Django India</p>
+            {{ body }}
         </div>
         <div class="footer">
-            <p>&copy; 2025 Django India Community. All rights reserved.</p>
-            <ul class="social-links">
-                <li><a href="https://www.twitter.com/djangoindiaa" target="_blank">Twitter</a></li>
-                <li><a href="https://www.instagram.com/djangoindia/" target="_blank">Instagram</a></li>
-                <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank">YouTube</a></li>
-                <li><a href="https://discord.gg/YrmYTTBspe" target="_blank">Discord</a></li>
-                <li><a href="https://github.com/djangoindia" target="_blank">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/company/django-india/" target="_blank">LinkedIn</a></li>
-            </ul>
+            <p>&copy; 2024 Django India Community. All rights reserved.</p>
+            <div class="social-links-container">
+                <ul class="social-links">
+                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank">YouTube</a></li>
+                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank">Discord</a></li>
+                    <li><a href="https://github.com/djangoindia" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

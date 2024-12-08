@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "import_export",
     "cabinet",
     "imagefield",
+    "django_prose_editor",
 ]
 
 MIDDLEWARE = [
