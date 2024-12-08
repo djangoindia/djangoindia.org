@@ -14,14 +14,16 @@ const Page = async () => {
   );
 
   return (
-    <div>
-      <div className='mb-10 p-4 md:mb-20 lg:mb-48'>
-        <div className='mb-4 flex flex-col items-center'>
-          <h1 className='text-center text-3xl font-bold'>All Events</h1>
-        </div>
+    <section className='container py-10'>
+      <h2 className='mb-2 text-4xl font-bold'>All Events</h2>
+      <p className='text-xl'>
+        Explore the Journey: A Complete Archive of Django India Community Events
+        🎉
+      </p>
+      <div className='my-10'>
         {error && error.message && <ClientError error={error} />}
         {events?.length ? (
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+          <div className='mx-auto grid w-fit grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
             {events?.map(
               (
                 {
@@ -56,7 +58,7 @@ const Page = async () => {
           <h3 className='text-center'>No Events</h3>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

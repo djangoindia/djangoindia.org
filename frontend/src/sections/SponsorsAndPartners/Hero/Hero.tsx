@@ -6,7 +6,7 @@ import { Button } from '@/components';
 
 const HeroSection = () => {
   return (
-    <section className='flex flex-col items-center space-y-6 px-6 py-16 sm:px-12 md:flex-row md:justify-between md:space-y-0 lg:px-24'>
+    <div className='flex flex-col items-center space-y-6 px-6 py-16 sm:px-12 md:flex-row md:justify-between md:space-y-0 lg:px-24'>
       <div className='flex flex-1 flex-col gap-4 space-y-4'>
         <h2 className='text-3xl font-bold text-black'>
           We value our Sponsors and Partners!
@@ -36,7 +36,7 @@ const HeroSection = () => {
           width={600}
         />
       </div>
-    </section>
+    </div>
   );
 };
 
