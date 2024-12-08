@@ -13,7 +13,7 @@ export const VerticalTabs = ({ config, activeHref }: VerticalTabsProps) => (
         <Link
           href={href}
           className={cn(
-            'flex select-none opacity-100 items-center text-center justify-center md:justify-start w-full gap-2 my-2 rounded-2xl p-2 md:p-4 hover:cursor-pointer hover:bg-gray-100 transition-all',
+            'flex select-none opacity-100 items-center text-center md:text-left justify-center md:justify-start w-full gap-2 my-2 rounded-2xl p-2 md:p-4 hover:cursor-pointer hover:bg-gray-100 transition-all',
             {
               'bg-black text-white hover:bg-black': activeHref === href,
             },
