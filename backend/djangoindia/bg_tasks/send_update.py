@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 import logging
 from django.template.loader import render_to_string
-from djangoindia.db.models.communication import Subscriber
 
 logger = logging.getLogger(__name__)
 
