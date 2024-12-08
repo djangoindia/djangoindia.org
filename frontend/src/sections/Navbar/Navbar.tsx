@@ -138,11 +138,7 @@ const Navbar = () => {
                 width={121}
                 height={42}
                 alt='logo'
-                className=' object-center'
-                style={{
-                  maxWidth: '100%',
-                  height: 'auto',
-                }}
+                className='h-full max-w-full object-center'
               />
             </Link>
           </div>
