@@ -7,11 +7,12 @@ import 'react-photo-album/rows.css';
 import { Lightbox } from 'yet-another-react-lightbox';
 import { Fullscreen } from 'yet-another-react-lightbox/plugins';
 
-import { API_ENDPOINTS } from '@/constants';
+import { API_ENDPOINTS, APP_ROUTES } from '@/constants';
 import { fetchData } from '@/utils';
 import 'yet-another-react-lightbox/styles.css';
 
 import type { PageProps } from '@/types/common';
+import { useRouter } from 'next/navigation';
 
 type MediaFile = {
   id: number;
@@ -41,6 +42,7 @@ type FolderResponseType = {
 
 const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
   const [index, setIndex] = useState(-1);
+  const router = useRouter();
   const [mediaResponse, setMediaResponse] = useState<{
     files: {
       src: string;
@@ -64,16 +66,15 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
             ),
             name: res.data.name,
           });
+        } else {
+          router.push(APP_ROUTES.gallery);
         }
       },
     );
-  }, [slug]);
+  }, [router, slug]);
 
   return (
     <div>
-      <div className='sticky top-0 z-10 mb-4 flex items-center justify-between bg-gray-100 p-4'>
-        <h2 className='text-3xl font-bold'>{mediaResponse?.name}</h2>
-      </div>
       {mediaResponse?.files && (
         <RowsPhotoAlbum
           photos={mediaResponse.files}

@@ -64,9 +64,8 @@ const Page = async () => {
     data.sponsors.filter((sponsor) => sponsor?.tier === 'individual') || [];
   const ShowOurSponsor =
     OrganizationSponsorsList.length > 0 || IndividualSponsorsList.length > 0;
-
   return (
-    <>
+    <section className='container'>
       <Hero />
       {ShowOurSponsor && (
         <h2 className='mb-12 text-center text-3xl font-bold text-gray-800'>
@@ -94,7 +93,7 @@ const Page = async () => {
       {data.partners && data.partners.length > 0 && (
         <PartnerCommunities partners={data.partners} />
       )}
-    </>
+    </section>
   );
 };
 

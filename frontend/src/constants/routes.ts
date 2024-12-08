@@ -5,5 +5,5 @@ export const APP_ROUTES = {
   event: '/events/:eventId',
   contactUs: '/contact-us',
   sponsorsAndPartners: '/sponsors-and-partners',
-  media: '/media-library',
+  gallery: '/gallery',
 };

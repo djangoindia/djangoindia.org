@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MediaLibPage = async () => (
+const GalleryPage = async () => (
   <div className='flex h-full flex-col items-center justify-center'>
     <svg
       fill='#c1cad2'
@@ -31,4 +31,4 @@ const MediaLibPage = async () => (
   </div>
 );
 
-export default MediaLibPage;
+export default GalleryPage;
