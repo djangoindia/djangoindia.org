@@ -13,15 +13,15 @@ class Update(BaseModel):
         NEWSLETTER = "newsletter"
         COMMUNITY_UPDATE = "community_update"
 
-    title = models.CharField(max_length=255)
+    email_subject = models.CharField(max_length=255)
     type = models.CharField(max_length=20, choices=UpdateType.choices)
-    html_template = models.TextField()
+    email_body = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, editable=False)
     recipients = models.ManyToManyField("Subscriber", related_name="received_updates")
     mail_sent = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        return self.email_subject
 
     def send_bulk_emails(self):
         if self.id and self.recipients.count() > 0:

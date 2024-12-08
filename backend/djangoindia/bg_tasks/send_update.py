@@ -3,6 +3,8 @@ from django.utils.html import strip_tags
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 import logging
+from django.template.loader import render_to_string
+from djangoindia.db.models.communication import Subscriber
 
 logger = logging.getLogger(__name__)
 
@@ -12,39 +14,44 @@ def send_mass_update_email_task(update_id):
     from djangoindia.db.models.update import Update
 
     try:
-        update = Update.objects.get(id=update_id)
+        update = Update.objects.prefetch_related("recipients").get(id=update_id)
     except Update.DoesNotExist:
-        raise ValueError("Update not found")
-    
-    logger.info(f"Starting email task for update ID {update_id} with {update.recipients.count()} recipients.")
+        logger.error(f"Update with ID {update_id} not found.")
+        return
+
+    recipients = update.recipients.all()
+    logger.info(f"Starting email task for update ID {update_id} with {recipients.count()} recipients.")
 
     failed_recipients = []
 
-    for subscriber in update.recipients.all():
+    for recipient in recipients:
         try:
-            plain_text_content = strip_tags(update.html_template)
+            html_content = render_to_string("admin/send_update.html", {"update": update, "subscriber": recipient})
+            plain_text_content = strip_tags(html_content)
 
             email = EmailMultiAlternatives(
-                subject=f"Django India: {update.get_formatted_type()}",
+                subject=update.email_subject,
                 body=plain_text_content,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                to=[subscriber.email],
+                to=[recipient.email],
             )
 
-            email.attach_alternative(update.html_template, "text/html")
-
+            email.attach_alternative(html_content, "text/html")
             email.send(fail_silently=False)
-        
+
         except Exception as e:
-            logger.error(f"Failed to send email to {subscriber.email}: {str(e)}")
-            failed_recipients.append(subscriber.email)
+            failed_recipients.append({"email": recipient.email, "error": str(e)})
+
+    if failed_recipients:
+        detailed_errors = "\n".join([f"{item['email']}: {item['error']}" for item in failed_recipients])
+        logger.warning(f"Email task for update ID {update_id} completed with errors:\n{detailed_errors}")
+    else:
+        logger.info(f"Email task for update ID {update_id} completed successfully.")
+
 
     if not failed_recipients:
         try:
             update.mail_sent = True
             update.save()
-            logger.info(f"Email task completed successfully for update ID {update_id}.")
         except Exception as e:
             logger.error(f"Failed to update mail_sent status for update ID {update_id}: {str(e)}")
-    else:
-        logger.warning(f"Email task for update ID {update_id} completed with errors. Failed recipients: {failed_recipients}")
