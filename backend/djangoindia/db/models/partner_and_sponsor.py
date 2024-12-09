@@ -49,6 +49,7 @@ class Sponsorship(BaseModel):
     tier = models.CharField(max_length=20, choices=SponsorshipTier.choices)
     type = models.CharField(max_length=30, choices=SponsorshipType.choices)
     amount_inr = models.IntegerField(null=True, blank=True)
+    remarks = models.TextField(null=True, blank=True)
 
     def clean(self):
         super().clean()

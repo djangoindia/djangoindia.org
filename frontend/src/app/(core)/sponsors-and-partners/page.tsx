@@ -81,7 +81,7 @@ const Page = async () => {
       {data.sponsors && data.sponsors.length > 0 && (
         <div className='flex justify-center'>
           <Link
-            href={process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'}
+            href={process.env.NEXT_PUBLIC_SPONSOR_URL || process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'}
             target='_blank'
           >
             <Button className='mb-5 inline-flex items-center rounded-lg bg-[#1e3a8a] px-6 py-3 font-semibold text-white transition'>
