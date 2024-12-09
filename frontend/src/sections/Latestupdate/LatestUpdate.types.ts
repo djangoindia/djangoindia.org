@@ -1,4 +1,4 @@
 export type SubscriberForm = {
-  name: string
-  email: string
-}
+  name: string;
+  email: string;
+};

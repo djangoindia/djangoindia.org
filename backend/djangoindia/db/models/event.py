@@ -1,3 +1,5 @@
+from cabinet.models import Folder
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
@@ -13,7 +15,6 @@ def validate_future_date(value):
 
 
 class Event(BaseModel):
-
     class EventModes(models.TextChoices):
         IN_PERSON = "in_person"
         ONLINE = "online"
@@ -40,25 +41,7 @@ class Event(BaseModel):
     max_seats = models.IntegerField(null=True, blank=True)
     seats_left = models.IntegerField(null=True, blank=True)
     volunteers = models.ManyToManyField(Volunteer, related_name="events")
-
-    def clean(self):
-        super().clean()
-
-        if self.start_date and self.end_date:
-            if self.end_date <= self.start_date:
-                raise ValidationError("End date must be after start date.")
-
-        if self.start_date and self.registration_end_date:
-            if self.registration_end_date > self.start_date:
-                raise ValidationError(
-                    "Registration end date must be on or before event start date."
-                )
-
-        if self.registration_end_date and self.end_date:
-            if self.registration_end_date > self.end_date:
-                raise ValidationError(
-                    "Registration end date cannot be after event end date."
-                )
+    media = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -79,6 +62,12 @@ class EventRegistration(BaseModel):
         MALE = "male"
         FEMALE = "female"
         OTHER = "other"
+
+    class AttendeeType(models.TextChoices):
+        GUEST = "guest", "Guest"
+        HOST = "host", "Host"
+        SPEAKER = "speaker", "Speaker"
+        VOLUNTEER = "volunteer", "Volunteer"
 
     event = models.ForeignKey(
         "db.Event",
@@ -103,6 +92,10 @@ class EventRegistration(BaseModel):
     include_in_attendee_list = models.BooleanField(default=False)
     # TODO: imnplement this (RSVP mailing + RSVP submission link)
     rsvp = models.BooleanField(default=False)
+    first_time_attendee = models.BooleanField(default=True)
+    attendee_type = models.CharField(
+        max_length=20, choices=AttendeeType.choices, default=AttendeeType.GUEST
+    )
 
     class Meta:
         constraints = [
@@ -114,6 +107,11 @@ class EventRegistration(BaseModel):
     def save(self, *args, **kwargs):
         # This is a new registration
         if self._state.adding:
+            user_has_registered_before = EventRegistration.objects.filter(
+                email=self.email
+            ).exists()
+            self.first_time_attendee = not user_has_registered_before
+
             if self.event.seats_left > 0:
                 self.event.seats_left -= 1
                 self.event.save()

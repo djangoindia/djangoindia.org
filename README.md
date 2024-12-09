@@ -1,3 +1,5 @@
+![Djangoindia.org Build](https://github.com/djangoindia/djangoindia.org/actions/workflows/build.yml/badge.svg?branch=main)
+
 <div align="center">
   <img src="assets/djangoindia-logo.png" alt="Django India Logo" />
 </div>
@@ -36,7 +38,7 @@ Join our community. Here's how you can get involved:
 - **Report Issues:** Notice something not quite right? Let us know by creating an issue. Your feedback is invaluable! 🐛
 - **Contribute Code:** Dive into open issues and send pull requests to help us squash bugs and implement exciting enhancements. 🛠️
 - **Review Pull requests:** By actively reviewing pull requests, you can help maintain the quality and integrity of the project, while also supporting other contributors and fostering a collaborative environment within the Django India community.🕵️
-  
+
 Together, let's build something incredible! ✨🚀
 
 
@@ -53,7 +55,7 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
     <tr>
       <td align="center" width="150px">
         <a href="https://github.com/ankanchanda">
-          <img src="https://avatars.githubusercontent.com/u/108596468?v=4" width="75" height="75"   
+          <img src="https://avatars.githubusercontent.com/u/108596468?v=4" width="75" height="75"  
  alt="Saurabh Sharma" />
           <br />
           Ankan Chanda
@@ -70,7 +72,7 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
       </td>
       <td align="center" width="150px">
         <a href="https://github.com/nikhil25803">
-          <img src="https://avatars.githubusercontent.com/u/93156825?v=4" width="75" height="75"   
+          <img src="https://avatars.githubusercontent.com/u/93156825?v=4" width="75" height="75"  
  alt="Nikhil Raj" />
           <br />
           Nikhil Raj
@@ -87,7 +89,7 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
       </td>
       <td align="center" width="150px">
         <a href="https://github.com/Knighthawk-Leo">
-          <img src="https://avatars.githubusercontent.com/u/72437494?v=4" width="75" height="75"   
+          <img src="https://avatars.githubusercontent.com/u/72437494?v=4" width="75" height="75"  
  alt="Sanskar Dwivedi" />
           <br />
           Sanskar Dwivedi
@@ -104,7 +106,7 @@ For more details, please see our [Contributing.md](https://github.com/djangoindi
       </td>
       <td align="center" width="150px">
         <a href="https://github.com/Saurabhsharma884">
-          <img src="https://avatars.githubusercontent.com/u/65456653?v=4" width="75" height="75"   
+          <img src="https://avatars.githubusercontent.com/u/65456653?v=4" width="75" height="75"  
  alt="Saurabh Sharma" />
           <br />
           Saurabh Sharma

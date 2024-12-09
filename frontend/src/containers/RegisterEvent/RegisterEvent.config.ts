@@ -1,4 +1,4 @@
-import { FieldType } from './RegisterEvent.types'
+import type { FieldType } from './RegisterEvent.types';
 
 export const REGISTER_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
   [
@@ -83,9 +83,10 @@ export const REGISTER_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
   [
     {
       name: 'include_in_attendee_list',
-      label: "I would like to be included in the publicly visible attendee's list",
+      label:
+        "I would like to be included in the publicly visible attendee's list",
       placeholder: '',
       type: 'checkbox',
     },
   ],
-]
+];

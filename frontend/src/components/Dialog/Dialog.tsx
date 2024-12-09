@@ -1,18 +1,19 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { X } from 'lucide-react'
+import * as React from 'react';
 
-import { cn } from '@/lib/utils'
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
 
-export const Dialog = DialogPrimitive.Root
+import { cn } from '@/lib/utils';
 
-export const DialogTrigger = DialogPrimitive.Trigger
+export const Dialog = DialogPrimitive.Root;
 
-export const DialogPortal = DialogPrimitive.Portal
+export const DialogTrigger = DialogPrimitive.Trigger;
 
-export const DialogClose = DialogPrimitive.Close
+export const DialogPortal = DialogPrimitive.Portal;
+
+export const DialogClose = DialogPrimitive.Close;
 
 export const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -26,8 +27,8 @@ export const DialogOverlay = React.forwardRef<
     )}
     {...props}
   />
-))
-DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
+));
+DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 export const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
@@ -45,13 +46,13 @@ export const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'>
-        <X className='h-4 w-4' />
+        <X className='size-4' />
         <span className='sr-only'>Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
-))
-DialogContent.displayName = DialogPrimitive.Content.displayName
+));
+DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 export const DialogHeader = ({
   className,
@@ -64,8 +65,8 @@ export const DialogHeader = ({
     )}
     {...props}
   />
-)
-DialogHeader.displayName = 'DialogHeader'
+);
+DialogHeader.displayName = 'DialogHeader';
 
 export const DialogFooter = ({
   className,
@@ -78,8 +79,8 @@ export const DialogFooter = ({
     )}
     {...props}
   />
-)
-DialogFooter.displayName = 'DialogFooter'
+);
+DialogFooter.displayName = 'DialogFooter';
 
 export const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
@@ -93,8 +94,8 @@ export const DialogTitle = React.forwardRef<
     )}
     {...props}
   />
-))
-DialogTitle.displayName = DialogPrimitive.Title.displayName
+));
+DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
 export const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
@@ -105,5 +106,5 @@ export const DialogDescription = React.forwardRef<
     className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />
-))
-DialogDescription.displayName = DialogPrimitive.Description.displayName
+));
+DialogDescription.displayName = DialogPrimitive.Description.displayName;

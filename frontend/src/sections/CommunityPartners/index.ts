@@ -1,1 +1,1 @@
-export { default as CommunityPartners } from './CommunityPartners'
+export { default as CommunityPartners } from './CommunityPartners';

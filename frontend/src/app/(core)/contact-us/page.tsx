@@ -1,1 +1,1 @@
-export { ContactUsContainer as default } from '@containers'
+export { ContactUsContainer as default } from '@containers';

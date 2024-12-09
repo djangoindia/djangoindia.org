@@ -1,1 +1,1 @@
-export * from './useWidth'
+export { default as useWidth } from './useWidth';

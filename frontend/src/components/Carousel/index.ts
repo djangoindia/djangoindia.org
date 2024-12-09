@@ -1,2 +1,2 @@
-export * from './controlButton'
-export * from './carousel'
+export * from './controlButton';
+export * from './carousel';

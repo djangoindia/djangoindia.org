@@ -1,12 +1,17 @@
 # from django.conf import settings
+from import_export import fields, resources
+from import_export.admin import ImportExportModelAdmin
+from import_export.widgets import ForeignKeyWidget
+
 from django.conf import settings
 from django.contrib import admin, messages
-from django.core.mail import send_mass_mail
 from django.db import transaction
 from django.db.models import Count, F
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import path
+
+from djangoindia.bg_tasks.event_registration import send_mass_mail_task
 from djangoindia.db.models.communication import ContactUs, Subscriber
 from djangoindia.db.models.event import Event, EventRegistration
 from djangoindia.db.models.partner_and_sponsor import (
@@ -16,9 +21,6 @@ from djangoindia.db.models.partner_and_sponsor import (
 )
 from djangoindia.db.models.update import Update
 from djangoindia.db.models.volunteer import Volunteer
-from import_export import fields, resources
-from import_export.admin import ImportExportModelAdmin
-from import_export.widgets import ForeignKeyWidget
 
 from .forms import EmailForm, EventForm, UpdateForm
 
@@ -45,22 +47,31 @@ class EventAdmin(admin.ModelAdmin):
 
 
 class EventRegistrationResource(resources.ModelResource):
-
     class Meta:
         model = EventRegistration
 
 
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(ImportExportModelAdmin):
-    list_display = ("event", "first_name", "email", "created_at")
-    readonly_fields = ("created_at", "updated_at")
-    list_filter = ("event__name",)
+    list_display = (
+        "event",
+        "first_name",
+        "email",
+        "created_at",
+        "attendee_type",
+        "first_time_attendee",
+    )
+    readonly_fields = ("created_at", "updated_at", "first_time_attendee")
+    list_filter = ("event__name", "attendee_type", "first_time_attendee")
     search_fields = [
         "email",
         "event__name",
         "first_name",
         "last_name",
+        "first_time_attendee",
+        "attendee_type",
     ]
+    raw_id_fields = ("event",)
     actions = [send_email_to_selected_users]
     resource_class = EventRegistrationResource
 
@@ -113,7 +124,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
                         recipient_email = registration.email
                         emails.append((subject, message, from_email, [recipient_email]))
 
-                    send_mass_mail(emails, fail_silently=False)
+                    send_mass_mail_task(emails, fail_silently=False)
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
@@ -153,7 +164,6 @@ class ContactUsAdmin(admin.ModelAdmin):
 
 
 class SponsorshipResource(resources.ModelResource):
-
     sponsor_name = fields.Field(
         column_name="sponsor_name",
         attribute="sponsor_details",
@@ -209,8 +219,8 @@ class SponsorAdmin(admin.ModelAdmin):
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
-    list_display = ("title", "type", "created_by", "created_at", "mail_sent")
-    search_fields = ["title", "created_by__username", "created_by__first_name", "type"]
+    list_display = ("email_subject", "type", "created_by", "created_at", "mail_sent")
+    search_fields = ["email_subject", "created_by__username", "created_by__first_name", "type"]
     readonly_fields = ("created_by", "created_at", "updated_at")
     actions = ["send_update"]
 

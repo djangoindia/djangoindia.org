@@ -1,7 +1,8 @@
 from .base import *  # noqa: F403, F401
 
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-INSTALLED_APPS+=["storages"]
+INSTALLED_APPS += ["storages"]
 
 # EMail settings
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
@@ -35,11 +36,13 @@ STORAGES = {
     },
 }
 
-REST_FRAMEWORK.update({
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/hour',
+REST_FRAMEWORK.update(
+    {
+        "DEFAULT_THROTTLE_CLASSES": [
+            "rest_framework.throttling.AnonRateThrottle",
+        ],
+        "DEFAULT_THROTTLE_RATES": {
+            "anon": "100/hour",
+        },
     }
-})
+)

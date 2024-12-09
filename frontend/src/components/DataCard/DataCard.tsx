@@ -1,9 +1,8 @@
-"use client"
-import React, { useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-import { FaCity, FaGithub } from "react-icons/fa";
-import { FaUsers } from "react-icons/fa";
+'use client';
+import React, { useEffect, useState } from 'react';
 
+import { FaCity, FaGithub, FaUsers } from 'react-icons/fa';
+import { useInView } from 'react-intersection-observer';
 
 // Define props type for StatCard component
 interface StatCardProps {
@@ -16,34 +15,40 @@ interface StatCardProps {
 
 export const DataCard = () => {
   return (
-    <div className="grid justify-center items-center lg:grid-cols-3 md:grid-cols-2 gap-6 w-full p-8">
+    <div className='grid w-full items-center justify-center gap-6 p-8 md:grid-cols-2 lg:grid-cols-3'>
       <StatCard
-        title="Active Contributors"
-        subText="& counting till date"
+        title='Active Contributors'
+        subText='& counting till date'
         startCount={0}
-        count={20}
-        icon={<FaCity className="text-[2rem]" />}
+        count={25}
+        icon={<FaCity className='text-[2rem]' />}
       />
       <StatCard
-        title="Subscribers"
-        subText="loving Django India"
+        title='Subscribers'
+        subText='loving Django India'
+        startCount={100}
+        count={250}
+        icon={<FaUsers className='text-[3rem]' />}
+      />
+      <StatCard
+        title='GitHub Stars'
+        subText='till date'
         startCount={10}
         count={100}
-        icon={<FaUsers className="text-[3rem]" />}
-      />
-      <StatCard
-        title="GitHub Stars"
-        subText="till date"
-        startCount={0}
-        count={70}
-        icon={<FaGithub className="text-[2rem]" />}
+        icon={<FaGithub className='text-[2rem]' />}
       />
     </div>
   );
-}
+};
 
 // Define StatCard component with props typed
-const StatCard: React.FC<StatCardProps> = ({ title, subText, count, startCount, icon }) => {
+const StatCard: React.FC<StatCardProps> = ({
+  title,
+  subText,
+  count,
+  startCount,
+  icon,
+}) => {
   const [number, setNumber] = useState(startCount);
   const { ref, inView } = useInView({
     threshold: 0.4,
@@ -68,21 +73,19 @@ const StatCard: React.FC<StatCardProps> = ({ title, subText, count, startCount, 
   return (
     <div
       ref={ref}
-      className="flex items-center p-4 border border-gray-400 rounded-lg"
+      className='flex items-center rounded-lg border border-gray-400 p-4'
     >
-      <div className="flex flex-shrink-0 items-center justify-center bg-green-500 h-16 w-16 rounded">
+      <div className='flex size-16 shrink-0 items-center justify-center rounded bg-green-500'>
         {icon}
       </div>
-      <div className="flex-grow flex flex-col ml-4">
-        <span className="text-4xl font-bold">
-          {count === 50 ? "" : ""}
+      <div className='ml-4 flex grow flex-col'>
+        <span className='text-4xl font-bold'>
+          {count === 50 ? '' : ''}
           {inView ? number : 0}+
         </span>
-        <span className="text-xl font-bold">
-          {title}
-        </span>
-        <div className="flex items-center justify-between">
-          <span className="gradient font-bold">{subText}</span>
+        <span className='text-xl font-bold'>{title}</span>
+        <div className='flex items-center justify-between'>
+          <span className='font-bold'>{subText}</span>
         </div>
       </div>
     </div>

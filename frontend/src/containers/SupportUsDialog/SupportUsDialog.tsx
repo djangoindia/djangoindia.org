@@ -1,3 +1,8 @@
+import React from 'react';
+
+import Link from 'next/link';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+
 import {
   Button,
   Dialog,
@@ -7,16 +12,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components'
-import { DialogTriggerProps } from '@radix-ui/react-dialog'
-import Link from 'next/link'
-import React from 'react'
-import { FaExternalLinkAlt } from 'react-icons/fa'
+} from '@/components';
+
+import type { DialogTriggerProps } from '@radix-ui/react-dialog';
 
 const SupportUsDialog = ({
   onClose,
 }: {
-  onClose?: DialogTriggerProps['onClick']
+  onClose?: DialogTriggerProps['onClick'];
 }) => {
   return (
     <Dialog>
@@ -33,7 +36,7 @@ const SupportUsDialog = ({
         </DialogHeader>
         <div className='grid gap-4 py-4'>
           <div>
-            <h6 className='font-bold text-base inline-flex items-center gap-2'>
+            <h6 className='inline-flex items-center gap-2 text-base font-bold'>
               Give Us a Shoutout
               <Link
                 href='https://www.linkedin.com/company/djangoindia'
@@ -48,7 +51,7 @@ const SupportUsDialog = ({
             </p>
           </div>
           <div>
-            <h6 className='font-bold text-base inline-flex items-center gap-2'>
+            <h6 className='inline-flex items-center gap-2 text-base font-bold'>
               Star Our Repo
               <Link
                 href='https://github.com/djangoindia/djangoindia.org'
@@ -63,7 +66,7 @@ const SupportUsDialog = ({
             </p>
           </div>
           <div>
-            <h6 className='font-bold text-base inline-flex items-center gap-2'>
+            <h6 className='inline-flex items-center gap-2 text-base font-bold'>
               Contribute on GitHub
               <Link
                 href='https://github.com/djangoindia/djangoindia.org/issues'
@@ -85,7 +88,7 @@ const SupportUsDialog = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default SupportUsDialog
+export default SupportUsDialog;

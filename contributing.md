@@ -202,8 +202,8 @@ Remember, every contribution, no matter how small, is valuable and appreciated!
     AWS_S3_REGION_NAME=region
 
 
-    CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-    CELERY_RESULT_BACKEND=db+postgresql://postgres:postgres@postgres:5432/djangoindia-db
+    CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672// #pragma: allowlist secret
+    CELERY_RESULT_BACKEND=db+postgresql://postgres:postgres@postgres:5432/djangoindia-db #pragma: allowlist secret
 
     POSTGRES_DB=djangoindia-db
     POSTGRES_USER=postgres
@@ -376,5 +376,3 @@ If you have any questions or need more information, feel free to reach out to us
 
 ## Thank You!
 Your contributions are what make open-source projects great. We appreciate your time and effort in making djangoindia.org better for everyone.
-
-

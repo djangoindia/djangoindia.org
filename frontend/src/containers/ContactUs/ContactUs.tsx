@@ -1,13 +1,16 @@
-'use client'
+'use client';
 
-import { Label, Input, Textarea, Button } from '@components'
-import React from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { ContactUsForm } from './ContactUs.types'
-import { fetchData } from '@utils'
-import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { enqueueSnackbar } from 'notistack'
+import React from 'react';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+
+import { Button, Input, Label, Textarea } from '@components';
+import { API_ENDPOINTS, CONTACT_US_FORM_SCHEMA } from '@constants';
+import { fetchData } from '@utils';
+
+import type { ContactUsForm } from './ContactUs.types';
 
 const ContactUs = () => {
   const {
@@ -17,119 +20,115 @@ const ContactUs = () => {
     formState: { errors },
   } = useForm<ContactUsForm>({
     resolver: yupResolver(CONTACT_US_FORM_SCHEMA),
-  })
+  });
 
   const onSubmit: SubmitHandler<ContactUsForm> = async (data) => {
-    const res = await fetchData<{message: string}>(API_ENDPOINTS.contactUs, {
+    const res = await fetchData<{ message: string }>(API_ENDPOINTS.contactUs, {
       method: 'POST',
       body: JSON.stringify(data),
-    })
+    });
     if (res.statusCode === 200 || res.statusCode === 201) {
-      enqueueSnackbar(res?.data?.message, { variant: 'success' })
-    } 
-    else if (res.statusCode === 429) {
-      enqueueSnackbar('Too many requests, Please try again after some time.', { variant: 'error' })
-    } 
-    else {
+      enqueueSnackbar(res?.data?.message, { variant: 'success' });
+    } else if (res.statusCode === 429) {
+      enqueueSnackbar('Too many requests, Please try again after some time.', {
+        variant: 'error',
+      });
+    } else {
       enqueueSnackbar(res?.error?.message, {
         variant: 'error',
-      })
+      });
     }
-    reset()
-  }
+    reset();
+  };
 
   return (
-    <>
-      <div className='container'>
-        <h2 className='text-6xl mt-12 mb-6 font-bold text-blue-900'>
-          Contact Us
-        </h2>
-        <hr />
-        <p className='my-6'>
-          Have a question or want to collaborate? We&#39;d love to hear from
-          you! Fill out the form below or reach out to us directly at
-          admin@djangoindia.org. We look forward to connecting with you!
-        </p>
-        <form
-          className='flex flex-col max-w-2xl mx-auto my-16 gap-2'
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className='flex flex-col sm:flex-row gap-5 w-full justify-between'>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label
-                htmlFor='firstName'
-                className={`${errors.first_name ? 'text-red-500' : ''}`}
-              >
-                First Name
-              </Label>
-              <Input
-                {...register('first_name', { required: true })}
-                type='text'
-                placeholder='Enter your first Name'
-                className={`${errors.first_name ? '!outline-red-500 text-color-500' : ''}`}
-              />
-              <p className='text-red-500 text-sm h-[20px]'>
-                {errors.first_name?.message ?? ' '}
-              </p>
-            </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <Label
-                htmlFor='lastName'
-                className={`${errors.last_name ? 'text-red-500' : ''}`}
-              >
-                Last Name
-              </Label>
-              <Input
-                {...register('last_name', { required: true })}
-                type='text'
-                id='lastName'
-                placeholder='Enter your last Name'
-                className={`${errors.last_name ? '!outline-red-500 text-color-500' : ''}`}
-              />
-              <p className='text-red-500 text-sm h-[20px]'>
-                {errors.last_name?.message ?? ' '}
-              </p>
-            </div>
+    <section className='container py-10'>
+      <h2 className='mb-2 text-4xl font-bold'>Contact Us</h2>
+      <p className='text-xl'>
+        Have a question or want to collaborate? We&#39;d love to hear from you!
+        Fill out the form below or reach out to us directly at
+        admin@djangoindia.org. We look forward to connecting with you!
+      </p>
+      <form
+        className='mx-auto my-16 flex max-w-2xl flex-col gap-2'
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className='flex w-full flex-col justify-between gap-5 sm:flex-row'>
+          <div className='grid w-full items-center gap-1.5'>
+            <Label
+              htmlFor='firstName'
+              className={`${errors.first_name ? 'text-red-500' : ''}`}
+            >
+              First Name
+            </Label>
+            <Input
+              {...register('first_name', { required: true })}
+              type='text'
+              placeholder='Enter your first Name'
+              className={`${errors.first_name ? 'text-red-500 !outline-red-500' : ''}`}
+            />
+            <p className='h-[20px] text-sm text-red-500'>
+              {errors.first_name?.message ?? ' '}
+            </p>
           </div>
           <div className='grid w-full items-center gap-1.5'>
             <Label
-              htmlFor='email'
-              className={`${errors.email ? 'text-red-500' : ''}`}
+              htmlFor='lastName'
+              className={`${errors.last_name ? 'text-red-500' : ''}`}
             >
-              Email
+              Last Name
             </Label>
             <Input
-              {...register('email', { required: true })}
-              type='email'
-              id='email'
-              placeholder='Enter your email'
-              className={`${errors.email ? '!outline-red-500 text-color-500' : ''}`}
+              {...register('last_name', { required: true })}
+              type='text'
+              id='lastName'
+              placeholder='Enter your last Name'
+              className={`${errors.last_name ? 'text-red-500 !outline-red-500' : ''}`}
             />
-            <p className='text-red-500 text-sm h-[20px]'>
-              {errors.email?.message ?? ' '}
+            <p className='h-[20px] text-sm text-red-500'>
+              {errors.last_name?.message ?? ' '}
             </p>
           </div>
-          <div className='grid w-full gap-1.5'>
-            <Label
-              htmlFor='message'
-              className={`${errors.message ? 'text-red-500' : ''}`}
-            >
-              Your message
-            </Label>
-            <Textarea
-              rows={10}
-              {...register('message', { required: true })}
-              placeholder='Type your message here.'
-              id='message'
-              className={`${errors.message ? '!outline-red-500 text-color-500' : ''}`}
-            />
-            <p className='text-red-500 text-sm h-[20px]'>
-              {errors.message?.message ?? ' '}
-            </p>
-          </div>
-          <Button type='submit'>Submit</Button>
-        </form>
-        {/* <div className='my-16 bg-yellow-50 rounded-2xl shadow-lg'>
+        </div>
+        <div className='grid w-full items-center gap-1.5'>
+          <Label
+            htmlFor='email'
+            className={`${errors.email ? 'text-red-500' : ''}`}
+          >
+            Email
+          </Label>
+          <Input
+            {...register('email', { required: true })}
+            type='email'
+            id='email'
+            placeholder='Enter your email'
+            className={`${errors.email ? 'text-red-500 !outline-red-500' : ''}`}
+          />
+          <p className='h-[20px] text-sm text-red-500'>
+            {errors.email?.message ?? ' '}
+          </p>
+        </div>
+        <div className='grid w-full gap-1.5'>
+          <Label
+            htmlFor='message'
+            className={`${errors.message ? 'text-red-500' : ''}`}
+          >
+            Your message
+          </Label>
+          <Textarea
+            rows={10}
+            {...register('message', { required: true })}
+            placeholder='Type your message here.'
+            id='message'
+            className={`${errors.message ? 'text-red-500 !outline-red-500' : ''}`}
+          />
+          <p className='h-[20px] text-sm text-red-500'>
+            {errors.message?.message ?? ' '}
+          </p>
+        </div>
+        <Button type='submit'>Submit</Button>
+      </form>
+      {/* <div className='my-16 bg-yellow-50 rounded-2xl shadow-lg'>
           <div className='flex flex-col gap-5 p-10'>
             <h4 className='text-2xl text-center font-bold text-blue-900'>
               Ask us Anything
@@ -242,9 +241,8 @@ const ContactUs = () => {
           </div>
           <div className='h-40'></div>
         </div> */}
-      </div>
-    </>
-  )
-}
+    </section>
+  );
+};
 
-export default ContactUs
+export default ContactUs;

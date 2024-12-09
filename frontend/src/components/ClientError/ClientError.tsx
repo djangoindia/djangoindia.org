@@ -1,11 +1,13 @@
-'use client'
+'use client';
 
-import React, { useEffect } from 'react'
-import { enqueueSnackbar } from 'notistack'
-import { ErrorResponse } from '@/utils'
+import React, { useEffect } from 'react';
+
+import { enqueueSnackbar } from 'notistack';
+
+import type { ErrorResponse } from '@/utils';
 
 interface ClientComponentProps {
-  error: ErrorResponse
+  error: ErrorResponse;
 }
 
 const ClientComponent: React.FC<ClientComponentProps> = ({ error }) => {
@@ -15,11 +17,11 @@ const ClientComponent: React.FC<ClientComponentProps> = ({ error }) => {
         key: error?.statusCode,
         variant: 'error',
         preventDuplicate: true,
-      })
+      });
     }
-  }, [error])
+  }, [error]);
 
-  return <></>
-}
+  return <></>;
+};
 
-export default ClientComponent
+export default ClientComponent;
