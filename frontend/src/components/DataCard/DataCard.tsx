@@ -18,7 +18,7 @@ interface StatCardProps {
 
 
 export const DataCard = () => {
-  const [dataCount, setDataCount] = useState({});
+  const [dataCount, setDataCount] = useState({stargazers_count: Number, subscribers_count: Number, contributors_count: Number});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchDataCount(url1: string, url2: string, options: object): Promise<any> {
@@ -28,7 +28,7 @@ export const DataCard = () => {
           let res2 = await fetch(url2, options);
           let data = await res.json();
           let data2 = await res2.json();
-          setDataCount({stargazers_count: Number(data.stargazers_count), subscribers_count: Number( data.subscribers_count), contributors_count: Number(data2.length)});
+          setDataCount({stargazers_count: Number(data.stargazers_count), subscribers_count: 250, contributors_count: Number(data2.length)});
           setLoading(false);
         }
 
@@ -38,7 +38,7 @@ export const DataCard = () => {
       }
     }
     if (loading){
-      fetchDataCount(url.stargazers_subs_count, url.contributors, requestOptions.options);
+      fetchDataCount(url.stargazers_count, url.contributors, requestOptions.options);
     }
     
   },[])
