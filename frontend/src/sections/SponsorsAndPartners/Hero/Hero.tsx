@@ -19,7 +19,7 @@ const HeroSection = () => {
           that empowers developers across India and beyond.
         </p>
         <Link
-          href={process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'}
+          href={process.env.NEXT_PUBLIC_SPONSOR_URL || process.env.NEXT_PUBLIC_SPONSOR_FORM || '#'}
           target='_blank'
         >
           <Button className='inline-flex items-center rounded-lg bg-[#1e3a8a]/90 px-6 py-3 font-semibold text-white transition'>
