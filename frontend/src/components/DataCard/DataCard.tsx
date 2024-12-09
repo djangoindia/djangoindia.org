@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-
 import { FaCity, FaGithub, FaUsers } from 'react-icons/fa';
 import { useInView } from 'react-intersection-observer';
 import { url, requestOptions } from './apiDataCard';
@@ -18,6 +17,7 @@ export const DataCard = () => {
   const [dataCount, setDataCount] = useState({stargazers_count: Number, subscribers_count: Number, contributors_count: Number});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    //Set up use effect so API runs on component load and stops once loading is set to false.
     async function fetchDataCount(url1: string, url2: string, options: object): Promise<any> {
       try {
         if (url1 && url2) {

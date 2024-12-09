@@ -1,4 +1,4 @@
-
+//API URL and Headers exported for DataCard.tsx
 export const requestOptions = {
     options: {method: "GET", headers: {'X-GitHub-Api-Version': '2022-11-28'}},
 };
