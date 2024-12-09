@@ -21,7 +21,7 @@ export const DataCard = () => {
   const [dataCount, setDataCount] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    async function fetchStargazerCount(url1: string, url2: string, options: object): Promise<any> {
+    async function fetchDataCount(url1: string, url2: string, options: object): Promise<any> {
       try {
         if (url1 && url2) {
           let res = await fetch(url1, options);
@@ -38,7 +38,7 @@ export const DataCard = () => {
       }
     }
     if (loading){
-      fetchStargazerCount(url.stargazers_subs_count, url.contributors, requestOptions.options);
+      fetchDataCount(url.stargazers_subs_count, url.contributors, requestOptions.options);
     }
     
   },[])
