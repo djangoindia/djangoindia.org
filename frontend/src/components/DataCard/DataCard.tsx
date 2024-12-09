@@ -14,9 +14,6 @@ interface StatCardProps {
   icon: React.ReactNode;
 }
 
-
-
-
 export const DataCard = () => {
   const [dataCount, setDataCount] = useState({stargazers_count: Number, subscribers_count: Number, contributors_count: Number});
   const [loading, setLoading] = useState(true);

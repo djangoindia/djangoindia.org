@@ -6,6 +6,3 @@ export const url = {
     stargazers_count: "https://api.github.com/repos/djangoindia/djangoindia.org",
     contributors: "https://api.github.com/repos/djangoindia/djangoindia.org/contributors",
 };
-
-
-
