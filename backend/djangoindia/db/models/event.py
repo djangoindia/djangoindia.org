@@ -1,17 +1,10 @@
 from cabinet.models import Folder
 
-from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import timezone
 from django.utils.text import slugify
 
 from .base import BaseModel
 from .volunteer import Volunteer
-
-
-def validate_future_date(value):
-    if value <= timezone.now():
-        raise ValidationError("Date must be in the future.")
 
 
 class Event(BaseModel):
@@ -26,15 +19,9 @@ class Event(BaseModel):
     venue = models.TextField(default="TBA", null=True, blank=True)
     city = models.CharField(max_length=255, default="TBA", null=True, blank=True)
     venue_map_link = models.TextField(null=True, blank=True)
-    start_date = models.DateTimeField(
-        null=True, blank=True, validators=[validate_future_date]
-    )
-    end_date = models.DateTimeField(
-        null=True, blank=True, validators=[validate_future_date]
-    )
-    registration_end_date = models.DateTimeField(
-        null=True, blank=True, validators=[validate_future_date]
-    )
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    registration_end_date = models.DateTimeField(null=True, blank=True)
     event_mode = models.CharField(
         max_length=20, choices=EventModes.choices, default=EventModes.IN_PERSON
     )
