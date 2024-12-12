@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python imports
 import uuid
 
@@ -17,6 +18,15 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+=======
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
+
+from .base import BaseModel
+
+
+class User(PermissionsMixin, AbstractBaseUser):
+>>>>>>> 0e67722 (WIP)
     class GENDER:
         CHOICES = (
             ("male", "male"),
@@ -25,6 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             ("not_to_specify", "not_to_specify"),
         )
 
+<<<<<<< HEAD
     USER_TIMEZONE_CHOICES = tuple(zip(pytz.all_timezones, pytz.all_timezones))
 
     username = models.CharField(max_length=128, unique=True)
@@ -98,3 +109,63 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.is_staff = True
 
         super().save(*args, **kwargs)
+=======
+    first_name = models.CharField(max_length=255, blank=False, null=False)
+    last_name = models.CharField(max_length=255, blank=False, null=False)
+    unique_username = models.CharField(max_length=50, null=True, blank=True)
+    gender = models.CharField(choices=GENDER.CHOICES, max_length=50)
+    email = models.EmailField(max_length=255, unique=True, blank=False, null=False)
+    phone_number = models.CharField(max_length=50, blank=True, null=True)
+    date_of_birth = models.DateTimeField(blank=True, null=True)
+    organization = models.CharField(max_length=500, blank=True, null=True)
+    year_of_experience = models.IntegerField(default=None, blank=True, null=True)
+    college = models.CharField(max_length=500, blank=True, null=True)
+    year_of_passing = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False, verbose_name="community volunteer")
+    is_superuser = models.BooleanField(default=False)
+    is_professional = models.BooleanField(default=False)
+
+
+class UserSocials:
+    class SoialMediaType:
+        CHOICES = (
+            ("linkedin", "linkedin"),
+            ("github", "github"),
+            ("twitter", "twitter"),
+        )
+
+    user = models.ForeignKey(User, null=False, blank=False)
+    social_media_type = models.CharField(choices=SoialMediaType.CHOICES, max_length=50)
+    profile_link = models.CharField(max_length=500, blank=True, null=True)
+
+
+class LogHistory(BaseModel):
+    user = models.ForeignKey(User, null=False, blank=False)
+    login_timestamp = models.DateTimeField(auto_now=True)
+
+
+class UserEventHistory(BaseModel):
+    class RegistrationStatusType:
+        CHOICES = (
+            ("interested", "interested"),
+            ("rsvped", "rsvped"),
+            ("confirmed", "confirmed"),
+            ("shortlisted", "shortlisted")("waiting", "waiting")(
+                "cancelled", "cancelled"
+            ),
+        )
+
+    user = models.ForeignKey("User", null=False, blank=False)
+    event = models.ForeignKey("Event", null=False, blank=False)
+    registration_time = models.DateTimeField(auto_now=True)
+    registration_status = models.CharField(
+        choices=RegistrationStatusType.CHOICES, max_length=50
+    )
+
+
+# register for event
+# rsvp for event -> going/ not going
+# show events on my profile
+# django stories
+>>>>>>> 0e67722 (WIP)
