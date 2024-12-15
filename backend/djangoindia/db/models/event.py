@@ -1,10 +1,17 @@
 from cabinet.models import Folder
 
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 from .base import BaseModel
 from .volunteer import Volunteer
+
+
+def validate_future_date(value):
+    if value <= timezone.now():
+        raise ValidationError("Date must be in the future.")
 
 
 class Event(BaseModel):

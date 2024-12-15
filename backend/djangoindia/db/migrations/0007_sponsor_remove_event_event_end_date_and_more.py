@@ -46,12 +46,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='end_date',
-            field=models.DateTimeField(blank=True, null=True),
+            field=models.DateTimeField(blank=True, null=True, validators=[djangoindia.db.models.event.validate_future_date]),
         ),
         migrations.AddField(
             model_name='event',
             name='start_date',
-            field=models.DateTimeField(blank=True, null=True),
+            field=models.DateTimeField(blank=True, null=True, validators=[djangoindia.db.models.event.validate_future_date]),
         ),
         migrations.AddField(
             model_name='eventregistration',
@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='registration_end_date',
-            field=models.DateTimeField(blank=True, null=True),
+            field=models.DateTimeField(blank=True, null=True, validators=[djangoindia.db.models.event.validate_future_date]),
         ),
         migrations.AlterField(
             model_name='eventregistration',
