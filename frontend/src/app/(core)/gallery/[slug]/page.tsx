@@ -53,9 +53,12 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
     name: string;
   }>();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    fetchData<FolderResponseType>(`${API_ENDPOINTS.eventsMedia}/${slug}`).then(
-      (res) => {
+    setIsLoading(true);
+    fetchData<FolderResponseType>(`${API_ENDPOINTS.eventsMedia}/${slug}`)
+      .then((res) => {
         if (res.data) {
           setMediaResponse({
             files: res.data?.files.map(
@@ -70,9 +73,25 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
         } else {
           router.push(APP_ROUTES.gallery);
         }
-      },
-    );
+      })
+      .catch((error) => {
+        console.error('Error fetching media:', error);
+        router.push(APP_ROUTES.gallery);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [router, slug]);
+
+  const Loader = () => (
+    <div className="flex justify-center items-center min-h-[50vh]">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+    </div>
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -93,14 +112,31 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
           onClick={({ index }) => setIndex(index)}
           render={{
             image: ({ src, alt, sizes }) => (
-              <Image
-                src={src}
-                priority
-                alt={alt ?? ''}
-                sizes={sizes}
-                fill
-                className='transition-all duration-300 group-hover:scale-110'
-              />
+              <div className="relative w-full h-full bg-gray-100">
+                <Image
+                  src={src}
+                  alt={alt ?? ''}
+                  sizes={sizes}
+                  fill
+                  priority
+                  onLoadingComplete={() => {
+                    setMediaResponse(prev => prev ? {
+                      ...prev,
+                      files: prev.files.map(file => 
+                        file.src === src ? { ...file, isLoaded: true } : file
+                      )
+                    } : prev);
+                  }}
+                  className={`
+                    absolute inset-0 object-cover transition-all duration-300
+                    ${mediaResponse?.files.find(f => f.src === src)?.isLoaded 
+                      ? 'opacity-100' 
+                      : 'opacity-0'
+                    }
+                    group-hover:scale-110
+                  `}
+                />
+              </div>
             ),
           }}
         />
@@ -110,7 +146,6 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
         open={index >= 0}
         index={index}
         close={() => setIndex(-1)}
-        // enable optional lightbox plugins
         plugins={[Fullscreen]}
       />
     </div>
