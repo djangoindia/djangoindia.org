@@ -127,14 +127,7 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
                       )
                     } : prev);
                   }}
-                  className={`
-                    absolute inset-0 object-cover transition-all duration-300
-                    ${mediaResponse?.files.find(f => f.src === src)?.isLoaded 
-                      ? 'opacity-100' 
-                      : 'opacity-0'
-                    }
-                    group-hover:scale-110
-                  `}
+                  className="absolute inset-0 object-cover transition-all duration-30 group-hover:scale-110"
                 />
               </div>
             ),
