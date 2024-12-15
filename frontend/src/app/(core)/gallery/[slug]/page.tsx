@@ -8,6 +8,7 @@ import { RowsPhotoAlbum } from 'react-photo-album';
 import 'react-photo-album/rows.css';
 import { Lightbox } from 'yet-another-react-lightbox';
 import { Fullscreen } from 'yet-another-react-lightbox/plugins';
+import Loading from '@/app/(core)/loading';
 
 import { API_ENDPOINTS, APP_ROUTES } from '@/constants';
 import { fetchData } from '@/utils';
@@ -83,14 +84,8 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
       });
   }, [router, slug]);
 
-  const Loader = () => (
-    <div className="flex justify-center items-center min-h-[50vh]">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-    </div>
-  );
-
   if (isLoading) {
-    return <Loader />;
+    return <Loading />;
   }
 
   return (

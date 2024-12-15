@@ -10,6 +10,8 @@ import { API_ENDPOINTS } from '@/constants';
 import { cn } from '@/lib/utils';
 import { fetchData } from '@/utils';
 
+import Loading from '@/app/(core)/loading';
+
 type PhotoResponseType = {
   id: string;
   name: string;
@@ -20,14 +22,17 @@ type PhotoResponseType = {
 const MediaContainer = ({ children }: PropsWithChildren) => {
   const params = useParams();
   const [open, setOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [folderStructure, setFolderStructure] = useState<PhotoResponseType[]>(
     [],
   );
 
   useEffect(() => {
+    setIsLoading(true)
     fetchData<PhotoResponseType[]>(API_ENDPOINTS.eventsMedia).then((res) => {
       if (res.data) {
         setFolderStructure(res.data);
+        setIsLoading(false)
       }
     });
   }, []);
@@ -44,6 +49,10 @@ const MediaContainer = ({ children }: PropsWithChildren) => {
     }
     return [];
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <section className='container py-10'>
@@ -96,7 +105,7 @@ const MediaContainer = ({ children }: PropsWithChildren) => {
           </div>
         </div>
       ) : (
-        <>
+          <>
           <div className='mx-auto my-10 w-1/5'>
             <svg
               viewBox='0 0 24 24'
