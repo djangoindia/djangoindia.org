@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { RowsPhotoAlbum } from 'react-photo-album';
 import 'react-photo-album/rows.css';
 import { Lightbox } from 'yet-another-react-lightbox';
@@ -12,7 +14,6 @@ import { fetchData } from '@/utils';
 import 'yet-another-react-lightbox/styles.css';
 
 import type { PageProps } from '@/types/common';
-import { useRouter } from 'next/navigation';
 
 type MediaFile = {
   id: number;
@@ -86,10 +87,22 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
               className: 'group-hover:scale-110 transition-all duration-300',
             },
             button: {
-              className: 'rounded-lg overflow-hidden group',
+              className: 'rounded-lg overflow-hidden group h-[250px]',
             },
           }}
           onClick={({ index }) => setIndex(index)}
+          render={{
+            image: ({ src, alt, sizes }) => (
+              <Image
+                src={src}
+                priority
+                alt={alt ?? ''}
+                sizes={sizes}
+                fill
+                className='transition-all duration-300 group-hover:scale-110'
+              />
+            ),
+          }}
         />
       )}
       <Lightbox
