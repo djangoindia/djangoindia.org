@@ -23,7 +23,7 @@ const IndividualSponsors: React.FC<{ sponsors: Sponsor[] }> = ({
         {sponsors?.map((sponsor, index) => (
           <div
             key={index}
-            className='group relative flex h-36 w-full items-center gap-4 overflow-hidden rounded-2xl bg-white p-4 transition-all duration-300 hover:shadow-lg md:w-1/3 lg:w-[23%]'
+            className='group relative flex h-36 w-full items-center gap-4 overflow-hidden rounded-2xl bg-white p-4 transition-all duration-300 hover:shadow-lg md:w-1/3 lg:w-[30%]'
           >
             <div className='absolute inset-0 flex items-center gap-3 p-4 opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-0'>
               <div className='size-[60px] shrink-0'>
