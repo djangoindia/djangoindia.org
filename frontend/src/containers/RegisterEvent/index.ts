@@ -1,1 +1,1 @@
-export { RegisterEvent } from './RegisterEvent'
+export { RegisterEvent } from './RegisterEvent';

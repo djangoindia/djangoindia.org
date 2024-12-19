@@ -1,1 +1,1 @@
-export { default as EventSponsors } from './EventSponsors'
+export { default as EventSponsors } from './EventSponsors';

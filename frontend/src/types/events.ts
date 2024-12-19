@@ -8,7 +8,7 @@ export type SponsorDetails = {
 
 export type Sponsor = {
   sponsor_details: SponsorDetails;
-  tier: string; 
+  tier: string;
 };
 
 export type Partner = {
@@ -27,25 +27,23 @@ export type Volunteer = {
   linkedin: string | null;
 };
 
-
 export type Event = {
-  id: string
-  slug: string
-  name: string
-  description: string
-  cover_image: string
-  venue: string
-  city: string
-  venue_map_link: string
-  start_date: string
-  end_date: string
-  registration_end_date: string
-  event_mode: string
-  seats_left: number
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  cover_image: string;
+  venue: string;
+  city: string;
+  venue_map_link: string;
+  start_date: string;
+  end_date: string;
+  registration_end_date: string;
+  event_mode: string;
+  seats_left: number;
   sponsors: Sponsor[];
-  partners: Partner[]; 
+  partners: Partner[];
   volunteers: Volunteer[];
+};
 
-}
-
-export type EventsResponse = Event[]
+export type EventsResponse = Event[];

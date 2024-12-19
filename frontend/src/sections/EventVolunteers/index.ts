@@ -1,1 +1,1 @@
-export { default as EventVolunteers } from './EventVolunteers'
+export { default as EventVolunteers } from './EventVolunteers';
