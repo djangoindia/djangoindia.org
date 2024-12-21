@@ -102,7 +102,7 @@ class EventAPIView(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        all_community_partners = CommunityPartner.objects.filter(created_at__gt=instance.created_at)
+        all_community_partners = CommunityPartner.objects.filter(created_at__lt=instance.created_at)
         serializer = EventSerializer(
             instance, context={"all_community_partners": all_community_partners}
         )
