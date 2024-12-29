@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Email Verification - Django India</title>
+  <style>
+    /* CSS style for the email body */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    /* CSS style for the main container */
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* CSS style for the heading */
+    h1 {
+      text-align: center;
+      color: #333333;
+    }
+
+    /* CSS style for the paragraph */
+    p {
+      color: #555555;
+      line-height: 1.4;
+    }
+
+    /* CSS style for the verify link */
+    .verify-link {
+      width: 88px;
+      padding: 12px 24px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    /* CSS style for the verify link on hover */
+    .verify-link:hover {
+      background-color: #0056b3;
+    }
+
+    /* CSS style for the creative content */
+    .creative-content {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+    }
+
+    /* CSS style for the creative content heading */
+    .creative-content h2 {
+      color: #007bff;
+    }
+
+    /* CSS style for the creative content text */
+    .creative-content p {
+      color: #555555;
+      line-height: 1.4;
+    }
+
+    img {
+      height: 120px;
+      align-self: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="https://avatars.githubusercontent.com/u/129617120?s=400&u=45eecc68865b9cacc9edfe0555676dd9acdeec1b&v=4"
+      alt="OD">
+    <h1>Email Verification</h1>
+    {% if first_name %}
+    <p>Hi {{first_name}}!</p>
+    {% else %}
+    <p>Hi there!</p>
+    {% endif %}
+    <p>Thank you for joining us at <b>Django India</b>. We're excited to have you on board! Before you get started, please
+      verify your email address by clicking the button below:</p>
+    <a href="{{verification_url}}" class="verify-link">Verify Email</a>
+    <p>If you did not sign up for an account at <b>Django India</b>, please disregard this email.</p>
+    <p>Best regards,<br>The Django India Team</p>
+  </div>
+</body>
+
+</html>
