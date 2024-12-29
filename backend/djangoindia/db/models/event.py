@@ -1,5 +1,6 @@
 from cabinet.models import Folder
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
@@ -45,6 +46,7 @@ class Event(BaseModel):
         super().save(*args, **kwargs)
 
 
+# Deprecated model
 class EventRegistration(BaseModel):
     class ProfessionalStatus(models.TextChoices):
         WORKING_PROFESSIONAL = "working_professional"
@@ -117,3 +119,32 @@ class EventRegistration(BaseModel):
         return (
             f"{self.first_name} {self.last_name} ({self.email}) --- {self.event.name}"
         )
+
+
+class EventUserRegistration(BaseModel):
+    class RegistrationStatusType:
+        CHOICES = (
+            ("going", "going"),
+            ("waiting", "waiting"),
+            ("not_going", "not_going"),
+        )
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    status = models.CharField(choices=RegistrationStatusType.CHOICES, max_length=50)
+    first_time_attendee = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        # This is a new registration
+        if self._state.adding:
+            user_has_registered_before = EventUserRegistration.objects.filter(
+                user=self.user
+            ).exists()
+            self.first_time_attendee = not user_has_registered_before
+
+            if self.event.seats_left > 0:
+                self.event.seats_left -= 1
+                self.event.save()
+            else:
+                raise ValueError("No seats left for this event.")
+        super().save(*args, **kwargs)
