@@ -1,6 +1,5 @@
 from django_prose_editor.fields import ProseEditorField
 
-from django.contrib.auth.models import User
 from django.db import models
 
 from djangoindia.bg_tasks.send_update import send_mass_update_email_task
@@ -18,7 +17,6 @@ class Update(BaseModel):
     email_subject = models.CharField(max_length=255)
     type = models.CharField(max_length=20, choices=UpdateType.choices)
     email_body = ProseEditorField()
-    created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, editable=False)
     recipients = models.ManyToManyField("Subscriber", related_name="received_updates")
     mail_sent = models.BooleanField(default=False)
 
