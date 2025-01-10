@@ -12,16 +12,20 @@ from django.template.response import TemplateResponse
 from django.urls import path
 
 from djangoindia.bg_tasks.event_registration import send_mass_mail_task
-from djangoindia.db.models.communication import ContactUs, Subscriber
-from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.partner_and_sponsor import (
+from djangoindia.db.models import (
     CommunityPartner,
+    ContactUs,
+    Event,
+    EventRegistration,
+    EventUserRegistration,
+    SocialLoginConnection,
     Sponsor,
     Sponsorship,
+    Subscriber,
+    Update,
+    User,
+    Volunteer,
 )
-from djangoindia.db.models.update import Update
-from djangoindia.db.models.user import User
-from djangoindia.db.models.volunteer import Volunteer
 
 from .forms import EmailForm, EventForm, UpdateForm
 
@@ -318,4 +322,24 @@ class UserAdmin(admin.ModelAdmin):
         ),
         ("Important dates", {"fields": ("created_at", "updated_at")}),
     )
+    ordering = ("-created_at",)
+
+
+@admin.register(SocialLoginConnection)
+class SocialLoginConnectionAdmin(admin.ModelAdmin):
+    list_display = ["user", "provider", "created_at"]
+    search_fields = ["user__username", "user__email"]
+    readonly_fields = ("created_at", "updated_at")
+    ordering = ("-created_at",)
+
+    def provider(self, obj):
+        return obj.medium
+
+
+@admin.register(EventUserRegistration)
+class EventUserRegistrationAdmin(admin.ModelAdmin):
+    list_display = ["user", "event", "created_at"]
+    search_fields = ["user__username", "user__email", "event__name"]
+    readonly_fields = ("created_at", "updated_at")
+    list_filter = ("event__name",)
     ordering = ("-created_at",)
