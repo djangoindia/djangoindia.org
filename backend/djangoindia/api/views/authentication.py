@@ -301,21 +301,26 @@ class SignInEndpoint(BaseAPIView):
 
 class SignOutEndpoint(BaseAPIView):
     def post(self, request):
-        refresh_token = request.data.get("refresh_token", False)
+        try:
+            refresh_token = request.data.get("refresh_token")
 
-        if not refresh_token:
+            if not refresh_token:
+                return Response(
+                    {"message": "No refresh token provided"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
             return Response(
-                {"message": "No refresh token provided"},
+                {"message": "Successfully logged out"}, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return Response(
+                {"message": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        user = User.objects.get(pk=request.user.id)
-
-        user.save()
-
-        token = RefreshToken(refresh_token)
-        token.blacklist()
-        return Response({"message": "success"}, status=status.HTTP_200_OK)
 
 
 class RequestEmailVerificationEndpoint(BaseAPIView):
