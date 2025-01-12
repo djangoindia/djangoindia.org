@@ -222,7 +222,7 @@ class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
     list_display = ("email_subject", "type", "created_at", "mail_sent")
     search_fields = ["email_subject", "created_by__username", "created_by__first_name", "type"]
-    readonly_fields = ("created_by", "created_at", "updated_at")
+    readonly_fields = ("created_at", "updated_at")
     actions = ["send_update", "send_test_email"]
 
     @admin.action(description="Send selected updates to subscribers")
