@@ -51,7 +51,8 @@ const EventCard: React.FC<EventProps> = ({
           className='rounded-t-lg'
           style={{
             maxWidth: '100%',
-            height: 'auto',
+            height: '100%',
+            objectFit: 'cover',
           }}
         />
       </div>
