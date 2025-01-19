@@ -46,11 +46,8 @@ const EventContainer = async ({
   event: Event;
 }) => {
   const sanitizedDescription = sanitizeHtml(description, {
-    allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'button', 'ul', 'l'],
-    allowedAttributes: {
-      a: ['href', 'target', 'style'],
-      button: ['onclick', 'style', 'type', 'class'],
-    },
+    allowedTags: false,
+    allowedAttributes: false,
   });
 
   const duration = calculateDuration(end_date, start_date);

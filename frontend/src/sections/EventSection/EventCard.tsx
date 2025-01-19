@@ -49,11 +49,18 @@ const EventCard: React.FC<EventProps> = ({
           width={400}
           height={400}
           className='rounded-t-lg'
-          style={{
-            maxWidth: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
+          style={
+            imageSrc
+              ? {
+                  maxWidth: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }
+              : {
+                  maxWidth: '100%',
+                  height: 'auto',
+                }
+          }
         />
       </div>
       <div className='flex h-1/2 p-4'>
