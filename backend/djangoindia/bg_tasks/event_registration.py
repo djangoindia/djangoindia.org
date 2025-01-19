@@ -55,8 +55,8 @@ def registration_confirmation_email_task(email, event_id):
         print(f"Error sending email: {e}")
 
 
-@shared_task(bind=True, max_retries=3)
-def send_mass_mail_task(self, emails, **kwargs):
+@shared_task
+def send_mass_mail_task(emails, **kwargs):
     """
     Converts django.core.mail.send_mass_email into a background task.
 
@@ -73,7 +73,7 @@ def send_mass_mail_task(self, emails, **kwargs):
         )
 
     try:
-        return send_mass_mail(emails, **kwargs)
+        send_mass_mail(emails, **kwargs)
     except Exception:
         logger.exception("Failed to send mass emails.")
         logger.debug("Detailed exception information:", exc_info=True)

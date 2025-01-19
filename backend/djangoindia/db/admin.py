@@ -125,7 +125,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
                         recipient_email = registration.email
                         emails.append((subject, message, from_email, [recipient_email]))
 
-                    send_mass_mail_task(emails, fail_silently=False)
+                    send_mass_mail_task.delay(emails, fail_silently=False)
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
