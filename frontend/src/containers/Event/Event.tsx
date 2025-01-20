@@ -46,11 +46,8 @@ const EventContainer = async ({
   event: Event;
 }) => {
   const sanitizedDescription = sanitizeHtml(description, {
-    allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'button', 'ul', 'l'],
-    allowedAttributes: {
-      a: ['href', 'target', 'style'],
-      button: ['onclick', 'style', 'type', 'class'],
-    },
+    allowedTags: false,
+    allowedAttributes: false,
   });
 
   const duration = calculateDuration(end_date, start_date);
@@ -71,7 +68,7 @@ const EventContainer = async ({
   return (
     <div>
       <div className='container'>
-        <div className='relative mx-auto my-12 h-96 w-full overflow-hidden rounded-2xl shadow-xl'>
+        <div className='relative mx-auto my-12 h-[60vh] w-full overflow-hidden rounded-2xl shadow-xl'>
           <Image
             src={cover_image ?? event1}
             alt={name}

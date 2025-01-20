@@ -20,6 +20,7 @@ from djangoindia.db.models.partner_and_sponsor import (
     Sponsorship,
 )
 from djangoindia.db.models.update import Update
+from djangoindia.db.models.user import User
 from djangoindia.db.models.volunteer import Volunteer
 
 from .forms import EmailForm, EventForm, UpdateForm
@@ -124,7 +125,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
                         recipient_email = registration.email
                         emails.append((subject, message, from_email, [recipient_email]))
 
-                    send_mass_mail_task(emails, fail_silently=False)
+                    send_mass_mail_task.delay(emails, fail_silently=False)
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
@@ -219,14 +220,10 @@ class SponsorAdmin(admin.ModelAdmin):
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
-    list_display = ("email_subject", "type", "created_by", "created_at", "mail_sent")
-    search_fields = ["email_subject", "created_by__username", "created_by__first_name", "type"]
-    readonly_fields = ("created_by", "created_at", "updated_at")
+    list_display = ("email_subject", "type", "created_at", "mail_sent")
+    search_fields = ["email_subject", "type"]
+    readonly_fields = ("created_at", "updated_at")
     actions = ["send_update"]
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        super().save_model(request, obj, form, change)
 
     @admin.action(description="Send selected updates to subscribers")
     def send_update(self, request, queryset):
@@ -263,3 +260,62 @@ class EventVolunteerAdmin(ImportExportModelAdmin):
     list_filter = ("events__name",)
     resource_class = EventVolunteerResource
     filter_horizontal = ("events",)
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_active",
+        "is_superuser",
+        "is_email_verified",
+    )
+    list_filter = (
+        "is_active",
+        "is_staff",
+        "is_superuser",
+        "is_email_verified",
+        "gender",
+    )
+    search_fields = ("username", "email", "first_name", "last_name")
+    readonly_fields = ("created_at", "updated_at")
+    filter_horizontal = (
+        "groups",
+        "user_permissions",
+    )
+    fieldsets = (
+        (None, {"fields": ("username", "email", "password")}),
+        (
+            "Personal info",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "avatar",
+                    "gender",
+                    "organization",
+                    "mobile_number",
+                )
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                    "is_email_verified",
+                    "is_password_expired",
+                    "is_onboarded",
+                ),
+            },
+        ),
+        ("Important dates", {"fields": ("created_at", "updated_at")}),
+    )
+    ordering = ("-created_at",)

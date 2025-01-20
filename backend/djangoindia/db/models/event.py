@@ -1,10 +1,20 @@
-from cabinet.models import Folder
+import html
 
+from cabinet.models import Folder
+from django_prose_editor.fields import ProseEditorField
+
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 from .base import BaseModel
 from .volunteer import Volunteer
+
+
+def validate_future_date(value):
+    if value <= timezone.now():
+        raise ValidationError("Date must be in the future.")
 
 
 class Event(BaseModel):
@@ -15,7 +25,7 @@ class Event(BaseModel):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255)
     cover_image = models.ImageField(upload_to="event_images/", blank=True)
-    description = models.TextField()
+    description = ProseEditorField()
     venue = models.TextField(default="TBA", null=True, blank=True)
     city = models.CharField(max_length=255, default="TBA", null=True, blank=True)
     venue_map_link = models.TextField(null=True, blank=True)
@@ -35,6 +45,7 @@ class Event(BaseModel):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        self.description = html.unescape(self.description)
         super().save(*args, **kwargs)
 
 

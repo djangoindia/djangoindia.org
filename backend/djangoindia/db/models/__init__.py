@@ -4,6 +4,8 @@ from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsors
 from djangoindia.db.models.update import Update
 from djangoindia.db.models.volunteer import Volunteer
 
+from .user import User
+
 
 __all__ = [
     "ContactUs",
@@ -14,4 +16,5 @@ __all__ = [
     "Sponsorship",
     "Update",
     "Volunteer",
+    "User",
 ]

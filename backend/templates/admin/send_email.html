@@ -1,12 +1,87 @@
-<!-- templates/admin/send_email.html -->
 {% extends "admin/base_site.html" %}
+{% load form_tags %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    #content-main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .form-row {
+        margin-bottom: 15px;
+    }
+    .form-row label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .vTextField {
+        width: 100%;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .submit-row {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .errorlist {
+        color: red;
+        margin-top: 5px;
+        list-style-type: none;
+        padding: 0;
+    }
+    .errornote {
+        background-color: #ba2121;
+        color: white;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-  <h2>Send Email to Selected Users</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="apply" value="Send emails">
-  </form>
-  <a href="{% url 'admin:index' %}">Cancel</a>
+<div id="content-main">
+    <h1>Send Email to Selected Users</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            {% if form.errors %}
+                <p class="errornote">
+                    {% if form.errors|length == 1 %}Please correct the error below.{% else %}Please correct the errors below.{% endif %}
+                </p>
+            {% endif %}
+            
+            <fieldset class="module aligned">
+                {% for field in form %}
+                    <div class="form-row">
+                        {{ field.label_tag }}
+                        {{ field|add_class:"vTextField" }}
+                        {% if field.help_text %}
+                            <p class="help">{{ field.help_text }}</p>
+                        {% endif %}
+                        {% if field.errors %}
+                            <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </fieldset>
+            
+            <div class="submit-row">
+                <input type="submit" value="Send emails" class="default" name="apply">
+                <p class="deletelink-box"><a href="{% url 'admin:index' %}" class="deletelink">Cancel</a></p>
+            </div>
+        </div>
+    </form>
+</div>
 {% endblock %}
