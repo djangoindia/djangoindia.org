@@ -221,9 +221,9 @@ class SponsorAdmin(admin.ModelAdmin):
 class UpdateAdmin(admin.ModelAdmin):
     form = UpdateForm
     list_display = ("email_subject", "type", "created_at", "mail_sent")
-    search_fields = ["email_subject", "type"]
+    search_fields = ["email_subject", "created_by__username", "created_by__first_name", "type"]
     readonly_fields = ("created_at", "updated_at")
-    actions = ["send_update"]
+    actions = ["send_update", "send_test_email"]
 
     @admin.action(description="Send selected updates to subscribers")
     def send_update(self, request, queryset):
@@ -231,6 +231,24 @@ class UpdateAdmin(admin.ModelAdmin):
             update.send_bulk_emails()
         self.message_user(request, "Update emails sent.")
 
+    @admin.action(description="Send test email")
+    def send_test_email(self, request, queryset) -> None:
+        """
+        Admin action to send test emails to the recipients specified in the queryset.
+
+        Args:
+            request
+            queryset
+
+        Returns:
+            None
+
+        Raises:
+            None
+        """
+        for update in queryset:
+            update.send_test_email()
+        self.message_user(request, "Test email sent.")
 
 @admin.register(CommunityPartner)
 class CommunityPartnerAdmin(admin.ModelAdmin):
