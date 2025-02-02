@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FaChevronCircleRight } from 'react-icons/fa';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 import {
   Collapsible,
