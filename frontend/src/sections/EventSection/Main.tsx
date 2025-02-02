@@ -37,7 +37,7 @@ const Main: React.FC = async () => {
         {error && error.message && <ClientError error={error} />}
         {filtered_events?.length ? (
           <Carousel>
-            <CarouselContent className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
+            <CarouselContent className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
               {filtered_events?.map(
                 ({
                   cover_image,
@@ -50,7 +50,7 @@ const Main: React.FC = async () => {
                   slug,
                 }) => (
                   <CarouselItem
-                    className='w-full h-auto'  // ensures full width on mobile
+                    className='h-auto w-full' // ensures full width on mobile
                     key={id}
                   >
                     <div className='mb-4 h-auto'>

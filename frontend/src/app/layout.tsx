@@ -3,6 +3,8 @@ import React from 'react';
 import { Montserrat } from 'next/font/google';
 import Script from 'next/script';
 
+import { Providers } from '@/providers';
+
 import type { Metadata } from 'next';
 
 import './globals.css';
@@ -87,17 +89,19 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`bg-orange-50 ${inter.className}`}>
-        <noscript>
-          <iframe
-            src='https://www.googletagmanager.com/ns.html?id=GTM-KL53GH4J'
-            height='0'
-            width='0'
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
-        {children}
-      </body>
+      <Providers>
+        <body className={`bg-[#F2ECE4] ${inter.className}`}>
+          <noscript>
+            <iframe
+              src='https://www.googletagmanager.com/ns.html?id=GTM-KL53GH4J'
+              height='0'
+              width='0'
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+          {children}
+        </body>
+      </Providers>
     </html>
   );
 }

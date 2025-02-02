@@ -5,12 +5,10 @@ import React, { type PropsWithChildren, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { FaChevronLeft } from 'react-icons/fa';
 
+import Loading from '@/app/(core)/loading';
 import { Button, VerticalTabs, type VerticalTabsProps } from '@/components';
 import { API_ENDPOINTS } from '@/constants';
-import { cn } from '@/lib/utils';
-import { fetchData } from '@/utils';
-
-import Loading from '@/app/(core)/loading';
+import { cn, fetchData } from '@/utils';
 
 type PhotoResponseType = {
   id: string;
@@ -28,11 +26,11 @@ const MediaContainer = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     fetchData<PhotoResponseType[]>(API_ENDPOINTS.eventsMedia).then((res) => {
       if (res.data) {
         setFolderStructure(res.data);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     });
   }, []);
@@ -105,7 +103,7 @@ const MediaContainer = ({ children }: PropsWithChildren) => {
           </div>
         </div>
       ) : (
-          <>
+        <>
           <div className='mx-auto my-10 w-1/5'>
             <svg
               viewBox='0 0 24 24'
