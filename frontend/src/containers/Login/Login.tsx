@@ -49,7 +49,7 @@ const Page = () => {
           }}
         >
           <Image
-            src='/auth/TajMahal-Pixel-Art-Signup.png'
+            src='/auth/TajMahal-Pixel-Art-signup.png'
             alt='TajMahal Signup'
             fill
           />
