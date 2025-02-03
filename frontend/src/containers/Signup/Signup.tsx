@@ -148,7 +148,7 @@ const SignupForm = () => {
           }}
         >
           <Image
-            src='/TajMahal-Pixel-Art-login.png'
+            src='/auth/TajMahal-Pixel-Art-login.png'
             alt='TajMahal Login'
             fill
           />
