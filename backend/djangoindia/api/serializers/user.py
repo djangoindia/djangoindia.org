@@ -42,6 +42,8 @@ class UserMeSerializer(BaseSerializer):
             "is_password_autoset",
             "gender",
             "organization",
+            "bio",
+            "about",
         ]
         read_only_fields = fields
 
