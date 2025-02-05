@@ -38,7 +38,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=255, null=True, blank=True, unique=True)
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
-    avatar = models.ImageField(upload_to="users/avatars/")
+    avatar = models.ImageField(upload_to="users/avatars/", blank=True, null=True)
+    cover_image = models.ImageField(
+        upload_to="users/cover_images/", blank=True, null=True
+    )
     organization = models.CharField(max_length=500, blank=True, null=True)
     gender = models.CharField(choices=GENDER.CHOICES, max_length=50)
     bio = models.CharField(max_length=150, blank=True, null=True)
@@ -56,6 +59,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_email_verified = models.BooleanField(default=False)
     is_password_autoset = models.BooleanField(default=False)
     is_onboarded = models.BooleanField(default=False)
+
+    # social media links
+    website = models.URLField(max_length=255, blank=True, null=True)
+    linkedin = models.URLField(max_length=255, blank=True, null=True)
+    github = models.URLField(max_length=255, blank=True, null=True)
+    twitter = models.URLField(max_length=255, blank=True, null=True)
+    instagram = models.URLField(max_length=255, blank=True, null=True)
 
     user_timezone = models.CharField(
         max_length=255, default="Asia/Kolkata", choices=USER_TIMEZONE_CHOICES

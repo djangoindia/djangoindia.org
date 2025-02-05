@@ -44,6 +44,11 @@ class UserMeSerializer(BaseSerializer):
             "organization",
             "bio",
             "about",
+            "website",
+            "linkedin",
+            "github",
+            "twitter",
+            "instagram",
         ]
         read_only_fields = fields
 
