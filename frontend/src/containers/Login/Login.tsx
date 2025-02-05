@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
+import { FaHome } from "react-icons/fa";
 
 import { Button, Input, Label } from '@/components';
 import { LOGIN_FORM_SCHEMA } from '@/constants';
@@ -26,17 +28,35 @@ const Page = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormType> = async (data) => {
-    const res = await signIn('credentials', {
-      ...data,
-      redirect: false,
-    });
+    try {
+      const res = await signIn('credentials', {
+        ...data,
+        redirect: false,
+      });
+      if (res?.error) {
+        enqueueSnackbar(res?.error, { variant: 'error' });
+        return;
+      }
 
-    if (res?.error) console.log(res.error);
-    if (res?.ok) router.push('/users/me');
+      if (res?.ok) {
+        router.push('/users/me');
+      } 
+    } catch (error) {
+      console.error('Unexpected error during login:', error);
+      enqueueSnackbar('An unexpected error occurred. Please try again.', { variant: 'error' });
+    }
   };
 
   return (
-    <section className='relative flex size-full'>
+    <section className='relative flex size-full overflow-hidden'>
+      <Link 
+        href='/home' 
+        className='absolute top-4 right-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
+      >
+        <FaHome 
+          className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
+        />
+      </Link>
       <div className='flex-1'>
         <motion.div
           className='h-full'
@@ -49,8 +69,9 @@ const Page = () => {
           }}
         >
           <Image
-            src='/auth/TajMahal-Pixel-Art-signup.png'
+            src='/auth/TajMahal-Pixel-Art-signup.svg'
             alt='TajMahal Signup'
+            style={{ objectFit: 'cover', borderRadius: '0 2rem 2rem 0' }}
             fill
           />
         </motion.div>
@@ -115,15 +136,11 @@ const Page = () => {
           </form>
           <div className='my-4 w-full text-center'>
             <div>
-              Don’t have account?
+              Don’t have account?{' '}
               <Link href='/signup' className='text-[#06038D] hover:underline'>
-                SignUp here!
+                Sign Up here!
               </Link>
             </div>
-            <h5 className='my-5'>Or</h5>
-            <Link href='/home'>
-              <Button className='w-full'>Go To Home</Button>
-            </Link>
           </div>
         </motion.div>
       </div>
@@ -137,7 +154,7 @@ const Page = () => {
           visualDuration: 0.75,
         }}
       >
-        <Image src='/auth/radial-lines.png' alt='Radial Lines' fill />
+        <Image src='/auth/radial-lines.png' alt='Radial Lines' fill priority />
       </motion.div>
     </section>
   );

@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
+import { FaHome } from "react-icons/fa";
 
 import { Button, Input, Label } from '@/components';
 import { SIGNUP_FORM_SCHEMA } from '@/constants';
@@ -34,17 +36,24 @@ const SignupForm = () => {
       }),
       headers: { 'Content-Type': 'application/json' },
     });
-
+    const resdata = await res.json();
     if (res.status === 200) {
-      console.log(res.statusText, 'Success');
       router.replace('/login');
     } else {
-      console.log(res.statusText);
+      enqueueSnackbar(resdata.message, { variant: 'error' });
     }
   };
 
   return (
-    <section className='relative flex size-full'>
+    <section className='relative flex size-full overflow-hidden'>
+      <Link 
+        href='/home' 
+        className='absolute top-4 left-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
+      >
+        <FaHome 
+          className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
+        />
+      </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
           className='w-3/5'
@@ -57,7 +66,7 @@ const SignupForm = () => {
           }}
         >
           <div className='my-4 w-full text-center'>
-            I have an account,
+            I have an account,{' '}
             <Link href='/login' className='text-[#06038D] hover:underline'>
               Login here!
             </Link>
@@ -129,15 +138,11 @@ const SignupForm = () => {
             <Button type='submit'>Create Account</Button>
           </form>
           <div>
-            <h5 className='my-5 text-center'>Or</h5>
-            <Link href='/home'>
-              <Button className='w-full'>Go To Home</Button>
-            </Link>
           </div>
         </motion.div>
       </div>
       <div className='flex-1'>
-        <motion.div
+      <motion.div
           className='h-full'
           initial={{ x: 100 }}
           animate={{ x: 20 }}
@@ -148,9 +153,10 @@ const SignupForm = () => {
           }}
         >
           <Image
-            src='/auth/TajMahal-Pixel-Art-login.png'
+            src='/auth/TajMahal-Pixel-Art-login.svg'
             alt='TajMahal Login'
             fill
+            style={{ objectFit: 'cover', borderRadius: '2rem 0 0 2rem' }}
           />
         </motion.div>
       </div>

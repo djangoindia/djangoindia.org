@@ -30,7 +30,10 @@ export const getAuthProviders = (): NextAuthOptions['providers'] => [
         res.status === 403 ||
         res.status === 500
       ) {
-        return null;
+        throw new Error(
+          resdata.message || 
+          'Authentication failed'
+        );
       }
       if (res.status === 200 || res.status === 201) {
         return resdata;
