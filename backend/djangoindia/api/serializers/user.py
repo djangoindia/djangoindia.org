@@ -41,7 +41,6 @@ class UserMeSerializer(BaseSerializer):
             "username",
             "is_password_autoset",
             "gender",
-            "organization",
             "bio",
             "about",
             "website",
@@ -49,6 +48,7 @@ class UserMeSerializer(BaseSerializer):
             "github",
             "twitter",
             "instagram",
+            "cover_image",
         ]
         read_only_fields = fields
 
@@ -94,8 +94,15 @@ class UserLiteSerializer(BaseSerializer):
             "last_name",
             "avatar",
             "username",
+            "bio",
+            "about",
             "email",
-            "role",
+            "cover_image",
+            "website",
+            "linkedin",
+            "github",
+            "twitter",
+            "instagram",
         ]
         read_only_fields = [
             "id",
