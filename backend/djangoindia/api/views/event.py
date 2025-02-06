@@ -1,4 +1,5 @@
 from rest_framework import mixins, status, viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from django.db.models import Count, Prefetch, Q
@@ -57,6 +58,9 @@ class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 class EventAPIView(viewsets.ModelViewSet):
     lookup_field = "slug"
+    permission_classes = [
+        AllowAny,
+    ]
     queryset = (
         Event.objects.all()
         .prefetch_related(
@@ -102,7 +106,9 @@ class EventAPIView(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        all_community_partners = CommunityPartner.objects.filter(created_at__lt=instance.created_at)
+        all_community_partners = CommunityPartner.objects.filter(
+            created_at__lt=instance.created_at
+        )
         serializer = EventSerializer(
             instance, context={"all_community_partners": all_community_partners}
         )

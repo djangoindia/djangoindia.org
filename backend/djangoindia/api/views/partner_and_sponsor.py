@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.mixins import ListModelMixin
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from djangoindia.api.serializers.partner_and_sponsor import (
@@ -10,6 +11,9 @@ from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsors
 
 class CommunityPartnerAndSponsorAPIView(generics.GenericAPIView, ListModelMixin):
     serializer_class = CommunityPartnerAndSponsorSerializer
+    permission_classes = [
+        AllowAny,
+    ]
 
     def get_queryset(self):
         partners_queryset = CommunityPartner.objects.all()
