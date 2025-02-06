@@ -14,3 +14,5 @@ export * from './DataCard';
 export * from './NestedList';
 export * from './Collapsible';
 export * from './VerticalTabs';
+export * from './Avatar';
+export * from './Dropdown';

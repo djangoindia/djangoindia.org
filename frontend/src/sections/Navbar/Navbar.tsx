@@ -1,10 +1,23 @@
 'use client';
+
 import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components';
 import { APP_ROUTES } from '@/constants';
 import { SupportUsDialog } from '@/containers';
 import useWidth from '@/hooks/useWidth';
@@ -120,8 +133,11 @@ const CrossIcon = () => (
 );
 
 const Navbar = () => {
+  const { status } = useSession();
+
   const pathname = usePathname(); //current pathname
   const width = useWidth();
+  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -205,7 +221,43 @@ const Navbar = () => {
                   Contact Us
                 </Link>
               </div>
-              <SupportUsDialog />
+              <div className='flex gap-4'>
+                <SupportUsDialog />
+                {status === 'authenticated' ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Avatar className='cursor-pointer border-2 border-[#F2ECE4]'>
+                        <AvatarImage src='https://github.com/shadcn.png' />
+                        <AvatarFallback>DU</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => router.push('/users/me')}
+                      >
+                        My Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() =>
+                          signOut({
+                            callbackUrl: '/home',
+                          })
+                        }
+                      >
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Button
+                    variant='outline'
+                    onClick={() => router.replace('/login')}
+                  >
+                    Login
+                  </Button>
+                )}
+              </div>
             </>
           ) : (
             <button onClick={toggleDrawer} className='ml-5 mr-auto'>
