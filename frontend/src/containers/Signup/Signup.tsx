@@ -8,8 +8,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaGoogle } from "react-icons/fa";
 
 import { Button, Input, Label } from '@/components';
 import { SIGNUP_FORM_SCHEMA } from '@/constants';
@@ -48,7 +49,7 @@ const SignupForm = () => {
     <section className='relative flex size-full overflow-hidden'>
       <Link 
         href='/home' 
-        className='absolute top-4 left-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
+        className='absolute top-4 right-4 sm:left-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
       >
         <FaHome 
           className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
@@ -56,7 +57,7 @@ const SignupForm = () => {
       </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
-          className='w-3/5'
+          className='w-4/5 sm:w-3/5'
           initial={{ x: -100 }}
           animate={{ x: 0 }}
           transition={{
@@ -78,7 +79,7 @@ const SignupForm = () => {
             Become a member
           </span>
           <form
-            className='flex w-full flex-col gap-2'
+            className='flex w-full flex-col'
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className='grid w-full items-center gap-1.5'>
@@ -137,11 +138,25 @@ const SignupForm = () => {
             </div>
             <Button type='submit'>Create Account</Button>
           </form>
+          <div className='my-4 flex w-full flex-col gap-3 text-center'>
+            <span>Or</span>
+            <Button
+              onClick={async () =>
+                await signIn('google', {
+                  callbackUrl: '/users/me  ',
+                })
+              }
+              className='w-full flex items-center gap-4 pl-0'
+            >
+              <FaGoogle size={20} />
+              Sign in with Google
+            </Button>
+            </div>
           <div>
           </div>
         </motion.div>
       </div>
-      <div className='flex-1'>
+      <div className='flex-1 hidden sm:block'>
       <motion.div
           className='h-full'
           initial={{ x: 100 }}
@@ -161,7 +176,7 @@ const SignupForm = () => {
         </motion.div>
       </div>
       <motion.div
-        className='absolute bottom-1/3 right-1/2 z-0 size-[1400px]'
+        className='absolute bottom-1/3 right-1/4 sm:right-1/2 z-0 size-[1400px]'
         initial={{ x: -100, y: -100 }}
         animate={{ x: -20, y: 0 }}
         transition={{

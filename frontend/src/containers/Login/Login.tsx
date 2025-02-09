@@ -10,8 +10,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { AiFillGoogleCircle, AiFillGoogleSquare } from 'react-icons/ai';
-import { FaGoogle, FaHome } from 'react-icons/fa';
+import { FaHome, FaGoogle } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { LOGIN_FORM_SCHEMA } from '@/constants';
@@ -58,7 +57,7 @@ const Page = () => {
       >
         <FaHome className='text-2xl text-[#06038D] transition-transform duration-300 group-hover:scale-110' />
       </Link>
-      <div className='flex-1'>
+      <div className='flex-1 hidden sm:block'>
         <motion.div
           className='h-full'
           initial={{ x: -100 }}
@@ -79,7 +78,7 @@ const Page = () => {
       </div>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
-          className='w-3/5'
+          className='w-4/5 sm:w-3/5'
           initial={{ x: 100 }}
           animate={{ x: 0 }}
           transition={{
@@ -94,7 +93,7 @@ const Page = () => {
             Enter your details to continue
           </span>
           <form
-            className='flex w-full flex-col gap-2'
+            className='flex w-full flex-col'
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className='grid w-full items-center gap-1.5'>
@@ -146,19 +145,19 @@ const Page = () => {
             <Button
               onClick={async () =>
                 await signIn('google', {
-                  callbackUrl: '/users/me  ',
+                  callbackUrl: '/users/me',
                 })
               }
-              className='mx-auto flex items-center gap-4 pl-0'
+              className='w-full flex items-center gap-4 pl-0'
             >
-              <AiFillGoogleSquare size={42} />
+              <FaGoogle size={20} />
               Sign in with Google
             </Button>
           </div>
         </motion.div>
       </div>
       <motion.div
-        className='absolute left-1/2 top-1/3 z-0 size-[1400px]'
+        className='absolute left-1/6 sm:left-1/2 top-1/3 z-0 size-[1400px]'
         initial={{ x: 100, y: 100 }}
         animate={{ x: 20, y: 0 }}
         transition={{
