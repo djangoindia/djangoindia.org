@@ -22,7 +22,14 @@ type UserData = {
   username: string;
   is_password_autoset: boolean;
   gender: string;
-  organization: string | null;
+  bio: string | null;
+  about: string | null;
+  website: string | null;
+  linkedin: string | null;
+  github: string | null;
+  twitter: string | null;
+  instagram: string | null;
+  cover_image: string | null;
 };
 
 const UserContainer = async ({
@@ -36,25 +43,23 @@ const UserContainer = async ({
     },
   });
 
-  console.log(userData);
-
   return (
     <section className='container py-10'>
       <div className='relative h-64 w-full rounded-2xl'>
         <Image
-          src='https://picsum.photos/1300/250'
+          src={userData?.cover_image || 'https://picsum.photos/1300/250'}
           fill
           alt='Profile Cover'
           objectFit='cover'
           className='rounded-2xl'
         />
-        <UserAvatar avatarUrl={userData?.avatar} />
+        <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
       </div>
       <div className='mt-36 flex flex-col'>
-        <h3 className='text-3xl font-bold'>{userData?.username}</h3>
+        <h3 className='text-3xl font-bold'>{userData?.first_name}{' '}{userData?.last_name}</h3>
+        <h3>@{userData?.username}</h3>
         {/* Uncomment when API cahnges are done */}
-        {/* <span className='text-sm'>Senior Frontend Developer @JTG</span>
-        <span className='text-xs'>Gurugram, India</span> */}
+        <span className='text-sm'>{userData?.bio}</span>
       </div>
     </section>
   );
