@@ -8,9 +8,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { type SubmitHandler, useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { FaHome } from "react-icons/fa";
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillGoogleCircle, AiFillGoogleSquare } from 'react-icons/ai';
+import { FaGoogle, FaHome } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { LOGIN_FORM_SCHEMA } from '@/constants';
@@ -40,22 +41,22 @@ const Page = () => {
 
       if (res?.ok) {
         router.push('/users/me');
-      } 
+      }
     } catch (error) {
       console.error('Unexpected error during login:', error);
-      enqueueSnackbar('An unexpected error occurred. Please try again.', { variant: 'error' });
+      enqueueSnackbar('An unexpected error occurred. Please try again.', {
+        variant: 'error',
+      });
     }
   };
 
   return (
     <section className='relative flex size-full overflow-hidden'>
-      <Link 
-        href='/home' 
-        className='absolute top-4 right-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
+      <Link
+        href='/home'
+        className='group pointer-events-auto absolute right-4 top-4 z-50 rounded-full p-3 transition-all duration-300 hover:bg-blue-100 hover:shadow-xl'
       >
-        <FaHome 
-          className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
-        />
+        <FaHome className='text-2xl text-[#06038D] transition-transform duration-300 group-hover:scale-110' />
       </Link>
       <div className='flex-1'>
         <motion.div
@@ -134,13 +135,25 @@ const Page = () => {
             </div>
             <Button type='submit'>Login</Button>
           </form>
-          <div className='my-4 w-full text-center'>
+          <div className='my-4 flex w-full flex-col gap-3 text-center'>
             <div>
-              Don’t have account?{' '}
+              Don’t have account?
               <Link href='/signup' className='text-[#06038D] hover:underline'>
                 Sign Up here!
               </Link>
             </div>
+            <span>Or</span>
+            <Button
+              onClick={async () =>
+                await signIn('google', {
+                  callbackUrl: '/users/me  ',
+                })
+              }
+              className='mx-auto flex items-center gap-4 pl-0'
+            >
+              <AiFillGoogleSquare size={42} />
+              Sign in with Google
+            </Button>
           </div>
         </motion.div>
       </div>
