@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.mixins import CreateModelMixin
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from djangoindia.api.serializers.communication import (
@@ -10,6 +11,9 @@ from djangoindia.db.models.communication import Subscriber
 
 
 class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
+    permission_classes = [
+        AllowAny,
+    ]
     queryset = Subscriber.objects.all()
     serializer_class = SubscriberSerializer
 
@@ -34,6 +38,10 @@ class SubscriberAPIView(generics.GenericAPIView, CreateModelMixin):
 
 
 class ContactUsAPIView(generics.GenericAPIView, CreateModelMixin):
+    permission_classes = [
+        AllowAny,
+    ]
+
     def post(self, request):
         try:
             serializer = ContactUsSerializer(data=request.data)

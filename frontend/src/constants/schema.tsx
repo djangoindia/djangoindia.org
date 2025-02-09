@@ -94,3 +94,45 @@ export const REGISTER_EVENT_FORM_SCHEMA = yup.object({
     ),
   include_in_attendee_list: yup.bool().optional(),
 });
+
+export const LOGIN_FORM_SCHEMA = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .required('Password is required.')
+    .min(8, 'Password must be at least 8 characters long.')
+    .max(20, 'Password cannot exceed 20 characters.')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
+    .matches(/[0-9]/, 'Password must contain at least one number.')
+    .matches(
+      /[@$!%*?&#]/,
+      'Password must contain at least one special character (@, $, !, %, *, ?, &, or #).',
+    ),
+});
+
+export const SIGNUP_FORM_SCHEMA = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  newPassword: yup
+    .string()
+    .required('Password is required.')
+    .min(8, 'Password must be at least 8 characters long.')
+    .max(20, 'Password cannot exceed 20 characters.')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
+    .matches(/[0-9]/, 'Password must contain at least one number.')
+    .matches(
+      /[@$!%*?&#]/,
+      'Password must contain at least one special character (@, $, !, %, *, ?, &, or #).',
+    ),
+  confirmPassword: yup
+    .string()
+    .required('Confirm Password is required.')
+    .oneOf([yup.ref('newPassword'), ''], 'Passwords must match.'),
+});
