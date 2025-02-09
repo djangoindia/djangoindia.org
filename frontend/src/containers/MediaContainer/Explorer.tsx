@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import { VerticalTabs, type VerticalTabsProps } from '@/components';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 export const Explorer = ({
   tabsConfig,
