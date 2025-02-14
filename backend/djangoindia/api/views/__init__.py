@@ -12,6 +12,7 @@ from .authentication import (
 )
 from .communication import ContactUsAPIView, SubscriberAPIView
 from .event import EventAPIView, EventAttendeeViewSet
+from .event_registration import EventRegistrationView
 from .media_library import FolderLiteSerializer, FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorAPIView
 from .user import UpdateUserOnBoardedEndpoint, UserEndpoint
@@ -37,4 +38,5 @@ __all__ = [
     "VerifyEmailEndpoint",
     "RequestEmailVerificationEndpoint",
     "OauthEndpoint",
+    "EventRegistrationView",
 ]

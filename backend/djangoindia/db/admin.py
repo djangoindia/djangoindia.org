@@ -7,7 +7,8 @@ from django.conf import settings
 from django.contrib import admin, messages
 from django.db import transaction
 from django.db.models import Count, F
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 from django.urls import path
 
@@ -27,7 +28,7 @@ from djangoindia.db.models import (
     Volunteer,
 )
 
-from .forms import EmailForm, EventForm, UpdateForm
+from .forms import EmailForm, EventForm, PromoteFromWaitlistForm, UpdateForm
 
 
 @admin.action(description="Send email to selected users")
@@ -345,8 +346,146 @@ class SocialLoginConnectionAdmin(admin.ModelAdmin):
 
 @admin.register(EventUserRegistration)
 class EventUserRegistrationAdmin(admin.ModelAdmin):
-    list_display = ["user", "event", "created_at"]
+    list_display = ["user", "event", "status", "first_time_attendee", "created_at"]
     search_fields = ["user__username", "user__email", "event__name"]
-    readonly_fields = ("created_at", "updated_at")
-    list_filter = ("event__name",)
+    readonly_fields = ("created_at", "updated_at", "first_time_attendee")
+    list_filter = ("event", "status", "first_time_attendee")
     ordering = ("-created_at",)
+    actions = ["promote_selected_to_registered", "promote_n_from_waitlist"]
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "promote-from-waitlist/",
+                self.admin_site.admin_view(self.promote_from_waitlist_view),
+                name="promote-from-waitlist",
+            ),
+        ]
+        return custom_urls + urls
+
+    def promote_selected_to_registered(self, request, queryset):
+        """Promote only selected waitlisted registrations"""
+        waitlisted = queryset.filter(
+            status=EventUserRegistration.RSVP_STATUS.WAITLISTED
+        )
+        if not waitlisted.exists():
+            self.message_user(
+                request, "No waitlisted registrations selected.", level=messages.WARNING
+            )
+            return
+
+        # Group by event to check seat availability
+        events = {}
+        for reg in waitlisted:
+            events[reg.event_id] = events.get(reg.event_id, 0) + 1
+
+        # Check if we have enough seats
+        for event_id, seats_needed in events.items():
+            event = Event.objects.get(id=event_id)
+            if event.seats_left < seats_needed:
+                self.message_user(
+                    request,
+                    f"Not enough seats available for event '{event.name}'. "
+                    f"Needed: {seats_needed}, Available: {event.seats_left}",
+                    level=messages.ERROR,
+                )
+                return
+
+        # Promote selected registrations
+        promoted_count = 0
+        for event_id, seats_needed in events.items():
+            # Get event once and update at the end
+            event = Event.objects.get(id=event_id)
+
+            # Promote selected registrations
+            event_promotions = waitlisted.filter(event_id=event_id)
+            for registration in event_promotions:
+                registration.status = EventUserRegistration.RSVP_STATUS.REGISTERED
+                registration.save()
+                promoted_count += 1
+
+            # Update event seats once after all promotions
+            event.seats_left -= seats_needed
+            event.save()
+
+        self.message_user(
+            request,
+            f"Successfully promoted {promoted_count} registrations to registered status.",
+        )
+
+    promote_selected_to_registered.short_description = (
+        "Promote selected to registered status"
+    )
+
+    def promote_n_from_waitlist(self, request, queryset):
+        """Promote N people from waitlist to registered status"""
+        # Check if multiple events are selected
+        events = set(queryset.values_list("event", flat=True))
+        if len(events) > 1:
+            self.message_user(
+                request,
+                "Please select registrations from only one event at a time.",
+                level=messages.ERROR,
+            )
+            return
+
+        # Get the event
+        event = Event.objects.get(id=events.pop())
+
+        # Show the intermediate form
+        context = {
+            "form": PromoteFromWaitlistForm(
+                initial={"_selected_action": queryset.values_list("id", flat=True)}
+            ),
+            "event": event,
+            "waitlist_count": EventUserRegistration.objects.filter(
+                event=event, status=EventUserRegistration.RSVP_STATUS.WAITLISTED
+            ).count(),
+            "seats_left": event.seats_left,
+            "title": f"Promote from waitlist - {event.name}",
+        }
+        return render(request, "admin/promote_from_waitlist.html", context)
+
+    def promote_from_waitlist_view(self, request):
+        """Handle the form submission for promoting from waitlist"""
+        if request.method == "POST":
+            form = PromoteFromWaitlistForm(request.POST)
+            if form.is_valid():
+                number_to_promote = form.cleaned_data["number_to_promote"]
+                event_id = request.POST.get("event_id")
+                event = Event.objects.get(id=event_id)
+
+                if event.seats_left < number_to_promote:
+                    self.message_user(
+                        request,
+                        f"Cannot promote {number_to_promote} people. Only {event.seats_left} seats available.",
+                        level=messages.ERROR,
+                    )
+                else:
+                    # Get the next N people from waitlist ordered by created_at
+                    to_promote = EventUserRegistration.objects.filter(
+                        event=event, status=EventUserRegistration.RSVP_STATUS.WAITLISTED
+                    ).order_by("created_at")[:number_to_promote]
+
+                    promoted_count = 0
+                    for registration in to_promote:
+                        registration.status = (
+                            EventUserRegistration.RSVP_STATUS.REGISTERED
+                        )
+                        registration.save()
+                        promoted_count += 1
+                        event.seats_left -= 1
+
+                    if promoted_count > 0:
+                        event.save()
+
+                    self.message_user(
+                        request,
+                        f"Successfully promoted {promoted_count} people from the waitlist.",
+                    )
+
+                return HttpResponseRedirect("../")
+        return HttpResponseRedirect("../")
+
+    promote_n_from_waitlist.short_description = "Promote N people from waitlist"

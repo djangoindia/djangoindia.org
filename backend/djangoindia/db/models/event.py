@@ -128,15 +128,17 @@ class EventRegistration(BaseModel):
 class EventUserRegistration(BaseModel):
     class RegistrationStatusType:
         CHOICES = (
-            ("going", "going"),
-            ("waiting", "waiting"),
-            ("not_going", "not_going"),
+            ("rsvped", "RSVPed"),
+            ("waitlisted", "Waitlisted"),
+            ("cancelled", "Cancelled"),
+            ("attended", "Attended"),
         )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     status = models.CharField(choices=RegistrationStatusType.CHOICES, max_length=50)
     first_time_attendee = models.BooleanField(default=True)
+    rsvp_notes = models.CharField(max_length=255, blank=True)
 
     def save(self, *args, **kwargs):
         # This is a new registration

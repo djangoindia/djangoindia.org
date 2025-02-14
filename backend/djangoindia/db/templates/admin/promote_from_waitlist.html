@@ -1,0 +1,121 @@
+{% extends "admin/base_site.html" %}
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .promote-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .promote-header {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+    }
+    .promote-header h2 {
+        color: #417690;
+        margin: 0;
+        font-size: 20px;
+    }
+    .event-info {
+        background: #f8f9fa;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+    .event-info p {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+    .event-info strong {
+        min-width: 180px;
+        color: #666;
+    }
+    .event-info .value {
+        color: #417690;
+        font-weight: 500;
+    }
+    .promote-form {
+        margin-top: 25px;
+    }
+    .promote-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #666;
+        font-weight: 500;
+    }
+    .promote-form input[type="number"] {
+        width: 100%;
+        max-width: 200px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .button-container {
+        margin-top: 25px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .button-container .promote-button {
+        background: #417690;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    .button-container .promote-button:hover {
+        background: #2b5172;
+    }
+    .button-container .cancel-link {
+        color: #666;
+        text-decoration: none;
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .button-container .cancel-link:hover {
+        background: #f5f5f5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="promote-container">
+    <div class="promote-header">
+        <h2>{{ title }}</h2>
+    </div>
+    
+    <div class="event-info">
+        <p>
+            <strong>Event:</strong>
+            <span class="value">{{ event.name }}</span>
+        </p>
+        <p>
+            <strong>Current waitlist count:</strong>
+            <span class="value">{{ waitlist_count }}</span>
+        </p>
+        <p>
+            <strong>Available seats:</strong>
+            <span class="value">{{ seats_left }}</span>
+        </p>
+    </div>
+
+    <form action="{% url 'admin:promote-from-waitlist' %}" method="post" class="promote-form">
+        {% csrf_token %}
+        <input type="hidden" name="event_id" value="{{ event.id }}">
+        {{ form.as_p }}
+        
+        <div class="button-container">
+            <input type="submit" value="Promote" class="promote-button">
+            <a href="../" class="cancel-link">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

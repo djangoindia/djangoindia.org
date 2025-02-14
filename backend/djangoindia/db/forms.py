@@ -35,3 +35,10 @@ class UpdateForm(forms.ModelForm):
             "email_body",
             "recipients",
         ]
+
+
+class PromoteFromWaitlistForm(forms.Form):
+    _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+    number_to_promote = forms.IntegerField(
+        min_value=1, label="Number of people to promote"
+    )
