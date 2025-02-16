@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "cabinet",
     "imagefield",
     "django_prose_editor",
+    "dbbackup"
 ]
 
 MIDDLEWARE = [
@@ -225,3 +226,11 @@ SIMPLE_JWT = {
 }
 
 WEB_URL = os.environ.get("NEXT_PUBLIC_FRONTEND_URL", "http://localhost:3000")
+
+DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DBBACKUP_STORAGE_OPTIONS = {
+    'access_key': 'my_id',
+    'secret_key': 'my_secret',
+    'bucket_name': 'my_bucket_name',
+    'default_acl': 'private',
+}

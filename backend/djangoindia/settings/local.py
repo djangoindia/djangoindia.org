@@ -43,6 +43,11 @@ LOGGING = {
             "handlers": ["console"],
             "level": "INFO",
         },
+        "djangoindia.bg_tasks.dbbackup": {  
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
     },
 }
 
