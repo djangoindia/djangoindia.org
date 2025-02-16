@@ -3,7 +3,7 @@ from celery import shared_task
 from django.core.management import call_command
 logger = logging.getLogger(__name__)
 
-@shared_task
+@shared_task(name='djangoindia.bg_tasks.dbbackup.nightly_db_backup')
 def nightly_db_backup():
     try:
         logger.info("Starting database backup...")
