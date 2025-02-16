@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     "cabinet",
     "imagefield",
     "django_prose_editor",
-    "dbbackup"
+    "dbbackup",
 ]
 
 MIDDLEWARE = [
@@ -227,10 +227,12 @@ SIMPLE_JWT = {
 
 WEB_URL = os.environ.get("NEXT_PUBLIC_FRONTEND_URL", "http://localhost:3000")
 
-DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DBBACKUP_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 DBBACKUP_STORAGE_OPTIONS = {
-    'access_key': 'my_id',
-    'secret_key': 'my_secret',
-    'bucket_name': 'my_bucket_name',
-    'default_acl': 'private',
+    "access_key": os.environ.get("AWS_ACCESS_KEY_ID"),
+    "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY"),
+    "bucket_name": os.environ.get("AWS_STORAGE_BUCKET_NAME"),
+    "region_name": os.environ.get("AWS_S3_REGION_NAME"),
+    "default_acl": "private",
+    "location": "backups",  # This will create a 'backups' folder in your S3 bucket
 }

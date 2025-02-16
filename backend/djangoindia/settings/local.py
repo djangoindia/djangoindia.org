@@ -42,7 +42,7 @@ LOGGING = {
         "scripts": {
             "handlers": ["console"],
             "level": "INFO",
-        }
+        },
     },
 }
 

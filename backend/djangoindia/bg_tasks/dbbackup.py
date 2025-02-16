@@ -1,13 +1,18 @@
 import logging
+
 from celery import shared_task
+
 from django.core.management import call_command
+
+
 logger = logging.getLogger(__name__)
 
-@shared_task(name='djangoindia.bg_tasks.dbbackup.nightly_db_backup')
+
+@shared_task(name="djangoindia.bg_tasks.dbbackup.nightly_db_backup")
 def nightly_db_backup():
     try:
         logger.info("Starting database backup...")
-        call_command('dbbackup')
+        call_command("dbbackup")
         logger.info("Backup completed successfully")
         return True
     except Exception as e:
