@@ -18,3 +18,5 @@ Pillow==10.4.0
 psycopg2-binary==2.9.9
 python-dotenv==1.0.1
 sqlalchemy==2.0.27
+django-dbbackup
+django-storages[boto3]
