@@ -11,8 +11,7 @@ from .authentication import (
     VerifyEmailEndpoint,
 )
 from .communication import ContactUsAPIView, SubscriberAPIView
-from .event import EventAPIView, EventAttendeeViewSet
-from .event_registration import EventRegistrationView
+from .event import EventAPIView, EventAttendeeViewSet, EventRegistrationView
 from .media_library import FolderLiteSerializer, FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorAPIView
 from .user import UpdateUserOnBoardedEndpoint, UserEndpoint

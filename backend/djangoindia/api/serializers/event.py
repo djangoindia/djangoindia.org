@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from djangoindia.db.models.event import Event, EventRegistration
+from django.utils import timezone
+
+from djangoindia.db.models.event import Event, EventRegistration, EventUserRegistration
 
 from .media_library import FolderLiteSerializer
 from .partner_and_sponsor import CommunityPartnerSerializer, SponsorSerializer
@@ -39,6 +41,20 @@ class EventSerializer(serializers.Serializer):
         many=True, read_only=True, source="event_volunteers"
     )
     media = FolderLiteSerializer()
+    registration_status = serializers.SerializerMethodField()
+
+    def get_registration_status(self, obj):
+        request = self.context.get("request")
+        if request.user and request.user.is_authenticated:
+            try:
+                registration = EventUserRegistration.objects.get(
+                    event=obj, user=request.user
+                )
+                return registration.status
+            except EventUserRegistration.DoesNotExist:
+                return None
+        else:
+            return None
 
     def get_partners(self, obj):
         partners = self.context.get("all_community_partners", [])
@@ -90,3 +106,72 @@ class EventAttendeeSerializer(serializers.Serializer):
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
+
+
+class EventUserRegistrationSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(required=True)
+    rsvp_notes = serializers.CharField(required=False)
+
+    class Meta:
+        model = EventUserRegistration
+        fields = [
+            "id",
+            "status",
+            "first_time_attendee",
+            "rsvp_notes",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["first_time_attendee"]
+
+    def validate_event(self, event):
+        now = timezone.now()
+
+        if event.start_date > now:
+            raise serializers.ValidationError(
+                "Registration for this event has not started yet."
+            )
+
+        if event.end_date <= now:
+            raise serializers.ValidationError("Registration for this event has ended.")
+
+        if event.registration_end_date <= now:
+            raise serializers.ValidationError("Registration for this event has ended.")
+
+        return event
+
+    def validate(self, attrs):
+        # If this is an existing registration, check status transitions
+        instance = getattr(self, "instance", None)
+
+        if instance:
+            current_status = instance.status
+            new_status = attrs.get("status", current_status)
+
+            # Validation for RSVPED status
+            if current_status == self.Meta.model.RegistrationStatus.RSVPED:
+                if new_status not in [
+                    self.Meta.model.RegistrationStatus.CANCELLED,
+                    current_status,
+                ]:
+                    raise serializers.ValidationError(
+                        {"status": "RSVPED registration can only be cancelled."}
+                    )
+
+            # Validation for WAITLISTED status
+            elif current_status == self.Meta.model.RegistrationStatus.WAITLISTED:
+                if new_status not in [
+                    self.Meta.model.RegistrationStatus.CANCELLED,
+                    current_status,
+                ]:
+                    raise serializers.ValidationError(
+                        {"status": "Waitlisted registration can only be cancelled."}
+                    )
+
+        return attrs
+
+    def create(self, validated_data):
+        # Set the user from the context
+        validated_data["user"] = self.context["request"].user
+        validated_data["event"] = self.context["event"]
+        return super().create(validated_data)

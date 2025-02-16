@@ -107,7 +107,7 @@
         </p>
     </div>
 
-    <form action="{% url 'admin:promote-from-waitlist' %}" method="post" class="promote-form">
+    <form action="{% url 'admin:move-from-waitlist' %}" method="post" class="promote-form">
         {% csrf_token %}
         <input type="hidden" name="event_id" value="{{ event.id }}">
         {{ form.as_p }}

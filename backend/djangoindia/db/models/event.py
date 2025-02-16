@@ -98,6 +98,8 @@ class EventRegistration(BaseModel):
     )
 
     class Meta:
+        verbose_name = "Event registration (Deprecated)"
+        verbose_name_plural = "Event registrations (Deprecated)"
         constraints = [
             models.UniqueConstraint(
                 fields=["email", "event"], name="unique_event_registration"
@@ -126,17 +128,15 @@ class EventRegistration(BaseModel):
 
 
 class EventUserRegistration(BaseModel):
-    class RegistrationStatusType:
-        CHOICES = (
-            ("rsvped", "RSVPed"),
-            ("waitlisted", "Waitlisted"),
-            ("cancelled", "Cancelled"),
-            ("attended", "Attended"),
-        )
+    class RegistrationStatus(models.TextChoices):
+        RSVPED = "rsvped"
+        WAITLISTED = "waitlisted"
+        CANCELLED = "cancelled"
+        ATTENDED = "attended"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    status = models.CharField(choices=RegistrationStatusType.CHOICES, max_length=50)
+    status = models.CharField(choices=RegistrationStatus.choices, max_length=50)
     first_time_attendee = models.BooleanField(default=True)
     rsvp_notes = models.CharField(max_length=255, blank=True)
 
@@ -148,9 +148,16 @@ class EventUserRegistration(BaseModel):
             ).exists()
             self.first_time_attendee = not user_has_registered_before
 
-            if self.event.seats_left > 0:
+            # Only decrease seats for RSVPED status
+            if (
+                self.event.seats_left > 0
+                and self.status == self.RegistrationStatus.RSVPED
+            ):
                 self.event.seats_left -= 1
                 self.event.save()
-            else:
+            elif (
+                self.event.seats_left <= 0
+                and self.status == self.RegistrationStatus.RSVPED
+            ):
                 raise ValueError("No seats left for this event.")
         super().save(*args, **kwargs)

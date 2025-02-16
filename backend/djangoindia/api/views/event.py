@@ -1,11 +1,15 @@
 from rest_framework import mixins, status, viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
+from django.core.exceptions import ValidationError
 from django.db.models import Count, Prefetch, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
+from djangoindia.api.serializers import (
+    EventUserRegistrationSerializer,
+)
 from djangoindia.api.serializers.event import (
     EventAttendeeSerializer,
     EventLiteSerializer,
@@ -18,9 +22,12 @@ from djangoindia.db.models import (
     CommunityPartner,
     Event,
     EventRegistration,
+    EventUserRegistration,
     Sponsorship,
     Volunteer,
 )
+
+from .base import BaseAPIView, BaseViewSet
 
 
 # Create your views here.
@@ -56,7 +63,8 @@ class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         return Response(response_data)
 
 
-class EventAPIView(viewsets.ModelViewSet):
+class EventAPIView(BaseViewSet):
+    model = Event
     lookup_field = "slug"
     permission_classes = [
         AllowAny,
@@ -110,7 +118,11 @@ class EventAPIView(viewsets.ModelViewSet):
             created_at__lt=instance.created_at
         )
         serializer = EventSerializer(
-            instance, context={"all_community_partners": all_community_partners}
+            instance,
+            context={
+                "all_community_partners": all_community_partners,
+                "request": request,
+            },
         )
         return Response(serializer.data)
 
@@ -134,8 +146,6 @@ class EventAPIView(viewsets.ModelViewSet):
             )
         except ValidationError as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        except ConflictError as e:
-            return Response({"message": str(e)}, status=status.HTTP_409_CONFLICT)
         except Exception as e:
             return Response(
                 {"message": "An unexpected error occurred."},
@@ -160,7 +170,7 @@ class EventAPIView(viewsets.ModelViewSet):
 
     def _check_existing_registration(self, email, event_id):
         if EventRegistration.objects.filter(email=email, event=event_id).exists():
-            raise ConflictError(
+            raise ValidationError(
                 "We get it, you're excited. But you've already secured your ticket!"
             )
 
@@ -168,9 +178,147 @@ class EventAPIView(viewsets.ModelViewSet):
         registration_confirmation_email_task.delay(email, event_id)
 
 
-class ValidationError(Exception):
-    pass
+class EventRegistrationView(BaseAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EventUserRegistrationSerializer
 
+    def post(self, request, event_slug):
+        """Register for an event"""
+        try:
+            event = Event.objects.filter(slug=event_slug).first()
+            if not event:
+                return Response(
+                    {"message": "Event not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+            # Check if user is already registered
+            existing_registration = EventUserRegistration.objects.filter(
+                user=request.user, event=event
+            ).first()
 
-class ConflictError(Exception):
-    pass
+            if existing_registration:
+                return Response(
+                    {"message": "You are already registered for this event"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if (
+                event.seats_left < 1
+                and request.data.get("status")
+                != EventUserRegistration.RegistrationStatus.WAITLISTED
+            ):
+                return Response(
+                    {"message": "User Registration must be added to Waitlist."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            serializer = self.serializer_class(
+                data={
+                    "rsvp_notes": request.data.get("rsvp_notes"),
+                    "status": request.data.get("status"),
+                },
+                context={"request": request, "event": event},
+            )
+            if serializer.is_valid():
+                registration = serializer.save()
+
+                return Response(
+                    {
+                        "message": "Successfully RSVP'd for the event"
+                        if registration.status
+                        == EventUserRegistration.RegistrationStatus.RSVPED
+                        else "Added to waitlist",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response(
+                {"message": "An error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def put(self, request, event_slug):
+        """Update RSVP notes"""
+        try:
+            registration = EventUserRegistration.objects.filter(
+                user=request.user, event__slug=event_slug
+            ).first()
+            if not registration:
+                return Response(
+                    {"message": "Registration not found"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            rsvp_notes = request.data.get("rsvp_notes")
+            reg_status = request.data.get("status")
+            if rsvp_notes is None:
+                return Response(
+                    {"message": "RSVP notes are required"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            serializer = self.serializer_class(
+                registration,
+                data={
+                    "rsvp_notes": rsvp_notes,
+                    "status": reg_status,
+                },
+            )
+            if serializer.is_valid():
+                serializer.save()
+                if reg_status == EventUserRegistration.RegistrationStatus.RSVPED:
+                    msg = "Successfully RSVP'd for the event"
+                elif reg_status == EventUserRegistration.RegistrationStatus.WAITLISTED:
+                    msg = "Added to waitlist"
+                else:
+                    msg = "Registration status updated successfully"
+
+                return Response({"message": msg, "data": serializer.data})
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response(
+                {"message": "An error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def delete(self, request, event_slug):
+        """Cancel a registration"""
+        try:
+            registration = EventUserRegistration.objects.filter(
+                user=request.user, event__slug=event_slug
+            ).first()
+            if not registration:
+                return Response(
+                    {"message": "Registration not found"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            registration.event.seats_left += 1
+            registration.event.save()
+            registration.delete()
+            return Response(
+                {"message": "Registration cancelled successfully"},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"message": "An error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def get(self, request, event_slug):
+        """Get registration status for an event"""
+        registrations = EventUserRegistration.objects.filter(
+            event__slug=event_slug
+        ).all()
+
+        if not registrations.exists():
+            return Response(
+                {"message": "No registration found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = self.serializer_class(registrations, many=True)
+        return Response(serializer.data)
