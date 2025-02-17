@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     "cabinet",
     "imagefield",
     "django_prose_editor",
-    "dbbackup",
 ]
 
 MIDDLEWARE = [
