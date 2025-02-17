@@ -46,3 +46,14 @@ REST_FRAMEWORK.update(
         },
     }
 )
+
+DBBACKUP_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+DBBACKUP_STORAGE_OPTIONS = {
+    "access_key": os.environ.get("AWS_ACCESS_KEY_ID"),
+    "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY"),
+    "bucket_name": os.environ.get("AWS_BACKUP_STORAGE_BUCKET_NAME"),
+    "region_name": os.environ.get("AWS_S3_REGION_NAME"),
+    "default_acl": "private",
+    "location": os.environ.get("AWS_BACKUP_STORAGE_PATH"),
+}
