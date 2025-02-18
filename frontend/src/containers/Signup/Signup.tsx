@@ -42,7 +42,7 @@ const SignupForm = () => {
     if (res.status === 200) {
       try {
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/email-verify/?token=<verification_toke>
+          `${process.env.NEXT_PUBLIC_API_URL}/request-email-verify/
 Method: GET
 Header: Authorization, value: Bearer <access_token>`,
           {

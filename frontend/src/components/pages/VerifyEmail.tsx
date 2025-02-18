@@ -21,7 +21,7 @@ const VerifyEmailPage = () => {
     const verifyEmail = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/request-email-verify/`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/email-verify/?token=<verification_toke></verification_toke>`,
           {
             method: 'GET',
             headers: {
