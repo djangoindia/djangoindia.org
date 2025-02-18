@@ -340,7 +340,10 @@ class RequestEmailVerificationEndpoint(BaseAPIView):
             request.user.first_name, request.user.email, token, current_site
         )
         return Response(
-            {"message": "Email sent successfully."}, status=status.HTTP_200_OK
+            {
+                "message": "Verification email sent successfully. To login, please verify your email."
+            },
+            status=status.HTTP_200_OK,
         )
 
 

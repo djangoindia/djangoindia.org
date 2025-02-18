@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
 import Image from 'next/image';
@@ -10,15 +9,17 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
-import { FaHome, FaGoogle } from "react-icons/fa";
+import { FaHome, FaGoogle } from 'react-icons/fa';
+import { getAccessToken } from '@/utils/getAccesstoken';
 
 import { Button, Input, Label } from '@/components';
 import { SIGNUP_FORM_SCHEMA } from '@/constants';
 
 import type { SignupFormType } from './Signup.types';
 
-const SignupForm = () => {
+const SignupForm = () => async() => {
   const router = useRouter();
+  const accessToken = await getAccessToken();
   const {
     register,
     handleSubmit,
@@ -37,9 +38,31 @@ const SignupForm = () => {
       }),
       headers: { 'Content-Type': 'application/json' },
     });
+
     const resdata = await res.json();
+
     if (res.status === 200) {
-      router.replace('/login');
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/request-email-verify/`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: ` Bearer ${accessToken}`,
+            },
+          },
+        );
+        const resdata = await res.json();
+        if (resdata?.status_code === 200) {
+          enqueueSnackbar(resdata?.message, { variant: 'success' });
+        }
+      } catch (error) {
+        enqueueSnackbar('Error sending verification email.', {
+          variant: 'error',
+        });
+        console.error(error);
+      }
     } else {
       enqueueSnackbar(resdata.message, { variant: 'error' });
     }
@@ -47,13 +70,11 @@ const SignupForm = () => {
 
   return (
     <section className='relative flex size-full overflow-hidden'>
-      <Link 
-        href='/home' 
+      <Link
+        href='/home'
         className='absolute top-4 right-4 sm:left-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
       >
-        <FaHome 
-          className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
-        />
+        <FaHome className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' />
       </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
@@ -143,7 +164,7 @@ const SignupForm = () => {
             <Button
               onClick={async () =>
                 await signIn('google', {
-                  callbackUrl: '/users/me  ',
+                  callbackUrl: '/users/me',
                 })
               }
               className='w-full flex items-center gap-4 pl-0'
