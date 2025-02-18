@@ -1,73 +1,70 @@
-import * as React from 'react';
+'use client';
+
 import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { enqueueSnackbar } from 'notistack';
 
-import axios from 'axios';
-import { useRouter } from 'next/router';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-const VerifyEmail: React.FC = () => {
+const VerifyEmailPage = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
   const router = useRouter();
-  const { token } = router.query;
-
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
     'loading',
   );
-  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
-    if (!router.isReady) return;
-
-    const extractedToken = Array.isArray(token) ? token[0] : token;
-
-    if (!extractedToken) {
+    if (!token) {
       setStatus('error');
-      setErrorMessage('Invalid or missing verification token.');
       return;
     }
 
-    axios
-      .get<{ message: string }>(
-        `${API_BASE_URL}/email-verify/?token=${extractedToken}`,
-      )
-      .then((response) => {
-        setStatus(response.status === 200 ? 'success' : 'error');
-      })
-      .catch((error) => {
-        setStatus('error');
-        setErrorMessage(
-          error.response?.data?.message || 'Verification failed.',
+    const verifyEmail = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8000/api/v1/email-verify/?token=${token}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer <access_token>`,
+            },
+          },
         );
-      });
-  }, [router.isReady, token]);
+
+        if (res.ok) {
+          setStatus('success');
+          enqueueSnackbar('Email verified successfully!', {
+            variant: 'success',
+          });
+          setTimeout(() => router.replace('/login'), 3000);
+        } else {
+          throw new Error('Verification failed');
+        }
+      } catch (error) {
+        setStatus('error');
+        enqueueSnackbar('Email verification failed.', { variant: 'error' });
+      }
+    };
+
+    verifyEmail();
+  }, [token, router]);
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+    <div className='flex flex-col items-center justify-center min-h-screen text-center'>
       {status === 'loading' && <p>Verifying your email...</p>}
-
       {status === 'success' && (
-        <p>Your email has been successfully verified! 🎉</p>
+        <>
+          <h2 className='text-xl font-semibold'>
+            Your email has been verified!
+          </h2>
+        </>
       )}
-
       {status === 'error' && (
-        <div>
-          <p>{errorMessage || 'There was an error verifying your email.'}</p>
-          <button
-            onClick={() => console.log('Resend email logic here')}
-            style={{
-              padding: '10px 15px',
-              backgroundColor: '#0070f3',
-              color: 'white',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            Resend Verification Email
-          </button>
-        </div>
+        <p className='text-red-500'>
+          Email verification failed. Please try again.
+        </p>
       )}
     </div>
   );
 };
 
-export default VerifyEmail;
+export default VerifyEmailPage;

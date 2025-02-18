@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
-import { FaHome, FaGoogle } from "react-icons/fa";
+import { FaHome, FaGoogle } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { SIGNUP_FORM_SCHEMA } from '@/constants';
@@ -37,9 +37,19 @@ const SignupForm = () => {
       }),
       headers: { 'Content-Type': 'application/json' },
     });
+
     const resdata = await res.json();
+
     if (res.status === 200) {
-      router.replace('/login');
+      // Call the verification API after successful signup
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-email/`, {
+        method: 'POST',
+        body: JSON.stringify({ email: data.email }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Redirect to verify-email page
+      router.replace(`/verify-email?email=${encodeURIComponent(data.email)}`);
     } else {
       enqueueSnackbar(resdata.message, { variant: 'error' });
     }
@@ -47,13 +57,11 @@ const SignupForm = () => {
 
   return (
     <section className='relative flex size-full overflow-hidden'>
-      <Link 
-        href='/home' 
+      <Link
+        href='/home'
         className='absolute top-4 right-4 sm:left-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
       >
-        <FaHome 
-          className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
-        />
+        <FaHome className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' />
       </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
@@ -143,7 +151,7 @@ const SignupForm = () => {
             <Button
               onClick={async () =>
                 await signIn('google', {
-                  callbackUrl: '/users/me  ',
+                  callbackUrl: '/users/me',
                 })
               }
               className='w-full flex items-center gap-4 pl-0'
@@ -151,42 +159,9 @@ const SignupForm = () => {
               <FaGoogle size={20} />
               Sign in with Google
             </Button>
-            </div>
-          <div>
           </div>
         </motion.div>
       </div>
-      <div className='flex-1 hidden sm:block'>
-      <motion.div
-          className='h-full'
-          initial={{ x: 100 }}
-          animate={{ x: 20 }}
-          transition={{
-            type: 'spring',
-            bounce: 0.5,
-            visualDuration: 0.75,
-          }}
-        >
-          <Image
-            src='/auth/TajMahal-Pixel-Art-login.svg'
-            alt='TajMahal Login'
-            fill
-            style={{ objectFit: 'cover', borderRadius: '2rem 0 0 2rem' }}
-          />
-        </motion.div>
-      </div>
-      <motion.div
-        className='absolute bottom-1/3 right-1/4 sm:right-1/2 z-0 size-[1400px]'
-        initial={{ x: -100, y: -100 }}
-        animate={{ x: -20, y: 0 }}
-        transition={{
-          type: 'spring',
-          bounce: 0.5,
-          visualDuration: 0.75,
-        }}
-      >
-        <Image src='/auth/radial-lines.png' alt='Radial Lines' fill />
-      </motion.div>
     </section>
   );
 };
