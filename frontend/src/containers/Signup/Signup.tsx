@@ -42,7 +42,9 @@ const SignupForm = () => {
     if (res.status === 200) {
       try {
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/request-email-verify/`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/email-verify/?token=<verification_toke>
+Method: GET
+Header: Authorization, value: Bearer <access_token>`,
           {
             method: 'GET',
             headers: {
@@ -52,7 +54,6 @@ const SignupForm = () => {
           },
         );
 
-        // Redirect to the verify email page
         router.replace(`/verify-email?email=${encodeURIComponent(data.email)}`);
       } catch (error) {
         enqueueSnackbar('Error sending verification email.', {
