@@ -10,14 +10,16 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { FaHome, FaGoogle } from 'react-icons/fa';
+import { getAccessToken } from '@/utils/getAccesstoken';
 
 import { Button, Input, Label } from '@/components';
 import { SIGNUP_FORM_SCHEMA } from '@/constants';
 
 import type { SignupFormType } from './Signup.types';
 
-const SignupForm = () => {
+const SignupForm = () => async() => {
   const router = useRouter();
+  const accessToken = await getAccessToken();
   const {
     register,
     handleSubmit,
@@ -41,20 +43,20 @@ const SignupForm = () => {
 
     if (res.status === 200) {
       try {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/request-email-verify/
-Method: GET
-Header: Authorization, value: Bearer <access_token>`,
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/request-email-verify/`,
           {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: ` Bearer <access_token>`,
+              Authorization: ` Bearer ${accessToken}`,
             },
           },
         );
-
-        router.replace(`/verify-email?email=${encodeURIComponent(data.email)}`);
+        const resdata = await res.json();
+        if (resdata?.status_code === 200) {
+          enqueueSnackbar(resdata?.message, { variant: 'success' });
+        }
       } catch (error) {
         enqueueSnackbar('Error sending verification email.', {
           variant: 'error',
@@ -170,9 +172,42 @@ Header: Authorization, value: Bearer <access_token>`,
               <FaGoogle size={20} />
               Sign in with Google
             </Button>
+            </div>
+          <div>
           </div>
         </motion.div>
       </div>
+      <div className='flex-1 hidden sm:block'>
+      <motion.div
+          className='h-full'
+          initial={{ x: 100 }}
+          animate={{ x: 20 }}
+          transition={{
+            type: 'spring',
+            bounce: 0.5,
+            visualDuration: 0.75,
+          }}
+        >
+          <Image
+            src='/auth/TajMahal-Pixel-Art-login.svg'
+            alt='TajMahal Login'
+            fill
+            style={{ objectFit: 'cover', borderRadius: '2rem 0 0 2rem' }}
+          />
+        </motion.div>
+      </div>
+      <motion.div
+        className='absolute bottom-1/3 right-1/4 sm:right-1/2 z-0 size-[1400px]'
+        initial={{ x: -100, y: -100 }}
+        animate={{ x: -20, y: 0 }}
+        transition={{
+          type: 'spring',
+          bounce: 0.5,
+          visualDuration: 0.75,
+        }}
+      >
+        <Image src='/auth/radial-lines.png' alt='Radial Lines' fill />
+      </motion.div>
     </section>
   );
 };

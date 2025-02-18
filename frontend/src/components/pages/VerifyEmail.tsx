@@ -3,10 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { enqueueSnackbar } from 'notistack';
+import { getAccessToken } from '@/utils/getAccesstoken';
 
-const VerifyEmailPage = () => {
+
+const VerifyEmailPage = async() => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+  const accessToken = await getAccessToken();
   const router = useRouter();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
     'loading',
@@ -21,21 +24,18 @@ const VerifyEmailPage = () => {
     const verifyEmail = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/email-verify/?token=<verification_toke></verification_toke>`,
+          `${process.env.NEXT_PUBLIC_API_URL}/email-verify/?token=${token}`,
           {
             method: 'GET',
             headers: {
-              Authorization: `Bearer <access_token>`,
+              Authorization: `Bearer ${accessToken}`,
             },
           },
         );
 
         if (res.ok) {
           setStatus('success');
-          enqueueSnackbar('Email verified successfully!', {
-            variant: 'success',
-          });
-          setTimeout(() => router.replace('/login'), 3000);
+          setTimeout(() => router.replace('/users/me'), 4000);
         } else {
           throw new Error('Verification failed');
         }
