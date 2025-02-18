@@ -21,7 +21,7 @@ const VerifyEmailPage = () => {
     const verifyEmail = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/api/v1/email-verify/?token=${token}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/request-email-verify/`,
           {
             method: 'GET',
             headers: {

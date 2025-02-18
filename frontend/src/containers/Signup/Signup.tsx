@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
 import Image from 'next/image';
@@ -41,15 +40,26 @@ const SignupForm = () => {
     const resdata = await res.json();
 
     if (res.status === 200) {
-      // Call the verification API after successful signup
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-email/`, {
-        method: 'POST',
-        body: JSON.stringify({ email: data.email }),
-        headers: { 'Content-Type': 'application/json' },
-      });
+      try {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/request-email-verify/`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: ` Bearer <access_token>`,
+            },
+          },
+        );
 
-      // Redirect to verify-email page
-      router.replace(`/verify-email?email=${encodeURIComponent(data.email)}`);
+        // Redirect to the verify email page
+        router.replace(`/verify-email?email=${encodeURIComponent(data.email)}`);
+      } catch (error) {
+        enqueueSnackbar('Error sending verification email.', {
+          variant: 'error',
+        });
+        console.error(error);
+      }
     } else {
       enqueueSnackbar(resdata.message, { variant: 'error' });
     }
