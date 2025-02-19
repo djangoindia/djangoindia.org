@@ -36,6 +36,7 @@ const UserContainer = async ({
   params: { userId },
 }: PageProps<never, { userId: string }>) => {
   const accessToken = await getAccessToken();
+  console.log('<<<<<<<<', accessToken);
 
   const { data: userData } = await fetchData<UserData>('/users/me', {
     headers: {
@@ -53,10 +54,14 @@ const UserContainer = async ({
           objectFit='cover'
           className='rounded-2xl'
         />
-        <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
+        <UserAvatar
+          avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'}
+        />
       </div>
       <div className='mt-36 flex flex-col'>
-        <h3 className='text-3xl font-bold'>{userData?.first_name}{' '}{userData?.last_name}</h3>
+        <h3 className='text-3xl font-bold'>
+          {userData?.first_name} {userData?.last_name}
+        </h3>
         <h3>@{userData?.username}</h3>
         {/* Uncomment when API cahnges are done */}
         <span className='text-sm'>{userData?.bio}</span>

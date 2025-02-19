@@ -26,7 +26,6 @@ import type { Event } from '@/types';
 
 const EventContainer = async ({
   event: {
-    id,
     name,
     cover_image,
     venue,
@@ -41,6 +40,7 @@ const EventContainer = async ({
     sponsors,
     partners,
     volunteers,
+    registration_status,
   },
 }: {
   event: Event;
@@ -93,11 +93,7 @@ const EventContainer = async ({
             dayjsWithTZ().isBefore(dayjsWithTZ(start_date)) && (
               <span>Seats left: {seats_left}</span>
             )}
-          <RegisterEvent
-            eventId={id}
-            seats_left={seats_left}
-            registration_end_date={registration_end_date}
-          />
+          <RegisterEvent status={registration_status} />
           <div className='my-12 flex flex-col gap-3 text-lg'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
@@ -190,11 +186,7 @@ const EventContainer = async ({
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
         </span>
-        <RegisterEvent
-          eventId={id}
-          seats_left={seats_left}
-          registration_end_date={registration_end_date}
-        />
+        <RegisterEvent status={registration_status} />
       </div>
     </div>
   );
