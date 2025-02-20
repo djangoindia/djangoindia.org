@@ -9,4 +9,5 @@ export const API_ENDPOINTS = {
   eventRSVP: '/events/:slug/registration',
   signup: '/sign-up',
   requestVerification: '/request-email-verify',
+  profile: '/users/me'
 };
