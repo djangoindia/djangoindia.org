@@ -16,7 +16,10 @@ from djangoindia.api.serializers.event import (
     EventRegistrationSerializer,
     EventSerializer,
 )
-from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
+from djangoindia.bg_tasks.event_tasks import (
+    rsvp_confirmation_email_task,
+    waitlist_confirmation_email_task,
+)
 from djangoindia.constants import POST
 from djangoindia.db.models import (
     CommunityPartner,
@@ -175,7 +178,7 @@ class EventAPIView(BaseViewSet):
             )
 
     def _send_confirmation_email(self, email, event_id):
-        registration_confirmation_email_task.delay(email, event_id)
+        rsvp_confirmation_email_task.delay(email, event_id)
 
 
 class EventRegistrationView(BaseAPIView):
@@ -225,13 +228,23 @@ class EventRegistrationView(BaseAPIView):
             )
             if serializer.is_valid():
                 registration = serializer.save()
-
+                if (
+                    registration.status
+                    == EventUserRegistration.RegistrationStatus.RSVPED
+                ):
+                    rsvp_confirmation_email_task.delay(
+                        registration.user.email, registration.event.id
+                    )
+                else:
+                    waitlist_confirmation_email_task.delay(
+                        registration.user.email, registration.event.id
+                    )
                 return Response(
                     {
                         "message": "Successfully RSVP'd for the event"
                         if registration.status
                         == EventUserRegistration.RegistrationStatus.RSVPED
-                        else "Added to waitlist",
+                        else "You have been added to waitlist",
                         "data": serializer.data,
                     },
                     status=status.HTTP_201_CREATED,

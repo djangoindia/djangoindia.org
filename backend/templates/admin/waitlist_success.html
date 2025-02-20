@@ -31,20 +31,6 @@
             line-height: 1.8;
             color: #666;
         }
-        .details {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-        .details p {
-            margin: 10px 0;
-            color: #333;
-        }
-        .details p strong {
-            display: inline-block;
-            width: 100px;
-        }
         .footer {
             background-color: #144D3D;
             text-align: center;
@@ -84,23 +70,10 @@
     <div class="container">
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Your registration has been confirmed for the {{ event.name }} and we are thrilled to have you join us. Below are the details:</p>
-            <div class="details">
-                {% if event.end_date %}
-                <p><strong>Date:</strong> {{ event.start_date.date }} - {{ event.end_date.date }}</p>
-                <p><strong>Time:</strong> {{ event.start_date.time }} - {{ event.end_date.time }}</p>
-                {% else %}
-                <p><strong>Date:</strong> {{ event.date_time.date }}</p>
-                <p><strong>Time:</strong> {{ event.date_time.time }}</p>
-                {% endif %}
-                {% if event.venue %}
-                <p><strong>Venue:</strong> {{ event.venue }}</p>
-                {% endif %}
-                <p><strong>Mode:</strong> {{ event.event_mode }}</p>
-            </div>
-            <p>If, for some reason, you will not be able to make it, please withdraw your registration from the event page, so that other participants have a chance to attend.</p><br/>
-            <p>We look forward to seeing you there! If you have any queries, feel free to contact us at:<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
-            <p>Best regards,<br/>Team Django India</p>
+            <p>You have been added to the waitlist for the {{ event.name }}. While the event is currently at full capacity, we've secured your place in line.</p>
+            <p>We appreciate your enthusiasm and will notify you immediately if your registration is confirmed. Your patience and interest mean a lot to us!</p>
+            <p>If you have any questions about your waitlist status or the event, please don't hesitate to contact us at: <a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
+            <p>Stay hopeful and stay connected!<br/>Best regards,<br/>Team Django India</p>
             <div class="bottom-section">
                 <p>Follow us on social media:</p>
                 <div class="social-links-container">
