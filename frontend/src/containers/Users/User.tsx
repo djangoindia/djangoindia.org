@@ -30,13 +30,15 @@ type UserData = {
   twitter: string | null;
   instagram: string | null;
   cover_image: string | null;
+  country: string | null;
+  organization: string | null;
+  mastodon: string | null;
 };
 
 const UserContainer = async ({
   params: { userId },
 }: PageProps<never, { userId: string }>) => {
   const accessToken = await getAccessToken();
-  console.log('<<<<<<<<', accessToken);
 
   const { data: userData } = await fetchData<UserData>('/users/me', {
     headers: {
