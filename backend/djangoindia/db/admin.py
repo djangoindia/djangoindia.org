@@ -12,8 +12,10 @@ from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 from django.urls import path
 
-from djangoindia.bg_tasks.event_registration import send_mass_mail_task
-from djangoindia.bg_tasks.event_tasks import rsvp_confirmation_email_task
+from djangoindia.bg_tasks.event_tasks import (
+    rsvp_confirmation_email_task,
+    send_mass_mail_task,
+)
 from djangoindia.db.models import (
     CommunityPartner,
     ContactUs,
