@@ -30,6 +30,9 @@ type UserData = {
   twitter: string | null;
   instagram: string | null;
   cover_image: string | null;
+  country: string | null;
+  organization: string | null;
+  mastodon: string | null;
 };
 
 const UserContainer = async ({
@@ -53,10 +56,14 @@ const UserContainer = async ({
           objectFit='cover'
           className='rounded-2xl'
         />
-        <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
+        <UserAvatar
+          avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'}
+        />
       </div>
       <div className='mt-36 flex flex-col'>
-        <h3 className='text-3xl font-bold'>{userData?.first_name}{' '}{userData?.last_name}</h3>
+        <h3 className='text-3xl font-bold'>
+          {userData?.first_name} {userData?.last_name}
+        </h3>
         <h3>@{userData?.username}</h3>
         {/* Uncomment when API cahnges are done */}
         <span className='text-sm'>{userData?.bio}</span>

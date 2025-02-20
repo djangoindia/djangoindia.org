@@ -40,6 +40,8 @@ class Event(BaseModel):
     seats_left = models.IntegerField(null=True, blank=True)
     volunteers = models.ManyToManyField(Volunteer, related_name="events")
     media = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
+    cancellation_count_after_housefull = models.IntegerField(default=0)
+    registrations_open = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -149,15 +151,16 @@ class EventUserRegistration(BaseModel):
             self.first_time_attendee = not user_has_registered_before
 
             # Only decrease seats for RSVPED status
-            if (
-                self.event.seats_left > 0
-                and self.status == self.RegistrationStatus.RSVPED
-            ):
-                self.event.seats_left -= 1
-                self.event.save()
-            elif (
-                self.event.seats_left <= 0
-                and self.status == self.RegistrationStatus.RSVPED
-            ):
-                raise ValueError("No seats left for this event.")
+            if self.event.registrations_open:
+                if (
+                    self.event.seats_left > 0
+                    and self.status == self.RegistrationStatus.RSVPED
+                ):
+                    self.event.seats_left -= 1
+                    self.event.save()
+                elif (
+                    self.event.seats_left <= 0
+                    and self.status == self.RegistrationStatus.RSVPED
+                ):
+                    raise ValueError("No seats left for this event.")
         super().save(*args, **kwargs)

@@ -44,9 +44,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     cover_image = models.ImageField(
         upload_to="users/cover_images/", blank=True, null=True
     )
-    gender = models.CharField(choices=GENDER.CHOICES, max_length=50)
+    gender = models.CharField(
+        choices=GENDER.CHOICES, max_length=50, blank=True, null=True
+    )
     bio = models.CharField(max_length=150, blank=True, null=True)
     about = models.TextField(blank=True, null=True)
+    country = models.CharField(max_length=255, blank=True, null=True)
+    organization = models.CharField(max_length=255, blank=True, null=True)
 
     # tracking metrics
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
@@ -67,6 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     github = models.URLField(max_length=255, blank=True, null=True)
     twitter = models.URLField(max_length=255, blank=True, null=True)
     instagram = models.URLField(max_length=255, blank=True, null=True)
+    mastodon = models.URLField(max_length=255, blank=True, null=True)
 
     user_timezone = models.CharField(
         max_length=255, default="Asia/Kolkata", choices=USER_TIMEZONE_CHOICES

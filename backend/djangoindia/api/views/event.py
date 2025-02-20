@@ -16,7 +16,10 @@ from djangoindia.api.serializers.event import (
     EventRegistrationSerializer,
     EventSerializer,
 )
-from djangoindia.bg_tasks.event_registration import registration_confirmation_email_task
+from djangoindia.bg_tasks.event_tasks import (
+    rsvp_confirmation_email_task,
+    waitlist_confirmation_email_task,
+)
 from djangoindia.constants import POST
 from djangoindia.db.models import (
     CommunityPartner,
@@ -175,7 +178,7 @@ class EventAPIView(BaseViewSet):
             )
 
     def _send_confirmation_email(self, email, event_id):
-        registration_confirmation_email_task.delay(email, event_id)
+        rsvp_confirmation_email_task.delay(email, event_id)
 
 
 class EventRegistrationView(BaseAPIView):
@@ -189,6 +192,11 @@ class EventRegistrationView(BaseAPIView):
             if not event:
                 return Response(
                     {"message": "Event not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+            if not event.registrations_open:
+                return Response(
+                    {"message": "Event registrations are not yet open."},
+                    status=status.HTTP_404_NOT_FOUND,
                 )
             # Check if user is already registered
             existing_registration = EventUserRegistration.objects.filter(
@@ -220,13 +228,23 @@ class EventRegistrationView(BaseAPIView):
             )
             if serializer.is_valid():
                 registration = serializer.save()
-
+                if (
+                    registration.status
+                    == EventUserRegistration.RegistrationStatus.RSVPED
+                ):
+                    rsvp_confirmation_email_task.delay(
+                        registration.user.email, registration.event.id
+                    )
+                else:
+                    waitlist_confirmation_email_task.delay(
+                        registration.user.email, registration.event.id
+                    )
                 return Response(
                     {
                         "message": "Successfully RSVP'd for the event"
                         if registration.status
                         == EventUserRegistration.RegistrationStatus.RSVPED
-                        else "Added to waitlist",
+                        else "You have been added to waitlist",
                         "data": serializer.data,
                     },
                     status=status.HTTP_201_CREATED,
@@ -268,14 +286,12 @@ class EventRegistrationView(BaseAPIView):
             )
             if serializer.is_valid():
                 serializer.save()
-                if reg_status == EventUserRegistration.RegistrationStatus.RSVPED:
-                    msg = "Successfully RSVP'd for the event"
-                elif reg_status == EventUserRegistration.RegistrationStatus.WAITLISTED:
-                    msg = "Added to waitlist"
-                else:
-                    msg = "Registration status updated successfully"
-
-                return Response({"message": msg, "data": serializer.data})
+                return Response(
+                    {
+                        "message": "Registration note updated successfully",
+                        "data": serializer.data,
+                    }
+                )
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -296,11 +312,16 @@ class EventRegistrationView(BaseAPIView):
                     {"message": "Registration not found"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
-            registration.event.seats_left += 1
-            registration.event.save()
+            if registration.status == EventUserRegistration.RegistrationStatus.RSVPED:
+                if not registration.event.seats_left == 0:
+                    registration.event.seats_left += 1
+                    registration.event.save()
+                else:
+                    registration.event.cancellation_count_after_housefull += 1
+                    registration.event.save()
             registration.delete()
             return Response(
-                {"message": "Registration cancelled successfully"},
+                {"message": "Registration withdrawn successfully"},
                 status=status.HTTP_200_OK,
             )
         except Exception as e:

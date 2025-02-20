@@ -1,86 +1,182 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Check, Clock, X } from 'lucide-react';
+import { useParams, useRouter, usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import {
   Button,
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@components';
-import { API_ENDPOINTS, REGISTER_EVENT_FORM_SCHEMA } from '@constants';
-import { dayjsWithTZ } from '@utils';
+import { API_ENDPOINTS, APP_ROUTES } from '@constants';
+import { cn } from '@utils';
 
 import { fetchData } from '@/utils';
+import { getAccessToken } from '@/utils/getAccesstoken';
 
-import { REGISTER_FORM_FIELDS } from './RegisterEvent.config';
+import type { Event } from '@/types';
 
-import type { RegisterEventForm } from './RegisterEvent.types';
+const rsvpStatusMap = {
+  rsvped: `RSVP'ed`,
+  cancelled: 'Cancelled',
+  waitlisted: 'Waitlisted',
+};
 
 export const RegisterEvent = ({
-  eventId,
+  status,
   seats_left,
-  registration_end_date,
 }: {
-  eventId: string;
+  status: Event['registration_status'];
   seats_left: number;
-  registration_end_date: string;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const session = useSession();
+  const params = useParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const {
-    register,
-    control,
-    reset,
-    formState: { errors, ...restFormState },
-    handleSubmit,
-    ...rest
-  } = useForm<RegisterEventForm>({
-    resolver: yupResolver(REGISTER_EVENT_FORM_SCHEMA),
+  const [isRSVPed, setIsRSVPed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { register, setValue, handleSubmit, reset } = useForm<{
+    rsvpNote: string;
+  }>({
     defaultValues: {
-      first_name: '',
-      last_name: '',
-      email: '',
-      linkedin: '',
-      organization: '',
-      description: '',
-      include_in_attendee_list: false,
+      rsvpNote: '',
     },
   });
 
-  const onSubmit: SubmitHandler<RegisterEventForm> = async (data) => {
+  useEffect(() => {
+    setIsRSVPed(status !== null);
+  }, [status]);
+
+  /**
+   * Fetches RSVP notes for a specific event and updates the form value.
+   *
+   * @remarks
+   * This function retrieves an access token, makes a request to fetch RSVP notes
+   * for the event specified in the `params`, and updates the form field `rsvpNote`.
+   *
+   * @async
+   * @function getRSVPNotes
+   * @returns {Promise<void>} A promise that resolves when the RSVP notes are fetched and set.
+   *
+   * @example
+   * ```ts
+   * useEffect(() => {
+   *   getRSVPNotes();
+   * }, [getRSVPNotes]);
+   * ```
+   */
+  const getRSVPNotes = useCallback(async () => {
+    const accessToken = await getAccessToken();
+    await fetchData<{ rsvp_notes: string }[]>(
+      API_ENDPOINTS.eventRSVP.replace(':slug', params['event'] as string),
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    ).then((res) => {
+      setValue('rsvpNote', res.data?.[0].rsvp_notes ?? '');
+    });
+  }, [params, setValue]);
+
+  useEffect(() => {
+    if (isRSVPed) {
+      getRSVPNotes();
+    }
+  }, [getRSVPNotes, isRSVPed]);
+
+  /**
+   * Handles the RSVP action for an event.
+   *
+   * @remarks
+   * This function retrieves an access token, sends a POST request to RSVP for an event,
+   * and updates the UI based on the response.
+   *
+   * @async
+   * @function handleRSVP
+   * @returns {Promise<void>} A promise that resolves when the RSVP request is processed.
+   *
+   * @example
+   * ```ts
+   * <Button onClick={handleRSVP}>RSVP</Button>
+   * ```
+   */
+  const handleRSVPEvent = async (): Promise<void> => {
+    const accessToken = await getAccessToken();
     const res = await fetchData<{ message: string }>(
-      API_ENDPOINTS.registerEvent.replace(':id', eventId),
+      API_ENDPOINTS.eventRSVP.replace(':slug', params['event'] as string),
       {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
         body: JSON.stringify({
-          event: eventId,
-          ...data,
+          status: seats_left === 0 ? 'waitlisted' : 'rsvped',
+          rsvp_notes: 'I\'ll be there!',
         }),
       },
     );
+
     if (res.statusCode === 200 || res.statusCode === 201) {
+      setIsRSVPed(true);
+      router.refresh();
+      enqueueSnackbar(res?.data?.message, { variant: 'success' });
+    } else if (res?.statusCode === 401) {
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+    } else{
+      enqueueSnackbar(res?.error?.message, {
+        variant: 'error',
+      });
+    }
+  };
+
+  /**
+   * Handles the RSVP action for an event.
+   *
+   * @remarks
+   * This function sends a PUT request to RSVP for an event,
+   * and updates the UI based on the response.
+   *
+   * @async
+   * @function handleRSVP
+   * @returns {Promise<void>} A promise that resolves when the RSVP request is processed.
+   *
+   * @example
+   * ```ts
+   * <Button onClick={handleUpdateRSVPEvent}>Update RSVP</Button>
+   * ```
+   */
+  const handleUpdateRSVPEvent: SubmitHandler<{
+    rsvpNote: string;
+  }> = async ({ rsvpNote }): Promise<void> => {
+    const accessToken = await getAccessToken();
+    const res = await fetchData<{ message: string }>(
+      API_ENDPOINTS.eventRSVP.replace(':slug', params['event'] as string),
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          status,
+          rsvp_notes: rsvpNote,
+        }),
+      },
+    );
+
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      setIsOpen(false);
+      router.refresh();
       enqueueSnackbar(res?.data?.message, { variant: 'success' });
     } else {
       enqueueSnackbar(res?.error?.message, {
@@ -88,201 +184,130 @@ export const RegisterEvent = ({
       });
     }
     reset();
-    setIsOpen(false);
   };
 
-  const currentDate = dayjsWithTZ();
-  const registrationEndDate = dayjsWithTZ(registration_end_date);
-  const isRegistrationOpen =
-    seats_left > 0 && currentDate.isBefore(registrationEndDate);
-  const isFull = seats_left === 0;
+  /**
+   * Handles the RSVP action for an event.
+   *
+   * @remarks
+   * This function sends a DELETE request to RSVP for an event,
+   * and updates the UI based on the response.
+   *
+   * @async
+   * @function handleRSVP
+   * @returns {Promise<void>} A promise that resolves when the RSVP request is processed.
+   *
+   * @example
+   * ```ts
+   * <Button onClick={handleDeleteRSVPEvent}>Delete RSVP</Button>
+   * ```
+   */
+  const handleDeleteRSVPEvent = async (): Promise<void> => {
+    const accessToken = await getAccessToken();
+    const res = await fetchData<{ message: string }>(
+      API_ENDPOINTS.eventRSVP.replace(':slug', params['event'] as string),
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
 
-  let buttonText = 'Registration closed';
-  if (isRegistrationOpen) {
-    buttonText = 'Register';
-  } else if (isFull) {
-    buttonText = 'Housefull!';
-  }
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      setIsOpen(false);
+      setIsRSVPed(false);
+      router.refresh();
+      enqueueSnackbar(res?.data?.message, { variant: 'success' });
+    } else {
+      enqueueSnackbar(res?.error?.message, {
+        variant: 'error',
+      });
+    }
+  };
 
-  return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerTrigger asChild>
-        {seats_left && registration_end_date && (
-          <Button
-            className='z-50 w-fit bg-blue-900'
-            onClick={() => isRegistrationOpen && setIsOpen(true)}
-            disabled={!isRegistrationOpen}
-          >
-            {buttonText}
-          </Button>
-        )}
-      </DrawerTrigger>
-      <DrawerContent className="z-50 h-full bg-orange-50 bg-[url('/sprinkle.svg')] bg-cover pb-8">
-        <div className='no-scrollbar overflow-auto'>
-          <DrawerHeader>
-            <DrawerTitle className='text-center text-4xl'>
-              Register Now!
-            </DrawerTitle>
-            <DrawerDescription className='text-center'>
-              Please fill the information carefully
-            </DrawerDescription>
-            <DrawerClose asChild>
-              <Button
-                className='absolute right-0 top-0 m-4 font-bold'
-                variant='ghost'
-              >
-                ✕
-              </Button>
-            </DrawerClose>
-          </DrawerHeader>
-          <Form
-            register={register}
-            control={control}
-            reset={reset}
-            formState={{ errors, ...restFormState }}
-            handleSubmit={handleSubmit}
-            {...rest}
-          >
-            <form
-              className='mx-auto mt-10 flex h-full w-5/6 flex-col gap-6 sm:w-2/4'
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              {REGISTER_FORM_FIELDS.map((item, i) =>
-                Array.isArray(item) ? (
-                  <div
-                    className='flex w-full justify-between gap-5'
-                    key={`field-group-${i}`}
-                  >
-                    {item.map(({ name, label, placeholder, type, options }) => (
-                      <div
-                        className='grid w-full items-center gap-1.5'
-                        key={name}
-                      >
-                        <FormField
-                          control={control}
-                          name={name}
-                          render={({ field }) => (
-                            <FormItem>
-                              {type === 'checkbox' ? (
-                                <div className='flex items-center gap-0'>
-                                  <FormControl>
-                                    <Input
-                                      type='checkbox'
-                                      onChange={field.onChange}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className='mb-0'>
-                                    {label}
-                                  </FormLabel>
-                                </div>
-                              ) : (
-                                <>
-                                  <FormLabel>{label}</FormLabel>
-                                  {type === 'select' ? (
-                                    <Select
-                                      onValueChange={field.onChange}
-                                      defaultValue={String(field.value)}
-                                    >
-                                      <FormControl>
-                                        <SelectTrigger>
-                                          <SelectValue
-                                            placeholder={placeholder}
-                                          />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent>
-                                        {options.map(({ label, value }) => (
-                                          <SelectItem key={value} value={value}>
-                                            {label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                  ) : (
-                                    <FormControl>
-                                      <Input
-                                        type={type}
-                                        placeholder={placeholder}
-                                        onChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  )}
-                                </>
-                              )}
-                              <FormMessage>
-                                {errors[name]?.message ?? ' '}
-                              </FormMessage>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div
-                    className='grid w-full items-center gap-1.5'
-                    key={item.name}
-                  >
-                    <FormField
-                      control={control}
-                      name={item.name}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{item.label}</FormLabel>
-                          {item.type === 'select' ? (
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={String(field.value)}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder={item.placeholder} />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {item.options.map(({ label, value }) => (
-                                  <SelectItem key={value} value={value}>
-                                    {label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          ) : (
-                            <FormControl>
-                              <Input
-                                type={item.type}
-                                placeholder={item.placeholder}
-                                onChange={field.onChange}
-                              />
-                            </FormControl>
-                          )}
-                          <FormMessage>
-                            {errors[item.name]?.message ?? ' '}
-                          </FormMessage>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ),
-              )}
-              <DrawerFooter className='mx-auto flex flex-row gap-4'>
-                <Button type='submit'>Register</Button>
-                <DrawerClose asChild>
-                  <Button
-                    variant='outline'
-                    onClick={() => {
-                      reset();
-                      setIsOpen(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </form>
-          </Form>
+  return session ? (
+    <div className='flex items-center gap-4'>
+      {status && (
+        <div
+          className={cn(
+            'flex gap-3 rounded bg-white px-4 py-2 font-semibold ',
+            {
+              'text-green-600': status === 'rsvped',
+              'text-yellow-600': status === 'waitlisted',
+              'text-red-600': status === 'cancelled',
+            },
+          )}
+        >
+          {rsvpStatusMap[status]}
+          {
+            {
+              rsvped: <Check />,
+              cancelled: <X />,
+              waitlisted: <Clock />,
+            }[status]
+          }
         </div>
-      </DrawerContent>
-    </Drawer>
+      )}
+      {isRSVPed ? (
+        <Button
+          className='z-50 w-fit bg-blue-900'
+          onClick={() => setIsOpen(true)}
+        >
+          Edit RSVP
+        </Button>
+      ) : (
+        <Button
+          className='z-50 w-fit bg-blue-900'
+          onClick={() => handleRSVPEvent()}
+        >
+          {seats_left === 0 ? 'Join waitlist' : 'RSVP Now'}
+        </Button>
+      )}
+      <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
+        <DialogContent className='bg-orange-50 p-6 sm:p-8 md:p-12 w-[90%] max-w-[530px] mx-auto rounded-lg'>
+          <DialogHeader className='mb-4'>
+            <DialogTitle className='text-xl sm:text-2xl font-bold text-center'>
+              Update your RSVP
+            </DialogTitle>
+          </DialogHeader>
+          <form
+            onSubmit={handleSubmit(handleUpdateRSVPEvent)}
+            className='flex flex-col gap-4 sm:gap-5'
+          >
+            <Input 
+              {...register('rsvpNote')} 
+              type='text' 
+              className='w-full'
+            />
+            <DialogFooter className='flex flex-col sm:flex-row justify-center gap-3 sm:gap-4'>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleDeleteRSVPEvent();
+                }}
+                className='bg-blue-900 w-full sm:w-auto'
+                variant='destructive'
+              >
+                Withdraw
+              </Button>
+              <Button 
+                type='submit' 
+                className='bg-blue-900 w-full sm:w-auto'
+              >
+                Update Note
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </div>
+  ) : (
+    <Button
+      className='z-50 w-fit bg-blue-900'
+      onClick={() => router.push(APP_ROUTES.login)}
+    >
+      Login to register
+    </Button>
   );
 };

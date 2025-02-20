@@ -12,7 +12,10 @@ from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 from django.urls import path
 
-from djangoindia.bg_tasks.event_registration import send_mass_mail_task
+from djangoindia.bg_tasks.event_tasks import (
+    rsvp_confirmation_email_task,
+    send_mass_mail_task,
+)
 from djangoindia.db.models import (
     CommunityPartner,
     ContactUs,
@@ -435,6 +438,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                 registration.status = EventUserRegistration.RegistrationStatus.RSVPED
                 registration.save()
                 promoted_count += 1
+                rsvp_confirmation_email_task(registration.user.email, event_id)
 
             # Update event seats once after all promotions
             event.seats_left -= seats_needed
@@ -552,6 +556,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                         registration.save()
                         promoted_count += 1
                         event.seats_left -= 1
+                        rsvp_confirmation_email_task(registration.user.email, event.id)
 
                     if promoted_count > 0:
                         event.save()

@@ -42,6 +42,24 @@ class EventSerializer(serializers.Serializer):
     )
     media = FolderLiteSerializer()
     registration_status = serializers.SerializerMethodField()
+    rsvp_count = serializers.SerializerMethodField()
+    waitlist_count = serializers.SerializerMethodField()
+    registrations_open = serializers.BooleanField()
+
+    def get_rsvp_count(self, obj):
+        if obj.end_date < timezone.datetime(
+            2025, 2, 20, tzinfo=timezone.get_current_timezone()
+        ):
+            return EventRegistration.objects.filter(event=obj).count()
+        else:
+            return EventUserRegistration.objects.filter(
+                event=obj, status=EventUserRegistration.RegistrationStatus.RSVPED
+            ).count()
+
+    def get_waitlist_count(self, obj):
+        return EventUserRegistration.objects.filter(
+            event=obj, status=EventUserRegistration.RegistrationStatus.WAITLISTED
+        ).count()
 
     def get_registration_status(self, obj):
         request = self.context.get("request")
