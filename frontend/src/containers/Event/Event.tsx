@@ -41,6 +41,9 @@ const EventContainer = async ({
     partners,
     volunteers,
     registration_status,
+    rsvp_count,
+    waitlist_count,
+    registrations_open,
   },
 }: {
   event: Event;
@@ -89,11 +92,12 @@ const EventContainer = async ({
             <span>Starts: TBA</span>
           )}
           {city && <span>City: {city}</span>}
-          {seats_left !== null &&
-            dayjsWithTZ().isBefore(dayjsWithTZ(start_date)) && (
-              <span>Seats left: {seats_left}</span>
-            )}
-          <RegisterEvent status={registration_status} />
+          <h4 className='text-xl font-bold'>
+            {waitlist_count
+              ? ` ${rsvp_count} are going and ${waitlist_count} are in the waiting list.`
+              : ` Hurry up! ${rsvp_count} are already going!`}
+          </h4>
+          {registrations_open && <RegisterEvent status={registration_status} seats_left={seats_left} />}
           <div className='my-12 flex flex-col gap-3 text-lg'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
@@ -186,7 +190,7 @@ const EventContainer = async ({
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
         </span>
-        <RegisterEvent status={registration_status} />
+        {registrations_open && <RegisterEvent status={registration_status} seats_left={seats_left} />}
       </div>
     </div>
   );

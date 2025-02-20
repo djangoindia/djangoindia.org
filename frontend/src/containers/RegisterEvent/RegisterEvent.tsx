@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Check, Clock, X } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -26,19 +26,22 @@ import { getAccessToken } from '@/utils/getAccesstoken';
 import type { Event } from '@/types';
 
 const rsvpStatusMap = {
-  rsvped: 'RSVPed',
+  rsvped: `RSVP'ed`,
   cancelled: 'Cancelled',
   waitlisted: 'Waitlisted',
 };
 
 export const RegisterEvent = ({
   status,
+  seats_left,
 }: {
   status: Event['registration_status'];
+  seats_left: number;
 }) => {
   const session = useSession();
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [isRSVPed, setIsRSVPed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -118,8 +121,8 @@ export const RegisterEvent = ({
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          status: 'rsvped',
-          rsvp_notes: 'Mock Note',
+          status: seats_left === 0 ? 'waitlisted' : 'rsvped',
+          rsvp_notes: 'I\'ll be there!',
         }),
       },
     );
@@ -128,7 +131,9 @@ export const RegisterEvent = ({
       setIsRSVPed(true);
       router.refresh();
       enqueueSnackbar(res?.data?.message, { variant: 'success' });
-    } else {
+    } else if (res?.statusCode === 401) {
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+    } else{
       enqueueSnackbar(res?.error?.message, {
         variant: 'error',
       });
@@ -256,32 +261,40 @@ export const RegisterEvent = ({
           className='z-50 w-fit bg-blue-900'
           onClick={() => handleRSVPEvent()}
         >
-          RSVP Now
+          {seats_left === 0 ? 'Join waitlist' : 'RSVP Now'}
         </Button>
       )}
       <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
-        <DialogContent className='bg-orange-50 p-16 sm:max-w-[530px]'>
-          <DialogHeader>
-            <DialogTitle className='text-center text-2xl font-bold'>
+        <DialogContent className='bg-orange-50 p-6 sm:p-8 md:p-12 w-[90%] max-w-[530px] mx-auto rounded-lg'>
+          <DialogHeader className='mb-4'>
+            <DialogTitle className='text-xl sm:text-2xl font-bold text-center'>
               Update your RSVP
             </DialogTitle>
           </DialogHeader>
           <form
             onSubmit={handleSubmit(handleUpdateRSVPEvent)}
-            className='flex flex-col gap-5'
+            className='flex flex-col gap-4 sm:gap-5'
           >
-            <Input {...register('rsvpNote')} type='text' />
-            <DialogFooter className='mx-auto'>
+            <Input 
+              {...register('rsvpNote')} 
+              type='text' 
+              className='w-full'
+            />
+            <DialogFooter className='flex flex-col sm:flex-row justify-center gap-3 sm:gap-4'>
               <Button
                 onClick={(e) => {
                   e.preventDefault();
                   handleDeleteRSVPEvent();
                 }}
-                className='bg-blue-900'
+                className='bg-blue-900 w-full sm:w-auto'
+                variant='destructive'
               >
-                Remove RSVP
+                Withdraw
               </Button>
-              <Button type='submit' className='bg-blue-900'>
+              <Button 
+                type='submit' 
+                className='bg-blue-900 w-full sm:w-auto'
+              >
                 Update Note
               </Button>
             </DialogFooter>

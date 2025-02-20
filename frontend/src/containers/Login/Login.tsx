@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -19,6 +19,9 @@ import type { LoginFormType } from './Login.types';
 
 const Page = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || undefined;
+
   const {
     register,
     handleSubmit,
@@ -39,7 +42,7 @@ const Page = () => {
       }
 
       if (res?.ok) {
-        router.push('/users/me');
+        router.push(redirect ? decodeURIComponent(redirect) : "/");
       }
     } catch (error) {
       console.error('Unexpected error during login:', error);
@@ -136,8 +139,8 @@ const Page = () => {
           </form>
           <div className='my-4 flex w-full flex-col gap-3 text-center'>
             <div>
-              Don’t have account?
-              <Link href='/signup' className='text-[#06038D] hover:underline'>
+              Don’t have account?{' '}
+              <Link href={redirect ? `/signup?redirect=${encodeURIComponent(redirect)}` : '/signup'} className='text-[#06038D] hover:underline'>
                 Sign Up here!
               </Link>
             </div>
@@ -145,13 +148,13 @@ const Page = () => {
             <Button
               onClick={async () =>
                 await signIn('google', {
-                  callbackUrl: '/users/me',
+                  callbackUrl: redirect? redirect : '/',
                 })
               }
               className='w-full flex items-center gap-4 pl-0'
             >
               <FaGoogle size={20} />
-              Sign in with Google
+              Continue with Google
             </Button>
           </div>
         </motion.div>
