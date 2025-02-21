@@ -43,6 +43,7 @@ const EventContainer = async ({
     registration_status,
     rsvp_count,
     waitlist_count,
+    cfp_open,
     registrations_open,
   },
 }: {
@@ -82,7 +83,31 @@ const EventContainer = async ({
           />
         </div>
         <div className='flex flex-col gap-2'>
-          <h2 className='text-6xl font-bold'>{name}</h2>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
+          <h2 className='text-4xl md:text-6xl font-bold w-full sm:w-auto'>
+            {name}
+          </h2>
+          <div className='flex flex-wrap justify-end gap-3 w-full sm:w-auto'>
+            {registrations_open && (
+              <RegisterEvent 
+                status={registration_status} 
+                seats_left={seats_left} 
+              />
+            )}
+            {cfp_open && (
+              <Link
+                href='https://github.com/djangoindia/talks/issues/new?template=talk_proposal.yaml'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-full sm:w-auto'
+              >
+                <Button className='w-full sm:w-auto z-50 bg-blue-900'>
+                  Submit CFP
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
           {start_date ? (
             <span>
               Starts {dayjsWithTZ(start_date).format('DD MMMM, YYYY')} at{' '}
@@ -92,12 +117,13 @@ const EventContainer = async ({
             <span>Starts: TBA</span>
           )}
           {city && <span>City: {city}</span>}
-          <h4 className='text-xl font-bold'>
-            {waitlist_count
-              ? ` ${rsvp_count} are going and ${waitlist_count} are in the waiting list.`
-              : ` Hurry up! ${rsvp_count} are already going!`}
-          </h4>
-          {registrations_open && <RegisterEvent status={registration_status} seats_left={seats_left} />}
+          {rsvp_count > 2 && (
+            <h4 className='text-xl font-bold'>
+              {waitlist_count
+                ? `${rsvp_count} RSVP'ed and ${waitlist_count} waitlisted.`
+                : `${rsvp_count} RSVP'ed!`}
+            </h4>
+          )}
           <div className='my-12 flex flex-col gap-3 text-lg'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />

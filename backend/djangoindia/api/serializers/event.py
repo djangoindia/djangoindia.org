@@ -45,9 +45,10 @@ class EventSerializer(serializers.Serializer):
     rsvp_count = serializers.SerializerMethodField()
     waitlist_count = serializers.SerializerMethodField()
     registrations_open = serializers.BooleanField()
+    cfp_open = serializers.BooleanField()
 
     def get_rsvp_count(self, obj):
-        if obj.end_date < timezone.datetime(
+        if obj.end_date and obj.end_date < timezone.datetime(
             2025, 2, 20, tzinfo=timezone.get_current_timezone()
         ):
             return EventRegistration.objects.filter(event=obj).count()

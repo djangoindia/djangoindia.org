@@ -42,6 +42,7 @@ class Event(BaseModel):
     media = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
     cancellation_count_after_housefull = models.IntegerField(default=0)
     registrations_open = models.BooleanField(default=False)
+    cfp_open = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.name}"

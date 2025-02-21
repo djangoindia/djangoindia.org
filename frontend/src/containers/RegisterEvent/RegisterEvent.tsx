@@ -227,11 +227,11 @@ export const RegisterEvent = ({
   };
 
   return session ? (
-    <div className='flex items-center gap-4'>
+    <div className='w-full sm:w-auto flex items-center gap-4'>
       {status && (
         <div
           className={cn(
-            'flex gap-3 rounded bg-white px-4 py-2 font-semibold ',
+            'flex gap-3 rounded bg-white px-4 py-2 font-semibold sm:w-1/2',
             {
               'text-green-600': status === 'rsvped',
               'text-yellow-600': status === 'waitlisted',
@@ -251,14 +251,14 @@ export const RegisterEvent = ({
       )}
       {isRSVPed ? (
         <Button
-          className='z-50 w-fit bg-blue-900'
+          className='w-full sm:w-auto z-50 bg-blue-900 '
           onClick={() => setIsOpen(true)}
         >
           Edit RSVP
         </Button>
       ) : (
         <Button
-          className='z-50 w-fit bg-blue-900'
+          className='w-full sm:w-auto z-50 bg-blue-900 '
           onClick={() => handleRSVPEvent()}
         >
           {seats_left === 0 ? 'Join waitlist' : 'RSVP Now'}

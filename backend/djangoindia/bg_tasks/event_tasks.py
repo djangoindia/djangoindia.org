@@ -23,7 +23,9 @@ def format_text(text: str) -> str:
 @shared_task
 def rsvp_confirmation_email_task(email, event_id):
     try:
-        registration = EventUserRegistration.objects.get(email=email, event_id=event_id)
+        registration = EventUserRegistration.objects.get(
+            user__email=email, event_id=event_id
+        )
         context = {
             "first_name": registration.user.first_name,
             "event": {
@@ -58,11 +60,16 @@ def rsvp_confirmation_email_task(email, event_id):
 @shared_task
 def waitlist_confirmation_email_task(email, event_id):
     try:
-        registration = EventUserRegistration.objects.get(email=email, event_id=event_id)
+        registration = EventUserRegistration.objects.get(
+            user__email=email, event_id=event_id
+        )
         context = {
             "first_name": registration.user.first_name,
+            "event": {
+                "name": registration.event.name,
+            },
         }
-        html_content = render_to_string("admin/waitlist_sucess.html", context)
+        html_content = render_to_string("admin/waitlist_success.html", context)
         # Strip the HTML tags for a plain text alternative
         text_content = strip_tags(html_content)
 

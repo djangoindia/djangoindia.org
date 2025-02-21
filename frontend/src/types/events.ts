@@ -48,6 +48,7 @@ export type Event = {
   rsvp_count: number;
   waitlist_count: number;
   registrations_open: boolean;
+  cfp_open: boolean;
 };
 
 export type EventsResponse = Event[];
