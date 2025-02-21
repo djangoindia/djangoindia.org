@@ -6,6 +6,7 @@ import { getAccessToken } from '@/utils/getAccesstoken';
 
 import { UserAvatar } from './UserAvatar';
 import ProfileForm from "./UserProfileForm";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 import type { PageProps } from '@/types/common';
 import { Button } from "@/components";
@@ -58,23 +59,24 @@ const UserContainer = async ({
           alt='Profile Cover'
           objectFit='cover'
           className='rounded-2xl'
-        />
-        <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
-        <Button className="absolute right-0 bottom-[-60px] flex gap-2">
-          <Edit2 className="w-4" /> Edit Profile
-        </Button>
+        />  
+        
+          <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
+          <Button className='absolute sm:right-[10%] right-0 bottom-[-60px] flex gap-2'>
+             Save Profile
+          </Button>
+     
       </div>
-      <div className='mt-36 flex flex-col'>
+      <div className='mt-36 mx-auto flex flex-col w-full sm:w-4/5'>
         <h3 className='text-3xl font-bold'>
           {userData?.first_name} {userData?.last_name}
         </h3>
         <h3>@{userData?.username}</h3>
         {/* Uncomment when API cahnges are done */}
         <span className='text-sm'>{userData?.bio}</span>
+        {userData && <ProfileForm userData={userData} />}
+        {userData && <ChangePasswordForm />}
       </div>
-      <>
-        <ProfileForm userData={userData} />
-      </>
     </section>
   );
 };

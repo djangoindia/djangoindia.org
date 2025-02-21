@@ -1,4 +1,6 @@
 import { FieldType } from "./UserProfileForm.types";
+import { getAllCountries, getAllTimezones } from 'countries-and-timezones';
+
 export const USER_PROFILE_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
   [
     { name: 'username', label: 'Username', placeholder: 'Username', type: 'text' },
@@ -10,7 +12,7 @@ export const USER_PROFILE_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
 
   ],
   [
-    { name: 'bio', label: 'Short Tagline', placeholder: 'Short Tagline', type: 'text' },
+    { name: 'organization', label: 'Organization', placeholder: 'Organization', type: 'text' },
     {
       name: 'gender',
       label: 'Gender',
@@ -19,10 +21,11 @@ export const USER_PROFILE_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
       options: [
         { label: 'Male', value: 'male' },
         { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' },
+        { label: 'Not to specify', value: 'not_to_specify' },
       ],
     },
   ],
+  { name: 'bio', label: 'Short Tagline', placeholder: 'Short Tagline', type: 'text' },
   { name: 'about', label: 'About Me', placeholder: 'About Me', type: 'textarea' },
   [
     { name: 'website', label: 'Website', placeholder: 'Website', type: 'text' },
@@ -34,21 +37,28 @@ export const USER_PROFILE_FORM_FIELDS: (FieldType | Array<FieldType>)[] = [
   ],
   [
     { name: 'twitter', label: 'Twitter', placeholder: 'X (Twitter)', type: 'text' },
-    // { name: 'mastodon', label: 'Mastodon', placeholder: 'Mastodon', type: 'text' },
+    { name: 'mastodon', label: 'Mastodon', placeholder: 'Mastodon', type: 'text' },
   ],
   [
-    // { name: 'country', label: 'Country', placeholder: 'Country', type: 'text' },
-    // { name: 'organization', label: 'Organization', placeholder: 'Organization', type: 'text' },
     {
-      name: 'user_timezone', label: 'Timezone', placeholder: 'Timezone', type: 'select', options: [
-        { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' },
-      ],
+      name: 'country', 
+      label: 'Country', 
+      placeholder: 'Select your country', 
+      type: 'select', 
+      options: Object.values(getAllCountries()).map(country => ({
+        label: country.name, 
+        value: country.id
+      }))
     },
-  ],
-  [
-    { name: 'newPassword', label: 'New Password', placeholder: 'Enter new password', type: 'password' },
-    { name: 'confirmPassword', label: 'Confirm Password', placeholder: 'Confirm new password', type: 'password' },
+    {
+      name: 'user_timezone', 
+      label: 'Timezone', 
+      placeholder: 'Select your timezone', 
+      type: 'select', 
+      options: Object.values(getAllTimezones()).map(timezone => ({
+        label: timezone.name, 
+        value: timezone.name
+      }))
+    },
   ],
 ];

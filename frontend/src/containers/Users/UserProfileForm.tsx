@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import {
     Input,
     Form,
@@ -25,11 +25,15 @@ import { fetchData } from "@/utils";
 import { API_ENDPOINTS, EDIT_PROFILE_FORM_SCHEMA } from "@/constants";
 import { USER_PROFILE_FORM_FIELDS } from "./UserProfileForm.config";
 import { UserData } from "./User";
+import { getAccessToken } from '@/utils/getAccesstoken';
+import type { ProfileForm } from './UserProfileForm.types';
+import { enqueueSnackbar } from 'notistack';
+import { useState, useEffect } from 'react';
 
 const isFieldRequired = (schema: yup.AnyObjectSchema, fieldName: string) => {
     try {
         const fieldSchema = schema.describe().fields[fieldName];
-        return fieldSchema?.tests?.some((test: any) => test.name === "required");
+        return (fieldSchema as any)?.tests?.some((test: any) => test.name === "required");
     } catch {
         return false;
     }
@@ -37,14 +41,23 @@ const isFieldRequired = (schema: yup.AnyObjectSchema, fieldName: string) => {
 
 const isFieldDisabled = (schema: yup.AnyObjectSchema, fieldName: string) => {
     try {
-        return schema.describe().fields[fieldName]?.meta?.disabled === true;
+        return (schema.describe().fields[fieldName] as any)?.meta?.disabled === true;
     } catch {
         return false;
     }
 };
 
 const ProfileForm = ({ userData }: { userData: UserData }) => {
-    const { username, email, first_name, last_name, gender, bio, about, website, linkedin, instagram, github, twitter, user_timezone } = userData;
+    const [accessToken, setAccessToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchAccessToken = async () => {
+            const token = await getAccessToken();
+            setAccessToken(token ?? null);
+        };
+        fetchAccessToken();
+    }, []);
+
     const {
         register,
         control,
@@ -52,53 +65,70 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
         handleSubmit,
         formState: { errors, ...restFormState },
         ...rest
-    } = useForm({
+    } = useForm<ProfileForm>({
         resolver: yupResolver(EDIT_PROFILE_FORM_SCHEMA),
         defaultValues: {
-            username: username,
-            email: email,
-            first_name: first_name,
-            last_name: last_name,
-            gender: gender,
-            bio: bio,
-            about: about,
-
-            website: website,
-            linkedin: linkedin,
-            instagram: instagram,
-            github: github,
-            twitter: twitter,
-            // mastodon: "",
-
-            // country: "",
-            // organization: "",
-            user_timezone: user_timezone,
-            newPassword: "",
-            confirmPassword: "",
+            username: userData?.username || '',
+            email: userData?.email || '',
+            first_name: userData?.first_name || '',
+            last_name: userData?.last_name || '',
+            gender: userData?.gender || '',
+            bio: userData?.bio || '',
+            about: userData?.about || '',
+            website: userData?.website || '',
+            linkedin: userData?.linkedin || '',
+            instagram: userData?.instagram || '',
+            github: userData?.github || '',
+            twitter: userData?.twitter || '',
+            mastodon: userData?.mastodon || '',
+            organization: userData?.organization || '',
+            country: userData?.country || '',
+            user_timezone: userData?.user_timezone || '',
         },
     });
 
-    const onSubmit = async (data: any) => {
-
-        delete data.newPassword
-        delete data.confirmPassword
-
-        const res = await fetchData<{ message: string }>(
-            API_ENDPOINTS.profile,
-            {
-                method: 'PATCH',
-                body: JSON.stringify(data),
-            },
-        );
-        if (res.statusCode === 200 || res.statusCode === 201) {
-
-        } else {
-
+    const onSubmit : SubmitHandler<ProfileForm> = async (data: any) => {
+        
+        try {
+            const res = await fetchData<{ message: string }>(
+                API_ENDPOINTS.profile,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify(data),
+                },
+            );
+            
+            if (res.statusCode === 200) {
+                console.log("res after updated",res)
+                enqueueSnackbar('Profile updated successfully', { variant: 'success' });
+            } else {
+                // Handle nested error message object
+                const errorMessages = res.error?.message;
+                
+                if (typeof errorMessages === 'object') {
+                    Object.entries(errorMessages).forEach(([field, errors]) => {
+                        if (Array.isArray(errors)) {
+                            errors.forEach(error => 
+                                enqueueSnackbar(`${field}: ${error}`, { variant: 'error' })
+                            );
+                        }
+                    });
+                } else {
+                    enqueueSnackbar('An error occurred', { variant: 'error' });
+                }
+            }
+        } catch (error) {
+            console.error("Exception during API call:", error);
+            enqueueSnackbar('Something went wrong', { variant: 'error' });
         }
     };
 
     return (
-        <Card className="mx-auto space-y-6 bg-transparent border-none shadow-none">
+        <Card className="mx-auto space-y-6 bg-transparent border-none shadow-none w-full">
             <CardHeader className="px-0">
                 <CardTitle>Profile Information</CardTitle>
             </CardHeader>
@@ -125,7 +155,6 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                                                     control={control}
                                                     name={name}
                                                     render={({ field }) => {
-                                                        // console.log('item name', field);
                                                         return (
                                                             <FormItem>
                                                                 {type === "checkbox" ? (
@@ -166,6 +195,7 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                                                                             <FormControl>
                                                                                 {type === "textarea" ? (
                                                                                     <Textarea
+                                                                                        {...field}
                                                                                         rows={10}
                                                                                         placeholder={placeholder}
                                                                                         onChange={field.onChange}
@@ -174,6 +204,7 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                                                                                     />
                                                                                 ) : (
                                                                                     <Input
+                                                                                        {...field}
                                                                                         type={type}
                                                                                         placeholder={placeholder}
                                                                                         onChange={field.onChange}
@@ -202,9 +233,6 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                                         render={({ field }) => {
                                             const required = isFieldRequired(EDIT_PROFILE_FORM_SCHEMA, item.name);
                                             const disabled = isFieldDisabled(EDIT_PROFILE_FORM_SCHEMA, item.name);
-
-                                            console.log('item name', field);
-
 
                                             return (
                                                 <FormItem>
@@ -235,6 +263,7 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                                                         <FormControl>
                                                             {item.type === "textarea" ? (
                                                                 <Textarea
+                                                                    {...field}
                                                                     rows={6}
                                                                     placeholder={item.placeholder}
                                                                     onChange={field.onChange}
@@ -243,6 +272,7 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                                                                 />
                                                             ) : (
                                                                 <Input
+                                                                    {...field}
                                                                     type={item.type}
                                                                     placeholder={item.placeholder}
                                                                     onChange={field.onChange}

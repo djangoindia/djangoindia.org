@@ -143,8 +143,13 @@ export const SIGNUP_FORM_SCHEMA = yup.object({
     ),
   confirmPassword: yup
     .string()
-    .required('Confirm Password is required.')
-    .oneOf([yup.ref('newPassword'), ''], 'Passwords must match.'),
+    .when('newPassword', {
+      is: (newPassword: string) => newPassword && newPassword.length > 0,
+      then: (schema) => schema
+        .required('Confirm Password is required')
+        .oneOf([yup.ref('newPassword')], 'Passwords must match'),
+      otherwise: (schema) => schema.optional().nullable()
+    }),
 });
 
 export const EDIT_PROFILE_FORM_SCHEMA = yup.object({
@@ -161,13 +166,21 @@ export const EDIT_PROFILE_FORM_SCHEMA = yup.object({
   instagram: yup.string().url("Invalid URL").optional().nullable(),
   github: yup.string().url("Invalid URL").optional().nullable(),
   twitter: yup.string().url("Invalid URL").optional().nullable(),
-  // mastodon: yup.string().url("Invalid URL").optional().nullable(),
+  mastodon: yup.string().url("Invalid URL").optional().nullable(),
 
-  // country: yup.string().optional().nullable(),
-  // organization: yup.string().optional().nullable(),
+  country: yup.string().optional().nullable(),
+  organization: yup.string().optional().nullable(),
   user_timezone: yup.string().optional().nullable(),
-  newPassword: yup.string().min(6, "Password must be at least 6 characters").optional().nullable(),
+});
+
+export const CHANGE_PASSWORD_FORM_SCHEMA = yup.object({
+  newPassword: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   confirmPassword: yup.string()
-    .oneOf([yup.ref("newPassword"), null], "Passwords must match")
-    .optional().nullable(),
+    .when('newPassword', {
+      is: (newPassword: string) => newPassword && newPassword.length > 0,
+      then: (schema) => schema
+        .required('Confirm Password is required')
+        .oneOf([yup.ref('newPassword')], 'Passwords must match'),
+      otherwise: (schema) => schema.optional().nullable()
+    }),
 });

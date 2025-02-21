@@ -3,7 +3,7 @@ export type ProfileForm = {
     email: string;
     first_name: string;
     last_name: string;
-    gender: 'male' | 'female' | 'other' | '';
+    gender?: string | null;
     bio: string;
     about: string;
 
@@ -12,13 +12,11 @@ export type ProfileForm = {
     instagram?: string;
     github?: string;
     twitter?: string;
-    // mastodon?: string;
+    mastodon?: string;
 
-    // organization?: string;
-    // country?: string;
+    organization?: string;
+    country?: string;
     user_timezone: string;
-    newPassword?: string;
-    confirmPassword?: string;
 };
 
 type SelectField = {
