@@ -7,6 +7,8 @@ from .base import BaseSerializer
 
 
 class UserSerializer(BaseSerializer):
+    username = serializers.CharField(max_length=150, min_length=3, required=False)
+
     class Meta:
         model = User
         fields = "__all__"
@@ -20,7 +22,33 @@ class UserSerializer(BaseSerializer):
             "is_password_autoset",
             "is_email_verified",
         ]
-        extra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "username": {"validators": []},  # Remove default validators
+        }
+
+    def validate_username(self, value):
+        # Check if username is unique, excluding the current user
+        if (
+            value
+            and User.objects.exclude(pk=self.instance.pk)
+            .filter(username=value)
+            .exists()
+        ):
+            raise serializers.ValidationError(
+                "A user with this username already exists."
+            )
+        return value
+
+    def update(self, instance, validated_data):
+        # Remove username from validated data if it's not changed
+        if (
+            "username" in validated_data
+            and validated_data["username"] == instance.username
+        ):
+            validated_data.pop("username")
+
+        return super().update(instance, validated_data)
 
 
 class UserMeSerializer(BaseSerializer):
