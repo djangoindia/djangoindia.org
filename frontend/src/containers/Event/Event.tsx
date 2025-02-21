@@ -26,7 +26,6 @@ import type { Event } from '@/types';
 
 const EventContainer = async ({
   event: {
-    id,
     name,
     cover_image,
     venue,
@@ -41,6 +40,11 @@ const EventContainer = async ({
     sponsors,
     partners,
     volunteers,
+    registration_status,
+    rsvp_count,
+    waitlist_count,
+    cfp_open,
+    registrations_open,
   },
 }: {
   event: Event;
@@ -79,7 +83,31 @@ const EventContainer = async ({
           />
         </div>
         <div className='flex flex-col gap-2'>
-          <h2 className='text-6xl font-bold'>{name}</h2>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
+          <h2 className='text-4xl md:text-6xl font-bold w-full sm:w-auto'>
+            {name}
+          </h2>
+          <div className='flex flex-wrap justify-end gap-3 w-full sm:w-auto'>
+            {registrations_open && (
+              <RegisterEvent 
+                status={registration_status} 
+                seats_left={seats_left} 
+              />
+            )}
+            {cfp_open && (
+              <Link
+                href='https://github.com/djangoindia/talks/issues/new?template=talk_proposal.yaml'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-full sm:w-auto'
+              >
+                <Button className='w-full sm:w-auto z-50 bg-blue-900'>
+                  Submit CFP
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
           {start_date ? (
             <span>
               Starts {dayjsWithTZ(start_date).format('DD MMMM, YYYY')} at{' '}
@@ -89,15 +117,13 @@ const EventContainer = async ({
             <span>Starts: TBA</span>
           )}
           {city && <span>City: {city}</span>}
-          {seats_left !== null &&
-            dayjsWithTZ().isBefore(dayjsWithTZ(start_date)) && (
-              <span>Seats left: {seats_left}</span>
-            )}
-          <RegisterEvent
-            eventId={id}
-            seats_left={seats_left}
-            registration_end_date={registration_end_date}
-          />
+          {rsvp_count > 2 && (
+            <h4 className='text-xl font-bold'>
+              {waitlist_count
+                ? `${rsvp_count} RSVP'ed and ${waitlist_count} waitlisted.`
+                : `${rsvp_count} RSVP'ed!`}
+            </h4>
+          )}
           <div className='my-12 flex flex-col gap-3 text-lg'>
             <span className='flex items-center gap-2'>
               Hey Everyone <MdWavingHand className='text-amber-500' />
@@ -190,11 +216,7 @@ const EventContainer = async ({
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
         </span>
-        <RegisterEvent
-          eventId={id}
-          seats_left={seats_left}
-          registration_end_date={registration_end_date}
-        />
+        {registrations_open && <RegisterEvent status={registration_status} seats_left={seats_left} />}
       </div>
     </div>
   );

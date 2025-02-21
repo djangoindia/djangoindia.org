@@ -7,11 +7,15 @@ from django.conf import settings
 from django.contrib import admin, messages
 from django.db import transaction
 from django.db.models import Count, F
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 from django.urls import path
 
-from djangoindia.bg_tasks.event_registration import send_mass_mail_task
+from djangoindia.bg_tasks.event_tasks import (
+    rsvp_confirmation_email_task,
+    send_mass_mail_task,
+)
 from djangoindia.db.models import (
     CommunityPartner,
     ContactUs,
@@ -27,7 +31,7 @@ from djangoindia.db.models import (
     Volunteer,
 )
 
-from .forms import EmailForm, EventForm, UpdateForm
+from .forms import EmailForm, EventForm, PromoteFromWaitlistForm, UpdateForm
 
 
 @admin.action(description="Send email to selected users")
@@ -56,8 +60,27 @@ class EventRegistrationResource(resources.ModelResource):
         model = EventRegistration
 
 
+class EventUserRegistrationResource(resources.ModelResource):
+    class Meta:
+        model = EventUserRegistration
+
+
 @admin.register(EventRegistration)
 class EventRegistrationAdmin(ImportExportModelAdmin):
+    def get_model_perms(self, request):
+        perms = super().get_model_perms(request)
+        perms["view"] = True
+        return perms
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     list_display = (
         "event",
         "first_name",
@@ -344,9 +367,240 @@ class SocialLoginConnectionAdmin(admin.ModelAdmin):
 
 
 @admin.register(EventUserRegistration)
-class EventUserRegistrationAdmin(admin.ModelAdmin):
-    list_display = ["user", "event", "created_at"]
+class EventUserRegistrationAdmin(ImportExportModelAdmin):
+    list_display = ["user", "event", "status", "first_time_attendee", "created_at"]
     search_fields = ["user__username", "user__email", "event__name"]
-    readonly_fields = ("created_at", "updated_at")
-    list_filter = ("event__name",)
+    readonly_fields = ("created_at", "updated_at", "first_time_attendee")
+    list_filter = ("event", "status", "first_time_attendee")
     ordering = ("-created_at",)
+    resource_class = EventUserRegistrationResource
+
+    actions = [
+        "move_selected_from_waitlist_to_rsvped",
+        "move_n_from_waitlist_to_rsvped",
+        "move_selected_from_rsvped_to_cancelled",
+        send_email_to_selected_users,
+    ]
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "move-from-waitlist/",
+                self.admin_site.admin_view(self.move_from_waitlist_view),
+                name="move-from-waitlist",
+            ),
+            path(
+                "send_email/",
+                self.admin_site.admin_view(self.send_email_view),
+                name="send_email",
+            ),
+        ]
+        return custom_urls + urls
+
+    def move_selected_from_waitlist_to_rsvped(self, request, queryset):
+        """Promote only selected waitlisted registrations"""
+        waitlisted = queryset.filter(
+            status=EventUserRegistration.RegistrationStatus.WAITLISTED
+        )
+        if not waitlisted.exists():
+            self.message_user(
+                request, "No waitlisted registrations selected.", level=messages.WARNING
+            )
+            return
+
+        # Group by event to check seat availability
+        events = {}
+        for reg in waitlisted:
+            events[reg.event_id] = events.get(reg.event_id, 0) + 1
+
+        # Check if we have enough seats
+        for event_id, seats_needed in events.items():
+            event = Event.objects.get(id=event_id)
+            if event.seats_left < seats_needed:
+                self.message_user(
+                    request,
+                    f"Not enough seats available for event '{event.name}'. "
+                    f"Needed: {seats_needed}, Available: {event.seats_left}",
+                    level=messages.ERROR,
+                )
+                return
+
+        # Promote selected registrations
+        promoted_count = 0
+        for event_id, seats_needed in events.items():
+            # Get event once and update at the end
+            event = Event.objects.get(id=event_id)
+
+            # Promote selected registrations
+            event_promotions = waitlisted.filter(event_id=event_id)
+            for registration in event_promotions:
+                registration.status = EventUserRegistration.RegistrationStatus.RSVPED
+                registration.save()
+                promoted_count += 1
+                rsvp_confirmation_email_task(registration.user.email, event_id)
+
+            # Update event seats once after all promotions
+            event.seats_left -= seats_needed
+            event.save()
+
+        self.message_user(
+            request,
+            f"Successfully promoted {promoted_count} registrations to registered status.",
+        )
+
+    move_selected_from_waitlist_to_rsvped.short_description = "Move selected to rsvped"
+
+    def move_selected_from_rsvped_to_cancelled(self, request, queryset):
+        """Move selected registrations from RSVPED to CANCELLED"""
+        waitlisted = queryset.filter(
+            status=EventUserRegistration.RegistrationStatus.RSVPED
+        )
+        if not waitlisted.exists():
+            self.message_user(
+                request, "No RSVPED registrations selected.", level=messages.WARNING
+            )
+            return
+
+        # Group by event to check seat availability
+        events = {}
+        for reg in waitlisted:
+            events[reg.event_id] = events.get(reg.event_id, 0) + 1
+
+        # Move selected registrations
+        moved_count = 0
+        for event_id, seats_freed in events.items():
+            # Get event once and update at the end
+            event = Event.objects.get(id=event_id)
+
+            # Moved selected registrations
+            event_promotions = waitlisted.filter(event_id=event_id)
+            for registration in event_promotions:
+                registration.status = EventUserRegistration.RegistrationStatus.CANCELLED
+                registration.save()
+                moved_count += 1
+
+            # Update event seats once after all promotions
+            event.seats_left += seats_freed
+            event.save()
+
+        self.message_user(
+            request,
+            f"Successfully moved {moved_count} registrations from RSVPEDto cancelled.",
+        )
+
+    move_selected_from_rsvped_to_cancelled.short_description = (
+        "Move selected from rsvped to cancelled"
+    )
+
+    def move_n_from_waitlist_to_rsvped(self, request, queryset):
+        """Promote N people from waitlist to registered status"""
+        # Check if multiple events are selected
+        events = set(queryset.values_list("event", flat=True))
+        if len(events) > 1:
+            self.message_user(
+                request,
+                "Please select registrations from only one event at a time.",
+                level=messages.ERROR,
+            )
+            return
+
+        # Get the event
+        event = Event.objects.get(id=events.pop())
+
+        # Show the intermediate form
+        context = {
+            "form": PromoteFromWaitlistForm(
+                initial={"_selected_action": queryset.values_list("id", flat=True)}
+            ),
+            "event": event,
+            "waitlist_count": EventUserRegistration.objects.filter(
+                event=event, status=EventUserRegistration.RegistrationStatus.WAITLISTED
+            ).count(),
+            "seats_left": event.seats_left,
+            "title": f"Move from waitlist - {event.name}",
+        }
+        return render(request, "admin/move_from_waitlist.html", context)
+
+    move_n_from_waitlist_to_rsvped.short_description = (
+        "Move N people from waitlist to rsvped"
+    )
+
+    def move_from_waitlist_view(self, request):
+        """Handle the form submission for promoting from waitlist"""
+        if request.method == "POST":
+            form = PromoteFromWaitlistForm(request.POST)
+            if form.is_valid():
+                number_to_promote = form.cleaned_data["number_to_promote"]
+                event_id = request.POST.get("event_id")
+                event = Event.objects.get(id=event_id)
+
+                if event.seats_left < number_to_promote:
+                    self.message_user(
+                        request,
+                        f"Cannot promote {number_to_promote} people. Only {event.seats_left} seats available.",
+                        level=messages.ERROR,
+                    )
+                else:
+                    # Get the next N people from waitlist ordered by created_at
+                    to_promote = EventUserRegistration.objects.filter(
+                        event=event,
+                        status=EventUserRegistration.RegistrationStatus.WAITLISTED,
+                    ).order_by("created_at")[:number_to_promote]
+
+                    promoted_count = 0
+                    for registration in to_promote:
+                        registration.status = (
+                            EventUserRegistration.RegistrationStatus.RSVPED
+                        )
+                        registration.save()
+                        promoted_count += 1
+                        event.seats_left -= 1
+                        rsvp_confirmation_email_task(registration.user.email, event.id)
+
+                    if promoted_count > 0:
+                        event.save()
+
+                    self.message_user(
+                        request,
+                        f"Successfully promoted {promoted_count} people from the waitlist.",
+                    )
+
+                return HttpResponseRedirect("../")
+        return HttpResponseRedirect("../")
+
+    def send_email_view(self, request):
+        if request.method == "POST":
+            form = EmailForm(request.POST)
+            if form.is_valid():
+                try:
+                    subject = form.cleaned_data["subject"]
+                    message = form.cleaned_data["message"]
+                    emails = []
+                    from_email = settings.DEFAULT_FROM_EMAIL
+
+                    registration_ids = request.GET.get("ids").split(",")
+                    queryset = EventUserRegistration.objects.filter(
+                        id__in=registration_ids
+                    )
+
+                    for registration in queryset:
+                        recipient_email = registration.user.email
+                        emails.append((subject, message, from_email, [recipient_email]))
+
+                    send_mass_mail_task.delay(emails, fail_silently=False)
+                    messages.success(
+                        request, f"{len(emails)} emails sent successfully."
+                    )
+                    return redirect("../")
+                except Exception as e:
+                    messages.error(request, f"Error sending emails: {str(e)}")
+        else:
+            form = EmailForm()
+
+        context = {
+            "form": form,
+            "opts": self.model._meta,
+            "queryset": request.GET.get("ids").split(","),
+        }
+        return TemplateResponse(request, "admin/send_email.html", context)

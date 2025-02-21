@@ -33,7 +33,12 @@ from djangoindia.bg_tasks.auth.email_verification_task import email_verification
 from djangoindia.bg_tasks.auth.forgot_password_task import forgot_password_task
 
 # Module imports
-from djangoindia.db.models import SocialLoginConnection, User
+from djangoindia.db.models import (
+    EventRegistration,
+    EventUserRegistration,
+    SocialLoginConnection,
+    User,
+)
 
 
 def generate_password_token(user):
@@ -175,6 +180,19 @@ class OauthEndpoint(BaseAPIView):
                     "last_login_at": timezone.now(),
                 },
             )
+            ############ CAN BE REMOVED LATER ON ############
+            past_events = EventRegistration.objects.filter(email=email).all()
+            for event in past_events:
+                if not EventUserRegistration.objects.filter(
+                    event=event, user=user
+                ).exists():
+                    EventUserRegistration.objects.create(
+                        event=event,
+                        user=user,
+                        status="rsvped",
+                        rsvp_notes="I'll be there!",
+                    )
+            ############################################
 
             access_token, refresh_token = get_tokens_for_user(user)
             data = {
@@ -230,6 +248,19 @@ class SignUpEndpoint(BaseAPIView):
         )
 
         user.save()
+        ############ CAN BE REMOVED LATER ON ############
+        past_events = EventRegistration.objects.filter(email=email).all()
+        for event in past_events:
+            if not EventUserRegistration.objects.filter(
+                event=event, user=user
+            ).exists():
+                EventUserRegistration.objects.create(
+                    event=event,
+                    user=user,
+                    status="rsvped",
+                    rsvp_notes="I'll be there!",
+                )
+        ############################################
 
         access_token, refresh_token = get_tokens_for_user(user)
 

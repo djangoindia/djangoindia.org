@@ -6,4 +6,5 @@ export const API_ENDPOINTS = {
   registerEvent: '/events/:id',
   sponsorsAndEvents: '/sponsors-and-events',
   eventsMedia: '/media-library',
+  eventRSVP: '/events/:slug/registration',
 };

@@ -49,6 +49,9 @@ class UserMeSerializer(BaseSerializer):
             "twitter",
             "instagram",
             "cover_image",
+            "country",
+            "organization",
+            "mastodon",
         ]
         read_only_fields = fields
 
@@ -103,6 +106,9 @@ class UserLiteSerializer(BaseSerializer):
             "github",
             "twitter",
             "instagram",
+            "mastodon",
+            "country",
+            "organization",
         ]
         read_only_fields = [
             "id",

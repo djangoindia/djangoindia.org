@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
@@ -19,6 +19,9 @@ import type { SignupFormType } from './Signup.types';
 
 const SignupForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || undefined;
+
   const {
     register,
     handleSubmit,
@@ -39,7 +42,7 @@ const SignupForm = () => {
     });
     const resdata = await res.json();
     if (res.status === 200) {
-      router.replace('/login');
+      router.replace(`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`);
     } else {
       enqueueSnackbar(resdata.message, { variant: 'error' });
     }
@@ -49,7 +52,7 @@ const SignupForm = () => {
     <section className='relative flex size-full overflow-hidden'>
       <Link 
         href='/home' 
-        className='absolute top-4 right-4 sm:left-4 p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
+        className='absolute top-4 right-4 sm:left-4 w-fit p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
       >
         <FaHome 
           className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
@@ -143,13 +146,13 @@ const SignupForm = () => {
             <Button
               onClick={async () =>
                 await signIn('google', {
-                  callbackUrl: '/users/me  ',
+                  callbackUrl: redirect ? decodeURIComponent(redirect) : '/',
                 })
               }
               className='w-full flex items-center gap-4 pl-0'
             >
               <FaGoogle size={20} />
-              Sign in with Google
+              Continue with Google
             </Button>
             </div>
           <div>
