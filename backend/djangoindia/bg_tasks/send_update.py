@@ -1,4 +1,5 @@
 import logging
+import os
 
 from celery import shared_task
 
@@ -31,9 +32,15 @@ def send_mass_update_email_task(update_id):
 
     for recipient in recipients:
         try:
+            if not recipient.unsubscribe_token:
+                recipient.generate_unsubscribe_token()
+                
+            api_url = os.environ.get("API_URL")
+            unsubscribe_url = f"{api_url}{recipient.unsubscribe_token}/"
+
             html_content = render_to_string(
                 "admin/update_mail.html",
-                {"body": mark_safe(update.email_body), "subscriber": recipient},
+                {"body": mark_safe(update.email_body), "subscriber": recipient, "unsubscribe_url": unsubscribe_url},
             )
             plain_text_content = strip_tags(html_content)
 

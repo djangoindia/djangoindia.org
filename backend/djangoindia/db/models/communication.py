@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 from .base import BaseModel
@@ -6,9 +8,16 @@ from .base import BaseModel
 class Subscriber(BaseModel):
     name = models.CharField(max_length=100)
     email = models.EmailField()
+    unsubscribe_token = models.CharField(
+        max_length=255, unique=True, blank=True, null=True
+    )
 
     def __str__(self):
         return self.email
+
+    def generate_unsubscribe_token(self):
+        self.unsubscribe_token = uuid.uuid4().hex
+        self.save()
 
 
 class ContactUs(BaseModel):
