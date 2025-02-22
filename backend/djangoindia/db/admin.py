@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 from django.urls import path
+from django.utils import timezone
 
 from djangoindia.bg_tasks.event_tasks import (
     rsvp_confirmation_email_task,
@@ -20,6 +21,7 @@ from djangoindia.db.models import (
     CommunityPartner,
     ContactUs,
     Event,
+    EventCommunication,
     EventRegistration,
     EventUserRegistration,
     SocialLoginConnection,
@@ -580,21 +582,58 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     from_email = settings.DEFAULT_FROM_EMAIL
 
                     registration_ids = request.GET.get("ids").split(",")
+                    if not registration_ids:
+                        messages.error(request, "No registration IDs provided.")
+                        return redirect("../")
+
                     queryset = EventUserRegistration.objects.filter(
                         id__in=registration_ids
                     )
+                    if not queryset.exists():
+                        messages.error(request, "No valid registrations found.")
+                        return redirect("../")
 
+                    # List for storing communication
+                    communications = []
+
+                    # Create EventCommunication entries and prepare emails
                     for registration in queryset:
                         recipient_email = registration.user.email
+                        event = registration.event
+
+                        # Create EventCommunication entry
+                        communication = EventCommunication(
+                            event=event,
+                            recipient=registration.user,
+                            subject=subject,
+                            body=message,
+                            status=EventCommunication.STATUS.PENDING,
+                        )
+                        communication.save()
+                        communications.append(communication)
                         emails.append((subject, message, from_email, [recipient_email]))
 
                     send_mass_mail_task.delay(emails, fail_silently=False)
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
+
+                    # Update status to SENT for all emails
+                    for communication in communications:
+                        communication.status = EventCommunication.STATUS.SENT
+                        communication.sent_at = timezone.now()
+                        communication.save()
+
                     return redirect("../")
                 except Exception as e:
+                    # Update status to FAILED for all emails in case of an error
+                    for communication in communications:
+                        communication.status = EventCommunication.STATUS.FAILED
+                        communication.error_msg = str(e)
+                        communication.save()
                     messages.error(request, f"Error sending emails: {str(e)}")
+            else:
+                messages.error(request, "Invalid Form Data")
         else:
             form = EmailForm()
 
@@ -604,3 +643,10 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
             "queryset": request.GET.get("ids").split(","),
         }
         return TemplateResponse(request, "admin/send_email.html", context)
+
+
+@admin.register(EventCommunication)
+class EventCommunicationAdmin(admin.ModelAdmin):
+    list_display = ("subject", "recipient", "status", "sent_at")
+    list_filter = ("status", "event")
+    search_fields = ("subject", "recipient__email")

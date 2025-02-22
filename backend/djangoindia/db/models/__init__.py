@@ -1,4 +1,5 @@
 from .communication import ContactUs, Subscriber
+from .email_communication import EventCommunication
 from .event import Event, EventRegistration, EventUserRegistration
 from .partner_and_sponsor import CommunityPartner, Sponsor, Sponsorship
 from .update import Update
@@ -19,4 +20,5 @@ __all__ = [
     "SocialLoginConnection",
     "Sponsor",
     "EventUserRegistration",
+    "EventCommunication",
 ]
