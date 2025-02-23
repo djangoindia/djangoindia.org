@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 from django.urls import path
+from django.utils import timezone
 
 from djangoindia.bg_tasks.event_tasks import (
     rsvp_confirmation_email_task,
@@ -20,6 +21,7 @@ from djangoindia.db.models import (
     CommunityPartner,
     ContactUs,
     Event,
+    EventCommunication,
     EventRegistration,
     EventUserRegistration,
     SocialLoginConnection,
@@ -573,28 +575,64 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
         if request.method == "POST":
             form = EmailForm(request.POST)
             if form.is_valid():
+                communication = None
                 try:
                     subject = form.cleaned_data["subject"]
                     message = form.cleaned_data["message"]
-                    emails = []
                     from_email = settings.DEFAULT_FROM_EMAIL
 
                     registration_ids = request.GET.get("ids").split(",")
+                    if not registration_ids:
+                        messages.error(request, "No registration IDs provided.")
+                        return redirect("../")
+
                     queryset = EventUserRegistration.objects.filter(
                         id__in=registration_ids
                     )
+                    print(queryset)
+                    if not queryset.exists():
+                        messages.error(request, "No valid registrations found.")
+                        return redirect("../")
 
-                    for registration in queryset:
-                        recipient_email = registration.user.email
-                        emails.append((subject, message, from_email, [recipient_email]))
+                    recipient_emails = [
+                        registration.user.email for registration in queryset
+                    ]
+                    recipient_users = [registration.user for registration in queryset]
+
+                    event = queryset.first().event
+
+                    communication = EventCommunication(
+                        event=event,
+                        subject=subject,
+                        body=message,
+                        status=EventCommunication.STATUS.PENDING,
+                    )
+                    communication.save()
+                    communication.recipient.set(recipient_users)
+
+                    emails = [
+                        (subject, message, from_email, [email])
+                        for email in recipient_emails
+                    ]
 
                     send_mass_mail_task.delay(emails, fail_silently=False)
+
+                    communication.status = EventCommunication.STATUS.SENT
+                    communication.sent_at = timezone.now()
+                    communication.save()
+
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
                     return redirect("../")
                 except Exception as e:
-                    messages.error(request, f"Error sending emails: {str(e)}")
+                    if communication is not None:
+                        communication.status = EventCommunication.STATUS.FAILED
+                        communication.err_msg = str(e)
+                        communication.save()
+                    messages.error(request, f"Error while sending emails: {str(e)}")
+            else:
+                messages.error(request, "Invalid Form Data")
         else:
             form = EmailForm()
 
@@ -604,3 +642,15 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
             "queryset": request.GET.get("ids").split(","),
         }
         return TemplateResponse(request, "admin/send_email.html", context)
+
+
+@admin.register(EventCommunication)
+class EventCommunicationAdmin(admin.ModelAdmin):
+    list_display = ("subject", "get_recipients", "status", "sent_at")
+    list_filter = ("status", "event")
+    search_fields = ("subject", "recipient__email")
+
+    def get_recipients(self, obj):
+        return ", ".join([user.email for user in obj.recipient.all()])
+
+    get_recipients.short_description = "Recipients"
