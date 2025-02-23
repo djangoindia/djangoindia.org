@@ -7,7 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "lint-staged": "lint-staged",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "prettier --check"
+    ]
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
