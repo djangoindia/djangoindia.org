@@ -7,13 +7,15 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { type SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
-import { FaHome, FaGoogle } from "react-icons/fa";
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { FaGoogle, FaHome } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
-import { SIGNUP_FORM_SCHEMA } from '@/constants';
+import { API_ENDPOINTS, SIGNUP_FORM_SCHEMA } from '@/constants';
+import { fetchData } from '@/utils';
+import { getAccessToken } from '@/utils/getAccesstoken';
 
 import type { SignupFormType } from './Signup.types';
 
@@ -30,33 +32,66 @@ const SignupForm = () => {
     resolver: yupResolver(SIGNUP_FORM_SCHEMA),
   });
 
-  const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sign-up/`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email: data.email,
-        password: data.newPassword,
-        confirm_password: data.confirmPassword,
-      }),
-      headers: { 'Content-Type': 'application/json' },
+  /**
+   * Sends a verification email to the user.
+   *
+   * This function retrieves an access token and sends a request to the API
+   * to initiate the email verification process. If the request is successful,
+   * a success message is displayed. Otherwise, an error message is shown.
+   *
+   * @async
+   * @function sendVerificationMail
+   * @returns {Promise<void>} A promise that resolves when the request completes.
+   */
+  const sendVerificationMail = async (accessToken: string): Promise<void> => {
+    const res = await fetchData(API_ENDPOINTS.requestVerification, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-    const resdata = await res.json();
-    if (res.status === 200) {
-      router.replace(`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`);
+    if (res?.statusCode === 200) {
+      enqueueSnackbar(
+        'Verification email sent successfully. To login, please verify your email.',
+        { variant: 'success' },
+      );
     } else {
-      enqueueSnackbar(resdata.message, { variant: 'error' });
+      enqueueSnackbar('Error sending verification email.', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
+    const res = await fetchData<{ access_token: string }>(
+      API_ENDPOINTS.signup,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          email: data.email,
+          password: data.newPassword,
+          confirm_password: data.confirmPassword,
+        }),
+      },
+    );
+
+    if (res.statusCode === 200 && res.data?.access_token) {
+      await sendVerificationMail(res.data.access_token);
+      router.replace(
+        `/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`,
+      );
+    } else {
+      enqueueSnackbar(res.error?.message, { variant: 'error' });
     }
   };
 
   return (
     <section className='relative flex size-full overflow-hidden'>
-      <Link 
-        href='/home' 
-        className='absolute top-4 right-4 sm:left-4 w-fit p-3 rounded-full transition-all duration-300 hover:bg-blue-100 hover:shadow-xl group z-50 pointer-events-auto'
+      <Link
+        href='/home'
+        className='group pointer-events-auto absolute right-4 top-4 z-50 w-fit rounded-full p-3 transition-all duration-300 hover:bg-blue-100 hover:shadow-xl sm:left-4'
       >
-        <FaHome 
-          className='text-[#06038D] text-2xl transition-transform duration-300 group-hover:scale-110' 
-        />
+        <FaHome className='text-2xl text-[#06038D] transition-transform duration-300 group-hover:scale-110' />
       </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
@@ -149,18 +184,17 @@ const SignupForm = () => {
                   callbackUrl: redirect ? decodeURIComponent(redirect) : '/',
                 })
               }
-              className='w-full flex items-center gap-4 pl-0'
+              className='flex w-full items-center gap-4 pl-0'
             >
               <FaGoogle size={20} />
               Continue with Google
             </Button>
-            </div>
-          <div>
           </div>
+          <div></div>
         </motion.div>
       </div>
-      <div className='flex-1 hidden sm:block'>
-      <motion.div
+      <div className='hidden flex-1 sm:block'>
+        <motion.div
           className='h-full'
           initial={{ x: 100 }}
           animate={{ x: 20 }}
@@ -179,7 +213,7 @@ const SignupForm = () => {
         </motion.div>
       </div>
       <motion.div
-        className='absolute bottom-1/3 right-1/4 sm:right-1/2 z-0 size-[1400px]'
+        className='absolute bottom-1/3 right-1/4 z-0 size-[1400px] sm:right-1/2'
         initial={{ x: -100, y: -100 }}
         animate={{ x: -20, y: 0 }}
         transition={{
