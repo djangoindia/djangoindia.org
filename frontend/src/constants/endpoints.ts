@@ -7,4 +7,6 @@ export const API_ENDPOINTS = {
   sponsorsAndEvents: '/sponsors-and-events',
   eventsMedia: '/media-library',
   eventRSVP: '/events/:slug/registration',
+  signup: '/sign-up',
+  requestVerification: '/request-email-verify',
 };

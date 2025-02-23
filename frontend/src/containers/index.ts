@@ -6,3 +6,4 @@ export * from './MediaContainer';
 export * from './Login';
 export * from './Signup';
 export * from './Users';
+export * from './VerifyEmail';

@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { FaHome, FaGoogle } from 'react-icons/fa';
+import { FaGoogle, FaHome } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { LOGIN_FORM_SCHEMA } from '@/constants';
@@ -42,7 +42,7 @@ const Page = () => {
       }
 
       if (res?.ok) {
-        router.push(redirect ? decodeURIComponent(redirect) : "/");
+        router.push(redirect ? decodeURIComponent(redirect) : '/');
       }
     } catch (error) {
       console.error('Unexpected error during login:', error);
@@ -60,7 +60,7 @@ const Page = () => {
       >
         <FaHome className='text-2xl text-[#06038D] transition-transform duration-300 group-hover:scale-110' />
       </Link>
-      <div className='flex-1 hidden sm:block'>
+      <div className='hidden flex-1 sm:block'>
         <motion.div
           className='h-full'
           initial={{ x: -100 }}
@@ -140,7 +140,14 @@ const Page = () => {
           <div className='my-4 flex w-full flex-col gap-3 text-center'>
             <div>
               Don’t have account?{' '}
-              <Link href={redirect ? `/signup?redirect=${encodeURIComponent(redirect)}` : '/signup'} className='text-[#06038D] hover:underline'>
+              <Link
+                href={
+                  redirect
+                    ? `/signup?redirect=${encodeURIComponent(redirect)}`
+                    : '/signup'
+                }
+                className='text-[#06038D] hover:underline'
+              >
                 Sign Up here!
               </Link>
             </div>
@@ -148,10 +155,10 @@ const Page = () => {
             <Button
               onClick={async () =>
                 await signIn('google', {
-                  callbackUrl: redirect? redirect : '/',
+                  callbackUrl: redirect ? redirect : '/',
                 })
               }
-              className='w-full flex items-center gap-4 pl-0'
+              className='flex w-full items-center gap-4 pl-0'
             >
               <FaGoogle size={20} />
               Continue with Google
@@ -160,7 +167,7 @@ const Page = () => {
         </motion.div>
       </div>
       <motion.div
-        className='absolute left-1/6 sm:left-1/2 top-1/3 z-0 size-[1400px]'
+        className='left-1/6 absolute top-1/3 z-0 size-[1400px] sm:left-1/2'
         initial={{ x: 100, y: 100 }}
         animate={{ x: 20, y: 0 }}
         transition={{
