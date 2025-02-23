@@ -575,10 +575,10 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
         if request.method == "POST":
             form = EmailForm(request.POST)
             if form.is_valid():
+                communication = None
                 try:
                     subject = form.cleaned_data["subject"]
                     message = form.cleaned_data["message"]
-                    emails = []
                     from_email = settings.DEFAULT_FROM_EMAIL
 
                     registration_ids = request.GET.get("ids").split(",")
@@ -589,49 +589,48 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     queryset = EventUserRegistration.objects.filter(
                         id__in=registration_ids
                     )
+                    print(queryset)
                     if not queryset.exists():
                         messages.error(request, "No valid registrations found.")
                         return redirect("../")
 
-                    # List for storing communication
-                    communications = []
+                    recipient_emails = [
+                        registration.user.email for registration in queryset
+                    ]
+                    recipient_users = [registration.user for registration in queryset]
 
-                    # Create EventCommunication entries and prepare emails
-                    for registration in queryset:
-                        recipient_email = registration.user.email
-                        event = registration.event
+                    event = queryset.first().event
 
-                        # Create EventCommunication entry
-                        communication = EventCommunication(
-                            event=event,
-                            recipient=registration.user,
-                            subject=subject,
-                            body=message,
-                            status=EventCommunication.STATUS.PENDING,
-                        )
-                        communication.save()
-                        communications.append(communication)
-                        emails.append((subject, message, from_email, [recipient_email]))
+                    communication = EventCommunication(
+                        event=event,
+                        subject=subject,
+                        body=message,
+                        status=EventCommunication.STATUS.PENDING,
+                    )
+                    communication.save()
+                    communication.recipient.set(recipient_users)
+
+                    emails = [
+                        (subject, message, from_email, [email])
+                        for email in recipient_emails
+                    ]
 
                     send_mass_mail_task.delay(emails, fail_silently=False)
+
+                    communication.status = EventCommunication.STATUS.SENT
+                    communication.sent_at = timezone.now()
+                    communication.save()
+
                     messages.success(
                         request, f"{len(emails)} emails sent successfully."
                     )
-
-                    # Update status to SENT for all emails
-                    for communication in communications:
-                        communication.status = EventCommunication.STATUS.SENT
-                        communication.sent_at = timezone.now()
-                        communication.save()
-
                     return redirect("../")
                 except Exception as e:
-                    # Update status to FAILED for all emails in case of an error
-                    for communication in communications:
+                    if communication is not None:
                         communication.status = EventCommunication.STATUS.FAILED
-                        communication.error_msg = str(e)
+                        communication.err_msg = str(e)
                         communication.save()
-                    messages.error(request, f"Error sending emails: {str(e)}")
+                    messages.error(request, f"Error while sending emails: {str(e)}")
             else:
                 messages.error(request, "Invalid Form Data")
         else:
@@ -647,6 +646,11 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
 
 @admin.register(EventCommunication)
 class EventCommunicationAdmin(admin.ModelAdmin):
-    list_display = ("subject", "recipient", "status", "sent_at")
+    list_display = ("subject", "get_recipients", "status", "sent_at")
     list_filter = ("status", "event")
     search_fields = ("subject", "recipient__email")
+
+    def get_recipients(self, obj):
+        return ", ".join([user.email for user in obj.recipient.all()])
+
+    get_recipients.short_description = "Recipients"

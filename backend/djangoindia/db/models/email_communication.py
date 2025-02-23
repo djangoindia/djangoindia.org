@@ -21,10 +21,8 @@ class EventCommunication(BaseModel):
     event = models.ForeignKey(
         "db.event", on_delete=models.CASCADE, related_name="email_communications"
     )
-    recipient = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="email_communications",
+    recipient = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="email_communications"
     )
     subject = models.CharField(max_length=255)
     body = models.TextField()
@@ -40,4 +38,5 @@ class EventCommunication(BaseModel):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.subject} - {self.recipient.email} - {self.status}"
+        recipient_emails = ",".join([user.email for user in self.recipient.all()])
+        return f"{self.subject} - {recipient_emails} - {self.status}"
