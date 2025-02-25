@@ -1,5 +1,5 @@
 # Module imports
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -23,6 +23,30 @@ class UserEndpoint(BaseViewSet):
             serialized_data,
             status=status.HTTP_200_OK,
         )
+
+    def partial_update(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(UserMeSerializer(user).data, status=status.HTTP_200_OK)
+        except serializers.ValidationError as e:
+            return Response(
+                {
+                    "message": e.detail,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {
+                    "message": "Something went wrong",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def deactivate(self, request):
         pass

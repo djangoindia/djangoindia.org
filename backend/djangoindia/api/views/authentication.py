@@ -516,15 +516,6 @@ class SetUserPasswordEndpoint(BaseAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # If the user password is not autoset then return detail
-        if not user.is_password_autoset:
-            return Response(
-                {
-                    "message": "Your password is already set please change your password from profile"
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
         # Check password validation
         if not new_password and len(str(new_password)) < 8:
             return Response(
