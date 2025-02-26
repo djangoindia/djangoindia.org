@@ -167,7 +167,7 @@ const Page = () => {
         </motion.div>
       </div>
       <motion.div
-        className='left-1/6 absolute top-1/3 z-0 size-[1400px] sm:left-1/2'
+        className='absolute top-1/3 z-0 size-[1400px] sm:left-1/2'
         initial={{ x: 100, y: 100 }}
         animate={{ x: 20, y: 0 }}
         transition={{

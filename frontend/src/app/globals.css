@@ -95,11 +95,61 @@
 @layer utilities {
   /* Hide scrollbar */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar  */
+  /* Hide scrollbar  */
   .no-scrollbar {
-      -ms-overflow-style: none; 
-      scrollbar-width: none;  
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
+
+@keyframes tick-animation {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0px rgba(34, 197, 94, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(34, 197, 94, 1));
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+
+.animate-tick {
+  animation:
+    tick-animation 1s ease-out,
+    glow 2s ease-in-out infinite,
+    shake 2s ease-in-out infinite;
 }

@@ -377,8 +377,8 @@ class RequestEmailVerificationEndpoint(BaseAPIView):
 
 class VerifyEmailEndpoint(BaseAPIView):
     permission_classes = [
-        IsAuthenticated,
-    ]
+        AllowAny,
+    ]                                       
 
     def get(self, request):
         token = request.GET.get("token")

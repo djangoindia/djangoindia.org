@@ -39,39 +39,44 @@ const Drawer = ({
 }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 flex w-80 flex-col bg-[#F2ECE4] p-6 text-[#1e3a8a] transition-all duration-300 ease-in-out transform shadow-2xl shadow-[#1e3a8a]/40 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`fixed inset-0 z-50 flex w-80 flex-col bg-[#F2ECE4] p-6 text-[#1e3a8a] shadow-2xl shadow-[#1e3a8a]/40 transition-all duration-300 ease-in-out${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
-      <div className='flex justify-between items-center mb-6'>
+      <div className='mb-6 flex items-center justify-between'>
         <Image
           src='/whatIsDjango/Logo.svg'
           width={100}
           height={35}
           alt='Django India Logo'
         />
-        <button 
-          onClick={onClose} 
-          className='p-2 rounded-full hover:bg-[#1e3a8a]/10 transition-colors'
+        <button
+          onClick={onClose}
+          className='rounded-full p-2 transition-colors hover:bg-[#1e3a8a]/10'
         >
           <CrossIcon />
         </button>
       </div>
 
-      <nav className='space-y-2 flex-grow'>
+      <nav className='grow space-y-2'>
         {[
           { route: APP_ROUTES.home, label: 'Home' },
           { route: APP_ROUTES.events, label: 'Events' },
           { route: APP_ROUTES.gallery, label: 'Gallery' },
-          { route: APP_ROUTES.sponsorsAndPartners, label: 'Sponsors and Partners' },
-          { route: APP_ROUTES.contactUs, label: 'Contact Us' }
+          {
+            route: APP_ROUTES.sponsorsAndPartners,
+            label: 'Sponsors and Partners',
+          },
+          { route: APP_ROUTES.contactUs, label: 'Contact Us' },
         ].map(({ route, label }) => (
           <Link
             key={route}
             href={route}
             className={`
-              block px-4 py-3 rounded-lg transition-all duration-200 
-              ${pathname === route 
-                ? 'bg-[#1e3a8a]/10 font-semibold text-[#1e3a8a]' 
-                : 'hover:bg-[#1e3a8a]/5 text-[#1e3a8a]/70 hover:text-[#1e3a8a]'}
+              block rounded-lg px-4 py-3 transition-all duration-200 
+              ${
+                pathname === route
+                  ? 'bg-[#1e3a8a]/10 font-semibold text-[#1e3a8a]'
+                  : 'text-[#1e3a8a]/70 hover:bg-[#1e3a8a]/5 hover:text-[#1e3a8a]'
+              }
             `}
             onClick={onClose}
           >
@@ -80,52 +85,61 @@ const Drawer = ({
         ))}
       </nav>
 
-      <div className='mt-auto py-3 border-t border-[#1e3a8a]/20 w-full space-y-4'>
+      <div className='mt-auto w-full space-y-4 border-t border-[#1e3a8a]/20 py-3'>
         {status === 'authenticated' ? (
           <DropdownMenu>
-          <DropdownMenuContent className='min-w-[16rem] mb-2'>
-            <DropdownMenuItem onClick={() => router.push('/users/me')}>
-              My Profile
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => signOut({ callbackUrl: '/home' })}
-            >
-              Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-          <DropdownMenuTrigger asChild>
-            <div className='flex items-center justify-between bg-[#1e3a8a]/5 p-3 rounded-lg'>
-              <div className='flex items-center gap-3'>
-                <Avatar className='border-2 border-[#F2ECE4]'>
-                  <AvatarImage src={session?.user?.image || 'https://github.com/shadcn.png'} />
-                  <AvatarFallback>{session?.user?.name?.charAt(0) || 'DU'}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className='text-sm font-medium text-[#1e3a8a]'>
-                    {session?.user?.name || session?.user?.email?.split('@')[0]}
-                  </p>
-                  <p className='text-xs text-[#1e3a8a]/70'>{session?.user?.email}</p>
+            <DropdownMenuContent className='mb-2 min-w-64'>
+              <DropdownMenuItem onClick={() => router.push('/users/me')}>
+                My Profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => signOut({ callbackUrl: '/home' })}
+              >
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+            <DropdownMenuTrigger asChild>
+              <div className='flex items-center justify-between rounded-lg bg-[#1e3a8a]/5 p-3'>
+                <div className='flex items-center gap-3'>
+                  <Avatar className='border-2 border-[#F2ECE4]'>
+                    <AvatarImage
+                      src={
+                        session?.user?.image || 'https://github.com/shadcn.png'
+                      }
+                    />
+                    <AvatarFallback>
+                      {session?.user?.name?.charAt(0) || 'DU'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className='text-sm font-medium text-[#1e3a8a]'>
+                      {session?.user?.name ||
+                        session?.user?.email?.split('@')[0]}
+                    </p>
+                    <p className='text-xs text-[#1e3a8a]/70'>
+                      {session?.user?.email}
+                    </p>
+                  </div>
                 </div>
+                <button className='rounded-full p-2 hover:bg-[#1e3a8a]/10'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='24'
+                    height='24'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                  >
+                    <circle cx='12' cy='7' r='1' />
+                    <circle cx='12' cy='12' r='1' />
+                    <circle cx='12' cy='17' r='1' />
+                  </svg>
+                </button>
               </div>
-              <button className='p-2 rounded-full hover:bg-[#1e3a8a]/10'>
-                <svg 
-                  xmlns='http://www.w3.org/2000/svg' 
-                  width='24' 
-                  height='24' 
-                  viewBox='0 0 24 24' 
-                  fill='none' 
-                  stroke='currentColor' 
-                  strokeWidth='2'
-                >
-                  <circle cx='12' cy='7' r='1' />
-                  <circle cx='12' cy='12' r='1' />
-                  <circle cx='12' cy='17' r='1' />
-                </svg>
-              </button>
-            </div>
-          </DropdownMenuTrigger>
-        </DropdownMenu>
+            </DropdownMenuTrigger>
+          </DropdownMenu>
         ) : (
           <Button
             variant='outline'
@@ -135,9 +149,9 @@ const Drawer = ({
             Login
           </Button>
         )}
-          <SupportUsDialog onClose={onClose}/>
-        </div>
+        <SupportUsDialog onClose={onClose} />
       </div>
+    </div>
   );
 };
 
@@ -274,30 +288,30 @@ const Navbar = () => {
                 <SupportUsDialog />
                 {status === 'authenticated' ? (
                   <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Avatar className='cursor-pointer border-2 border-[#F2ECE4]'>
-                      <AvatarImage src='https://github.com/shadcn.png' />
-                      <AvatarFallback>DU</AvatarFallback>
-                    </Avatar>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem
-                      onClick={() => router.push('/users/me')}
-                    >
-                      My Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={() =>
-                        signOut({
-                          callbackUrl: '/home',
-                        })
-                      }
-                    >
-                      Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Avatar className='cursor-pointer border-2 border-[#F2ECE4]'>
+                        <AvatarImage src='https://github.com/shadcn.png' />
+                        <AvatarFallback>DU</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => router.push('/users/me')}
+                      >
+                        My Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() =>
+                          signOut({
+                            callbackUrl: '/home',
+                          })
+                        }
+                      >
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 ) : (
                   <Button
                     variant='outline'

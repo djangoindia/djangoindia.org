@@ -15,7 +15,6 @@ import { FaGoogle, FaHome } from 'react-icons/fa';
 import { Button, Input, Label } from '@/components';
 import { API_ENDPOINTS, SIGNUP_FORM_SCHEMA } from '@/constants';
 import { fetchData } from '@/utils';
-import { getAccessToken } from '@/utils/getAccesstoken';
 
 import type { SignupFormType } from './Signup.types';
 
@@ -44,6 +43,8 @@ const SignupForm = () => {
    * @returns {Promise<void>} A promise that resolves when the request completes.
    */
   const sendVerificationMail = async (accessToken: string): Promise<void> => {
+    console.log(accessToken);
+
     const res = await fetchData(API_ENDPOINTS.requestVerification, {
       method: 'GET',
       headers: {
