@@ -39,7 +39,7 @@ const Drawer = ({
 }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 flex w-80 flex-col bg-[#F2ECE4] p-6 text-[#1e3a8a] shadow-2xl shadow-[#1e3a8a]/40 transition-all duration-300 ease-in-out${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      className={`fixed inset-0 z-50 flex w-80 flex-col bg-[#F2ECE4] p-6 text-[#1e3a8a] shadow-2xl shadow-[#1e3a8a]/40 transition-all duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className='mb-6 flex items-center justify-between'>
         <Image

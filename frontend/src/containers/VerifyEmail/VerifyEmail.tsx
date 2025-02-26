@@ -8,6 +8,7 @@ import { enqueueSnackbar } from 'notistack';
 
 import { APP_ROUTES } from '@/constants';
 import { fetchData } from '@/utils';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 import type { PageProps } from '@/types/common';
 
@@ -18,6 +19,7 @@ const VerifyEmail = ({
 
   const router = useRouter();
   const [count, setCount] = useState(5);
+  const hasCalledAPI = useRef(false);
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
     'loading',
@@ -35,29 +37,33 @@ const VerifyEmail = ({
     if (res.statusCode === 200) {
       setStatus('success');
       interval.current = setInterval(() => {
-        if (count >= 1) {
-          setCount((prev) => prev - 1);
-        }
-        if (count === 0) {
-          router.replace(APP_ROUTES.login);
-        }
+        setCount((prevCount) => {
+          if (prevCount <= 1) {
+            router.replace(APP_ROUTES.login);
+            clearInterval(interval.current);
+            return 0;
+          }
+          return prevCount - 1;
+        });
       }, 1000);
     } else {
-      enqueueSnackbar('Email verification failed.', { variant: 'error' });
-    }
-  }, [count, router, token]);
-
-  useEffect(() => {
-    if (token) {
-      verifyEmail();
-    } else {
+      enqueueSnackbar(res?.error?.message, { variant: 'error' });
       setStatus('error');
     }
+  }, [token]);
 
+  useEffect(() => {
+    if (token && !hasCalledAPI.current) {
+      hasCalledAPI.current = true;
+      verifyEmail();
+    } else if (!token) {
+      setStatus('error');
+    }
+  
     return () => {
       clearInterval(interval.current);
     };
-  }, [token, router, verifyEmail, count]);
+  }, [token]);
 
   return (
     <motion.div
@@ -73,40 +79,31 @@ const VerifyEmail = ({
       {status === 'loading' && (
         <p className='font-semibold'>Verifying your email...</p>
       )}
+      <div className='flex flex-col items-center gap-4'>
       {status === 'success' && (
-        <div className='flex flex-col items-center gap-4'>
-          <svg
-            className='animate-tick size-48 stroke-current text-green-500'
-            viewBox='0 0 50 50'
-            fill='none'
-            stroke-width='5'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-          >
-            <circle
-              cx='25'
-              cy='25'
-              r='22'
-              className='stroke-green-500 opacity-20'
-            ></circle>
-            <path
-              d='M15 25l7 7 12-12'
-              className='stroke-green-500'
-              stroke-dasharray='100'
-            ></path>
-          </svg>
-
+        <>
+          <DotLottieReact
+            src='https://lottie.host/46586735-e20b-40d0-8192-31a1dbc2edca/7o6d2s4zbO.lottie'
+            autoplay
+          />
           <h2 className='text-3xl font-semibold'>Email Verification</h2>
           <p className='font-semibold'>
-            Your email is verified. Redirecting to login in...{count}
+            Your email has been verified. Redirecting to login in {count}
           </p>
-        </div>
+        </>
       )}
       {status === 'error' && (
-        <p className='font-semibold text-red-500'>
-          Email verification failed. Please try again.
-        </p>
+        <>
+          <DotLottieReact
+            src='https://lottie.host/8ed91437-0208-452d-aa01-410d3b5e8706/getBqXsMWm.lottie'
+            autoplay
+          />
+          <p className='font-semibold text-red-500'>
+            Email verification failed. Please try again.
+          </p>
+        </>
       )}
+      </div>
     </motion.div>
   );
 };
