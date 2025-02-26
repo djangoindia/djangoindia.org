@@ -2,13 +2,13 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { enqueueSnackbar } from 'notistack';
 
 import { APP_ROUTES } from '@/constants';
 import { fetchData } from '@/utils';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 import type { PageProps } from '@/types/common';
 
@@ -50,7 +50,7 @@ const VerifyEmail = ({
       enqueueSnackbar(res?.error?.message, { variant: 'error' });
       setStatus('error');
     }
-  }, [token]);
+  }, [token, router]);
 
   useEffect(() => {
     if (token && !hasCalledAPI.current) {
@@ -59,11 +59,11 @@ const VerifyEmail = ({
     } else if (!token) {
       setStatus('error');
     }
-  
+
     return () => {
       clearInterval(interval.current);
     };
-  }, [token]);
+  }, [token, verifyEmail]);
 
   return (
     <motion.div
@@ -80,29 +80,29 @@ const VerifyEmail = ({
         <p className='font-semibold'>Verifying your email...</p>
       )}
       <div className='flex flex-col items-center gap-4'>
-      {status === 'success' && (
-        <>
-          <DotLottieReact
-            src='https://lottie.host/46586735-e20b-40d0-8192-31a1dbc2edca/7o6d2s4zbO.lottie'
-            autoplay
-          />
-          <h2 className='text-3xl font-semibold'>Email Verification</h2>
-          <p className='font-semibold'>
-            Your email has been verified. Redirecting to login in {count}
-          </p>
-        </>
-      )}
-      {status === 'error' && (
-        <>
-          <DotLottieReact
-            src='https://lottie.host/8ed91437-0208-452d-aa01-410d3b5e8706/getBqXsMWm.lottie'
-            autoplay
-          />
-          <p className='font-semibold text-red-500'>
-            Email verification failed. Please try again.
-          </p>
-        </>
-      )}
+        {status === 'success' && (
+          <>
+            <DotLottieReact
+              src='https://lottie.host/46586735-e20b-40d0-8192-31a1dbc2edca/7o6d2s4zbO.lottie'
+              autoplay
+            />
+            <h2 className='text-3xl font-semibold'>Email Verification</h2>
+            <p className='font-semibold'>
+              Your email has been verified. Redirecting to login in {count}
+            </p>
+          </>
+        )}
+        {status === 'error' && (
+          <>
+            <DotLottieReact
+              src='https://lottie.host/8ed91437-0208-452d-aa01-410d3b5e8706/getBqXsMWm.lottie'
+              autoplay
+            />
+            <p className='font-semibold text-red-500'>
+              Email verification failed. Please try again.
+            </p>
+          </>
+        )}
       </div>
     </motion.div>
   );
