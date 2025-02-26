@@ -181,13 +181,13 @@ class OauthEndpoint(BaseAPIView):
                 },
             )
             ############ CAN BE REMOVED LATER ON ############
-            past_events = EventRegistration.objects.filter(email=email).all()
-            for event in past_events:
+            past_registrations = EventRegistration.objects.filter(email=email).all()
+            for registration in past_registrations:
                 if not EventUserRegistration.objects.filter(
-                    event=event, user=user
+                    event=registration.event, user=user
                 ).exists():
                     EventUserRegistration.objects.create(
-                        event=event,
+                        event=registration.event,
                         user=user,
                         status="rsvped",
                         rsvp_notes="I'll be there!",
@@ -249,13 +249,13 @@ class SignUpEndpoint(BaseAPIView):
 
         user.save()
         ############ CAN BE REMOVED LATER ON ############
-        past_events = EventRegistration.objects.filter(email=email).all()
-        for event in past_events:
+        past_registrations = EventRegistration.objects.filter(email=email).all()
+        for registration in past_registrations:
             if not EventUserRegistration.objects.filter(
-                event=event, user=user
+                event=registration.event, user=user
             ).exists():
                 EventUserRegistration.objects.create(
-                    event=event,
+                    event=registration.event,
                     user=user,
                     status="rsvped",
                     rsvp_notes="I'll be there!",
@@ -378,7 +378,7 @@ class RequestEmailVerificationEndpoint(BaseAPIView):
 class VerifyEmailEndpoint(BaseAPIView):
     permission_classes = [
         AllowAny,
-    ]                                       
+    ]
 
     def get(self, request):
         token = request.GET.get("token")
