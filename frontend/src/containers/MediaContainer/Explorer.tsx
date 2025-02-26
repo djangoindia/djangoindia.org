@@ -3,7 +3,6 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 
 import { VerticalTabs, type VerticalTabsProps } from '@/components';
-
 import { cn } from '@/utils/cn';
 
 export const Explorer = ({

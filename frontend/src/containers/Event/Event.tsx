@@ -83,31 +83,31 @@ const EventContainer = async ({
           />
         </div>
         <div className='flex flex-col gap-2'>
-        <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
-          <h2 className='text-4xl md:text-6xl font-bold w-full sm:w-auto'>
-            {name}
-          </h2>
-          <div className='flex flex-wrap justify-end gap-3 w-full sm:w-auto'>
-            {registrations_open && (
-              <RegisterEvent 
-                status={registration_status} 
-                seats_left={seats_left} 
-              />
-            )}
-            {cfp_open && (
-              <Link
-                href='https://github.com/djangoindia/talks/issues/new?template=talk_proposal.yaml'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='w-full sm:w-auto'
-              >
-                <Button className='w-full sm:w-auto z-50 bg-blue-900'>
-                  Submit CFP
-                </Button>
-              </Link>
-            )}
+          <div className='flex flex-col items-center justify-between gap-4 sm:flex-row'>
+            <h2 className='w-full text-4xl font-bold sm:w-auto md:text-6xl'>
+              {name}
+            </h2>
+            <div className='flex w-full flex-wrap justify-end gap-3 sm:w-auto'>
+              {registrations_open && (
+                <RegisterEvent
+                  status={registration_status}
+                  seats_left={seats_left}
+                />
+              )}
+              {cfp_open && (
+                <Link
+                  href='https://github.com/djangoindia/talks/issues/new?template=talk_proposal.yaml'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='w-full sm:w-auto'
+                >
+                  <Button className='z-50 w-full bg-blue-900 sm:w-auto'>
+                    Submit CFP
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
           {start_date ? (
             <span>
               Starts {dayjsWithTZ(start_date).format('DD MMMM, YYYY')} at{' '}
@@ -216,7 +216,9 @@ const EventContainer = async ({
           <CiLocationOn />
           {splitAndCapitalize(event_mode)}
         </span>
-        {registrations_open && <RegisterEvent status={registration_status} seats_left={seats_left} />}
+        {registrations_open && (
+          <RegisterEvent status={registration_status} seats_left={seats_left} />
+        )}
       </div>
     </div>
   );

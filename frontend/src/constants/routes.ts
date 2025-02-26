@@ -7,4 +7,5 @@ export const APP_ROUTES = {
   sponsorsAndPartners: '/sponsors-and-partners',
   gallery: '/gallery',
   login: '/login',
+  me: '/users/me',
 };
