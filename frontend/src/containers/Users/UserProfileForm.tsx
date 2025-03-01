@@ -292,7 +292,7 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
                             )
                         )}
                         <CardFooter className="px-0">
-                            <Button type="submit">Save</Button>
+                            <Button type="submit">Save Profile</Button>
                         </CardFooter>
                     </form>
                 </Form>
