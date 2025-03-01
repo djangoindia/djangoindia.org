@@ -589,15 +589,15 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     queryset = EventUserRegistration.objects.filter(
                         id__in=registration_ids
                     )
-                    print(queryset)
                     if not queryset.exists():
                         messages.error(request, "No valid registrations found.")
                         return redirect("../")
 
-                    recipient_emails = [
-                        registration.user.email for registration in queryset
-                    ]
-                    recipient_users = [registration.user for registration in queryset]
+                    recipient_users = list(
+                        dict.fromkeys(registration.user for registration in queryset)
+                    )
+
+                    recipient_emails = [user.email for user in recipient_users]
 
                     event = queryset.first().event
 
@@ -605,7 +605,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                         event=event,
                         subject=subject,
                         body=message,
-                        status=EventCommunication.STATUS.PENDING,
+                        status=EventCommunication.Status.PENDING,
                     )
                     communication.save()
                     communication.recipient.set(recipient_users)
@@ -617,7 +617,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
 
                     send_mass_mail_task.delay(emails, fail_silently=False)
 
-                    communication.status = EventCommunication.STATUS.SENT
+                    communication.status = EventCommunication.Status.SENT
                     communication.sent_at = timezone.now()
                     communication.save()
 
@@ -627,7 +627,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     return redirect("../")
                 except Exception as e:
                     if communication is not None:
-                        communication.status = EventCommunication.STATUS.FAILED
+                        communication.status = EventCommunication.Status.FAILED
                         communication.err_msg = str(e)
                         communication.save()
                     messages.error(request, f"Error while sending emails: {str(e)}")
@@ -646,11 +646,11 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
 
 @admin.register(EventCommunication)
 class EventCommunicationAdmin(admin.ModelAdmin):
-    list_display = ("subject", "get_recipients", "status", "sent_at")
+    list_display = ("subject", "event", "status", "sent_at", "recipient_count")
     list_filter = ("status", "event")
     search_fields = ("subject", "recipient__email")
 
-    def get_recipients(self, obj):
-        return ", ".join([user.email for user in obj.recipient.all()])
+    def recipient_count(self, obj):
+        return obj.recipient.count()
 
-    get_recipients.short_description = "Recipients"
+    recipient_count.short_description = "Recipients"

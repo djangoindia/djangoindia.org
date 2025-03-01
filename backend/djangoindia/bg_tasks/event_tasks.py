@@ -105,6 +105,7 @@ def send_mass_mail_task(emails, **kwargs):
 
     try:
         send_mass_mail(emails, **kwargs)
-    except Exception:
+    except Exception as e:
         logger.exception("Failed to send mass emails.")
         logger.debug("Detailed exception information:", exc_info=True)
+        raise e

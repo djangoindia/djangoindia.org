@@ -4,6 +4,7 @@ import uuid
 
 import jwt
 
+from backend.djangoindia.db.models import volunteer
 from google.auth.transport import requests as google_auth_request
 from google.oauth2 import id_token
 from rest_framework import exceptions, status

@@ -165,3 +165,12 @@ class EventUserRegistration(BaseModel):
                 ):
                     raise ValueError("No seats left for this event.")
         super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Event registration"
+        verbose_name_plural = "Event registrations"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "event"], name="unique_user_event_registration"
+            )
+        ]
