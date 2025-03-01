@@ -36,10 +36,26 @@ const Footer: React.FC = () => {
             </li>
             <li>
               <a
-                href={APP_ROUTES.contactUs}
+                href={APP_ROUTES.gallery}
                 className='inline-block px-3 py-2 text-white no-underline'
               >
-                Contact Us
+                Gallery
+              </a>
+            </li>
+            <li>
+              <a
+                href={APP_ROUTES.sponsorsAndPartners}
+                className='inline-block px-3 py-2 text-white no-underline'
+              >
+                Sponsors & Partners
+              </a>
+            </li>
+            <li>
+              <a
+                href={APP_ROUTES.privacyPolicy}
+                className='inline-block px-3 py-2 text-white no-underline'
+              >
+                Privacy Policy
               </a>
             </li>
           </ul>

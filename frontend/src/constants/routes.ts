@@ -8,4 +8,5 @@ export const APP_ROUTES = {
   gallery: '/gallery',
   login: '/login',
   me: '/users/me',
+  privacyPolicy: '/privacy-policy',
 };
