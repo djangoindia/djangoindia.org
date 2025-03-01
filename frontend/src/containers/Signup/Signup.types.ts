@@ -3,5 +3,5 @@ export type SignupFormType = {
   lastName: string;
   email: string;
   newPassword: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 };
