@@ -1,13 +1,17 @@
 import Image from 'next/image';
+import { Edit2 } from "lucide-react";
 
 import { fetchData } from '@/utils';
 import { getAccessToken } from '@/utils/getAccesstoken';
 
 import { UserAvatar } from './UserAvatar';
+import ProfileForm from "./UserProfileForm";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 import type { PageProps } from '@/types/common';
+import { Button } from "@/components";
 
-type UserData = {
+export type UserData = {
   id: number;
   avatar: string | null;
   created_at: string;
@@ -55,18 +59,20 @@ const UserContainer = async ({
           alt='Profile Cover'
           objectFit='cover'
           className='rounded-2xl'
-        />
-        <UserAvatar
-          avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'}
-        />
+        />  
+        
+          <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
+     
       </div>
-      <div className='mt-36 flex flex-col'>
+      <div className='mt-36 mx-auto flex flex-col w-full sm:w-4/5'>
         <h3 className='text-3xl font-bold'>
           {userData?.first_name} {userData?.last_name}
         </h3>
         <h3>@{userData?.username}</h3>
         {/* Uncomment when API cahnges are done */}
         <span className='text-sm'>{userData?.bio}</span>
+        {userData && <ProfileForm userData={userData} />}
+        {userData && <ChangePasswordForm />}
       </div>
     </section>
   );

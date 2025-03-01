@@ -326,6 +326,7 @@ class UserAdmin(admin.ModelAdmin):
                     "avatar",
                     "cover_image",
                     "gender",
+                    "organization",
                     "mobile_number",
                     "bio",
                     "about",
@@ -334,6 +335,8 @@ class UserAdmin(admin.ModelAdmin):
                     "github",
                     "twitter",
                     "instagram",
+                    "country",
+                    "user_timezone",
                 )
             },
         ),
