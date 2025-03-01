@@ -1,5 +1,5 @@
 export type ChangePasswordFormType = {
-    newPassword?: string;
+    newPassword: string;
     confirmPassword?: string;
 }
 

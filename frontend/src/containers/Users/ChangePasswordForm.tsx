@@ -39,7 +39,7 @@ const ChangePasswordForm = () => {
         control,
         reset,
         handleSubmit,
-        formState: { errors, ...restFormState },
+        formState: { errors, isValid, dirtyFields, isSubmitting, ...restFormState },
         ...rest
     } = useForm<ChangePasswordFormType>({
         resolver: yupResolver(CHANGE_PASSWORD_FORM_SCHEMA),
@@ -84,7 +84,7 @@ const ChangePasswordForm = () => {
                     register={register}
                     control={control}
                     reset={reset}
-                    formState={{ errors, ...restFormState }}
+                    formState={{ errors, isValid, dirtyFields, isSubmitting, ...restFormState }}
                     handleSubmit={handleSubmit}
                     {...rest}
                 >

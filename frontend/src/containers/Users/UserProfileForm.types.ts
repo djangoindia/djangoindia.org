@@ -7,15 +7,15 @@ export type ProfileForm = {
     bio: string;
     about: string;
 
-    website?: string;
-    linkedin?: string;
-    instagram?: string;
-    github?: string;
-    twitter?: string;
-    mastodon?: string;
+    website?: string | null;
+    linkedin?: string | null;
+    instagram?: string | null;
+    github?: string | null;
+    twitter?: string | null;
+    mastodon?: string | null;
 
-    organization?: string;
-    country?: string;
+    organization?: string | null;
+    country?: string | null;
     user_timezone: string;
 };
 

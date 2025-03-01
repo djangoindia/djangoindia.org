@@ -66,25 +66,26 @@ const ProfileForm = ({ userData }: { userData: UserData }) => {
         formState: { errors, ...restFormState },
         ...rest
     } = useForm<ProfileForm>({
-        resolver: yupResolver(EDIT_PROFILE_FORM_SCHEMA),
+        resolver: yupResolver(EDIT_PROFILE_FORM_SCHEMA) as any,
         defaultValues: {
             username: userData?.username || '',
             email: userData?.email || '',
             first_name: userData?.first_name || '',
             last_name: userData?.last_name || '',
-            gender: userData?.gender || '',
+            gender: userData?.gender || null,
             bio: userData?.bio || '',
             about: userData?.about || '',
-            website: userData?.website || '',
-            linkedin: userData?.linkedin || '',
-            instagram: userData?.instagram || '',
-            github: userData?.github || '',
-            twitter: userData?.twitter || '',
-            mastodon: userData?.mastodon || '',
-            organization: userData?.organization || '',
-            country: userData?.country || '',
+            website: userData?.website || null,
+            linkedin: userData?.linkedin || null,
+            instagram: userData?.instagram || null,
+            github: userData?.github || null,
+            twitter: userData?.twitter || null,
+            mastodon: userData?.mastodon || null,
+            organization: userData?.organization || null,
+            country: userData?.country || null,
             user_timezone: userData?.user_timezone || '',
         },
+        mode: 'onChange'
     });
 
     const onSubmit : SubmitHandler<ProfileForm> = async (data: any) => {

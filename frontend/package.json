@@ -24,6 +24,7 @@
     "@react-spring/web": "^9.7.5",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
+    "@types/countries-and-timezones": "^3.2.2",
     "calendar-link": "^2.7.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
