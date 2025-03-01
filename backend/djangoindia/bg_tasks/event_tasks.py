@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.html import strip_tags
 
-from djangoindia.db.models import EventUserRegistration
+from djangoindia.db.models import EventCommunication, EventUserRegistration
 
 
 logger = logging.getLogger(__name__)
@@ -87,7 +87,7 @@ def waitlist_confirmation_email_task(email, event_id):
 
 
 @shared_task
-def send_mass_mail_task(emails, **kwargs):
+def send_mass_mail_task(emails, comm_id, **kwargs):
     """
     Converts django.core.mail.send_mass_email into a background task.
 
@@ -105,7 +105,13 @@ def send_mass_mail_task(emails, **kwargs):
 
     try:
         send_mass_mail(emails, **kwargs)
+        EventCommunication.objects.filter(id=comm_id).update(
+            status=EventCommunication.Status.SENT
+        )
     except Exception as e:
         logger.exception("Failed to send mass emails.")
         logger.debug("Detailed exception information:", exc_info=True)
+        EventCommunication.objects.filter(id=comm_id).update(
+            status=EventCommunication.Status.FAILED, err_msg=str(e)
+        )
         raise e

@@ -615,7 +615,9 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                         for email in recipient_emails
                     ]
 
-                    send_mass_mail_task.delay(emails, fail_silently=False)
+                    send_mass_mail_task.delay(
+                        emails, communication.id, fail_silently=False
+                    )
 
                     communication.status = EventCommunication.Status.SENT
                     communication.sent_at = timezone.now()
@@ -626,13 +628,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     )
                     return redirect("../")
                 except Exception as e:
-                    if communication is not None:
-                        communication.status = EventCommunication.Status.FAILED
-                        communication.err_msg = str(e)
-                        communication.save()
-                    messages.error(request, f"Error while sending emails: {str(e)}")
-            else:
-                messages.error(request, "Invalid Form Data")
+                    messages.error(request, f"Error sending emails: {str(e)}")
         else:
             form = EmailForm()
 
