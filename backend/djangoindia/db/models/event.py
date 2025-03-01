@@ -3,6 +3,7 @@ import html
 from cabinet.models import Folder
 from django_prose_editor.fields import ProseEditorField
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
@@ -39,6 +40,9 @@ class Event(BaseModel):
     seats_left = models.IntegerField(null=True, blank=True)
     volunteers = models.ManyToManyField(Volunteer, related_name="events")
     media = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
+    cancellation_count_after_housefull = models.IntegerField(default=0)
+    registrations_open = models.BooleanField(default=False)
+    cfp_open = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -49,6 +53,7 @@ class Event(BaseModel):
         super().save(*args, **kwargs)
 
 
+# Deprecated model
 class EventRegistration(BaseModel):
     class ProfessionalStatus(models.TextChoices):
         WORKING_PROFESSIONAL = "working_professional"
@@ -96,6 +101,8 @@ class EventRegistration(BaseModel):
     )
 
     class Meta:
+        verbose_name = "Event registration (Deprecated)"
+        verbose_name_plural = "Event registrations (Deprecated)"
         constraints = [
             models.UniqueConstraint(
                 fields=["email", "event"], name="unique_event_registration"
@@ -121,3 +128,49 @@ class EventRegistration(BaseModel):
         return (
             f"{self.first_name} {self.last_name} ({self.email}) --- {self.event.name}"
         )
+
+
+class EventUserRegistration(BaseModel):
+    class RegistrationStatus(models.TextChoices):
+        RSVPED = "rsvped"
+        WAITLISTED = "waitlisted"
+        CANCELLED = "cancelled"
+        ATTENDED = "attended"
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    status = models.CharField(choices=RegistrationStatus.choices, max_length=50)
+    first_time_attendee = models.BooleanField(default=True)
+    rsvp_notes = models.CharField(max_length=255, blank=True)
+
+    def save(self, *args, **kwargs):
+        # This is a new registration
+        if self._state.adding:
+            user_has_registered_before = EventUserRegistration.objects.filter(
+                user=self.user
+            ).exists()
+            self.first_time_attendee = not user_has_registered_before
+
+            # Only decrease seats for RSVPED status
+            if self.event.registrations_open:
+                if (
+                    self.event.seats_left > 0
+                    and self.status == self.RegistrationStatus.RSVPED
+                ):
+                    self.event.seats_left -= 1
+                    self.event.save()
+                elif (
+                    self.event.seats_left <= 0
+                    and self.status == self.RegistrationStatus.RSVPED
+                ):
+                    raise ValueError("No seats left for this event.")
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Event registration"
+        verbose_name_plural = "Event registrations"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "event"], name="unique_user_event_registration"
+            )
+        ]

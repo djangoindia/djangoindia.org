@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 10px auto;
+            background-color: #ededed;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            padding: 30px;
+        }
+        .content h2,h5 {
+            color: #144D3D;
+            font-size: 20px;
+        }
+        .content p {
+            line-height: 1.6;
+            color: #666;
+        }
+        .footer {
+            background-color: #144D3D;
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            font-size: 14px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .footer p {
+            margin: 0;
+        }
+        .social-links {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+            text-align: center;
+        }
+        .social-links-container {
+            display: inline-block;
+        }
+        .social-links li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .social-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .social-links a:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h3>Hi {{ first_name }},</h3>
+
+            <p>Imagine walking into a bustling café filled with friendly faces, the scent of fresh coffee in the air, and an excited murmur of conversations about Django, open source, and new ideas. That’s exactly what you’ve just stepped into—welcome to the <strong>Django India Community!</strong></p>
+
+            <p>We’re more than just a community; we’re a growing family of developers, dreamers, and doers who believe in learning together, sharing our knowledge, and building something meaningful. Whether you’re just starting your Django journey or have been navigating its paths for years, we’re here to support and celebrate every step you take.</p>
+
+            <h4>What’s waiting for you here?</h4>
+            <ul>
+                <li>Exciting <strong>meetups</strong> where ideas flow and friendships form</li>
+                <li>Hands-on <strong>workshops</strong> to sharpen your skills</li>
+                <li>A space to <strong>network</strong> with fellow developers, mentors, and open-source contributors</li>
+                <li>The latest updates on <strong>Django trends, best practices, and opportunities</strong></li>
+            </ul>
+
+            <p>And the best part? You don’t have to navigate this journey alone. Join us on our 
+                <a href="https://discord.gg/YrmYTTBspe">Discord server</a> and introduce yourself. Tell us your story—what excites you about Django, the projects you’re working on, or simply your favorite programming joke! We can’t wait to get to know you.</p>
+
+            <p>Remember, every great project starts with a simple idea, and every great developer starts with a single step. You’ve already taken yours—now let’s build, innovate, and grow together.</p>
+
+            <p><strong>Happy coding!</strong></p>
+            <p><strong>Warm regards,</br>The Django India Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Django India Community. All rights reserved.</p>
+            <div class="social-links-container">
+                <ul class="social-links">
+                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank">YouTube</a></li>
+                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank">Discord</a></li>
+                    <li><a href="https://github.com/djangoindia" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

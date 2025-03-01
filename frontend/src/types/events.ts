@@ -44,6 +44,11 @@ export type Event = {
   sponsors: Sponsor[];
   partners: Partner[];
   volunteers: Volunteer[];
+  registration_status: 'rsvped' | 'waitlisted' | 'cancelled' | null;
+  rsvp_count: number;
+  waitlist_count: number;
+  registrations_open: boolean;
+  cfp_open: boolean;
 };
 
 export type EventsResponse = Event[];

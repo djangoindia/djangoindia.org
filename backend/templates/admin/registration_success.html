@@ -84,7 +84,7 @@
     <div class="container">
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Thank you for registering for the {{ event.name }}. We are thrilled to have you join us. Below are the details:</p>
+            <p>Your registration has been confirmed for the {{ event.name }} and we are thrilled to have you join us. Below are the details:</p>
             <div class="details">
                 {% if event.end_date %}
                 <p><strong>Date:</strong> {{ event.start_date.date }} - {{ event.end_date.date }}</p>
@@ -98,6 +98,7 @@
                 {% endif %}
                 <p><strong>Mode:</strong> {{ event.event_mode }}</p>
             </div>
+            <p>If, for some reason, you will not be able to make it, please withdraw your registration from the event page, so that other participants have a chance to attend.</p><br/>
             <p>We look forward to seeing you there! If you have any queries, feel free to contact us at:<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
             <p>Best regards,<br/>Team Django India</p>
             <div class="bottom-section">
@@ -116,7 +117,7 @@
             </div>
         </div>
         <div class="footer">
-            <p>&copy; 2024 Django India community. All rights reserved.</p>
+            <p>&copy; 2025 Django India community. All rights reserved.</p>
         </div>
     </div>
 </body>

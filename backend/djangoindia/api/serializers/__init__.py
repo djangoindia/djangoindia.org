@@ -1,7 +1,13 @@
 from .communication import ContactUsSerializer, SubscriberSerializer
-from .event import EventRegistrationSerializer, EventSerializer
+from .event import (
+    EventRegistrationSerializer,
+    EventSerializer,
+    EventUserRegistrationSerializer,
+)
 from .media_library import FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorSerializer
+from .user import ChangePasswordSerializer, UserMeSerializer, UserSerializer
+from .volunteer import VolunteerSerializer
 
 
 __all__ = [
@@ -11,4 +17,9 @@ __all__ = [
     "EventSerializer",
     "FolderSerializer",
     "CommunityPartnerAndSponsorSerializer",
+    "UserSerializer",
+    "UserMeSerializer",
+    "ChangePasswordSerializer",
+    "VolunteerSerializer",
+    "EventUserRegistrationSerializer",
 ]

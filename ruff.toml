@@ -34,7 +34,7 @@ exclude = [
 target-version = "py311"
 line-length = 88
 
-lint.ignore = ["F405", "F841"]
+lint.ignore = ["F405", "F841", "F401"]
 
 [lint.isort.sections]
 "django" = ["django"]

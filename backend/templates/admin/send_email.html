@@ -26,8 +26,9 @@
     .submit-row {
         margin-top: 20px;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
+        gap: 10px;
     }
     .errorlist {
         color: red;
@@ -79,7 +80,7 @@
             
             <div class="submit-row">
                 <input type="submit" value="Send emails" class="default" name="apply">
-                <p class="deletelink-box"><a href="{% url 'admin:index' %}" class="deletelink">Cancel</a></p>
+                <a href="{% url 'admin:index' %}" style="background-color: #ba2121; color: white; padding: 10px 16px; border-radius: 4px; text-decoration: none; display: inline-block;">Cancel</a>
             </div>
         </div>
     </form>

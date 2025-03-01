@@ -104,7 +104,7 @@ Remember, every contribution, no matter how small, is valuable and appreciated!
 2. **Clone the repository:**
 
     ```
-    git clone https://github.com/<your_username>/djangoindia.org
+    git clone https://github.com/djangoindia/djangoindia.org.git
     ```
 
 ### Without Docker

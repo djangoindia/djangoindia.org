@@ -3,12 +3,17 @@ celery==5.3.4
 Django==4.2.5
 django-cabinet==0.17.0
 django-cors-headers==4.3.1 # https://github.com/adamchainz/django-cors-headers
+django-crum==0.7.9
+django-filter==23.5
 django-import-export==4.1.1
 django-import-export[all]
 django-prose-editor==0.9.0
 django-prose-editor[sanitize]
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
+djangorestframework-simplejwt==5.3.0
 drf-spectacular
+google-api-python-client==2.97.0
+google-auth==2.22.0
 Pillow==10.4.0
 psycopg2-binary==2.9.9
 python-dotenv==1.0.1

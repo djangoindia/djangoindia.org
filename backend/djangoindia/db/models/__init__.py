@@ -1,10 +1,9 @@
-from djangoindia.db.models.communication import ContactUs, Subscriber
-from djangoindia.db.models.event import Event, EventRegistration
-from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsorship
-from djangoindia.db.models.update import Update
-from djangoindia.db.models.volunteer import Volunteer
-
-from .user import User
+from .communication import ContactUs, EventCommunication, Subscriber
+from .event import Event, EventRegistration, EventUserRegistration
+from .partner_and_sponsor import CommunityPartner, Sponsor, Sponsorship
+from .update import Update
+from .user import SocialLoginConnection, User
+from .volunteer import Volunteer
 
 
 __all__ = [
@@ -17,4 +16,8 @@ __all__ = [
     "Update",
     "Volunteer",
     "User",
+    "SocialLoginConnection",
+    "Sponsor",
+    "EventUserRegistration",
+    "EventCommunication",
 ]
