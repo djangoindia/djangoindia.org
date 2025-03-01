@@ -62,9 +62,6 @@ const UserContainer = async ({
         />  
         
           <UserAvatar avatarUrl={userData?.avatar || 'https://github.com/shadcn.png'} />
-          <Button className='absolute sm:right-[10%] right-0 bottom-[-60px] flex gap-2'>
-             Save Profile
-          </Button>
      
       </div>
       <div className='mt-36 mx-auto flex flex-col w-full sm:w-4/5'>
