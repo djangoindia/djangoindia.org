@@ -31,6 +31,7 @@ from djangoindia.api.serializers.user import (
 from djangoindia.api.views.base import BaseAPIView
 from djangoindia.bg_tasks.auth.email_verification_task import email_verification_task
 from djangoindia.bg_tasks.auth.forgot_password_task import forgot_password_task
+from djangoindia.bg_tasks.auth.welcome_email_task import welcome_email_task
 
 # Module imports
 from djangoindia.db.models import (
@@ -193,7 +194,7 @@ class OauthEndpoint(BaseAPIView):
                         rsvp_notes="I'll be there!",
                     )
             ############################################
-
+            welcome_email_task.delay(user.first_name, user.email)
             access_token, refresh_token = get_tokens_for_user(user)
             data = {
                 "access_token": access_token,
@@ -271,7 +272,7 @@ class SignUpEndpoint(BaseAPIView):
                     rsvp_notes="I'll be there!",
                 )
         ############################################
-
+        welcome_email_task.delay(user.first_name, user.email)
         access_token, refresh_token = get_tokens_for_user(user)
 
         data = {
