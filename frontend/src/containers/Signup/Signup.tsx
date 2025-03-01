@@ -72,6 +72,8 @@ const SignupForm = () => {
           email: data.email,
           password: data.newPassword,
           confirm_password: data.confirmPassword,
+          first_name: data.firstName,
+          last_name: data.lastName,
         }),
       },
     );
@@ -121,6 +123,44 @@ const SignupForm = () => {
             className='flex w-full flex-col'
             onSubmit={handleSubmit(onSubmit)}
           >
+            <div className='grid grid-cols-2 w-full items-center gap-1.5'>
+              <div className='grid items-center gap-1.5'>
+              <Label
+                htmlFor='firstName'
+                className={`${errors.firstName ? 'text-red-500' : ''}`}
+              >
+                First Name
+              </Label>
+              <Input
+                {...register('firstName', { required: true })}
+                type='text'
+                id='firstName'
+                placeholder='Enter your first name'
+                className={`${errors.firstName ? 'text-red-500 !outline-red-500' : ''}`}
+              />
+              <p className='h-[20px] text-sm text-red-500'>
+                {errors.firstName?.message ?? ' '}
+              </p>
+              </div>
+              <div className='grid items-center gap-1.5'>
+              <Label
+                htmlFor='lastName'
+                className={`${errors.lastName ? 'text-red-500' : ''}`}
+              >
+                Last Name
+              </Label>
+              <Input
+                {...register('lastName', { required: true })}
+                type='text'
+                id='lastName'
+                placeholder='Enter your last name'
+                className={`${errors.lastName ? 'text-red-500 !outline-red-500' : ''}`}
+              />
+              <p className='h-[20px] text-sm text-red-500'>
+                {errors.lastName?.message ?? ' '}
+              </p>
+              </div>
+            </div>
             <div className='grid w-full items-center gap-1.5'>
               <Label
                 htmlFor='email'

@@ -115,6 +115,16 @@ export const LOGIN_FORM_SCHEMA = yup.object({
 });
 
 export const SIGNUP_FORM_SCHEMA = yup.object({
+  firstName: yup
+    .string()
+    .min(2, 'Firstname must be at least 2 characters')
+    .max(50, 'Firstname must be 50 characters or less')
+    .required('Firstname is required'),
+  lastName: yup
+    .string()
+    .min(2, 'Lastname must be at least 2 characters')
+    .max(50, 'Lastname must be 50 characters or less')
+    .required('Lastname is required'),
   email: yup
     .string()
     .email('Please enter a valid email address')
