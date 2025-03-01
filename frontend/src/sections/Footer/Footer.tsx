@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <div className='mt-4 border-t border-gray-800 pt-6 text-center'>
-        Developed by Django-India-Team | Copyright @ 2024. All Rights Reserved
+        Developed by Django-India-Team | Copyright @ 2025. All Rights Reserved
       </div>
     </footer>
   );
