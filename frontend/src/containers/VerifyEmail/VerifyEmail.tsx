@@ -18,7 +18,7 @@ const VerifyEmail = ({
   const interval = useRef<ReturnType<typeof setTimeout>>();
 
   const router = useRouter();
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(8);
   const hasCalledAPI = useRef(false);
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
@@ -83,8 +83,9 @@ const VerifyEmail = ({
         {status === 'success' && (
           <>
             <DotLottieReact
-              src='https://lottie.host/46586735-e20b-40d0-8192-31a1dbc2edca/7o6d2s4zbO.lottie'
+              src='email-verify-success.lottie'
               autoplay
+              height={80}
             />
             <h2 className='text-3xl font-semibold'>Email Verification</h2>
             <p className='font-semibold'>
@@ -95,8 +96,9 @@ const VerifyEmail = ({
         {status === 'error' && (
           <>
             <DotLottieReact
-              src='https://lottie.host/8ed91437-0208-452d-aa01-410d3b5e8706/getBqXsMWm.lottie'
+              src='email-verify-fail.lottie'
               autoplay
+              height={80}
             />
             <p className='font-semibold text-red-500'>
               Email verification failed. Please try again.

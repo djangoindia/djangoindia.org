@@ -210,6 +210,8 @@ class SignUpEndpoint(BaseAPIView):
         email = request.data.get("email", False)
         password = request.data.get("password", False)
         confirm_password = request.data.get("confirm_password", False)
+        first_name = request.data.get("first_name", False)
+        last_name = request.data.get("last_name", False)
 
         if not password == confirm_password:
             return Response(
@@ -221,6 +223,12 @@ class SignUpEndpoint(BaseAPIView):
         if not email or not password:
             return Response(
                 {"message": "Both email and password are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not first_name or not last_name:
+            return Response(
+                {"message": "Both first name and last name are required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -245,6 +253,8 @@ class SignUpEndpoint(BaseAPIView):
             email=email,
             username=email.split("@")[0],
             password=make_password(password),
+            first_name=first_name,
+            last_name=last_name,
         )
 
         user.save()
