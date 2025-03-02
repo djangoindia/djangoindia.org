@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
             1. Introduction
           </h2>
           <p className="leading-relaxed">
-            Welcome to Django India! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you visit our website (<Link href="https://djangoindia.org" className="text-primary hover:underline">djangoindia.org</Link>) and interact with our community.
+            Welcome to Django India! Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you visit our website (<Link href="https://www.djangoindia.org/home" className="text-primary hover:underline">www.djangoindia.org/home</Link>) and interact with our community.
           </p>
         </section>
 
