@@ -1,11 +1,12 @@
 # Module imports
 from rest_framework import serializers, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from djangoindia.api.serializers import UserMeSerializer, UserSerializer
 from djangoindia.db.models import User
 
+from ..serializers.user import UserProfileSerializer
 from .base import BaseAPIView, BaseViewSet
 
 
@@ -58,3 +59,13 @@ class UpdateUserOnBoardedEndpoint(BaseAPIView):
         user.is_onboarded = request.data.get("is_onboarded", False)
         user.save()
         return Response({"message": "Updated successfully"}, status=status.HTTP_200_OK)
+
+
+class UsersProfilesEndpoint(BaseViewSet):
+    def list(self, request):
+        """
+        API endpoint to get a list of active and onboarded user profiles.
+        """
+        users = User.objects.filter(is_active=True, is_onboarded=True)
+        serializer = UserProfileSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
