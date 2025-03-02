@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
   if (token) {
     // Redirect authenticated users away from sign-in and sign-up pages
     if (pathname.includes('/login') || pathname.includes('/signup')) {
-      return NextResponse.redirect(new URL('/home', req.url));
+      return NextResponse.redirect(new URL('/home', req.nextUrl.origin));
     }
     // Allow access to protected routes
     return NextResponse.next();
@@ -28,7 +28,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Redirect unauthenticated users trying to access protected routes
-  return NextResponse.redirect(new URL('/login', req.url));
+  return NextResponse.redirect(new URL('/login', req.nextUrl.origin));
 }
 
 // specify on which routes you want to run the middleware
