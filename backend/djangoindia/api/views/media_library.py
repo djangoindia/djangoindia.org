@@ -1,5 +1,6 @@
 from cabinet.models import Folder
 from rest_framework import status, viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from django.core.exceptions import ValidationError
@@ -17,6 +18,9 @@ class MediaLibraryAPIView(viewsets.GenericViewSet):
         "files", "children__files"
     )
     lookup_field = "name"
+    permission_classes = [
+        AllowAny,
+    ]
 
     def get_serializer_class(self):
         if self.request.method == "GET":

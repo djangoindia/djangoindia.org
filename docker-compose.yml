@@ -25,6 +25,12 @@ services:
       - postgres
       - rabbitmq
 
+  djangoindia-scheduler:
+    <<: *djangoindia-backend
+    container_name: djangoindia-scheduler
+    command: celery -A djangoindia beat -l info
+    ports: []
+
   postgres:
     image: postgres:14.1-alpine
     container_name: postgres
@@ -44,8 +50,8 @@ services:
       - .env
     restart: always
     depends_on:
-        - djangoindia-backend
-        - postgres
+      - djangoindia-backend
+      - postgres
     ports:
       - "3000:3000"
     environment:
@@ -61,8 +67,8 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"  # RabbitMQ default port
-      - "15672:15672"  # Management UI port
+      - "5672:5672" # RabbitMQ default port
+      - "15672:15672" # Management UI port
 
 volumes:
   logs:

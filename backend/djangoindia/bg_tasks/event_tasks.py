@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.html import strip_tags
 
-from djangoindia.db.models import EventRegistration
+from djangoindia.db.models import EventCommunication, EventUserRegistration
 
 
 logger = logging.getLogger(__name__)
@@ -21,11 +21,13 @@ def format_text(text: str) -> str:
 
 
 @shared_task
-def registration_confirmation_email_task(email, event_id):
+def rsvp_confirmation_email_task(email, event_id):
     try:
-        registration = EventRegistration.objects.get(email=email, event_id=event_id)
+        registration = EventUserRegistration.objects.get(
+            user__email=email, event_id=event_id
+        )
         context = {
-            "first_name": registration.first_name,
+            "first_name": registration.user.first_name,
             "event": {
                 "name": registration.event.name,
                 "start_date": timezone.localtime(registration.event.start_date),
@@ -42,7 +44,7 @@ def registration_confirmation_email_task(email, event_id):
         # Strip the HTML tags for a plain text alternative
         text_content = strip_tags(html_content)
 
-        subject = f"{registration.event.name} - Registration Successful!"
+        subject = f"{registration.event.name} - RSVP Successful!"
         from_email = settings.DEFAULT_FROM_EMAIL
         to_email = [email]
 
@@ -56,7 +58,36 @@ def registration_confirmation_email_task(email, event_id):
 
 
 @shared_task
-def send_mass_mail_task(emails, **kwargs):
+def waitlist_confirmation_email_task(email, event_id):
+    try:
+        registration = EventUserRegistration.objects.get(
+            user__email=email, event_id=event_id
+        )
+        context = {
+            "first_name": registration.user.first_name,
+            "event": {
+                "name": registration.event.name,
+            },
+        }
+        html_content = render_to_string("admin/waitlist_success.html", context)
+        # Strip the HTML tags for a plain text alternative
+        text_content = strip_tags(html_content)
+
+        subject = f"{registration.event.name} - You're on the waitlist!"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = [email]
+
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+    except Exception as e:
+        # Handle exceptions (e.g., logging, re-raising, etc.)
+        print(f"Error sending email: {e}")
+
+
+@shared_task
+def send_mass_mail_task(emails, comm_id, **kwargs):
     """
     Converts django.core.mail.send_mass_email into a background task.
 
@@ -74,6 +105,13 @@ def send_mass_mail_task(emails, **kwargs):
 
     try:
         send_mass_mail(emails, **kwargs)
-    except Exception:
+        EventCommunication.objects.filter(id=comm_id).update(
+            status=EventCommunication.Status.SENT
+        )
+    except Exception as e:
         logger.exception("Failed to send mass emails.")
         logger.debug("Detailed exception information:", exc_info=True)
+        EventCommunication.objects.filter(id=comm_id).update(
+            status=EventCommunication.Status.FAILED, err_msg=str(e)
+        )
+        raise e

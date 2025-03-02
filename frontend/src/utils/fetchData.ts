@@ -19,18 +19,22 @@ export type FetchResponse<TData> =
 export const fetchData = async <TFetchedData>(
   path: string,
   options: RequestInit = { method: 'GET' },
+  appendSlash = true,
 ): Promise<FetchResponse<TFetchedData>> => {
   try {
     const { method, ...restOptions } = options;
-    const response = await fetch(`${getApiUrl()}${path}/`, {
-      method,
-      ...restOptions,
-      headers: {
-        ...restOptions.headers,
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `${getApiUrl()}${path}${appendSlash ? '/' : ''}`,
+      {
+        method,
+        ...restOptions,
+        headers: {
+          ...restOptions.headers,
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-store',
       },
-      cache: 'no-store',
-    });
+    );
 
     const parsedResponse = await response.json();
 

@@ -6,4 +6,7 @@ export const APP_ROUTES = {
   contactUs: '/contact-us',
   sponsorsAndPartners: '/sponsors-and-partners',
   gallery: '/gallery',
+  login: '/login',
+  me: '/users/me',
+  privacyPolicy: '/privacy-policy',
 };

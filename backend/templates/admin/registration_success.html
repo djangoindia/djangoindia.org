@@ -84,7 +84,7 @@
     <div class="container">
         <div class="content">
             <h2>Hello, {{ first_name }}!</h2>
-            <p>Thank you for registering for the {{ event.name }}. We are thrilled to have you join us. Below are the details:</p>
+            <p>Your registration has been confirmed for the {{ event.name }} and we are thrilled to have you join us. Below are the details:</p>
             <div class="details">
                 {% if event.end_date %}
                 <p><strong>Date:</strong> {{ event.start_date.date }} - {{ event.end_date.date }}</p>
@@ -98,25 +98,22 @@
                 {% endif %}
                 <p><strong>Mode:</strong> {{ event.event_mode }}</p>
             </div>
+            <p>If, for some reason, you will not be able to make it, please withdraw your registration from the event page, so that other participants have a chance to attend.</p><br/>
             <p>We look forward to seeing you there! If you have any queries, feel free to contact us at:<a href="mailto:admin@djangoindia.org" target="_blank">admin@djangoindia.org</a></p>
             <p>Best regards,<br/>Team Django India</p>
-            <div class="bottom-section">
-                <p>Follow us on social media:</p>
-                <div class="social-links-container">
-                    <ul class="social-links">
-                        <li><a href="https://www.twitter.com/djangoindiaa" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/twitterx--v1.png" alt="twitterx--v1"/></a></li>
-                        <li><a href="https://www.instagram.com/djangoindia/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/instagram-new--v1.png" alt="instagram-new--v1"/></a></li>
-                        <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/youtube-play--v1.png" alt="youtube-play--v1"/></a></li>
-                        <li><a href="https://discord.gg/YrmYTTBspe" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/discord-logo--v1.png" alt="discord-logo--v1"/></a></li>
-                        <li><a href="https://github.com/djangoindia" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/github.png" alt="github"/></a></li>
-                        <li><a href="https://www.reddit.com/r/djangoindia/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/reddit.png" alt="reddit"/></a></li>
-                        <li><a href="https://www.linkedin.com/company/django-india/" target="_blank"><img width="24" height="24" src="https://img.icons8.com/material/24/linkedin--v1.png" alt="linkedin--v1"/></a></li>
-                    </ul>
-                </div>
-            </div>
         </div>
         <div class="footer">
-            <p>&copy; 2024 Django India community. All rights reserved.</p>
+            <p>&copy; 2025 Django India community. All rights reserved.</p>
+            <div class="social-links-container">
+                <ul class="social-links">
+                    <li><a href="https://www.twitter.com/djangoindiaa" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/djangoindia/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.youtube.com/@djangoindiaa" target="_blank">YouTube</a></li>
+                    <li><a href="https://discord.gg/YrmYTTBspe" target="_blank">Discord</a></li>
+                    <li><a href="https://github.com/djangoindia" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/django-india/" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

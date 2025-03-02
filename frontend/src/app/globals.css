@@ -95,11 +95,11 @@
 @layer utilities {
   /* Hide scrollbar */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar  */
+  /* Hide scrollbar  */
   .no-scrollbar {
-      -ms-overflow-style: none; 
-      scrollbar-width: none;  
-}
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

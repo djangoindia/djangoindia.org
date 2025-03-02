@@ -8,8 +8,8 @@ import { RowsPhotoAlbum } from 'react-photo-album';
 import 'react-photo-album/rows.css';
 import { Lightbox } from 'yet-another-react-lightbox';
 import { Fullscreen } from 'yet-another-react-lightbox/plugins';
-import Loading from '@/app/(core)/loading';
 
+import Loading from '@/app/(core)/loading';
 import { API_ENDPOINTS, APP_ROUTES } from '@/constants';
 import { fetchData } from '@/utils';
 import 'yet-another-react-lightbox/styles.css';
@@ -107,7 +107,7 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
           onClick={({ index }) => setIndex(index)}
           render={{
             image: ({ src, alt, sizes }) => (
-              <div className="relative w-full h-full bg-gray-100">
+              <div className='relative size-full bg-gray-100'>
                 <Image
                   src={src}
                   alt={alt ?? ''}
@@ -115,14 +115,20 @@ const Page = ({ params: { slug } }: PageProps<never, { slug: string }>) => {
                   fill
                   priority
                   onLoadingComplete={() => {
-                    setMediaResponse(prev => prev ? {
-                      ...prev,
-                      files: prev.files.map(file => 
-                        file.src === src ? { ...file, isLoaded: true } : file
-                      )
-                    } : prev);
+                    setMediaResponse((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            files: prev.files.map((file) =>
+                              file.src === src
+                                ? { ...file, isLoaded: true }
+                                : file,
+                            ),
+                          }
+                        : prev,
+                    );
                   }}
-                  className="absolute inset-0 object-cover transition-all duration-30 group-hover:scale-110"
+                  className='absolute inset-0 object-cover transition-all group-hover:scale-110'
                 />
               </div>
             ),
