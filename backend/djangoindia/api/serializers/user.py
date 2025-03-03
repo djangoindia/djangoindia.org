@@ -159,3 +159,34 @@ class UserAdminLiteSerializer(BaseSerializer):
         read_only_fields = [
             "id",
         ]
+
+
+class UserProfileSerializer(BaseSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "uuid",
+            "username",
+            "first_name",
+            "last_name",
+            "avatar",
+            "cover_image",
+            "bio",
+            "about",
+            "country",
+            "organization",
+            "website",
+            "linkedin",
+            "github",
+            "twitter",
+            "instagram",
+            "mastodon",
+        )
+
+    def to_representation(self, instance):
+        """
+        Customize the representation to ensure only active and onboarded users are returned.
+        """
+        if not instance.is_active or not instance.is_onboarded:
+            return {}
+        return super().to_representation(instance)
