@@ -106,7 +106,7 @@ class EventAPIView(BaseViewSet):
         return EventLiteSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = Event.objects.all().order_by("start_date")
+        queryset = self.get_queryset()
         all_community_partners = CommunityPartner.objects.all()
         serializer = self.get_serializer(
             queryset,
