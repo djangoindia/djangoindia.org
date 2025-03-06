@@ -47,9 +47,7 @@ class BaseViewSet(TimezoneMixin, ModelViewSet):
 
     def get_queryset(self):
         try:
-            if hasattr(self, "queryset") and self.queryset is not None:
-                return self.queryset
-            return self.model.objects.all()
+            return self.queryset or self.model.objects.all()
         except Exception as e:
             raise APIException("Please check the view", status.HTTP_400_BAD_REQUEST)
 
