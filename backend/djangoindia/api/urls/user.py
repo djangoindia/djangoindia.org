@@ -5,9 +5,8 @@ from djangoindia.api.views import (
     SetUserPasswordEndpoint,
     UpdateUserOnBoardedEndpoint,
     UserEndpoint,
-    UserDetailsEndpoint, 
 )
-
+from djangoindia.api.views.user import   UserDetailsEndpoint
 
 urlpatterns = [
     # User Profile
