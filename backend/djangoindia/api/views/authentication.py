@@ -3,6 +3,7 @@ import os
 import uuid
 
 import jwt
+import requests
 
 from google.auth.transport import requests as google_auth_request
 from google.oauth2 import id_token
@@ -18,6 +19,7 @@ from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.core.validators import validate_email
 from django.utils import timezone
 from django.utils.encoding import DjangoUnicodeDecodeError, smart_bytes, smart_str
@@ -164,10 +166,15 @@ class OauthEndpoint(BaseAPIView):
                 email=email,
                 first_name=data.get("first_name"),
                 last_name=data.get("last_name"),
-                avatar=data.get("picture"),
                 is_email_verified=email_verified,
                 is_password_autoset=True,
             )
+            if data.get("picture", None):
+                response = requests.get(data.get("picture"))
+                if response.status_code == 200:
+                    image_content = ContentFile(response.content)
+                    unique_filename = f"{uuid.uuid4()}.jpg"
+                    user.avatar.save(unique_filename, image_content, save=True)
 
             user.set_password(uuid.uuid4().hex)
             user.save()
