@@ -89,16 +89,16 @@ const SignupForm = () => {
   };
 
   return (
-    <section className='relative flex size-full overflow-hidden'>
+    <section className='relative flex min-h-screen w-full overflow-auto'>
       <Link
         href='/home'
-        className='group pointer-events-auto absolute right-4 top-4 z-50 w-fit rounded-full p-3 transition-all duration-300 hover:bg-blue-100 hover:shadow-xl sm:left-4'
+        className='group pointer-events-auto fixed top-4 left-4 z-50 w-fit rounded-full p-3 transition-all duration-300 hover:bg-blue-100 hover:shadow-xl'
       >
         <FaHome className='text-2xl text-[#06038D] transition-transform duration-300 group-hover:scale-110' />
       </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
-          className='w-4/5 sm:w-3/5'
+          className='w-full max-w-md px-6 sm:w-3/5 min-h-full pt-12'
           initial={{ x: -100 }}
           animate={{ x: 0 }}
           transition={{
@@ -254,7 +254,7 @@ const SignupForm = () => {
         </motion.div>
       </div>
       <motion.div
-        className='absolute bottom-1/3 right-1/4 z-0 size-[1400px] sm:right-1/2'
+        className='fixed bottom-10 right-10 z-0 w-[800px] sm:right-1/3'
         initial={{ x: -100, y: -100 }}
         animate={{ x: -20, y: 0 }}
         transition={{
