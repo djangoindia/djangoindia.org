@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { FaGoogle, FaHome } from 'react-icons/fa';
+import { FaGoogle, FaHome , FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { API_ENDPOINTS, SIGNUP_FORM_SCHEMA } from '@/constants';
@@ -22,6 +22,8 @@ const SignupForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || undefined;
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -63,6 +65,8 @@ const SignupForm = () => {
     }
   };
 
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
   const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
     const res = await fetchData<{ access_token: string }>(
       API_ENDPOINTS.signup,
@@ -89,16 +93,16 @@ const SignupForm = () => {
   };
 
   return (
-    <section className='relative flex size-full overflow-hidden'>
+    <section className='relative flex min-h-screen w-full overflow-auto'>
       <Link
         href='/home'
-        className='group pointer-events-auto absolute right-4 top-4 z-50 w-fit rounded-full p-3 transition-all duration-300 hover:bg-blue-100 hover:shadow-xl sm:left-4'
+        className='group pointer-events-auto fixed top-4 left-4 z-50 w-fit rounded-full p-3 transition-all duration-300 hover:bg-blue-100 hover:shadow-xl'
       >
         <FaHome className='text-2xl text-[#06038D] transition-transform duration-300 group-hover:scale-110' />
       </Link>
       <div className='z-10 flex flex-1 items-center justify-center'>
         <motion.div
-          className='w-4/5 sm:w-3/5'
+          className='w-full max-w-md px-6 sm:w-3/5 min-h-full pt-12'
           initial={{ x: -100 }}
           animate={{ x: 0 }}
           transition={{
@@ -186,13 +190,22 @@ const SignupForm = () => {
               >
                 New password
               </Label>
+              <div className='relative'>
               <Input
                 {...register('newPassword', { required: true })}
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 id='newPassword'
                 placeholder='Enter new password'
                 className={`${errors.newPassword ? 'text-red-500 !outline-red-500' : ''}`}
               />
+              <button 
+              type='button'
+              onClick={togglePasswordVisibility}
+              className='absolute inset-y-0 right-3 flex items-center text-gray-600'
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+                </div>
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.newPassword?.message ?? ' '}
               </p>
@@ -204,13 +217,22 @@ const SignupForm = () => {
               >
                 Confirm Password
               </Label>
+              <div className='relative'>
               <Input
                 {...register('confirmPassword', { required: true })}
-                type='password'
+                type={showConfirmPassword ? 'text' : 'password'}
                 id='confirmPassword'
                 placeholder='Confirm password'
                 className={`${errors.confirmPassword ? 'text-red-500 !outline-red-500' : ''}`}
               />
+              <button
+              type='button'
+              onClick={toggleConfirmPasswordVisibility}
+              className='absolute inset-y-0 right-3 flex items-center text-gray-600'
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+                </div>
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.confirmPassword?.message ?? ' '}
               </p>
@@ -254,7 +276,7 @@ const SignupForm = () => {
         </motion.div>
       </div>
       <motion.div
-        className='absolute bottom-1/3 right-1/4 z-0 size-[1400px] sm:right-1/2'
+        className='fixed bottom-10 right-10 z-0 w-[800px] sm:right-1/3'
         initial={{ x: -100, y: -100 }}
         animate={{ x: -20, y: 0 }}
         transition={{
