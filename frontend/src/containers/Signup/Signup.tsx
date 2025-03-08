@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { FaGoogle, FaHome } from 'react-icons/fa';
+import { FaGoogle, FaHome , FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { API_ENDPOINTS, SIGNUP_FORM_SCHEMA } from '@/constants';
@@ -22,6 +22,8 @@ const SignupForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || undefined;
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -63,6 +65,8 @@ const SignupForm = () => {
     }
   };
 
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
   const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
     const res = await fetchData<{ access_token: string }>(
       API_ENDPOINTS.signup,
@@ -186,13 +190,22 @@ const SignupForm = () => {
               >
                 New password
               </Label>
+              <div className='relative'>
               <Input
                 {...register('newPassword', { required: true })}
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 id='newPassword'
                 placeholder='Enter new password'
                 className={`${errors.newPassword ? 'text-red-500 !outline-red-500' : ''}`}
               />
+              <button 
+              type='button'
+              onClick={togglePasswordVisibility}
+              className='absolute inset-y-0 right-3 flex items-center text-gray-600'
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+                </div>
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.newPassword?.message ?? ' '}
               </p>
@@ -204,13 +217,22 @@ const SignupForm = () => {
               >
                 Confirm Password
               </Label>
+              <div className='relative'>
               <Input
                 {...register('confirmPassword', { required: true })}
-                type='password'
+                type={showConfirmPassword ? 'text' : 'password'}
                 id='confirmPassword'
                 placeholder='Confirm password'
                 className={`${errors.confirmPassword ? 'text-red-500 !outline-red-500' : ''}`}
               />
+              <button
+              type='button'
+              onClick={toggleConfirmPasswordVisibility}
+              className='absolute inset-y-0 right-3 flex items-center text-gray-600'
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+                </div>
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.confirmPassword?.message ?? ' '}
               </p>
