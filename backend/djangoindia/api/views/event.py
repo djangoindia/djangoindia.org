@@ -108,12 +108,13 @@ class EventAPIView(BaseViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         all_community_partners = CommunityPartner.objects.all()
+        page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(
-            queryset,
+            page,
             many=True,
             context={"all_community_partners": all_community_partners},
         )
-        return Response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -182,7 +183,7 @@ class EventAPIView(BaseViewSet):
 
 
 class EventRegistrationView(BaseAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = EventUserRegistrationSerializer
 
     def post(self, request, event_slug):
@@ -341,5 +342,6 @@ class EventRegistrationView(BaseAPIView):
                 {"message": "No registration found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = self.serializer_class(registrations, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(registrations)
+        serializer = self.serializer_class(page, many=True)
+        return self.get_paginated_response(serializer.data)
