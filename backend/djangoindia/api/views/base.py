@@ -76,14 +76,12 @@ class PaginationMixin:
         return self.paginator.get_paginated_response(data)
 
 
-class BaseViewSet(TimezoneMixin, ModelViewSet, PaginationMixin):
+class BaseViewSet(TimezoneMixin, PaginationMixin, ModelViewSet):
     model = None
     permission_classes = [IsAuthenticated]
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filterset_fields = []
     search_fields = []
-
-    pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
 
     def get_queryset(self):
         """
@@ -156,8 +154,6 @@ class BaseAPIView(TimezoneMixin, APIView):
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filterset_fields = []
     search_fields = []
-
-    pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
 
     def filter_queryset(self, queryset):
         """

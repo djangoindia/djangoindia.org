@@ -57,5 +57,6 @@ class CommunityPartnerAndSponsorAPIView(BaseAPIView):
             Response: Serialized data containing both partners and sponsors.
         """
         queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset)
-        return Response(serializer.data)
+        page = queryset
+        serializer = CommunityPartnerAndSponsorSerializer(page)
+        return self.get_paginated_response(serializer.data)
