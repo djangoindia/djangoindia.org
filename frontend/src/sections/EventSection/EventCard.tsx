@@ -107,18 +107,6 @@ const EventCard: React.FC<EventProps> = ({
               {city ? city : 'TBA'}
             </p>
           }
-          {dayjsWithTZ().isBefore(dayjsWithTZ(date)) && seats_left && (
-            <p className='flex items-center'>
-              <Image
-                src={seats}
-                alt='seats'
-                width={26}
-                height={26}
-                className='mr-1'
-              />
-              {seats_left} Seats left
-            </p>
-          )}
         </div>
       </div>
     </div>
