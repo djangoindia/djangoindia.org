@@ -62,7 +62,8 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
 
         <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
           {/* Full Name Field */}
-          <div className='relative flex items-center'>
+          <div className='relative flex flex-col'>
+            <div className='relative flex items-center'>
             <FaRegUser className='absolute left-4 text-gray-500' />
             <input
               type='text'
@@ -72,13 +73,15 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
               }`}
               {...register('name', { required: true })}
             />
-            <p className='text-sm text-red-500'>
-              {errors.name?.message ?? ' '}
-            </p>
+            </div>
+            {errors.name && (
+              <p className='text-sm text-red-500 mt-1'>{errors.name.message}</p>
+            )}
           </div>
 
           {/* Email Field */}
-          <div className='relative flex items-center'>
+          <div className='relative flex flex-col'>
+            <div className='relative flex items-center'>
             <MdOutlineEmail className='absolute left-4 text-gray-500' />
             <input
               type='email'
@@ -88,9 +91,10 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
               }`}
               {...register('email', { required: true })}
             />
-            <p className='text-sm text-red-500'>
-              {errors.email?.message ?? ' '}
-            </p>
+            </div>
+            {errors.email && (
+              <p className='text-sm text-red-500 mt-1'>{errors.email.message}</p>
+            )}
           </div>
 
           {/* Submit Button */}
