@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         users = User.objects.all()
         for user in users:
-            if user.avatar and user.avatar.startswith("https"):
+            if user.avatar and user.avatar.url.startswith("https"):
                 try:
                     response = requests.get(user.avatar)
                     if response.status_code == 200:
