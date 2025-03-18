@@ -63,8 +63,22 @@ class EventRegistrationResource(resources.ModelResource):
 
 
 class EventUserRegistrationResource(resources.ModelResource):
+    user_first_name = fields.Field(
+        column_name="user_first_name", attribute="user__first_name"
+    )
+    user_last_name = fields.Field(
+        column_name="user_last_name", attribute="user__last_name"
+    )
+    user_email = fields.Field(column_name="user_email", attribute="user__email")
+
     class Meta:
         model = EventUserRegistration
+        fields = (
+            "user_first_name",
+            "user_last_name",
+            "user_email",
+        )
+        export_order = fields
 
 
 @admin.register(EventRegistration)
