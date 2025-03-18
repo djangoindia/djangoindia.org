@@ -290,8 +290,14 @@ const Navbar = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Avatar className='cursor-pointer border-2 border-[#F2ECE4]'>
-                        <AvatarImage src='https://github.com/shadcn.png' />
-                        <AvatarFallback>DU</AvatarFallback>
+                      <AvatarImage
+                      src={
+                        session?.user?.image || 'https://github.com/shadcn.png'
+                      }
+                    />
+                    <AvatarFallback>
+                      {session?.user?.name?.charAt(0) || 'DU'}
+                    </AvatarFallback>
                       </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
