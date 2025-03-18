@@ -5,5 +5,6 @@ set -o pipefail
 set -o nounset
 
 python manage.py migrate
+python manage.py migrate_avatar_images # Remove in next release
 python manage.py collectstatic --noinput
 exec /usr/local/bin/gunicorn djangoindia.wsgi --bind 0.0.0.0:8000

@@ -11,6 +11,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
+from django.conf import settings
+
 # Django imports
 from django.utils import timezone
 
@@ -47,9 +49,23 @@ class BaseViewSet(TimezoneMixin, ModelViewSet):
 
     def get_queryset(self):
         try:
-            return self.model.objects.all()
+            return self.queryset or self.model.objects.all()
         except Exception as e:
             raise APIException("Please check the view", status.HTTP_400_BAD_REQUEST)
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            response = super().dispatch(request, *args, **kwargs)
+            if settings.DEBUG:
+                from django.db import connection
+
+                print(
+                    f"{request.method} - {request.get_full_path()} of Queries: {len(connection.queries)}"
+                )
+            return response
+        except Exception as exc:
+            response = self.handle_exception(exc)
+            return exc
 
 
 class BaseAPIView(TimezoneMixin, APIView):
@@ -70,3 +86,17 @@ class BaseAPIView(TimezoneMixin, APIView):
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            response = super().dispatch(request, *args, **kwargs)
+            if settings.DEBUG:
+                from django.db import connection
+
+                print(
+                    f"{request.method} - {request.get_full_path()} of Queries: {len(connection.queries)}"
+                )
+            return response
+        except Exception as exc:
+            response = self.handle_exception(exc)
+            return exc
