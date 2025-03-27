@@ -102,21 +102,24 @@ def validate_google_token(token, client_id):
 
 
 class OauthEndpoint(BaseAPIView):
+    """
+    Handle OAuth-based authentication (e.g., Google login).
+
+    This endpoint verifies the provided OAuth credential, logs the user in
+    or creates a new account if the user doesn't exist, and returns JWT tokens.
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
         """
-        Handle login with Google and other OAuth providers.
+        Process an OAuth login (Google).
 
         Args:
-            request (Request): The request object containing the OAuth
-                credentials.
+            request (Request): Contains `credential` (OAuth token) and `clientId`.
 
         Returns:
-            Response: A response object with the authentication tokens.
-
-        Raises:
-            AuthenticationFailed: If the provided credentials are invalid.
+            Response: Access and refresh tokens if successful.
         """
         try:
             medium = request.data.get("medium", False)
@@ -247,6 +250,13 @@ class OauthEndpoint(BaseAPIView):
 
 
 class SignUpEndpoint(BaseAPIView):
+    """
+    Handle user registration.
+
+    Creates a new user after validating email and password.
+    Returns access and refresh tokens upon successful signup.
+    """
+
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -342,6 +352,13 @@ class SignUpEndpoint(BaseAPIView):
 
 
 class SignInEndpoint(BaseAPIView):
+    """
+    Handle user login via email and password.
+
+    Validates credentials, email verification status, and account activation.
+    Returns JWT tokens if login is successful.
+    """
+
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -420,6 +437,10 @@ class SignInEndpoint(BaseAPIView):
 
 
 class SignOutEndpoint(BaseAPIView):
+    """
+    Handle user logout by blacklisting the refresh token.
+    """
+
     def post(self, request):
         """
         Sign out endpoint.
@@ -458,6 +479,10 @@ class SignOutEndpoint(BaseAPIView):
 
 
 class RequestEmailVerificationEndpoint(BaseAPIView):
+    """
+    Send a verification email to the authenticated user.
+    """
+
     permission_classes = [
         IsAuthenticated,
     ]
@@ -489,6 +514,12 @@ class RequestEmailVerificationEndpoint(BaseAPIView):
 
 
 class VerifyEmailEndpoint(BaseAPIView):
+    """
+    Verify the email address using the token sent via email.
+
+    Marks the user as `is_email_verified=True` if successful.
+    """
+
     permission_classes = [
         AllowAny,
     ]
@@ -540,6 +571,12 @@ class VerifyEmailEndpoint(BaseAPIView):
 
 
 class ForgotPasswordEndpoint(BaseAPIView):
+    """
+    Initiate password reset process.
+
+    Sends an email with a password reset link to the user.
+    """
+
     permission_classes = [
         AllowAny,
     ]
@@ -590,6 +627,12 @@ class ForgotPasswordEndpoint(BaseAPIView):
 
 
 class ResetPasswordEndpoint(BaseAPIView):
+    """
+    Reset user password using token and uid from email link.
+
+    Also logs the user in upon successful reset.
+    """
+
     permission_classes = [
         AllowAny,
     ]
@@ -656,6 +699,10 @@ class ResetPasswordEndpoint(BaseAPIView):
 
 
 class ChangePasswordEndpoint(BaseAPIView):
+    """
+    Change the current authenticated user's password.
+    """
+
     def post(self, request):
         """
         Change user password.
@@ -695,6 +742,10 @@ class ChangePasswordEndpoint(BaseAPIView):
 
 
 class SetUserPasswordEndpoint(BaseAPIView):
+    """
+    Set a password for a user (used when user has no password set yet).
+    """
+
     def post(self, request):
         """
         Set a new password for the authenticated user.

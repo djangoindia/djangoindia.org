@@ -1,5 +1,7 @@
+import logging
+
 from cabinet.models import Folder
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -10,58 +12,70 @@ from djangoindia.api.serializers.media_library import (
     FolderLiteSerializer,
     FolderSerializer,
 )
+from djangoindia.api.views.base import BaseViewSet
 from djangoindia.db.models import Event
 
 
-class MediaLibraryAPIView(viewsets.GenericViewSet):
+# Define logger at the module level
+logger = logging.getLogger(__name__)
+
+
+class MediaLibraryAPIView(BaseViewSet):
     queryset = Folder.objects.filter(parent__isnull=True).prefetch_related(
         "files", "children__files"
     )
     lookup_field = "name"
-    permission_classes = [
-        AllowAny,
-    ]
+    permission_classes = [AllowAny]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
-            if "name" in self.kwargs:
-                return FolderSerializer
-            else:
-                return FolderLiteSerializer
+            return FolderSerializer if "name" in self.kwargs else FolderLiteSerializer
+        return FolderLiteSerializer
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
         lookup_value = self.kwargs.get(self.lookup_field)
 
+        logger.info(f"Looking up event for slug: {lookup_value}")
+
         if lookup_value:
-            try:
-                # Try to get the event by slug
-                event = Event.objects.filter(slug=lookup_value).values("name").first()
+            event = Event.objects.filter(slug=lookup_value).values("name").first()
+            logger.info(f"Event lookup result: {event}")
 
-                if event:
-                    # If event exists, try to get the corresponding object
-                    return queryset.get(name=event.get("name", ""))
+            if event:
+                try:
+                    obj = queryset.get(name=event["name"])
+                    logger.info(f"Folder found: {obj}")
+                    return obj
+                except Folder.DoesNotExist:
+                    logger.warning("No matching folder found")
+                    raise Http404("No matching folder found")
 
-                # If no event found with the given slug
-                raise Event.DoesNotExist("No event found with this slug")
+            logger.warning("No event found with this slug")
+            raise Http404("No event found with this slug")
 
-            except (Event.DoesNotExist, Folder.DoesNotExist):
-                # Handle cases where either Event or Folder is not found
-                raise Http404("No matching event or folder found")
-
+        logger.error("No identifier provided")
         raise ValidationError("No identifier provided")
 
     def get(self, request, *args, **kwargs):
+        logger.info("Hello I'm here")
         return self.list(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+        logger.info("Hello I'm in list")
+        queryset = self.filter_queryset(self.get_queryset())
+        logger.info(f"{queryset}")
+        serializer_class = self.get_serializer_class()
+        logger.info(f"{serializer_class}")
+        serializer = serializer_class(queryset, many=True)
+        logger.info(f"{serializer.data}")
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         try:
-            serializer = self.get_serializer(self.get_object())
+            obj = self.get_object()
+            serializer_class = self.get_serializer_class()
+            serializer = serializer_class(obj)
             return Response(serializer.data)
         except ValidationError as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)

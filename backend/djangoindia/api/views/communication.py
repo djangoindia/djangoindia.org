@@ -18,15 +18,19 @@ class SubscriberAPIView(BaseAPIView):
 
     def post(self, request, *args, **kwargs):
         """
-        Subscribe to DjangoIndia's newsletter.
+        Subscribe a user to the DjangoIndia newsletter.
 
-        This endpoint is used to add a user to the newsletter subscriber list.
+        This endpoint allows users to subscribe using their email address. If the email
+        already exists in the database, a 409 Conflict response is returned.
 
         Args:
-            request (Request): The request object.
+            request (Request): The HTTP request object containing subscriber data.
 
         Returns:
-            Response: A response object with the status of the request.
+            Response:
+                - 201 CREATED: If the subscription was successful.
+                - 409 CONFLICT: If the user is already subscribed.
+                - 500 INTERNAL SERVER ERROR: If an unexpected error occurs.
         """
         try:
             if Subscriber.objects.filter(email=request.data.get("email")).exists():
@@ -36,9 +40,11 @@ class SubscriberAPIView(BaseAPIView):
                     },
                     status=status.HTTP_409_CONFLICT,
                 )
+
             serializer = self.serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+
             return Response(
                 {"message": "Thanks for subscribing! We knew you couldn't resist.😉"},
                 status=status.HTTP_201_CREATED,
@@ -57,30 +63,29 @@ class ContactUsAPIView(BaseAPIView):
 
     def post(self, request):
         """
-        Create a new contact message.
+        Submit a contact message to the DjangoIndia team.
 
-        This endpoint is used to send a message to the DjangoIndia team.
+        This endpoint allows users to send inquiries, feedback, or general messages to the team.
+        It validates and stores the incoming data.
 
         Args:
-            request (Request): The request object.
+            request (Request): The HTTP request object containing message data.
 
         Returns:
-            Response: A response object with a message indicating the success status of the operation.
-
-        Raises:
-            Exception: If any exception occurs during the request processing.
+            Response:
+                - 201 CREATED: If the message was successfully submitted.
+                - 500 INTERNAL SERVER ERROR: If an unexpected error occurs.
         """
         try:
             serializer = self.serializer_class(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(
-                    {
-                        "message": "Message received! We'll be in touch before you can say 'supercalifragilisticexpialidocious.' 😜"
-                    },
-                    status=status.HTTP_201_CREATED,
-                )
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(
+                {
+                    "message": "Message received! We'll be in touch before you can say 'supercalifragilisticexpialidocious.' 😜"
+                },
+                status=status.HTTP_201_CREATED,
+            )
         except Exception as e:
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
