@@ -9,6 +9,13 @@ from djangoindia.db.models.partner_and_sponsor import CommunityPartner, Sponsors
 
 
 class CommunityPartnerAndSponsorAPIView(BaseAPIView):
+    """
+    API endpoint to retrieve a list of community partners and sponsors.
+
+    This endpoint is publicly accessible and returns both community partners and
+    sponsors who are categorized under 'community_sponsorship'.
+    """
+
     permission_classes = [
         AllowAny,
     ]
@@ -16,14 +23,12 @@ class CommunityPartnerAndSponsorAPIView(BaseAPIView):
 
     def get_queryset(self):
         """
-        Return a dictionary containing the community partners and sponsors
+        Prepare the data containing community partners and sponsors.
 
         Returns:
-            A dictionary containing two keys, "community_partners" and
-            "community_sponsors" which are the queryset of
-            CommunityPartner and Sponsorship for the community partners and
-            sponsors respectively.
-
+            dict: A dictionary with:
+                - 'community_partners': QuerySet of CommunityPartner objects.
+                - 'community_sponsors': QuerySet of Sponsorship objects filtered by type.
         """
         partners_queryset = CommunityPartner.objects.all()
         sponsors_queryset = (
@@ -46,7 +51,10 @@ class CommunityPartnerAndSponsorAPIView(BaseAPIView):
 
     def get(self, request):
         """
-        Return a list of community partners and sponsors.
+        Retrieve community partners and sponsors.
+
+        Returns:
+            Response: Serialized data containing both partners and sponsors.
         """
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset)

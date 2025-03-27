@@ -1,6 +1,8 @@
 # Python imports
+import logging
 import zoneinfo
 
+# Django imports
 from django_filters.rest_framework import DjangoFilterBackend
 
 # Third part imports
@@ -12,9 +14,10 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from django.conf import settings
-
-# Django imports
 from django.utils import timezone
+
+
+logger = logging.getLogger(__name__)
 
 
 class TimezoneMixin:
@@ -34,14 +37,9 @@ class TimezoneMixin:
 class BaseViewSet(TimezoneMixin, ModelViewSet):
     model = None
 
-    permission_classes = [
-        IsAuthenticated,
-    ]
+    permission_classes = [IsAuthenticated]
 
-    filter_backends = (
-        DjangoFilterBackend,
-        SearchFilter,
-    )
+    filter_backends = (DjangoFilterBackend, SearchFilter)
 
     filterset_fields = []
 
@@ -49,9 +47,17 @@ class BaseViewSet(TimezoneMixin, ModelViewSet):
 
     def get_queryset(self):
         try:
+            logger.info("retriving queryset")
+            logger.info(f"queryset{self.get_queryset}")
+            logger.info(f"obj {self.model.object.all()}")
             return self.queryset or self.model.objects.all()
         except Exception as e:
             raise APIException("Please check the view", status.HTTP_400_BAD_REQUEST)
+
+    def filter_queryset(self, queryset):
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
 
     def dispatch(self, request, *args, **kwargs):
         try:
@@ -69,14 +75,9 @@ class BaseViewSet(TimezoneMixin, ModelViewSet):
 
 
 class BaseAPIView(TimezoneMixin, APIView):
-    permission_classes = [
-        IsAuthenticated,
-    ]
+    permission_classes = [IsAuthenticated]
 
-    filter_backends = (
-        DjangoFilterBackend,
-        SearchFilter,
-    )
+    filter_backends = (DjangoFilterBackend, SearchFilter)
 
     filterset_fields = []
 

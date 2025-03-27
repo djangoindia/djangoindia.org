@@ -35,9 +35,22 @@ from .base import BaseAPIView, BaseViewSet
 
 # Create your views here.
 class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    API endpoint to retrieve a list of attendees for a specific event.
+
+    Attendees are filtered by `include_in_attendee_list=True`.
+    Provides statistics like total attendees and number of first-time attendees.
+    """
+
     serializer_class = EventAttendeeSerializer
 
     def get_queryset(self):
+        """
+        Retrieve the queryset of attendees for the given event slug.
+
+        Returns:
+            tuple: A queryset of EventRegistration and the corresponding Event instance.
+        """
         event_slug = self.kwargs.get("event_slug")
         event = get_object_or_404(Event, slug=event_slug)
         queryset = (
@@ -48,6 +61,12 @@ class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         return queryset, event
 
     def list(self, request, *args, **kwargs):
+        """
+        List all attendees for a given event.
+
+        Returns:
+            Response: A JSON response containing event name, attendee stats, and attendee list.
+        """
         queryset, event = self.get_queryset()
         serializer = self.get_serializer(
             queryset.filter(include_in_attendee_list=True), many=True
@@ -67,6 +86,13 @@ class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 
 class EventAPIView(BaseViewSet):
+    """
+    API ViewSet to manage event listings, detail retrieval, and user registrations.
+
+    Supports listing all events, retrieving event details by slug,
+    and registering for events via POST request.
+    """
+
     model = Event
     lookup_field = "slug"
     permission_classes = [
@@ -101,11 +127,23 @@ class EventAPIView(BaseViewSet):
     )
 
     def get_serializer_class(self):
+        """
+        Dynamically select the serializer based on the HTTP method.
+
+        Returns:
+            Serializer class depending on request method.
+        """
         if self.request.method == POST:
             return EventRegistrationSerializer
         return EventLiteSerializer
 
     def list(self, request, *args, **kwargs):
+        """
+        List all events.
+
+        Returns:
+            Response: A list of serialized events including community partners.
+        """
         queryset = self.get_queryset()
         all_community_partners = CommunityPartner.objects.all()
         serializer = self.get_serializer(
@@ -116,6 +154,12 @@ class EventAPIView(BaseViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve the details of a specific event by slug.
+
+        Returns:
+            Response: Serialized event details with related community partners.
+        """
         instance = self.get_object()
         all_community_partners = CommunityPartner.objects.filter(
             created_at__lt=instance.created_at
@@ -130,6 +174,15 @@ class EventAPIView(BaseViewSet):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
+        """
+        Register a user for an event.
+
+        Validates registration availability, prevents duplicates,
+        and triggers confirmation emails.
+
+        Returns:
+            Response: Success or error message with appropriate status code.
+        """
         try:
             event_id = request.data.get("event")
             email = request.data.get("email")
@@ -156,12 +209,30 @@ class EventAPIView(BaseViewSet):
             )
 
     def get_event(self, event_id):
+        """
+        Retrieve event instance by ID.
+
+        Args:
+            event_id (int): ID of the event.
+
+        Returns:
+            Event: Event instance if found.
+
+        Raises:
+            ValidationError: If event is not found.
+        """
         try:
             return Event.objects.get(id=event_id)
         except Event.DoesNotExist:
             raise ValidationError("Event not found.")
 
     def _validate_event_registration(self, event):
+        """
+        Validate registration constraints for an event.
+
+        Raises:
+            ValidationError: If event registration is closed or full.
+        """
         if event.registration_end_date <= timezone.now():
             raise ValidationError("Registration has already ended for this event.")
         if event.seats_left is None:
@@ -172,21 +243,51 @@ class EventAPIView(BaseViewSet):
             )
 
     def _check_existing_registration(self, email, event_id):
+        """
+        Check if the user has already registered for the event.
+
+        Raises:
+            ValidationError: If registration already exists.
+        """
         if EventRegistration.objects.filter(email=email, event=event_id).exists():
             raise ValidationError(
                 "We get it, you're excited. But you've already secured your ticket!"
             )
 
     def _send_confirmation_email(self, email, event_id):
+        """
+        Trigger background task to send RSVP confirmation email.
+
+        Args:
+            email (str): User's email address.
+            event_id (int): ID of the event.
+        """
         rsvp_confirmation_email_task.delay(email, event_id)
 
 
 class EventRegistrationView(BaseAPIView):
+    """
+    API view to manage user-specific event registration actions.
+
+    Supports registration, RSVP updates, cancellation, and listing for a logged-in user.
+    """
+
     permission_classes = [IsAuthenticated]
     serializer_class = EventUserRegistrationSerializer
 
     def post(self, request, event_slug):
-        """Register for an event"""
+        """
+        Register an authenticated user for a specific event.
+
+        Validates registration status and availability. Sends RSVP or waitlist emails.
+
+        Args:
+            request: HTTP request containing registration data.
+            event_slug (str): Slug of the event to register for.
+
+        Returns:
+            Response: Registration result message with status code.
+        """
         try:
             event = Event.objects.filter(slug=event_slug).first()
             if not event:
@@ -259,7 +360,16 @@ class EventRegistrationView(BaseAPIView):
             )
 
     def put(self, request, event_slug):
-        """Update RSVP notes"""
+        """
+        Update RSVP notes or registration status for the user.
+
+        Args:
+            request: HTTP request containing updated data.
+            event_slug (str): Slug of the event.
+
+        Returns:
+            Response: Success or error message based on update outcome.
+        """
         try:
             registration = EventUserRegistration.objects.filter(
                 user=request.user, event__slug=event_slug
@@ -302,7 +412,18 @@ class EventRegistrationView(BaseAPIView):
             )
 
     def delete(self, request, event_slug):
-        """Cancel a registration"""
+        """
+        Cancel the user's event registration.
+
+        Frees up a seat if RSVP'd and handles post-cancellation seat tracking.
+
+        Args:
+            request: HTTP request to delete registration.
+            event_slug (str): Slug of the event.
+
+        Returns:
+            Response: Success or failure message.
+        """
         try:
             registration = EventUserRegistration.objects.filter(
                 user=request.user, event__slug=event_slug
@@ -331,7 +452,16 @@ class EventRegistrationView(BaseAPIView):
             )
 
     def get(self, request, event_slug):
-        """Get registration status for an event"""
+        """
+        Get all registrations for a given event.
+
+        Args:
+            request: HTTP request.
+            event_slug (str): Slug of the event.
+
+        Returns:
+            Response: List of registration records or 404 if none exist.
+        """
         registrations = EventUserRegistration.objects.filter(
             event__slug=event_slug
         ).all()
