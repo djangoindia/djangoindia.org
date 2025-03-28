@@ -1,5 +1,4 @@
 # Python imports
-import logging
 import zoneinfo
 
 # Django imports
@@ -15,9 +14,6 @@ from rest_framework.viewsets import ModelViewSet
 
 from django.conf import settings
 from django.utils import timezone
-
-
-logger = logging.getLogger(__name__)
 
 
 class TimezoneMixin:
@@ -109,7 +105,6 @@ class BaseViewSet(TimezoneMixin, ModelViewSet):
             if settings.DEBUG:
                 from django.db import connection
 
-                logger.info("i got in dispatch")
                 print(
                     f"{request.method} - {request.get_full_path()} of Queries: {len(connection.queries)}"
                 )
