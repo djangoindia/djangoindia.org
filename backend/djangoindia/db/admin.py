@@ -1,4 +1,6 @@
 # from django.conf import settings
+import json
+
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
@@ -38,8 +40,10 @@ from .forms import EmailForm, EventForm, PromoteFromWaitlistForm, UpdateForm
 
 @admin.action(description="Send email to selected users")
 def send_email_to_selected_users(modeladmin, request, queryset):
-    ids = queryset.values_list("id", flat=True)
-    return redirect(f'send_email/?ids={",".join(map(str, ids))}')
+    request.session["selected_email_ids"] = json.dumps(
+        list(map(str, queryset.values_list("id", flat=True)))
+    )
+    return redirect("send_email/")
 
 
 class SponsorInline(admin.TabularInline):
@@ -161,7 +165,14 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
                     emails = []
                     from_email = settings.DEFAULT_FROM_EMAIL
 
-                    registration_ids = request.GET.get("ids").split(",")
+                    registration_ids = request.session.get("selected_email_ids", [])
+                    if not registration_ids:
+                        messages.error(request, "No registration IDs provided.")
+                        return redirect("../")
+
+                    if registration_ids:
+                        registration_ids = json.loads(registration_ids)
+
                     queryset = EventRegistration.objects.filter(id__in=registration_ids)
 
                     for registration in queryset:
@@ -181,7 +192,7 @@ class EventRegistrationAdmin(ImportExportModelAdmin):
         context = {
             "form": form,
             "opts": self.model._meta,
-            "queryset": request.GET.get("ids").split(","),
+            "queryset": json.loads(request.session.get("selected_email_ids", [])),
         }
         return TemplateResponse(request, "admin/send_email.html", context)
 
@@ -598,10 +609,9 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     message = form.cleaned_data["message"]
                     from_email = settings.DEFAULT_FROM_EMAIL
 
-                    registration_ids = request.GET.get("ids").split(",")
-                    if not registration_ids:
-                        messages.error(request, "No registration IDs provided.")
-                        return redirect("../")
+                    registration_ids = request.session.get("selected_email_ids", [])
+                    if registration_ids:
+                        registration_ids = json.loads(registration_ids)
 
                     queryset = EventUserRegistration.objects.filter(
                         id__in=registration_ids
@@ -652,7 +662,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
         context = {
             "form": form,
             "opts": self.model._meta,
-            "queryset": request.GET.get("ids").split(","),
+            "queryset": json.loads(request.session.get("selected_email_ids", [])),
         }
         return TemplateResponse(request, "admin/send_email.html", context)
 
