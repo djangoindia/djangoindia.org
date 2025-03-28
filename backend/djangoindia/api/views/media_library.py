@@ -98,10 +98,8 @@ class MediaLibraryAPIView(BaseViewSet):
         Returns:
             Response: JSON response containing a list of serialized folder data.
         """
-        queryset = self.get_queryset()
-        queryset = self.filter_queryset(queryset=queryset)
-        serializer_class = self.get_serializer_class()
-        serializer = serializer_class(queryset, many=True)
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
@@ -117,8 +115,7 @@ class MediaLibraryAPIView(BaseViewSet):
         """
         try:
             obj = self.get_object()
-            serializer_class = self.get_serializer_class()
-            serializer = serializer_class(obj)
+            serializer = self.get_serializer(obj)
             return Response(serializer.data)
         except ValidationError as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
