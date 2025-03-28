@@ -104,7 +104,15 @@ def send_mass_mail_task(emails, comm_id, **kwargs):
         )
 
     try:
-        send_mass_mail(emails, **kwargs)
+        if len(emails) > 100:
+            loops = len(emails) // 100
+        else:
+            loops = 1
+        for i in range(loops):
+            send_mass_mail(emails[i * 100 : (i + 1) * 100], **kwargs)
+
+        if len(emails) % 100 != 0:
+            send_mass_mail(emails[loops * 100 :], **kwargs)
         EventCommunication.objects.filter(id=comm_id).update(
             status=EventCommunication.Status.SENT
         )
