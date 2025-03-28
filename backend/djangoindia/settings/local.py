@@ -28,24 +28,28 @@ LOGGING = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
+            "formatter": "verbose",  # Added formatter
         },
-        "app_console": {
+        "app_console": {  # This handler is now assigned to a logger
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],
+            "handlers": ["console", "app_console"],  # Added "app_console"
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": True,
         },
         "scripts": {
             "handlers": ["console"],
             "level": "INFO",
+            "propagate": False,  # Prevent duplicate logs
         },
         "djangoindia": {
             "handlers": ["console"],
             "level": "INFO",
+            "propagate": False,  # Prevent duplicate logs
         },
     },
 }
