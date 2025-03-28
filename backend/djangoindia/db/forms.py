@@ -1,9 +1,10 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
-from djangoindia.db.models.communication import Subscriber
+from djangoindia.db.models.communication import EventCommunication, Subscriber
 from djangoindia.db.models.event import Event
 from djangoindia.db.models.update import Update
+from djangoindia.db.models.user import User
 
 
 class EventForm(forms.ModelForm):
@@ -42,3 +43,23 @@ class PromoteFromWaitlistForm(forms.Form):
     number_to_promote = forms.IntegerField(
         min_value=1, label="Number of people to promote"
     )
+
+
+class EventCommunicationForm(forms.ModelForm):
+    recipient = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        widget=FilteredSelectMultiple("recipent", False),
+        required=False,
+    )
+
+    class Meta:
+        model = EventCommunication
+        fields = [
+            "event",
+            "recipient",
+            "subject",
+            "body",
+            "status",
+            "sent_at",
+            "err_msg",
+        ]
