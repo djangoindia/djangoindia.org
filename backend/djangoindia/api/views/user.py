@@ -35,7 +35,8 @@ class UserEndpoint(BaseViewSet):
         Returns:
             Response: Serialized user profile data.
         """
-        serialized_data = UserMeSerializer(request.user).data
+        user = self.get_object()
+        serialized_data = UserMeSerializer(user).data
         return Response(serialized_data, status=status.HTTP_200_OK)
 
     def partial_update(self, request, *args, **kwargs):
