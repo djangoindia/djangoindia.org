@@ -35,7 +35,13 @@ from djangoindia.db.models import (
     Volunteer,
 )
 
-from .forms import EmailForm, EventForm, PromoteFromWaitlistForm, UpdateForm
+from .forms import (
+    EmailForm,
+    EventCommunicationForm,
+    EventForm,
+    PromoteFromWaitlistForm,
+    UpdateForm,
+)
 
 
 @admin.action(description="Send email to selected users")
@@ -612,10 +618,10 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     registration_ids = request.session.get("selected_email_ids", [])
                     if registration_ids:
                         registration_ids = json.loads(registration_ids)
-
-                    queryset = EventUserRegistration.objects.filter(
-                        id__in=registration_ids
-                    )
+                    print("total registration_ids", registration_ids)
+                    queryset = EventUserRegistration.objects.select_related(
+                        "user", "event"
+                    ).filter(id__in=registration_ids)
                     if not queryset.exists():
                         messages.error(request, "No valid registrations found.")
                         return redirect("../")
@@ -669,6 +675,7 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
 
 @admin.register(EventCommunication)
 class EventCommunicationAdmin(admin.ModelAdmin):
+    form = EventCommunicationForm
     list_display = ("subject", "event", "status", "sent_at", "recipient_count")
     list_filter = ("status", "event")
     search_fields = ("subject", "recipient__email")
