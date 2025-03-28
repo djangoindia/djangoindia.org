@@ -34,7 +34,7 @@ from .base import BaseAPIView, BaseViewSet
 
 
 # Create your views here.
-class EventAttendeeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class EventAttendeeViewSet(BaseViewSet):
     """
     API endpoint to retrieve a list of attendees for a specific event.
 
