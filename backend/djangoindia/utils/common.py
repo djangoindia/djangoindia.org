@@ -1,5 +1,6 @@
 from functools import wraps
 
+from django.utils import timezone
 from djangoindia.db.models.common import BackgroundTaskLog
 
 
@@ -20,15 +21,21 @@ def log_bg_task(func):
     def wrapper(*args, **kwargs):
         task_log = BackgroundTaskLog.objects.create(
             name=func.__name__,
-            status="started",
+            start_datetime=timezone.now(),
             args=list(args),
             kwargs=kwargs
         )
-        task_log.status = "in_progress"
-        result = func(*args, **kwargs)
-        task_log.status = "complete"
+        try:
+            result = func(*args, **kwargs)
+        except Exception as ex:
+            result = str(ex)
+        if result is None:
+            task_log.status = BackgroundTaskLog.StatusChoices.SUCCESSFULL
+        else:
+            task_log.status = BackgroundTaskLog.StatusChoices.FAILURE
         # if task doesn't return error/expection result will be None
-        task_log.error = str(result) 
-        task_log.save(update_fields=["status", "error"])
+        task_log.log = str(result) if result else None 
+        task_log.end_datetime = timezone.now()
+        task_log.save()
         return result
     return wrapper
