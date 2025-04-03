@@ -1,52 +1,53 @@
 'use client';
 
-import React from 'react';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FaGoogle, FaHome } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
-import { LOGIN_FORM_SCHEMA } from '@/constants';
+import { FORGOT_PASSWORD_SCHEMA } from '@/constants';
+import { fetchData } from '@/utils';
 
-import type { LoginFormType } from './Login.types';
+import type { ForgotPasswordType } from './ForgotPassword.types';
+// eslint-disable-next-line no-duplicate-imports
+import type { SubmitHandler } from 'react-hook-form';
 
 const Page = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || undefined;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormType>({
-    resolver: yupResolver(LOGIN_FORM_SCHEMA),
+  } = useForm<ForgotPasswordType>({
+    resolver: yupResolver(FORGOT_PASSWORD_SCHEMA),
   });
 
-  const onSubmit: SubmitHandler<LoginFormType> = async (data) => {
+  const onSubmit: SubmitHandler<ForgotPasswordType> = async (data) => {
     try {
-      const res = await signIn('credentials', {
-        ...data,
-        redirect: false,
+      const response = await fetchData('/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email: data.email }),
       });
-      if (res?.error) {
-        enqueueSnackbar(res?.error, { variant: 'error' });
-        return;
-      }
 
-      if (res?.ok) {
-        router.push(redirect ? decodeURIComponent(redirect) : '/');
+      if (response.error) {
+        enqueueSnackbar(response.error.message || 'Failed to reset password', {
+          variant: 'error',
+        });
+      } else {
+        enqueueSnackbar('Check your email to reset your password', {
+          variant: 'success',
+        });
       }
     } catch (error) {
-      console.error('Unexpected error during login:', error);
-      enqueueSnackbar('An unexpected error occurred. Please try again.', {
+      console.error('Unexpected error:', error);
+      enqueueSnackbar('Something went wrong. Please try again', {
         variant: 'error',
       });
     }
@@ -90,10 +91,10 @@ const Page = () => {
             visualDuration: 0.75,
           }}
         >
-          <h3 className='text-5xl font-black text-[#06038D]'>Hey,</h3>
-          <h3 className='text-5xl font-black text-[#06038D]'>Welcome back!</h3>
+          <h3 className='text-5xl font-black text-[#06038D]'>Forgot</h3>
+          <h3 className='text-5xl font-black text-[#06038D]'>Password?</h3>
           <span className='my-4 inline-block font-semibold text-gray-600'>
-            Enter your details to continue
+            Enter your email to continue
           </span>
           <form
             className='flex w-full flex-col'
@@ -117,33 +118,9 @@ const Page = () => {
                 {errors.email?.message ?? ' '}
               </p>
             </div>
-            <div className='grid w-full items-center gap-1.5'>
-              <div className=' flex items-center justify-between'>
-                <Label
-                  htmlFor='password'
-                  className={`${errors.password ? 'text-red-500' : ''}`}
-                >
-                  Password
-                </Label>
-                <Link
-                  className='text-xs text-[#06038D] hover:underline'
-                  href='/forgot-password'
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-              <Input
-                {...register('password', { required: true })}
-                type='password'
-                id='password'
-                placeholder='Enter password'
-                className={`${errors.password ? 'text-red-500 !outline-red-500' : ''}`}
-              />
-              <p className='h-[20px] text-sm text-red-500'>
-                {errors.password?.message ?? ' '}
-              </p>
-            </div>
-            <Button type='submit'>Login</Button>
+            <Button className='mt-4' type='submit'>
+              Reset Password
+            </Button>
           </form>
           <div className='my-4 flex w-full flex-col gap-3 text-center'>
             <div>
@@ -174,18 +151,6 @@ const Page = () => {
           </div>
         </motion.div>
       </div>
-      <motion.div
-        className='absolute top-1/3 z-0 size-[1400px] sm:left-1/2'
-        initial={{ x: 100, y: 100 }}
-        animate={{ x: 20, y: 0 }}
-        transition={{
-          type: 'spring',
-          bounce: 0.5,
-          visualDuration: 0.75,
-        }}
-      >
-        <Image src='/auth/radial-lines.png' alt='Radial Lines' fill priority />
-      </motion.div>
     </section>
   );
 };

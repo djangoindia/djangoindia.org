@@ -11,4 +11,5 @@ export const API_ENDPOINTS = {
   requestVerification: '/request-email-verify',
   profile: '/users/me',
   changePassword: '/users/me/set-password',
+  forgotPassword: '/forgot-password',
 };
