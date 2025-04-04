@@ -6,6 +6,7 @@ from .event import (
 )
 from .media_library import FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorSerializer
+from .project import ProjectPublicSerializer, ProjectSubmissionSerializer
 from .user import ChangePasswordSerializer, UserMeSerializer, UserSerializer
 from .volunteer import VolunteerSerializer
 
@@ -22,4 +23,6 @@ __all__ = [
     "ChangePasswordSerializer",
     "VolunteerSerializer",
     "EventUserRegistrationSerializer",
+    "ProjectSubmissionSerializer",
+    "ProjectPublicSerializer",
 ]

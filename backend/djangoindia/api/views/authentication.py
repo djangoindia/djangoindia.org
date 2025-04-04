@@ -407,11 +407,11 @@ class SignInAPIView(BaseAPIView):
                 },
                 status=status.HTTP_403_FORBIDDEN,
             )
-        if not user.is_email_verified:
-            return Response(
-                {"message": "Please verify your email address to sign in."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
+        # if not user.is_email_verified:
+        #     return Response(
+        #         {"message": "Please verify your email address to sign in."},
+        #         status=status.HTTP_403_FORBIDDEN,
+        #     )
         # Sign up Process
         if not user.check_password(password):
             return Response(
