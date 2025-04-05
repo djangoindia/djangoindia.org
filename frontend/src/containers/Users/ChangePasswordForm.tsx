@@ -66,7 +66,7 @@ const ChangePasswordForm = () => {
                     }),
                 },
             );
-
+            
             if (res.statusCode === 200) {
                 enqueueSnackbar('Password changed successfully', { variant: 'success' });
                 reset();
