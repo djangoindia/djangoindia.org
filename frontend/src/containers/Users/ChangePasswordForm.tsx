@@ -20,9 +20,9 @@ import { CHANGE_PASSWORD_FORM_SCHEMA } from "@/constants/schema";
 import { getAccessToken } from '@/utils/getAccesstoken';
 import { enqueueSnackbar } from 'notistack';
 import { useState, useEffect } from 'react';
-import { ChangePasswordFormType } from './ChangePasswordForm.types';
+import type { ChangePasswordFormType } from './ChangePasswordForm.types';
 import { CHANGE_PASSWORD_FORM_FIELDS } from './ChangePasswordForm.config';
-import { Eye, EyeIcon, EyeOff } from 'lucide-react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const ChangePasswordForm = () => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -124,11 +124,11 @@ const ChangePasswordForm = () => {
                                                 onClick={(e) => {e.preventDefault(); togglePasswordVisibility(field.name)}}>
                                                 {field.name === 'newPassword'
                                                     ? showPassword.newPassword
-                                                        ? <EyeOff size={18} />
-                                                        : <Eye size={18} />
+                                                        ? <FaEyeSlash size={18} />
+                                                        : <FaEye size={18} />
                                                     : showPassword.confirmPassword
-                                                        ? <EyeOff size={18} />
-                                                        : <Eye size={18} />
+                                                        ? <FaEyeSlash size={18} />
+                                                        : <FaEye size={18} />
                                                 }
                                             </Button>
                                             {errors[field.name] && (
