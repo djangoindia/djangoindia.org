@@ -1,10 +1,10 @@
 from django.urls import path
 
 from djangoindia.api.views import (
-    ChangePasswordEndpoint,
-    SetUserPasswordEndpoint,
-    UpdateUserOnBoardedEndpoint,
-    UserEndpoint,
+    ChangePasswordEndpointAPIView,
+    SetUserPasswordEndpointAPIView,
+    UpdateUserOnBoardedEndpointAPIView,
+    UserEndpointViewSet,
 )
 
 
@@ -12,7 +12,7 @@ urlpatterns = [
     # User Profile
     path(
         "users/me/",
-        UserEndpoint.as_view(
+        UserEndpointViewSet.as_view(
             {
                 "get": "retrieve",
                 "patch": "partial_update",
@@ -23,17 +23,17 @@ urlpatterns = [
     ),
     path(
         "users/me/onboard/",
-        UpdateUserOnBoardedEndpoint.as_view(),
+        UpdateUserOnBoardedEndpointAPIView.as_view(),
         name="user-onboard",
     ),
     path(
         "users/me/set-password/",
-        SetUserPasswordEndpoint.as_view(),
+        SetUserPasswordEndpointAPIView.as_view(),
         name="set-password",
     ),
     path(
         "users/me/change-password/",
-        ChangePasswordEndpoint.as_view(),
+        ChangePasswordEndpointAPIView.as_view(),
         name="change-password",
     ),
 ]
