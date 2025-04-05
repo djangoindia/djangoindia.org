@@ -11,16 +11,16 @@ from .authentication import (
     VerifyEmailEndpointAPIView,
 )
 from .communication import ContactUsAPIView, SubscriberAPIView
-from .event import EventAPIView, EventAttendeeViewSet, EventRegistrationView
+from .event import EventAttendeeViewSet, EventRegistrationAPIView, EventViewSet
 from .media_library import FolderLiteSerializer, FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorAPIView
-from .user import UpdateUserOnBoardedEndpointAPIView, UserEndpoint
+from .user import UpdateUserOnBoardedEndpointAPIView, UserEndpointViewSet
 
 
 __all__ = [
     "ContactUsAPIView",
     "SubscriberAPIView",
-    "EventAPIView",
+    "EventViewSet",
     "EventAttendeeViewSet",
     "FolderLiteSerializer",
     "FolderSerializer",
@@ -37,5 +37,5 @@ __all__ = [
     "VerifyEmailEndpointAPIView",
     "RequestEmailVerificationEndpointAPIView",
     "OauthEndpointAPIView",
-    "EventRegistrationView",
+    "EventRegistrationAPIView",
 ]
