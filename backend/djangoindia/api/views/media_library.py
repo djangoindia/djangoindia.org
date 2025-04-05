@@ -16,7 +16,7 @@ from djangoindia.api.views.base import BaseViewSet
 from djangoindia.db.models import Event
 
 
-class MediaLibraryAPIView(BaseViewSet):
+class MediaLibraryViewSet(BaseViewSet):
     """
     API view for managing media library folders.
 

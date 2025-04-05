@@ -101,7 +101,7 @@ def validate_google_token(token, client_id):
         raise exceptions.AuthenticationFailed("detail with Google connection.")
 
 
-class OauthEndpoint(BaseAPIView):
+class OauthEndpointAPIView(BaseAPIView):
     """
     Handle OAuth-based authentication (e.g., Google login).
 
@@ -249,7 +249,7 @@ class OauthEndpoint(BaseAPIView):
             return Response(data, status=status.HTTP_201_CREATED)
 
 
-class SignUpEndpoint(BaseAPIView):
+class SignUpEndpointAPIView(BaseAPIView):
     """
     Handle user registration.
 
@@ -351,7 +351,7 @@ class SignUpEndpoint(BaseAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class SignInEndpoint(BaseAPIView):
+class SignInEndpointAPIView(BaseAPIView):
     """
     Handle user login via email and password.
 
@@ -436,7 +436,7 @@ class SignInEndpoint(BaseAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class SignOutEndpoint(BaseAPIView):
+class SignOutEndpointAPIView(BaseAPIView):
     """
     Handle user logout by blacklisting the refresh token.
     """
@@ -478,7 +478,7 @@ class SignOutEndpoint(BaseAPIView):
             )
 
 
-class RequestEmailVerificationEndpoint(BaseAPIView):
+class RequestEmailVerificationEndpointAPIView(BaseAPIView):
     """
     Send a verification email to the authenticated user.
     """
@@ -513,7 +513,7 @@ class RequestEmailVerificationEndpoint(BaseAPIView):
         )
 
 
-class VerifyEmailEndpoint(BaseAPIView):
+class VerifyEmailEndpointAPIView(BaseAPIView):
     """
     Verify the email address using the token sent via email.
 
@@ -570,7 +570,7 @@ class VerifyEmailEndpoint(BaseAPIView):
             )
 
 
-class ForgotPasswordEndpoint(BaseAPIView):
+class ForgotPasswordEndpointAPIView(BaseAPIView):
     """
     Initiate password reset process.
 
@@ -626,7 +626,7 @@ class ForgotPasswordEndpoint(BaseAPIView):
         )
 
 
-class ResetPasswordEndpoint(BaseAPIView):
+class ResetPasswordEndpointAPIView(BaseAPIView):
     """
     Reset user password using token and uid from email link.
 
@@ -698,7 +698,7 @@ class ResetPasswordEndpoint(BaseAPIView):
             )
 
 
-class ChangePasswordEndpoint(BaseAPIView):
+class ChangePasswordEndpointAPIView(BaseAPIView):
     """
     Change the current authenticated user's password.
     """
@@ -741,7 +741,7 @@ class ChangePasswordEndpoint(BaseAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SetUserPasswordEndpoint(BaseAPIView):
+class SetUserPasswordEndpointAPIView(BaseAPIView):
     """
     Set a password for a user (used when user has no password set yet).
     """
