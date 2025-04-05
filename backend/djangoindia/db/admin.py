@@ -618,7 +618,6 @@ class EventUserRegistrationAdmin(ImportExportModelAdmin):
                     registration_ids = request.session.get("selected_email_ids", [])
                     if registration_ids:
                         registration_ids = json.loads(registration_ids)
-                    print("total registration_ids", registration_ids)
                     queryset = EventUserRegistration.objects.select_related(
                         "user", "event"
                     ).filter(id__in=registration_ids)
