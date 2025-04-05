@@ -85,7 +85,7 @@ class EventAttendeeViewSet(BaseViewSet):
         return Response(response_data)
 
 
-class EventAPIView(BaseViewSet):
+class EventViewSet(BaseViewSet):
     """
     API ViewSet to manage event listings, detail retrieval, and user registrations.
 
@@ -265,7 +265,7 @@ class EventAPIView(BaseViewSet):
         rsvp_confirmation_email_task.delay(email, event_id)
 
 
-class EventRegistrationView(BaseAPIView):
+class EventRegistrationAPIView(BaseAPIView):
     """
     API view to manage user-specific event registration actions.
 

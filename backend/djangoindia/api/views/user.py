@@ -9,7 +9,7 @@ from djangoindia.db.models import User
 from .base import BaseAPIView, BaseViewSet
 
 
-class UserEndpoint(BaseViewSet):
+class UserEndpointViewSet(BaseViewSet):
     """
     API ViewSet to handle authenticated user's profile retrieval and update.
 
@@ -36,7 +36,7 @@ class UserEndpoint(BaseViewSet):
             Response: Serialized user profile data.
         """
         user = self.get_object()
-        serialized_data = UserMeSerializer(user).data
+        serialized_data = self.serializer_class(user).data
         return Response(serialized_data, status=status.HTTP_200_OK)
 
     def partial_update(self, request, *args, **kwargs):
@@ -55,16 +55,16 @@ class UserEndpoint(BaseViewSet):
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
-
-            return Response(UserMeSerializer(user).data, status=status.HTTP_200_OK)
+            serializer_data = self.serializer_class(user).data
+            return Response(serializer_data, status=status.HTTP_200_OK)
         except serializers.ValidationError as e:
             return Response(
                 {"message": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        except Exception:
+        except Exception as e:
             return Response(
-                {"message": "Something went wrong"},
+                {"message": "Something went wrong: " + str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -77,7 +77,7 @@ class UserEndpoint(BaseViewSet):
         pass
 
 
-class UpdateUserOnBoardedEndpoint(BaseAPIView):
+class UpdateUserOnBoardedEndpointAPIView(BaseAPIView):
     """
     API endpoint to update a user's onboarding status.
 

@@ -37,7 +37,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "app_console"],  # Added "app_console"
+            "handlers": ["console"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
             "propagate": True,
         },
