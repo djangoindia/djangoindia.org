@@ -110,7 +110,14 @@ const ChangePasswordForm = () => {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input 
-                                                    type={field.name === 'newPassword' && showPassword.newPassword ? 'text' : field.name === 'confirmPassword' && showPassword.confirmPassword ? 'text' : field.type}
+                                                    type={
+                                                        field.name === 'newPassword' && showPassword.newPassword
+                                                        ? 
+                                                        'text' : field.name === 'confirmPassword' && showPassword.confirmPassword
+                                                        ? 
+                                                        'text' :
+                                                        field.type
+                                                    }
                                                     placeholder={field.placeholder}
                                                     {...formField}
                                                 />
