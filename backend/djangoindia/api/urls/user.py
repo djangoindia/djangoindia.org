@@ -1,9 +1,9 @@
 from django.urls import path
 
 from djangoindia.api.views import (
-    ChangePasswordEndpointAPIView,
-    SetUserPasswordEndpointAPIView,
-    UpdateUserOnBoardedEndpointAPIView,
+    ChangePasswordAPIView,
+    SetUserPasswordAPIView,
+    UpdateUserOnBoardedAPIView,
     UserEndpointViewSet,
 )
 
@@ -23,17 +23,17 @@ urlpatterns = [
     ),
     path(
         "users/me/onboard/",
-        UpdateUserOnBoardedEndpointAPIView.as_view(),
+        UpdateUserOnBoardedAPIView.as_view(),
         name="user-onboard",
     ),
     path(
         "users/me/set-password/",
-        SetUserPasswordEndpointAPIView.as_view(),
+        SetUserPasswordAPIView.as_view(),
         name="set-password",
     ),
     path(
         "users/me/change-password/",
-        ChangePasswordEndpointAPIView.as_view(),
+        ChangePasswordAPIView.as_view(),
         name="change-password",
     ),
 ]

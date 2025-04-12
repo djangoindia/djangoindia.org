@@ -1,39 +1,39 @@
 from django.urls import path
 
 from djangoindia.api.views import (
-    ForgotPasswordEndpointAPIView,
-    OauthEndpointAPIView,
-    RequestEmailVerificationEndpointAPIView,
-    ResetPasswordEndpointAPIView,
-    SignInEndpointAPIView,
-    SignOutEndpointAPIView,
-    SignUpEndpointAPIView,
-    VerifyEmailEndpointAPIView,
+    ForgotPasswordAPIView,
+    OauthAPIView,
+    RequestEmailVerificationAPIView,
+    ResetPasswordAPIView,
+    SignInAPIView,
+    SignOutAPIView,
+    SignUpAPIView,
+    VerifyEmailAPIView,
 )
 
 
 urlpatterns = [
-    path("social-auth/", OauthEndpointAPIView.as_view(), name="oauth"),
+    path("social-auth/", OauthAPIView.as_view(), name="oauth"),
     # Auth
-    path("sign-up/", SignUpEndpointAPIView.as_view(), name="sign-up"),
-    path("sign-in/", SignInEndpointAPIView.as_view(), name="sign-in"),
-    path("sign-out/", SignOutEndpointAPIView.as_view(), name="sign-out"),
+    path("sign-up/", SignUpAPIView.as_view(), name="sign-up"),
+    path("sign-in/", SignInAPIView.as_view(), name="sign-in"),
+    path("sign-out/", SignOutAPIView.as_view(), name="sign-out"),
     # email verification
-    path("email-verify/", VerifyEmailEndpointAPIView.as_view(), name="email-verify"),
+    path("email-verify/", VerifyEmailAPIView.as_view(), name="email-verify"),
     path(
         "request-email-verify/",
-        RequestEmailVerificationEndpointAPIView.as_view(),
+        RequestEmailVerificationAPIView.as_view(),
         name="request-reset-email",
     ),
     # Password Manipulation
     path(
         "reset-password/<uidb64>/<token>/",
-        ResetPasswordEndpointAPIView.as_view(),
+        ResetPasswordAPIView.as_view(),
         name="password-reset",
     ),
     path(
         "forgot-password/",
-        ForgotPasswordEndpointAPIView.as_view(),
+        ForgotPasswordAPIView.as_view(),
         name="forgot-password",
     ),
 ]

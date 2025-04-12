@@ -1,20 +1,20 @@
 from .authentication import (
-    ChangePasswordEndpointAPIView,
-    ForgotPasswordEndpointAPIView,
-    OauthEndpointAPIView,
-    RequestEmailVerificationEndpointAPIView,
-    ResetPasswordEndpointAPIView,
-    SetUserPasswordEndpointAPIView,
-    SignInEndpointAPIView,
-    SignOutEndpointAPIView,
-    SignUpEndpointAPIView,
-    VerifyEmailEndpointAPIView,
+    ChangePasswordAPIView,
+    ForgotPasswordAPIView,
+    OauthAPIView,
+    RequestEmailVerificationAPIView,
+    ResetPasswordAPIView,
+    SetUserPasswordAPIView,
+    SignInAPIView,
+    SignOutAPIView,
+    SignUpAPIView,
+    VerifyEmailAPIView,
 )
 from .communication import ContactUsAPIView, SubscriberAPIView
 from .event import EventAttendeeViewSet, EventRegistrationAPIView, EventViewSet
 from .media_library import FolderLiteSerializer, FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorAPIView
-from .user import UpdateUserOnBoardedEndpointAPIView, UserEndpointViewSet
+from .user import UpdateUserOnBoardedAPIView, UserEndpointViewSet
 
 
 __all__ = [
@@ -26,16 +26,16 @@ __all__ = [
     "FolderSerializer",
     "CommunityPartnerAndSponsorAPIView",
     "UserEndpointViewSet",
-    "UpdateUserOnBoardedEndpointAPIView",
-    "ChangePasswordEndpointAPIView",
-    "ForgotPasswordEndpointAPIView",
-    "ResetPasswordEndpointAPIView",
-    "SetUserPasswordEndpointAPIView",
-    "SignInEndpointAPIView",
-    "SignOutEndpointAPIView",
-    "SignUpEndpointAPIView",
-    "VerifyEmailEndpointAPIView",
-    "RequestEmailVerificationEndpointAPIView",
-    "OauthEndpointAPIView",
+    "UpdateUserOnBoardedAPIView",
+    "ChangePasswordAPIView",
+    "ForgotPasswordAPIView",
+    "ResetPasswordAPIView",
+    "SetUserPasswordAPIView",
+    "SignInAPIView",
+    "SignOutAPIView",
+    "SignUpAPIView",
+    "VerifyEmailAPIView",
+    "RequestEmailVerificationAPIView",
+    "OauthAPIView",
     "EventRegistrationAPIView",
 ]

@@ -77,7 +77,7 @@ class UserEndpointViewSet(BaseViewSet):
         pass
 
 
-class UpdateUserOnBoardedEndpointAPIView(BaseAPIView):
+class UpdateUserOnBoardedAPIView(BaseAPIView):
     """
     API endpoint to update a user's onboarding status.
 
