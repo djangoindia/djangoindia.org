@@ -4,7 +4,7 @@ from djangoindia.api.views import (
     ChangePasswordAPIView,
     SetUserPasswordAPIView,
     UpdateUserOnBoardedAPIView,
-    UserEndpointViewSet,
+    UserViewSet,
 )
 
 
@@ -12,7 +12,7 @@ urlpatterns = [
     # User Profile
     path(
         "users/me/",
-        UserEndpointViewSet.as_view(
+        UserViewSet.as_view(
             {
                 "get": "retrieve",
                 "patch": "partial_update",

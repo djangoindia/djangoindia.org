@@ -9,7 +9,7 @@ from djangoindia.db.models import User
 from .base import BaseAPIView, BaseViewSet
 
 
-class UserEndpointViewSet(BaseViewSet):
+class UserViewSet(BaseViewSet):
     """
     API ViewSet to handle authenticated user's profile retrieval and update.
 
