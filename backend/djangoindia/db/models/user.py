@@ -18,7 +18,7 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.hashers import make_password
 from .base import BaseModel
 
 
@@ -114,6 +114,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def save(self, *args, **kwargs):
         self.email = self.email.lower().strip()
+
+        if not self.password.startswith('pbkdf2_sha256'):
+            self.password = make_password(self.password)
 
         if self.is_superuser:
             self.is_staff = True
