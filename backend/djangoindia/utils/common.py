@@ -27,15 +27,12 @@ def log_bg_task(func):
         )
         try:
             result = func(*args, **kwargs)
-        except Exception as ex:
-            result = str(ex)
-        if result is None:
             task_log.status = BackgroundTaskLog.StatusChoices.SUCCESSFULL
-        else:
+            task_log.log = str(result)
+        except Exception as e:
             task_log.status = BackgroundTaskLog.StatusChoices.FAILURE
-        # if task doesn't return error/expection result will be None
-        task_log.log = str(result) if result else None 
-        task_log.end_datetime = timezone.now()
-        task_log.save()
-        return result
-    return wrapper
+            task_log.log = str(e)
+        finally:
+            task_log.end_datetime = timezone.now()
+            task_log.save()
+        return wrapper
