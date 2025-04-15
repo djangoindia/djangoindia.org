@@ -6,7 +6,7 @@ from djangoindia.api.views import (
     UpdateUserOnBoardedAPIView,
     UserViewSet,
 )
-
+from djangoindia.api.views.user import   UserDetailsEndpoint
 
 urlpatterns = [
     # User Profile
@@ -36,4 +36,5 @@ urlpatterns = [
         ChangePasswordAPIView.as_view(),
         name="change-password",
     ),
+     path("users/username/<str:username>/", UserDetailsEndpoint.as_view(), name="user-detail-by-username"),
 ]
