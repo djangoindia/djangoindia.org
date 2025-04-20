@@ -18,7 +18,7 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, identify_hasher
 from .base import BaseModel
 
 
@@ -114,8 +114,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def save(self, *args, **kwargs):
         self.email = self.email.lower().strip()
-
-        if not self.password.startswith('pbkdf2_sha256'):
+        try:
+            # Trying to find the has used on the password, if it couldn't find a one, exception will be thrown, ie, password isn't hashed :-)
+            identify_hasher(self.password)
+        except:
+            # Hashing password
             self.password = make_password(self.password)
 
         if self.is_superuser:
