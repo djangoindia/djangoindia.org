@@ -26,6 +26,7 @@ def log_bg_task(func):
             kwargs=kwargs
         )
         try:
+            task_log.status = BackgroundTaskLog.StatusChoices.STARTED
             result = func(*args, **kwargs)
             task_log.status = BackgroundTaskLog.StatusChoices.SUCCESSFULL
             task_log.log = str(result)
