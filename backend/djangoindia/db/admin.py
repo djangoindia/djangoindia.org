@@ -33,6 +33,7 @@ from djangoindia.db.models import (
     Update,
     User,
     Volunteer,
+    BackgroundTaskLog
 )
 
 from .forms import (
@@ -684,3 +685,10 @@ class EventCommunicationAdmin(admin.ModelAdmin):
         return obj.recipient.count()
 
     recipient_count.short_description = "Recipients"
+
+
+@admin.register(BackgroundTaskLog)
+class BackgroundTaskLogAdmin(admin.ModelAdmin):
+    list_display = ("name", "start_datetime", "end_datetime", "args", "kwargs", "status", "log")
+    list_filter = ("name", "status", "start_datetime", "end_datetime")
+    search_fields = ("name", "status")
