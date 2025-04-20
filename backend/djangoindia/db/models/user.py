@@ -17,8 +17,10 @@ from django.contrib.auth.models import (
 # Django imports
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as 
 from django.contrib.auth.hashers import make_password, identify_hasher
+
+from ..constants import USER_TIMEZONE_CHOICES
 from .base import BaseModel
 
 
@@ -29,8 +31,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             ("female", "female"),
             ("not_to_specify", "not_to_specify"),
         )
-
-    USER_TIMEZONE_CHOICES = tuple(zip(pytz.all_timezones, pytz.all_timezones))
 
     username = models.CharField(max_length=128, unique=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
