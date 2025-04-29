@@ -1,10 +1,8 @@
 'use client';
 
 import React from 'react';
-
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-
 import { dayjsWithTZ } from '@utils';
 
 import event2 from '../../../public/02.svg';
@@ -37,76 +35,64 @@ const EventCard: React.FC<EventProps> = ({
   seats_left,
 }) => {
   const router = useRouter();
+
   return (
     <div
-      className='mx-auto my-6 h-[380px] max-w-xs cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition md:max-w-sm md:hover:scale-105'
+      className='relative mx-auto my-6 w-full max-w-md cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition md:hover:scale-105'
       onClick={() => router.push(`/events/${slug}`)}
     >
-      <div className='h-48 overflow-hidden'>
+      <div className='relative h-72 w-full overflow-hidden'>
         <Image
           src={imageSrc ?? (event_mode === 'online' ? event2 : event3)}
           alt={title}
-          width={400}
-          height={400}
-          className='rounded-t-lg'
-          style={
-            imageSrc
-              ? {
-                  maxWidth: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                }
-              : {
-                  maxWidth: '100%',
-                  height: 'auto',
-                }
-          }
+          width={600}
+          height={350}
+          className='h-full w-full object-cover'
+          style={{
+            maxWidth: '100%',
+            height: '100%',
+          }}
+        />
+
+        {/* Gradient overlay - black opacity at the bottom */}
+        <div
+          className='absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/95 to-transparent'
+          aria-hidden='true'
         />
       </div>
-      <div className='flex h-1/2 p-4'>
-        {date && (
-          <div className='w-1/5'>
-            <div className='mb-2 justify-center'>
-              <span className='justify-center text-xl font-bold'>
-                {dayjsWithTZ(date).format('MMM')}
-              </span>
-              <br />
-              <span className='justify-center text-xl font-bold'>
-                {dayjsWithTZ(date).format('DD')}
-              </span>
-              <br />
-              <span className='justify-center text-xs font-bold'>
-                {dayjsWithTZ(time).format('hh:mm A')}
-              </span>
+
+      <div className='absolute bottom-0 left-0 right-0 p-3'>
+        <div className='mb-2 flex gap-3'>
+          {city && (
+            <div className='rounded-full bg-[#F2ECE4] px-3 py-1 text-base font-semibold text-black shadow-md'>
+              {city}
             </div>
-          </div>
-        )}
-        <div className='flex-1 space-y-2 overflow-hidden text-left'>
-          <h2 className='line-clamp-2 select-none text-xl font-semibold'>
+          )}
+          {event_mode && (
+            <div className='rounded-full bg-[#F2ECE4] px-3 py-1 text-base font-semibold text-black shadow-md'>
+              {splitAndCapitalize(event_mode)}
+            </div>
+          )}
+        </div>
+
+        <div className='mt-3 text-left text-white w-3/5'>
+          <h2 className='text-xl font-semibold leading-tight drop-shadow-md'>
             {title}
           </h2>
-          <p className='mb-2 ml-0 line-clamp-4 flex items-center text-gray-700'>
-            <Image
-              src={event_mode_img}
-              alt='event-mode'
-              width={26}
-              height={26}
-              className='mr-1'
-            />
-            {splitAndCapitalize(event_mode)}
-          </p>
-          {
-            <p className='mb-2 line-clamp-4 flex items-center text-gray-700'>
-              <Image
-                src={city_img}
-                alt='city'
-                width={26}
-                height={26}
-                className='mr-1'
-              />
-              {city ? city : 'TBA'}
-            </p>
-          }
+        </div>
+      </div>
+
+      <div className='absolute right-2 bottom-2 flex flex-col items-center justify-center rounded-xl bg-[#F2ECE4] px-4 py-2 shadow-lg'>
+        <div className='text-center'>
+          <div className='text-xl font-bold uppercase text-black'>
+            {dayjsWithTZ(date).format('MMM')}
+          </div>
+          <div className='text-3xl font-bold text-black'>
+            {dayjsWithTZ(date).format('DD')}
+          </div>
+          <div className='mt-1 text-base font-bold text-black'>
+            {dayjsWithTZ(time).format('h:mm A')}
+          </div>
         </div>
       </div>
     </div>
