@@ -56,7 +56,7 @@ const EventCard: React.FC<EventProps> = ({
 
         {/* Gradient overlay - black opacity at the bottom */}
         <div
-          className='absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/95 to-transparent'
+          className='absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black to-transparent'
           aria-hidden='true'
         />
       </div>
