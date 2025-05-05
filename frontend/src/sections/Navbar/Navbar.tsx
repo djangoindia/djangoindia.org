@@ -143,7 +143,7 @@ const Drawer = ({
         ) : (
           <Button
             variant='outline'
-            onClick={() => router.replace('/login')}
+            onClick={() => router.push('/login')}
             className='w-full'
           >
             Login
@@ -321,7 +321,7 @@ const Navbar = () => {
                 ) : (
                   <Button
                     variant='outline'
-                    onClick={() => router.replace('/login')}
+                    onClick={() => router.push('/login')}
                   >
                     Login
                   </Button>
