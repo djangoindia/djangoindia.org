@@ -20,11 +20,16 @@ import { CHANGE_PASSWORD_FORM_SCHEMA } from "@/constants/schema";
 import { getAccessToken } from '@/utils/getAccesstoken';
 import { enqueueSnackbar } from 'notistack';
 import { useState, useEffect } from 'react';
-import { ChangePasswordFormType } from './ChangePasswordForm.types';
+import type { ChangePasswordFormType } from './ChangePasswordForm.types';
 import { CHANGE_PASSWORD_FORM_FIELDS } from './ChangePasswordForm.config';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const ChangePasswordForm = () => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState({
+        newPassword: false,
+        confirmPassword: false
+    });
 
     useEffect(() => {
         const fetchAccessToken = async () => {
@@ -74,6 +79,10 @@ const ChangePasswordForm = () => {
         }
     };
 
+    const togglePasswordVisibility = (field: 'newPassword' | 'confirmPassword') => {
+        setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
+    }
+
     return (
         <Card className="mx-auto space-y-6 bg-transparent border-none shadow-none w-full">
             <CardHeader className="px-0">
@@ -90,7 +99,7 @@ const ChangePasswordForm = () => {
                 >
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         {CHANGE_PASSWORD_FORM_FIELDS.map((field) => (
-                            <div key={field.name} className="grid w-1/2 items-center gap-1.5">
+                            <div key={field.name} className="grid w-1/2 items-center gap-1.5 relative">
                                 <FormField
                                     control={control}
                                     name={field.name}
@@ -101,11 +110,30 @@ const ChangePasswordForm = () => {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input 
-                                                    type={field.type} 
-                                                    placeholder={field.placeholder} 
-                                                    {...formField} 
+                                                    type={
+                                                        field.name === 'newPassword' && showPassword.newPassword
+                                                        ? 
+                                                        'text' : field.name === 'confirmPassword' && showPassword.confirmPassword
+                                                        ? 
+                                                        'text' :
+                                                        field.type
+                                                    }
+                                                    placeholder={field.placeholder}
+                                                    {...formField}
                                                 />
                                             </FormControl>
+                                            <Button
+                                                className='absolute right-1 top-1/2 -translate-y-1/4 bg-transparent text-foreground hover:bg-transparent mt-2 w-max'
+                                                onClick={(e) => {e.preventDefault(); togglePasswordVisibility(field.name)}}>
+                                                {field.name === 'newPassword'
+                                                    ? showPassword.newPassword
+                                                        ? <FaEyeSlash size={18} />
+                                                        : <FaEye size={18} />
+                                                    : showPassword.confirmPassword
+                                                        ? <FaEyeSlash size={18} />
+                                                        : <FaEye size={18} />
+                                                }
+                                            </Button>
                                             {errors[field.name] && (
                                                 <FormMessage>{errors[field.name]?.message}</FormMessage>
                                             )}
