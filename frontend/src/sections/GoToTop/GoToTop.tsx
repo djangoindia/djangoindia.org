@@ -3,7 +3,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 
-const GoToTop: FC = () => {
+export const GoToTop: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -53,6 +53,4 @@ const GoToTop: FC = () => {
       </svg>
     </button>
   );
-};
-
-export default GoToTop; 
+}; 

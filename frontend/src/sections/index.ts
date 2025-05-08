@@ -7,4 +7,4 @@ export * from './Latestupdate';
 export * from './Navbar';
 export * from './Support';
 export * from './WhatIsDjango';
-export { default as GoToTop } from './GoToTop/GoToTop';
+export * from './GoToTop/GoToTop';
