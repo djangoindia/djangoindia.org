@@ -291,6 +291,16 @@ class UpdateAdmin(admin.ModelAdmin):
             update.send_bulk_emails()
         self.message_user(request, "Update emails sent.")
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+
+        class FormWithRequest(form):
+            def __new__(cls, *args, **kw):
+                kw["request"] = request
+                return form(*args, **kw)
+
+        return FormWithRequest
+
 
 @admin.register(CommunityPartner)
 class CommunityPartnerAdmin(admin.ModelAdmin):
