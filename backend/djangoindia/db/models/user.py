@@ -117,7 +117,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         try:
             # Trying to find the has used on the password, if it couldn't find a one, exception will be thrown, ie, password isn't hashed :-)
             identify_hasher(self.password)
-        except:
+        except Exception:
             # Hashing password
             self.password = make_password(self.password)
 
