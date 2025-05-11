@@ -1,18 +1,16 @@
 from django.urls import path
 
 from djangoindia.api.views.project import (
-    ProjectSubmissionEndPoint,
-    PublicProjectListView,
+    ProjectListAPIView,
+    ProjectSubmissionAPIView,
 )
 
 
 urlpatterns = [
     path(
         "projects/",
-        ProjectSubmissionEndPoint.as_view(),
+        ProjectSubmissionAPIView.as_view(),
         name="list_community_sponsors_and_partners",
     ),
-    path(
-        "projects/public/", PublicProjectListView.as_view(), name="public-projects-list"
-    ),
+    path("projects/public/", ProjectListAPIView.as_view(), name="public-projects-list"),
 ]

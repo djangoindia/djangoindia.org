@@ -5,10 +5,10 @@ from djangoindia.db.models.project import Project
 
 class ProjectSubmissionSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=255)
-    description = serializers.CharField()
+    title = serializers.CharField(max_length=255, required=True)
+    description = serializers.CharField(required=True)
     company_email = serializers.EmailField(required=False, allow_null=True)
-    github_link = serializers.URLField(required=False, allow_blank=True)
+    github_link = serializers.URLField(required=True)
     website_link = serializers.URLField(required=False, allow_blank=True)
     tech_stack = serializers.CharField(required=False, allow_blank=True)
     keywords = serializers.CharField(required=False, allow_blank=True)
@@ -44,7 +44,6 @@ class ProjectPublicSerializer(serializers.Serializer):
 
     def get_submitted_by(self, obj):
         user = obj.submitted_by
-
         return {
             "id": user.id,
             "username": user.username,
