@@ -53,4 +53,4 @@ export const GoToTop: FC = () => {
       </svg>
     </button>
   );
-}; 
+};
