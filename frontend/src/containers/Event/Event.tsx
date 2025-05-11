@@ -11,7 +11,7 @@ import sanitizeHtml from 'sanitize-html';
 
 import { dayjsWithTZ } from '@utils';
 
-import { Button, Card, CardContent } from '@/components';
+import { Button, Card, CardContent, HTMLRender } from '@/components';
 import { CommunityPartners } from '@/sections/CommunityPartners';
 import { EventSponsors } from '@/sections/EventSponsors';
 import { EventVolunteers } from '@/sections/EventVolunteers';
@@ -71,7 +71,7 @@ const EventContainer = async ({
     : false;
 
   return (
-    <div className='font-sans'>
+    <div>
       <div className='relative h-[75vh] w-full'>
         <Image
           src={cover_image ?? event1}
@@ -230,9 +230,9 @@ const EventContainer = async ({
             <MdWavingHand className='text-3xl text-amber-500' />
           </div>
 
-          <div
+          <HTMLRender
+            html={sanitizedDescription}
             className='prose prose-lg mb-16 max-w-none text-gray-700'
-            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
           />
         </div>
 
@@ -296,9 +296,9 @@ const EventContainer = async ({
 
             {registration_end_date ? (
               <p className='mb-6 text-gray-700'>
-                Registration ends:{' '}
+                Registration ends:
                 <span className='font-semibold'>
-                  {dayjsWithTZ(registration_end_date).format('DD MMMM, YYYY')}{' '}
+                  {dayjsWithTZ(registration_end_date).format('DD MMMM, YYYY')}
                   at {dayjsWithTZ(registration_end_date).format('hh:mm A')}{' '}
                   (IST)
                 </span>
