@@ -1,12 +1,13 @@
 # Module imports
 from rest_framework import serializers, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 
 from djangoindia.api.serializers import UserMeSerializer, UserSerializer
 from djangoindia.db.models import User
 
 from .base import BaseAPIView, BaseViewSet
+from django.shortcuts import get_object_or_404
 
 
 class UserViewSet(BaseViewSet):
@@ -102,3 +103,11 @@ class UpdateUserOnBoardedAPIView(BaseAPIView):
         user.is_onboarded = request.data.get("is_onboarded", False)
         user.save()
         return Response({"message": "Updated successfully"}, status=status.HTTP_200_OK)
+
+
+class UserDetailsEndpoint(BaseAPIView):
+    permission_classes = [AllowAny]
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        serialized_data = UserMeSerializer(user).data
+        return Response(serialized_data, status=status.HTTP_200_OK)
