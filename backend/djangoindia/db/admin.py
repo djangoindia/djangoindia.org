@@ -26,6 +26,7 @@ from djangoindia.db.models import (
     EventCommunication,
     EventRegistration,
     EventUserRegistration,
+    Project,
     SocialLoginConnection,
     Sponsor,
     Sponsorship,
@@ -693,3 +694,6 @@ class EventCommunicationAdmin(admin.ModelAdmin):
         return obj.recipient.count()
 
     recipient_count.short_description = "Recipients"
+
+
+admin.site.register(Project)
