@@ -132,32 +132,61 @@ export const SIGNUP_FORM_SCHEMA = yup.object({
       /[@$!%*?&#]/,
       'Password must contain at least one special character (@, $, !, %, *, ?, &, or #).',
     ),
-  confirmPassword: yup
-    .string()
-    .when('newPassword', {
-      is: (newPassword: string) => newPassword && newPassword.length > 0,
-      then: (schema) => schema
+  confirmPassword: yup.string().when('newPassword', {
+    is: (newPassword: string) => newPassword && newPassword.length > 0,
+    then: (schema) =>
+      schema
         .required('Confirm Password is required')
         .oneOf([yup.ref('newPassword')], 'Passwords must match'),
-      otherwise: (schema) => schema.optional().nullable()
-    }),
+    otherwise: (schema) => schema.optional().nullable(),
+  }),
+});
+
+export const FORGOT_PASSWORD_SCHEMA = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+});
+
+export const RESET_PASSWORD_SCHEMA = yup.object({
+  new_password: yup
+    .string()
+    .required('Password is required.')
+    .min(8, 'Password must be at least 8 characters long.')
+    .max(20, 'Password cannot exceed 20 characters.')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
+    .matches(/[0-9]/, 'Password must contain at least one number.')
+    .matches(
+      /[@$!%*?&#]/,
+      'Password must contain at least one special character (@, $, !, %, *, ?, &, or #).',
+    ),
+  confirm_password: yup
+    .string()
+    .required('Confirm password is required') // Ensure this is required
+    .oneOf([yup.ref('new_password')], 'Passwords must match'),
 });
 
 export const EDIT_PROFILE_FORM_SCHEMA = yup.object({
-  username: yup.string().required("Username is required"),
-  email: yup.string().email("Invalid email").required("Email is required").meta({ disabled: true }),
-  first_name: yup.string().required("First Name is required"),
-  last_name: yup.string().required("Last Name is required"),
+  username: yup.string().required('Username is required'),
+  email: yup
+    .string()
+    .email('Invalid email')
+    .required('Email is required')
+    .meta({ disabled: true }),
+  first_name: yup.string().required('First Name is required'),
+  last_name: yup.string().required('Last Name is required'),
   gender: yup.string().optional().nullable(),
   bio: yup.string().optional().nullable(),
   about: yup.string().optional().nullable(),
 
-  website: yup.string().url("Invalid URL").optional().nullable(),
-  linkedin: yup.string().url("Invalid URL").optional().nullable(),
-  instagram: yup.string().url("Invalid URL").optional().nullable(),
-  github: yup.string().url("Invalid URL").optional().nullable(),
-  twitter: yup.string().url("Invalid URL").optional().nullable(),
-  mastodon: yup.string().url("Invalid URL").optional().nullable(),
+  website: yup.string().url('Invalid URL').optional().nullable(),
+  linkedin: yup.string().url('Invalid URL').optional().nullable(),
+  instagram: yup.string().url('Invalid URL').optional().nullable(),
+  github: yup.string().url('Invalid URL').optional().nullable(),
+  twitter: yup.string().url('Invalid URL').optional().nullable(),
+  mastodon: yup.string().url('Invalid URL').optional().nullable(),
 
   country: yup.string().optional().nullable(),
   organization: yup.string().optional().nullable(),
@@ -165,13 +194,16 @@ export const EDIT_PROFILE_FORM_SCHEMA = yup.object({
 });
 
 export const CHANGE_PASSWORD_FORM_SCHEMA = yup.object({
-  newPassword: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
-  confirmPassword: yup.string()
-    .when('newPassword', {
-      is: (newPassword: string) => newPassword && newPassword.length > 0,
-      then: (schema) => schema
+  newPassword: yup
+    .string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
+  confirmPassword: yup.string().when('newPassword', {
+    is: (newPassword: string) => newPassword && newPassword.length > 0,
+    then: (schema) =>
+      schema
         .required('Confirm Password is required')
         .oneOf([yup.ref('newPassword')], 'Passwords must match'),
-      otherwise: (schema) => schema.optional().nullable()
-    }),
+    otherwise: (schema) => schema.optional().nullable(),
+  }),
 });
