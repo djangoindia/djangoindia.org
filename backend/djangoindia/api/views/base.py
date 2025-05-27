@@ -9,6 +9,8 @@ from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.settings import api_settings
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
@@ -42,22 +44,46 @@ class TimezoneMixin:
             timezone.deactivate()
 
 
-class BaseViewSet(TimezoneMixin, ModelViewSet):
-    """
-    Base viewset that provides default configurations for API views.
+class PaginationMixin:
+    @property
+    def paginator(self):
+        """
+        The paginator instance associated with the view, or `None`.
+        """
+        if not hasattr(self, "_paginator"):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        return self._paginator
 
-    This class extends `ModelViewSet` and includes:
-    - Authentication enforcement (only authenticated users can access).
-    - Filtering support using DjangoFilterBackend and SearchFilter.
-    - Automatic timezone handling via `TimezoneMixin`.
-    - Enhanced exception handling for queryset retrieval.
-    """
+    def paginate_queryset(self, queryset):
+        """
+        Return a single page of results, or `None` if pagination
+        is disabled.
+        """
+        if self.paginator is None:
+            return queryset
+        return self.paginator.paginate_queryset(queryset, self.request, view=self)
 
+    def get_paginated_response(self, data):
+        """
+        Return a paginated style `Response` object for the given
+        output data.
+        """
+        if self.paginator is None:
+            return Response(data)
+        return self.paginator.get_paginated_response(data)
+
+
+class BaseViewSet(TimezoneMixin, ModelViewSet, PaginationMixin):
     model = None
     permission_classes = [IsAuthenticated]
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filterset_fields = []
     search_fields = []
+
+    pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
 
     def get_queryset(self):
         """
@@ -130,6 +156,8 @@ class BaseAPIView(TimezoneMixin, APIView):
     filter_backends = (DjangoFilterBackend, SearchFilter)
     filterset_fields = []
     search_fields = []
+
+    pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
 
     def filter_queryset(self, queryset):
         """
