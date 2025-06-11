@@ -77,6 +77,16 @@ class PaginationMixin:
 
 
 class BaseViewSet(TimezoneMixin, PaginationMixin, ModelViewSet):
+    """
+    Base viewset that provides default configurations for API views.
+
+    This class extends `ModelViewSet` and includes:
+    - Authentication enforcement (only authenticated users can access).
+    - Filtering support using DjangoFilterBackend and SearchFilter.
+    - Automatic timezone handling via `TimezoneMixin`.
+    - Enhanced exception handling for queryset retrieval.
+    """
+
     model = None
     permission_classes = [IsAuthenticated]
     filter_backends = (DjangoFilterBackend, SearchFilter)
