@@ -23,7 +23,7 @@ class EmailForm(forms.Form):
 
 class UpdateForm(forms.ModelForm):
     recipients = forms.ModelMultipleChoiceField(
-        queryset=Subscriber.objects.all(),
+        queryset=Subscriber.objects.none(),
         widget=FilteredSelectMultiple("recipents", False),
         required=False,
     )
@@ -36,6 +36,13 @@ class UpdateForm(forms.ModelForm):
             "email_body",
             "recipients",
         ]
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop("request", None)
+        super().__init__(*args, **kwargs)
+
+        if request and request.user.is_staff:
+            self.fields["recipients"].queryset = Subscriber.objects.all()
 
 
 class PromoteFromWaitlistForm(forms.Form):

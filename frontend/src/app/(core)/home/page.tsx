@@ -8,6 +8,7 @@ import {
   Main,
   Support,
   WhatIsDjango,
+  GoToTop,
 } from '@sections';
 
 const page = () => {
@@ -20,6 +21,7 @@ const page = () => {
       <JoinCommunity />
       <LatestUpdate />
       <Support />
+      <GoToTop />
     </>
   );
 };
