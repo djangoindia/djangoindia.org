@@ -50,5 +50,4 @@ class EventCommunication(BaseModel):
         ordering = ["-created_at"]
 
     def __str__(self):
-        recipient_emails = ",".join([user.email for user in self.recipient.all()])
-        return f"{self.subject} - {recipient_emails} - {self.status}"
+        return f"{self.subject} - {self.status}"

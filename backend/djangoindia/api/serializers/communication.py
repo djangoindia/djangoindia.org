@@ -8,6 +8,15 @@ class SubscriberSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
     def create(self, validated_data):
+        """
+        Create and return a new Subscriber instance.
+
+        Args:
+            validated_data (dict): Validated data containing 'name' and 'email'.
+
+        Returns:
+            Subscriber: The created Subscriber instance.
+        """
         return Subscriber.objects.create(**validated_data)
 
 
@@ -18,4 +27,13 @@ class ContactUsSerializer(serializers.Serializer):
     message = serializers.CharField()
 
     def create(self, validated_data):
+        """
+        Create and return a new ContactUs message instance.
+
+        Args:
+            validated_data (dict): Validated data containing contact form fields.
+
+        Returns:
+            ContactUs: The created ContactUs instance.
+        """
         return ContactUs.objects.create(**validated_data)
