@@ -2,9 +2,10 @@
 -r base.txt
 
 boto3==1.28.40
-Collectfast==2.2.0  # https://github.com/antonagestam/collectfast
+# Collectfast removed due to incompatibility with modern setuptools
 django-dbbackup==4.2.1
 django-storages==1.14
 django-storages[boto3]
-gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
+gunicorn==22.0.0  # https://github.com/benoitc/gunicorn
 whitenoise==6.5.0
+setuptools<70.0.0

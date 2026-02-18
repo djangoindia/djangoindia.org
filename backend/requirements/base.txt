@@ -11,8 +11,8 @@ django-prose-editor==0.9.0
 django-prose-editor[sanitize]
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 djangorestframework-simplejwt==5.5.0
-setuptools>=70.0.0
-drf-spectacular
+
+drf-spectacular==0.27.2
 google-api-python-client==2.97.0
 google-auth==2.22.0
 Pillow==10.4.0
