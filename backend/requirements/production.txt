@@ -2,9 +2,8 @@
 -r base.txt
 
 boto3==1.28.40
-Collectfast==2.2.0  # https://github.com/antonagestam/collectfast
-django-dbbackup==4.2.1
-django-storages==1.14
-django-storages[boto3]
-gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
+# Collectfast removed due to incompatibility with modern setuptools
+django-dbbackup==5.2.0
+django-storages[boto3]==1.14
+gunicorn==23.0.0  # https://github.com/benoitc/gunicorn
 whitenoise==6.5.0
