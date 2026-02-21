@@ -123,3 +123,33 @@ def send_mass_mail_task(emails, comm_id, **kwargs):
             status=EventCommunication.Status.FAILED, err_msg=str(e)
         )
         raise e
+@shared_task
+def send_mass_mail_task_users(emails, **kwargs):
+    """
+    Converts django.core.mail.send_mass_email into a background task.
+
+    - Args:
+        emails (list): List of email data tuples (subject, message, from_email, recipient_list).
+        kwargs: Additional arguments passed to `send_mass_mail`.
+
+    Returns:
+        same as `send_mass_mail`
+    """
+    if not isinstance(emails, (list, tuple)):
+        logger.exception(
+            "Invalid input: Emails must be a list or tuple of email data tuples."
+        )
+
+    try:
+        if len(emails) > 100:
+            loops = len(emails) // 100
+        else:
+            loops = 1
+        for i in range(loops):
+            send_mass_mail(emails[i * 100 : (i + 1) * 100], **kwargs)
+
+        if len(emails) % 100 != 0:
+            send_mass_mail(emails[loops * 100 :], **kwargs)
+    except Exception as e:
+        logger.exception("Failed to send mass emails.")
+        raise e

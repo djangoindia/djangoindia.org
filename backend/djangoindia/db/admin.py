@@ -18,6 +18,7 @@ from django.utils import timezone
 from djangoindia.bg_tasks.event_tasks import (
     rsvp_confirmation_email_task,
     send_mass_mail_task,
+    send_mass_mail_task_users,
 )
 from djangoindia.db.models import (
     CommunityPartner,
@@ -348,6 +349,8 @@ class UserAdmin(admin.ModelAdmin):
         "is_staff",
         "is_superuser",
         "is_email_verified",
+        "is_password_expired",
+        "is_onboarded",
         "gender",
     )
     search_fields = ("username", "email", "first_name", "last_name")
@@ -356,6 +359,8 @@ class UserAdmin(admin.ModelAdmin):
         "groups",
         "user_permissions",
     )
+    actions = [send_email_to_selected_users]
+    
     fieldsets = (
         (None, {"fields": ("username", "email", "password")}),
         (
@@ -400,6 +405,63 @@ class UserAdmin(admin.ModelAdmin):
     )
     ordering = ("-created_at",)
 
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "send_email/",
+                self.admin_site.admin_view(self.send_email_view),
+                name="send_email",
+            ),
+        ]
+        return custom_urls + urls
+
+    def send_email_view(self, request):
+        if request.method == "POST":
+            form = EmailForm(request.POST)
+            if form.is_valid():
+                try:
+                    subject = form.cleaned_data["subject"]
+                    message = form.cleaned_data["message"]
+                    emails = []
+                    from_email = settings.DEFAULT_FROM_EMAIL
+
+                    user_ids = request.session.get("selected_email_ids", [])
+                    if not user_ids:
+                        messages.error(request, "No user IDs provided.")
+                        return redirect("../")
+
+                    if user_ids:
+                        user_ids = json.loads(user_ids)
+
+                    queryset = User.objects.filter(id__in=user_ids)
+
+                    for user in queryset:
+                        recipient_email = user.email
+                        if recipient_email: 
+                            emails.append((subject, message, from_email, [recipient_email]))
+
+                    if emails:
+                        send_mass_mail_task_users.delay(emails, fail_silently=False)
+                        messages.success(
+                            request, f"{len(emails)} emails sent successfully."
+                        )
+                    else:
+                        messages.warning(
+                            request, "No users with valid email addresses found."
+                        )
+                    return redirect("../")
+                except Exception as e:
+                    messages.error(request, f"Error sending emails: {str(e)}")
+        else:
+            form = EmailForm()
+
+        context = {
+            "form": form,
+            "opts": self.model._meta,
+            "queryset": json.loads(request.session.get("selected_email_ids", [])),
+        }
+        return TemplateResponse(request, "admin/send_email.html", context)
 
 @admin.register(SocialLoginConnection)
 class SocialLoginConnectionAdmin(admin.ModelAdmin):
