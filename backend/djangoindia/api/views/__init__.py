@@ -14,6 +14,7 @@ from .communication import ContactUsAPIView, SubscriberAPIView
 from .event import EventAttendeeViewSet, EventRegistrationAPIView, EventViewSet
 from .media_library import FolderLiteSerializer, FolderSerializer
 from .partner_and_sponsor import CommunityPartnerAndSponsorAPIView
+from .project import ProjectSubmissionAPIView
 from .user import UpdateUserOnBoardedAPIView, UserViewSet
 
 
@@ -38,4 +39,5 @@ __all__ = [
     "RequestEmailVerificationAPIView",
     "OauthAPIView",
     "EventRegistrationAPIView",
+    "ProjectSubmissionAPIView",
 ]
