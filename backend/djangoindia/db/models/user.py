@@ -18,6 +18,7 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.hashers import make_password, identify_hasher
 
 from ..constants import USER_TIMEZONE_CHOICES
 from .base import BaseModel
@@ -113,7 +114,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def save(self, *args, **kwargs):
         self.email = self.email.lower().strip()
-
         if self.is_superuser:
             self.is_staff = True
 
