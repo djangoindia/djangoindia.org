@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { enqueueSnackbar } from 'notistack';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { FaGoogle, FaHome , FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaGoogle, FaHome } from 'react-icons/fa';
 
 import { Button, Input, Label } from '@/components';
 import { API_ENDPOINTS, SIGNUP_FORM_SCHEMA } from '@/constants';
@@ -66,7 +66,8 @@ const SignupForm = () => {
   };
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
   const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
     const res = await fetchData<{ access_token: string }>(
       API_ENDPOINTS.signup,
@@ -127,42 +128,42 @@ const SignupForm = () => {
             className='flex w-full flex-col'
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className='grid grid-cols-2 w-full items-center gap-1.5'>
+            <div className='grid w-full grid-cols-2 items-center gap-1.5'>
               <div className='grid items-center gap-1.5'>
-              <Label
-                htmlFor='firstName'
-                className={`${errors.firstName ? 'text-red-500' : ''}`}
-              >
-                First Name
-              </Label>
-              <Input
-                {...register('firstName', { required: true })}
-                type='text'
-                id='firstName'
-                placeholder='Enter your first name'
-                className={`${errors.firstName ? 'text-red-500 !outline-red-500' : ''}`}
-              />
-              <p className='h-[20px] text-sm text-red-500'>
-                {errors.firstName?.message ?? ' '}
-              </p>
+                <Label
+                  htmlFor='firstName'
+                  className={`${errors.firstName ? 'text-red-500' : ''}`}
+                >
+                  First Name
+                </Label>
+                <Input
+                  {...register('firstName', { required: true })}
+                  type='text'
+                  id='firstName'
+                  placeholder='Enter your first name'
+                  className={`${errors.firstName ? 'text-red-500 !outline-red-500' : ''}`}
+                />
+                <p className='h-[20px] text-sm text-red-500'>
+                  {errors.firstName?.message ?? ' '}
+                </p>
               </div>
               <div className='grid items-center gap-1.5'>
-              <Label
-                htmlFor='lastName'
-                className={`${errors.lastName ? 'text-red-500' : ''}`}
-              >
-                Last Name
-              </Label>
-              <Input
-                {...register('lastName', { required: true })}
-                type='text'
-                id='lastName'
-                placeholder='Enter your last name'
-                className={`${errors.lastName ? 'text-red-500 !outline-red-500' : ''}`}
-              />
-              <p className='h-[20px] text-sm text-red-500'>
-                {errors.lastName?.message ?? ' '}
-              </p>
+                <Label
+                  htmlFor='lastName'
+                  className={`${errors.lastName ? 'text-red-500' : ''}`}
+                >
+                  Last Name
+                </Label>
+                <Input
+                  {...register('lastName', { required: true })}
+                  type='text'
+                  id='lastName'
+                  placeholder='Enter your last name'
+                  className={`${errors.lastName ? 'text-red-500 !outline-red-500' : ''}`}
+                />
+                <p className='h-[20px] text-sm text-red-500'>
+                  {errors.lastName?.message ?? ' '}
+                </p>
               </div>
             </div>
             <div className='grid w-full items-center gap-1.5'>
@@ -191,21 +192,21 @@ const SignupForm = () => {
                 New password
               </Label>
               <div className='relative'>
-              <Input
-                {...register('newPassword', { required: true })}
-                type={showPassword ? 'text' : 'password'}
-                id='newPassword'
-                placeholder='Enter new password'
-                className={`${errors.newPassword ? 'text-red-500 !outline-red-500' : ''}`}
-              />
-              <button 
-              type='button'
-              onClick={togglePasswordVisibility}
-              className='absolute inset-y-0 right-3 flex items-center text-gray-600'
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                <Input
+                  {...register('newPassword', { required: true })}
+                  type={showPassword ? 'text' : 'password'}
+                  id='newPassword'
+                  placeholder='Enter new password'
+                  className={`${errors.newPassword ? 'text-red-500 !outline-red-500' : ''}`}
+                />
+                <button
+                  type='button'
+                  onClick={togglePasswordVisibility}
+                  className='absolute inset-y-0 right-3 flex items-center text-gray-600'
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
-                </div>
+              </div>
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.newPassword?.message ?? ' '}
               </p>
@@ -218,21 +219,21 @@ const SignupForm = () => {
                 Confirm Password
               </Label>
               <div className='relative'>
-              <Input
-                {...register('confirmPassword', { required: true })}
-                type={showConfirmPassword ? 'text' : 'password'}
-                id='confirmPassword'
-                placeholder='Confirm password'
-                className={`${errors.confirmPassword ? 'text-red-500 !outline-red-500' : ''}`}
-              />
-              <button
-              type='button'
-              onClick={toggleConfirmPasswordVisibility}
-              className='absolute inset-y-0 right-3 flex items-center text-gray-600'
-              >
-                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                <Input
+                  {...register('confirmPassword', { required: true })}
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  id='confirmPassword'
+                  placeholder='Confirm password'
+                  className={`${errors.confirmPassword ? 'text-red-500 !outline-red-500' : ''}`}
+                />
+                <button
+                  type='button'
+                  onClick={toggleConfirmPasswordVisibility}
+                  className='absolute inset-y-0 right-3 flex items-center text-gray-600'
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
-                </div>
+              </div>
               <p className='h-[20px] text-sm text-red-500'>
                 {errors.confirmPassword?.message ?? ' '}
               </p>
