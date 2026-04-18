@@ -12,7 +12,7 @@ import './globals.css';
 const inter = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`${process.env.NEXT_PUBLIC_FRONTEND_URL}`),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_FRONTEND_URL ?? 'https://djangoindia.org'),
   title: 'Django India',
   description:
     'Join the Django India Community to connect with fellow developers, learn best practices, and grow your skills in Django, Python, and web development.',
