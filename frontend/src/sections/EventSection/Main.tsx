@@ -4,7 +4,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  ClientError,
 } from '@components';
 import { dayjsWithTZ } from '@utils';
 
@@ -16,7 +15,7 @@ import EventCard from './EventCard';
 import type { EventsResponse } from '@/types';
 
 const Main: React.FC = async () => {
-  const { data: events, error } = await fetchData<EventsResponse>(
+  const { data: events } = await fetchData<EventsResponse>(
     API_ENDPOINTS.events,
   );
   const filtered_events = events?.filter((event) => {
@@ -34,7 +33,6 @@ const Main: React.FC = async () => {
         </h1>
       </div>
       <div className='mx-auto max-w-7xl overflow-x-auto'>
-        {error && error.message && <ClientError error={error} />}
         {filtered_events?.length ? (
           <Carousel>
             <CarouselContent className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>

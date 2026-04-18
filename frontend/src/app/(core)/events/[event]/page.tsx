@@ -22,7 +22,11 @@ const EventPage = async ({
   );
 
   if (!data) {
-    return;
+    return (
+      <section className='container py-10'>
+        <h2 className='text-center text-2xl font-bold'>Event not found</h2>
+      </section>
+    );
   }
 
   return <EventContainer event={data as Event} />;

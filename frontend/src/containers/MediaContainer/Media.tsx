@@ -27,12 +27,15 @@ const MediaContainer = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchData<PhotoResponseType[]>(API_ENDPOINTS.eventsMedia).then((res) => {
-      if (res.data) {
-        setFolderStructure(res.data);
+    fetchData<PhotoResponseType[]>(API_ENDPOINTS.eventsMedia)
+      .then((res) => {
+        if (res.data) {
+          setFolderStructure(res.data);
+        }
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    });
+      });
   }, []);
 
   const getTabsConfig = (

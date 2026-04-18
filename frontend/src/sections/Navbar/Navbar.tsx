@@ -60,7 +60,6 @@ const Drawer = ({
         {[
           { route: APP_ROUTES.home, label: 'Home' },
           { route: APP_ROUTES.events, label: 'Events' },
-          { route: APP_ROUTES.gallery, label: 'Gallery' },
           {
             route: APP_ROUTES.sponsorsAndPartners,
             label: 'Sponsors and Partners',
@@ -252,16 +251,6 @@ const Navbar = () => {
                   }`}
                 >
                   Events
-                </Link>
-                <Link
-                  href={APP_ROUTES.gallery}
-                  className={`py-5 ${
-                    pathname === APP_ROUTES.gallery
-                      ? 'border-b-2 border-black'
-                      : 'hover:border-b-2 hover:border-black'
-                  }`}
-                >
-                  Gallery
                 </Link>
                 <Link
                   href={APP_ROUTES.sponsorsAndPartners}
