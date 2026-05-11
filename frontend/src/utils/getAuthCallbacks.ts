@@ -1,6 +1,13 @@
+import { API_UNAVAILABLE_MESSAGE } from './apiUrl';
 import { encrypt } from './encrypt';
+import { fetchData } from './fetchData';
 
 import type { NextAuthOptions } from 'next-auth';
+
+type SocialAuthResponse = {
+  access_token?: string;
+  refresh_token?: string;
+};
 
 export const getAuthCallbacks = (): NextAuthOptions['callbacks'] => ({
   jwt: ({ token, account }) => {
@@ -29,8 +36,13 @@ export const getAuthCallbacks = (): NextAuthOptions['callbacks'] => ({
   signIn: async ({ account, user }) => {
     // If provider is google
     if (account?.provider === 'google') {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/social-auth/`,
+      if (!account.id_token) {
+        console.error('Google sign-in failed: missing identity token.');
+        return false;
+      }
+
+      const { data, error } = await fetchData<SocialAuthResponse>(
+        '/social-auth',
         {
           method: 'POST',
           body: JSON.stringify({
@@ -38,14 +50,19 @@ export const getAuthCallbacks = (): NextAuthOptions['callbacks'] => ({
             credential: account.id_token,
             medium: 'google',
           }),
-          headers: { 'Content-Type': 'application/json' },
         },
       );
 
-      const response = await res.json();
+      if (!data?.access_token || !data.refresh_token) {
+        console.error(
+          'Google sign-in failed:',
+          error?.message ?? API_UNAVAILABLE_MESSAGE,
+        );
+        return false;
+      }
 
-      account.refresh_token = response.refresh_token;
-      account.access_token = response.access_token;
+      account.refresh_token = data.refresh_token;
+      account.access_token = data.access_token;
     }
 
     // If provider is credentials

@@ -19,9 +19,12 @@ import { getAuthOptions } from './getAuthOptions';
 export const getAccessToken = async () => {
   const session = await getServerSession(getAuthOptions());
 
-  return session &&
-    'accessToken' in session &&
-    typeof 'accessToken' === 'string'
-    ? decrypt(session.accessToken ?? '')
-    : null;
+  try {
+    return session?.accessToken && typeof session.accessToken === 'string'
+      ? (decrypt(session.accessToken) ?? null)
+      : null;
+  } catch (error) {
+    console.error('Unable to read the current access token:', error);
+    return null;
+  }
 };

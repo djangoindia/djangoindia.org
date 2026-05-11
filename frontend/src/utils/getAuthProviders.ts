@@ -1,8 +1,15 @@
 import CredentialProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
-import type { NextAuthOptions } from 'next-auth';
-import { getApiUrl } from './apiUrl';
+import { API_UNAVAILABLE_MESSAGE, API_UNAVAILABLE_STATUS_CODE } from './apiUrl';
+import { fetchData } from './fetchData';
+
+import type { NextAuthOptions, User } from 'next-auth';
+
+type CredentialsAuthResponse = User & {
+  access_token?: string;
+  refresh_token?: string;
+};
 
 export const getAuthProviders = (): NextAuthOptions['providers'] => [
   CredentialProvider({
@@ -15,26 +22,22 @@ export const getAuthProviders = (): NextAuthOptions['providers'] => [
         email: credentials?.email,
         password: credentials?.password,
       };
-      const res = await fetch(`${getApiUrl()}/sign-in/`, {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const resdata = await res.json();
 
-      if (
-        res.status === 400 ||
-        res.status === 401 ||
-        res.status === 403 ||
-        res.status === 500
-      ) {
-        throw new Error(resdata.message || 'Authentication failed');
+      const { data, error, statusCode } =
+        await fetchData<CredentialsAuthResponse>('/sign-in', {
+          method: 'POST',
+          body: JSON.stringify(requestBody),
+        });
+
+      if ((statusCode === 200 || statusCode === 201) && data?.access_token) {
+        return data;
       }
-      if (res.status === 200 || res.status === 201) {
-        return resdata;
+
+      if (statusCode === API_UNAVAILABLE_STATUS_CODE) {
+        throw new Error(API_UNAVAILABLE_MESSAGE);
       }
-      // Return null if user data could not be retrieved
-      return null;
+
+      throw new Error(error?.message || 'Authentication failed');
     },
   }),
   GoogleProvider({

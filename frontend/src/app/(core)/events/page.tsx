@@ -8,7 +8,7 @@ import { fetchData } from '@/utils';
 import type { EventsResponse } from '@/types';
 
 const Page = async () => {
-  const { data: events } = await fetchData<EventsResponse>(
+  const { data: events, error } = await fetchData<EventsResponse>(
     API_ENDPOINTS.events,
   );
 
@@ -20,23 +20,27 @@ const Page = async () => {
         🎉
       </p>
       <div className='my-10'>
-        {events?.length ? (
+        {error ? (
+          <div className='rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center'>
+            <h3 className='text-xl font-semibold'>
+              Events are temporarily unavailable due to some reason
+            </h3>
+            <p className='mt-2 text-zinc-600'>They will be available soon.</p>
+          </div>
+        ) : events?.length ? (
           <div className='mx-auto grid w-fit grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
             {events?.map(
-              (
-                {
-                  cover_image,
-                  start_date,
-                  name,
-                  city,
-                  id,
-                  event_mode,
-                  seats_left,
-                  slug,
-                },
-                index,
-              ) => (
-                <div key={index} className='mb-4 h-auto w-full'>
+              ({
+                cover_image,
+                start_date,
+                name,
+                city,
+                id,
+                event_mode,
+                seats_left,
+                slug,
+              }) => (
+                <div key={id} className='mb-4 h-auto w-full'>
                   <EventCard
                     eventId={id}
                     slug={slug}
