@@ -59,10 +59,12 @@ const Drawer = ({
       <nav className='grow space-y-2'>
         {[
           { route: APP_ROUTES.home, label: 'Home' },
+          { route: APP_ROUTES.events, label: 'Events' },
           {
             route: APP_ROUTES.sponsorsAndPartners,
             label: 'Sponsors and Partners',
-          }
+          },
+          { route: APP_ROUTES.contactUs, label: 'Contact Us' },
         ].map(({ route, label }) => (
           <Link
             key={route}
@@ -239,6 +241,15 @@ const Navbar = () => {
                   Home
                 </Link>
                 <Link
+                  href={APP_ROUTES.events}
+                  className={`py-5 ${pathname === APP_ROUTES.events
+                    ? 'border-b-2 border-black'
+                    : 'hover:border-b-2 hover:border-black'
+                    }`}
+                >
+                  Events
+                </Link>
+                <Link
                   href={APP_ROUTES.sponsorsAndPartners}
                   className={`py-5 ${pathname === APP_ROUTES.sponsorsAndPartners
                     ? 'border-b-2 border-black'
@@ -247,9 +258,58 @@ const Navbar = () => {
                 >
                   Sponsors and partners
                 </Link>
+                <Link
+                  href={APP_ROUTES.contactUs}
+                  className={`py-5 ${pathname === APP_ROUTES.contactUs
+                    ? 'border-b-2 border-black'
+                    : 'hover:border-b-2 hover:border-black'
+                    }`}
+                >
+                  Contact Us
+                </Link>
               </div>
               <div className='flex gap-4'>
                 <SupportUsDialog />
+                {/* {status === 'authenticated' ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Avatar className='cursor-pointer border-2 border-[#F2ECE4]'>
+                        <AvatarImage
+                          src={
+                            session?.user?.image || 'https://github.com/shadcn.png'
+                          }
+                        />
+                        <AvatarFallback>
+                          {session?.user?.name?.charAt(0) || 'DU'}
+                        </AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => router.push('/users/me')}
+                      >
+                        My Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() =>
+                          signOut({
+                            callbackUrl: '/home',
+                          })
+                        }
+                      >
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Button
+                    variant='outline'
+                    onClick={() => router.push('/login')}
+                  >
+                    Login
+                  </Button>
+                )} */}
               </div>
             </>
           ) : (

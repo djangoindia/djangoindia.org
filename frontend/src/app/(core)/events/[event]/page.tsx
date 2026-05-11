@@ -12,7 +12,7 @@ const EventPage = async ({
   params: { event },
 }: PageProps<never, { event: string }>) => {
   const accessToken = await getAccessToken();
-  const { data } = await fetchData<Event>(
+  const { data, error } = await fetchData<Event>(
     API_ENDPOINTS.event.replace(':id', event),
     {
       headers: {
@@ -20,6 +20,19 @@ const EventPage = async ({
       },
     },
   );
+
+  if (error) {
+    return (
+      <section className='container py-10'>
+        <div className='rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center'>
+          <h2 className='text-2xl font-semibold'>
+            This event is temporarily unavailable due to some reason
+          </h2>
+          <p className='mt-2 text-zinc-600'>It will be available soon.</p>
+        </div>
+      </section>
+    );
+  }
 
   if (!data) {
     return (
