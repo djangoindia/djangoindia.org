@@ -28,14 +28,6 @@ const Footer: React.FC = () => {
             </li>
             <li>
               <a
-                href={APP_ROUTES.events}
-                className='inline-block px-3 py-2 text-white no-underline'
-              >
-                Events
-              </a>
-            </li>
-            <li>
-              <a
                 href={APP_ROUTES.sponsorsAndPartners}
                 className='inline-block px-3 py-2 text-white no-underline'
               >

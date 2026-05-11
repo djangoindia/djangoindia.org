@@ -59,22 +59,19 @@ const Drawer = ({
       <nav className='grow space-y-2'>
         {[
           { route: APP_ROUTES.home, label: 'Home' },
-          { route: APP_ROUTES.events, label: 'Events' },
           {
             route: APP_ROUTES.sponsorsAndPartners,
             label: 'Sponsors and Partners',
-          },
-          { route: APP_ROUTES.contactUs, label: 'Contact Us' },
+          }
         ].map(({ route, label }) => (
           <Link
             key={route}
             href={route}
             className={`
               block rounded-lg px-4 py-3 transition-all duration-200 
-              ${
-                pathname === route
-                  ? 'bg-[#1e3a8a]/10 font-semibold text-[#1e3a8a]'
-                  : 'text-[#1e3a8a]/70 hover:bg-[#1e3a8a]/5 hover:text-[#1e3a8a]'
+              ${pathname === route
+                ? 'bg-[#1e3a8a]/10 font-semibold text-[#1e3a8a]'
+                : 'text-[#1e3a8a]/70 hover:bg-[#1e3a8a]/5 hover:text-[#1e3a8a]'
               }
             `}
             onClick={onClose}
@@ -234,87 +231,25 @@ const Navbar = () => {
               <div className='flex items-center justify-center gap-5 text-xs font-semibold text-black md:gap-16 md:text-base'>
                 <Link
                   href={APP_ROUTES.home}
-                  className={`py-5 ${
-                    pathname === APP_ROUTES.home
-                      ? 'border-b-2 border-black'
-                      : 'hover:border-b-2 hover:border-black'
-                  }`}
+                  className={`py-5 ${pathname === APP_ROUTES.home
+                    ? 'border-b-2 border-black'
+                    : 'hover:border-b-2 hover:border-black'
+                    }`}
                 >
                   Home
                 </Link>
                 <Link
-                  href={APP_ROUTES.events}
-                  className={`py-5 ${
-                    pathname === APP_ROUTES.events
-                      ? 'border-b-2 border-black'
-                      : 'hover:border-b-2 hover:border-black'
-                  }`}
-                >
-                  Events
-                </Link>
-                <Link
                   href={APP_ROUTES.sponsorsAndPartners}
-                  className={`py-5 ${
-                    pathname === APP_ROUTES.sponsorsAndPartners
-                      ? 'border-b-2 border-black'
-                      : 'hover:border-b-2 hover:border-black'
-                  }`}
+                  className={`py-5 ${pathname === APP_ROUTES.sponsorsAndPartners
+                    ? 'border-b-2 border-black'
+                    : 'hover:border-b-2 hover:border-black'
+                    }`}
                 >
                   Sponsors and partners
-                </Link>
-                <Link
-                  href={APP_ROUTES.contactUs}
-                  className={`py-5 ${
-                    pathname === APP_ROUTES.contactUs
-                      ? 'border-b-2 border-black'
-                      : 'hover:border-b-2 hover:border-black'
-                  }`}
-                >
-                  Contact Us
                 </Link>
               </div>
               <div className='flex gap-4'>
                 <SupportUsDialog />
-                {status === 'authenticated' ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Avatar className='cursor-pointer border-2 border-[#F2ECE4]'>
-                      <AvatarImage
-                      src={
-                        session?.user?.image || 'https://github.com/shadcn.png'
-                      }
-                    />
-                    <AvatarFallback>
-                      {session?.user?.name?.charAt(0) || 'DU'}
-                    </AvatarFallback>
-                      </Avatar>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onClick={() => router.push('/users/me')}
-                      >
-                        My Profile
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() =>
-                          signOut({
-                            callbackUrl: '/home',
-                          })
-                        }
-                      >
-                        Log out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <Button
-                    variant='outline'
-                    onClick={() => router.push('/login')}
-                  >
-                    Login
-                  </Button>
-                )}
               </div>
             </>
           ) : (
