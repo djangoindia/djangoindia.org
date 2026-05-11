@@ -75,7 +75,7 @@ export default [
       'prefer-const': 'warn',
       eqeqeq: 'error',
       'no-var': 'warn',
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'error',
       'no-duplicate-imports': 'error',
       'object-shorthand': 'warn',
       'quote-props': ['warn', 'as-needed'],
