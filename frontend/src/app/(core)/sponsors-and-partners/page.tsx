@@ -3,12 +3,14 @@ import React from 'react';
 import Link from 'next/link';
 
 import { Button } from '@/components';
+import { API_ENDPOINTS } from '@/constants';
 import {
   Hero,
   IndividualSponsors,
   OrganizationSponsors,
   PartnerCommunities,
 } from '@/sections/SponsorsAndPartners';
+import { fetchData } from '@/utils';
 
 interface Sponsor {
   tier: string;
@@ -29,31 +31,19 @@ interface Partner {
 interface PageData {
   sponsors: Sponsor[];
   partners: Partner[];
+  isUnavailable?: boolean;
 }
 
 const fetchSponsorsAndPartners = async (): Promise<PageData> => {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const { data, error } = await fetchData<PageData>(
+    API_ENDPOINTS.sponsorsAndPartners,
+  );
 
-  try {
-    const response = await fetch(`${API_URL}/sponsors-and-partners/`, {
-      headers: { 'Content-Type': 'application/json' },
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      console.warn(
-        'API responded with an error:',
-        response.status,
-        response.statusText,
-      );
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error('Error fetching sponsors and partners:', error);
-    return { sponsors: [], partners: [] };
-  }
+  return {
+    sponsors: data?.sponsors ?? [],
+    partners: data?.partners ?? [],
+    isUnavailable: Boolean(error),
+  };
 };
 
 const Page = async () => {
@@ -67,6 +57,14 @@ const Page = async () => {
   return (
     <section className='container'>
       <Hero />
+      {data.isUnavailable && (
+        <div className='mb-12 rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center'>
+          <h2 className='text-2xl font-semibold'>
+            This section is temporarily unavailable due to some reason
+          </h2>
+          <p className='mt-2 text-zinc-600'>It will be available soon.</p>
+        </div>
+      )}
       {ShowOurSponsor && (
         <h2 className='mb-12 text-center text-3xl font-bold text-gray-800'>
           OUR SPONSORS
