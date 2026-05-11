@@ -4,6 +4,7 @@ from .partner_and_sponsor import CommunityPartner, Sponsor, Sponsorship
 from .update import Update
 from .user import SocialLoginConnection, User
 from .volunteer import Volunteer
+from .common import BackgroundTaskLog
 
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "Sponsor",
     "EventUserRegistration",
     "EventCommunication",
+    "BackgroundTaskLog",
 ]
