@@ -16,3 +16,4 @@ export * from './Collapsible';
 export * from './VerticalTabs';
 export * from './Avatar';
 export * from './Dropdown';
+export * from './HtmlRender';
