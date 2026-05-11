@@ -4,6 +4,6 @@ export function getApiUrl() {
     return process.env.API_URL;
   } else {
     // Client-side
-    return process.env.NEXT_PUBLIC_API_URL;
+    return process.env.NEXT_PUBLIC_API_URL
   }
 }
