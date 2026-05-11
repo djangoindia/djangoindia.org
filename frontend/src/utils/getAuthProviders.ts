@@ -2,6 +2,7 @@ import CredentialProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 import type { NextAuthOptions } from 'next-auth';
+import { getApiUrl } from './apiUrl';
 
 export const getAuthProviders = (): NextAuthOptions['providers'] => [
   CredentialProvider({
@@ -10,14 +11,11 @@ export const getAuthProviders = (): NextAuthOptions['providers'] => [
       password: {},
     },
     authorize: async (credentials) => {
-      // This is where you need to retrieve user data
-      // to verify with credentials
-      // Docs: https://next-auth.js.org/configuration/providers/credentials
       const requestBody = {
         email: credentials?.email,
         password: credentials?.password,
       };
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sign-in/`, {
+      const res = await fetch(`${getApiUrl()}/sign-in/`, {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: { 'Content-Type': 'application/json' },
